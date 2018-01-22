@@ -1,0 +1,74 @@
+<div ng-if="!finishGraphPostDetail" class="p6n-ls-wrapper" aria-hidden="true" style="text-align: center;">
+   <pan-loader offline="offline" pan-buttertip-message="" pan-show-tip-if="offline" style="
+      display: block;
+      ">
+      <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
+   </pan-loader>
+</div>
+<div style="height: {{windowsHeight-(55+45+75)}}px;">
+   <div class="pin_stt" style="padding:10px" ng-if="finishGraphPostDetail && finishLoadingOrders">
+      <div class="wrap_stt">
+         <a href="//facebook.com/{{data.id}}" target="_blank" class="image_"><img ng-src="{{data.picture.data.url}}" alt=""></a>
+         <div>
+            <a href="//facebook.com/{{data.id}}" target="_blank" class="title_stt">
+            {{ data.name }}
+            </a>
+            <a href="{{postData.permalink_url}}" target="_blank">{{postData.story}}</a>
+            <span style="white-space: pre-line;display: block; text-align: left;overflow-y: hidden;{{isShowFullPost ? 'max-height: none' : 'max-height: 250px'}}">
+            {{postData.message}}
+            </span>
+            <div ng-if="!isShowFullPost">
+               <a ng-click="showFullPost()" style="cursor: pointer;">Xem thêm...</a>
+            </div>
+         </div>
+         <div style="max-height: 90px;overflow-y: hidden;    margin: 15px 0;background: #eee;padding: 5px;">
+            <span ng-repeat="image in postData.attachments.data[0].subattachments.data">
+            <img ng-src="{{image.media.image.src}}" style="height: 80px">
+            </span>
+            <span>
+            <img ng-src="{{postData.picture}}" style="height: 80px">
+            </span>
+         </div>
+      </div>
+   </div>
+   <div class="group-day" style="padding: 10px" ng-if="finishGraphPostDetail && finishLoadingOrders">
+      <div class="conversation-start">
+         <span>
+            <p>Chat log</p>
+         </span>
+      </div>
+      <div class="group-time for-you">
+         <div class="line_chat">
+            <div class="chat_content">
+               <span class="time_chat">
+                  <!-- react-text: 11820 -->19:01<!-- /react-text --><!-- react-text: 11821 --><!-- /react-text -->
+               </span>
+               <a href="//facebook.com/{{conversation.from.id}}" target="_blank">
+                  <span style="background-image: url(&quot;{{conversation ? '//graph.facebook.com/' + conversation.from.id + '/picture?width=50&amp;height=50' : '';}}&quot;); border-radius: 24px; background-position: center center;"></span>
+               </a>
+               <h5 class="_ih3">{{conversation ? conversation.from.name : 'Unknown'}}</h5>
+               <div class="normal-text bubble you tooltipped tooltipped-no-delay tooltipped-e" aria-label="{{conversation ? conversation.created_time : 'Unknown'}}">{{conversation.message}}</div>
+            </div>
+            <!-- <div class="tooltip_comment">
+               <div class="tooltip_action"></div>
+               <div class="action_for_msg"><a>Thích </a><a>Xoá </a><a>Bỏ ẩn </a><a>Nhắn tin </a></div>
+               </div> -->
+         </div>
+      </div>
+      <div class="group-time" ng-repeat="m in conversation.comments.data" ng-class="m.from.id==page_id ? 'for-me' : 'for-you'">
+         <div class="line_chat">
+            <div class="chat_content">
+               <!-- <span class="time_chat" style="top: 250.2px; left: 69%;">
+                  19:07
+                  <p class="user_reply"></p>
+                  </span> -->
+                  <a ng-if="m.from.id!=page_id" href="//facebook.com/{{m.from.id}}" target="_blank">
+                     <span style="background-image: url(&quot;{{m.from ? '//graph.facebook.com/' + m.from.id + '/picture?width=50&amp;height=50' : '';}}&quot;); border-radius: 24px; background-position: center center;"></span>
+                  </a>
+               <h5 class="_ih3">{{m.from.id!=page_id ? m.from.name : ''}}</h5>
+               <div class="normal-text bubble tooltipped tooltipped-no-delay {{m.from.id==page_id ? 'tooltipped-w' : 'tooltipped-e'}}" aria-label="{{m.created_time}}" ng-class="m.from.id==page_id ? 'me' : 'you'">{{m.message}}</div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

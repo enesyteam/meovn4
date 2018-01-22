@@ -1,0 +1,21 @@
+<div class="container new-discussion-timeline experiment-repo-nav">
+   <div class="repository-content">
+      
+      <div class="columns">
+         <div class="column one-fourth" role="navigation" data-pjax="">
+            <nav class="menu">
+               <a ui-sref="home.orders.create" ui-sref-active="selected" class="js-selected-navigation-item selected menu-item">Add Order</a>
+               <a ui-sref="home.orders.list" ui-sref-active="selected" class="js-selected-navigation-item menu-item">Orders list</a>
+               <a href="/enesyteam/meovn/settings/branches" class="js-selected-navigation-item menu-item" data-selected-links="repo_branch_settings /enesyteam/meovn/settings/branches">Branches</a>
+               <a href="/enesyteam/meovn/settings/hooks" class="js-selected-navigation-item menu-item" data-selected-links="hooks /enesyteam/meovn/settings/hooks">Webhooks</a>
+               <a href="/enesyteam/meovn/settings/installations" class="js-selected-navigation-item menu-item" data-selected-links="integration_installations /enesyteam/meovn/settings/installations">Integrations &amp; services</a>
+               <a href="/enesyteam/meovn/settings/keys" class="js-selected-navigation-item menu-item" data-selected-links="repo_keys_settings /enesyteam/meovn/settings/keys">Deploy keys</a>
+            </nav>
+         </div>
+         <div class="column three-fourths">
+            <div ui-view></div>
+         </div>
+      </div>
+   </div>
+   <div class="modal-backdrop js-touch-events"></div>
+</div>

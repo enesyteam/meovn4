@@ -1,0 +1,6 @@
+<div class="column three-fourths">
+	<strong>Working</strong>
+	<ul>
+		<li ng-repeat="item in successArr  | orderBy: 'checked_at'">{{item.buyer_mobile }} {{item.checked_at | date:'HH:mm'}}</li>
+	</ul>
+</div>

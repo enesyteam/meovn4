@@ -1,0 +1,74 @@
+<div class="fpage_mes">
+   <div class="fpage_mes_content">
+      <div class="wrap_content">
+         <div class="col_left sidebar_list_chat open_sidebar_chat">
+            <div class="filterbar">
+               <!-- <div class="context-header">
+                  <a title="tasks" href="/gitlab-org/release/tasks"><div class="avatar-container s40 project-avatar">
+                  <div class="avatar s40 avatar-tile identicon" style="background-color: #F3E5F5; color: #555">T</div>
+                  </div>
+                  <div class="sidebar-context-title">
+                  tasks
+                  </div>
+                  </a></div> -->
+               <ul class="filterbar-nav">
+                  <li class="home active">
+                     <a class="shortcuts-project" href="/coldnight/ci-test">
+                        <div class="nav-icon-container">
+                           <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/images/filter-home.svg"></use></svg>
+                        </div>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a class="shortcuts-tree" href="/coldnight/ci-test/tree/master">
+                        <div class="nav-icon-container">
+                           <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/images/filter-home.svg"></use></svg>
+                        </div>
+                        
+                     </a>
+                  </li>
+               </ul>
+            </div>
+            <div class="col_left_conversation">
+               <div class="list_content_col_left">
+                  <div class="p6n-ls-wrapper" aria-hidden="true" style="text-align: center;" ng-if="!finishLoadingOrders">
+                     <pan-loader offline="offline" pan-buttertip-message="" pan-show-tip-if="offline" style="
+                        display: block;
+                        ">
+                        <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
+                     </pan-loader>
+                  </div>
+                  <div class="people scrollable" ng-if="finishLoadingOrders">
+                     <li ng-repeat="order in orders" ui-sref="home.detail({id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person">
+                        <div class="wrap_chat">
+                           <!-- <div class="check">
+                              <input type="checkbox" class="check_people" value="on">
+                           </div> -->
+                           <div class="clearfix">
+                              <div class="">
+                                 <img ng-src="{{'//graph.facebook.com/' + order.customer_id  + '/picture?width=50&amp;height=50'}}" alt="avatar" title="{{order.customer_name}}">
+                              </div>
+                              <div class="info">
+                                 <div class="title">
+                                    <span class="name">
+                                       {{order.customer_name}}
+                                    </span>
+                                 </div>
+                                 <span title="Cảm ơn anh/chị đã quan tâm sản phẩm bên em. Nhân viên CSKH sẽ liên hệ tư vấn cụ thể hơn ạ. Anh/chị để ý điện thoại giúp em ạ" class="live_chat">Cảm ơn anh/chị đã quan tâm sản phẩm bên em. Nhân viên CSKH sẽ liên hệ tư vấn cụ thể hơn ạ. Anh/chị để ý điện thoại giúp em ạ</span>
+                              </div>
+                              <div class="time_tag"><span class="time_latest_message">
+                                 {{ order.publish_date | date:'HH:mm dd:MM'}}
+                              </span><ul class="list_tag"><li class="tag_item"><i class="fa fa-phone"></i></li><!-- react-text: 11171 --><!-- /react-text --></ul><ul class="list_tag"></ul></div>
+                           </div>
+                        </div>
+                        
+                     </li>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col_right">
+               <div ui-view></div>
+      </div>
+   </div>
+</div>

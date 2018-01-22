@@ -1,0 +1,13 @@
+// comment on photo
+?fields=from,message,object,comment_count,attachment,comments
+
+// read message
+t_100006726709197?fields=messages{message,from,created_time,attachments},message_count
+
+// read all messages
+1862736774039390/conversations
+
+1862736774039390/conversations?fields=id,name,subject,senders,messages{message,id}
+
+https://developers.facebook.com/docs/graph-api/reference/v2.8/conversation
+https://github.com/Schmavery/facebook-chat-api/tree/master/src

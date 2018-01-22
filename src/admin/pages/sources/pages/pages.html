@@ -1,0 +1,128 @@
+<div id="options_bucket">
+               <div class="Subhead">
+                  <h2 class="Subhead-heading">Facebook Pages</h2>
+                  <!-- <div class="">
+                     <div class="BtnGroup float-right">
+                        <a href="/iamkdev/ng-frappe-charts/upload/master" class="btn btn-sm btn-primary">
+                        Thêm Page
+                        </a>
+                     </div>
+                     
+                     <div class="breadcrumb">
+                     </div>
+                  </div> -->
+               </div>
+               <dl class="form-group clearfix warn mt-0">
+                  <dt><label for="rename_field">Thêm Page bằng Id</label></dt>
+                  <dd>
+                     <!-- '"` --><!-- </textarea></xmp> -->
+                     <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/rename" method="post">
+                        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="VL71p+myaJSlKn+xyUjfw6Y7IGeNsJKYAmHDjaaa/3JhUqKqBktnJL/ml4AngT6IUfmxa4mcLc7shG6CBsLJ1g=="></div>
+                        <input autocomplete="off" class="form-control short js-repository-name" data-original-name="meovn" id="rename_field" name="new_name" type="text" placeholder="Nhập Page ID">
+                        <button type="submit" class="btn btn-primary js-rename-repository-button">Thêm Page</button>
+                        <div class="warning js-form-note" style="display:none"></div>
+                     </form>
+                  </dd>
+               </dl>
+               <div class="user-profile-repo-filter border-bottom border-gray-dark py-3">
+                  <!-- '"` --><!-- </textarea></xmp> -->
+                  <form accept-charset="UTF-8" action="/enesyteam" class="TableObject" data-pjax-preserve-scroll="true" data-pjax="true" data-results-container="user-repositories-list" method="get" role="search">
+                     <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
+                     <div class="TableObject-item TableObject-item--primary pr-4">
+                        <input type="hidden" name="tab" value="repositories">
+                        <input type="search" id="your-repos-filter" name="q" class="form-control width-full js-autosearch-field" placeholder="Tìm theo tên page hoặc Id…" autocomplete="off" aria-label="Search repositories…" data-hotkey="/" value="">
+                     </div>
+                     <div class="TableObject-item text-right">
+                        <a href="/new" class="btn ml-3">
+                           Tìm
+                        </a>
+                     </div>
+                  </form>
+               </div>
+               <div class="mb-4 mt-4">
+                  You have granted <strong>6 applications</strong> access to your account.
+                  <div class="table-list-header-toggle float-right">
+                     <a href="#revoke_all_authorized_applications" class="btn btn-sm btn-danger float-right" rel="facebox">Revoke all</a>
+                     <div class="float-right select-menu js-menu-container js-select-menu">
+                        <button class="btn-link select-menu-button icon-only js-menu-target" type="button" aria-haspopup="true" aria-expanded="false">
+                        Sort<span class="sort-label"></span>
+                        </button>
+                        <div class="select-menu-modal-holder js-menu-content js-navigation-container">
+                           <div class="select-menu-modal">
+                              <div class="select-menu-header">
+                                 <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                                    <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                 </svg>
+                                 <span class="select-menu-title">Sort by</span>
+                              </div>
+                              <div class="select-menu-list" role="menu">
+                                 <div data-pjax="">
+                                    <a href="https://github.com/settings/applications" class="select-menu-item js-navigation-item js-navigation-open selected" role="menuitem">
+                                       <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                          <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                       </svg>
+                                       <div class="select-menu-item-text">Alphabetical</div>
+                                    </a>
+                                    <a href="https://github.com/settings/applications?o=used-desc" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
+                                       <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                          <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                       </svg>
+                                       <div class="select-menu-item-text">Recently used</div>
+                                    </a>
+                                    <a href="https://github.com/settings/applications?o=used-asc" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
+                                       <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                          <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                       </svg>
+                                       <div class="select-menu-item-text">Least recently used</div>
+                                    </a>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="border-bottom">
+                  <div id="oauth-authorization-6af68164f169fabf3fb6" class="js-revoke-item js-zeroclipboard-container" data-id="6af68164f169fabf3fb6" data-type="application" ng-repeat="source in sources">
+                     <div class="border-top">
+                        <div class="TableObject py-3">
+                           <div class="TableObject-item">
+                              <a href="#" class="CircleBadge CircleBadge--small float-left" style="background-color: #ffab70">
+                              <img alt="Algolia" class="CircleBadge-icon" height="30" src="https://avatars3.githubusercontent.com/u/16075067?s=40&v=4" width="30">
+                              </a>                
+                           </div>
+                           <div class="TableObject-item TableObject-item--primary px-3">
+                              <h5>
+                                 <a href="#" class="developer-app-name"></a>
+                              </h5>
+                              <p class="text-small text-gray mb-0">
+                              	<!-- {{graphPage(source.page_id)}} -->
+                                 Last used within the last 11 months · Owned by <a href="/algolia">algolia</a>
+                              </p>
+                              <div id="revoke_authorization_6af68164f169fabf3fb6" style="display:none">
+                                 <div>
+                                    <h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure you want to revoke authorization?</h2>
+                                    <div class="facebox-alert" data-facebox-id="facebox-description">
+                                       Algolia will no longer be able to access the GitHub API. You cannot undo this action.
+                                    </div>
+                                    <!-- '"` --><!-- </textarea></xmp> -->
+                                    <form accept-charset="UTF-8" action="#" class="js-revoke-access-form" data-id="6af68164f169fabf3fb6" data-remote="true" data-type-name="application" method="post">
+                                       <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="delete"><input name="authenticity_token" type="hidden" value="Mkw5NjyFmScz8ZzHwuldU5TIcghqErF7g6jXcIbHKHc0MdizyLjdXIX5i3T0sj5pGIWJBMtLrVXEuCF8rFagpw=="></div>
+                                       <button type="submit" class="btn btn-block btn-danger" data-disable-with="Revoking…">
+                                       I understand, revoke access
+                                       </button>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="TableObject-item">
+                              <a href="#revoke_authorization_6af68164f169fabf3fb6" class="btn btn-sm btn-danger BtnGroup-item" rel="facebox">Revoke</a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  
+                  {{pages}}
+               </div>
+            </div>
+            <!-- /#options_bucket -->

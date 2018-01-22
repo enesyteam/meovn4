@@ -1,0 +1,549 @@
+<div class="container new-discussion-timeline experiment-repo-nav">
+   <div class="repository-content">
+      <div class="columns">
+         <div class="column one-fourth" role="navigation" data-pjax="">
+            <nav class="menu">
+               <a href="/enesyteam/meovn/settings" class="js-selected-navigation-item selected menu-item" data-selected-links=" /enesyteam/meovn/settings">Options</a>
+               <a href="/enesyteam/meovn/settings/collaboration" class="js-selected-navigation-item menu-item" data-selected-links=" /enesyteam/meovn/settings/collaboration">Collaborators</a>
+               <a href="/enesyteam/meovn/settings/branches" class="js-selected-navigation-item menu-item" data-selected-links="repo_branch_settings /enesyteam/meovn/settings/branches">Branches</a>
+               <a href="/enesyteam/meovn/settings/hooks" class="js-selected-navigation-item menu-item" data-selected-links="hooks /enesyteam/meovn/settings/hooks">Webhooks</a>
+               <a href="/enesyteam/meovn/settings/installations" class="js-selected-navigation-item menu-item" data-selected-links="integration_installations /enesyteam/meovn/settings/installations">Integrations &amp; services</a>
+               <a href="/enesyteam/meovn/settings/keys" class="js-selected-navigation-item menu-item" data-selected-links="repo_keys_settings /enesyteam/meovn/settings/keys">Deploy keys</a>
+            </nav>
+         </div>
+         <div class="column three-fourths">
+            <div id="options_bucket">
+               <div class="Subhead">
+                  <h2 class="Subhead-heading">Settings</h2>
+               </div>
+               <dl class="form-group clearfix warn mt-0">
+                  <dt><label for="rename_field">Repository name</label></dt>
+                  <dd>
+                     <!-- '"` --><!-- </textarea></xmp> -->
+                     <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/rename" method="post">
+                        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="VL71p+myaJSlKn+xyUjfw6Y7IGeNsJKYAmHDjaaa/3JhUqKqBktnJL/ml4AngT6IUfmxa4mcLc7shG6CBsLJ1g=="></div>
+                        <input autocomplete="off" class="form-control short js-repository-name" data-original-name="meovn" id="rename_field" name="new_name" type="text" value="meovn">
+                        <button type="submit" class="btn js-rename-repository-button" disabled="">Rename</button>
+                        <div class="warning js-form-note" style="display:none"></div>
+                     </form>
+                  </dd>
+               </dl>
+               <div class="Subhead Subhead--spacious border-bottom-0 mb-0">
+                  <h2 class="Subhead-heading">
+                     Features
+                  </h2>
+               </div>
+               <!-- '"` --><!-- </textarea></xmp> -->
+               <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/update" class="js-repo-features-form" data-autosubmit="true" data-remote="true" method="post">
+                  <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="put"><input name="authenticity_token" type="hidden" value="K7fncZHoKCdiU8Y3n1JkYTPPyDVzrWZHkvwzQe/8aD8ntPjypGXiwBnyljMSvQXp7A+3fALj8Wycu8i70N5IUA=="></div>
+                  <div class="Box">
+                     <li class="Box-row py-0">
+                        <div class="form-checkbox js-repo-option">
+                           <input type="hidden" name="has_wiki" value="0">
+                           <input type="checkbox" name="has_wiki" value="1" id="wiki-feature" checked="">
+                           <label for="wiki-feature">Wikis</label>
+                           <span class="status-indicator ml-1 js-status-indicator">
+                              <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                              </svg>
+                              <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                              </svg>
+                           </span>
+                           <p class="note">
+                              GitHub Wikis is a simple way to let others contribute content.
+                              Any GitHub user can create and edit pages to use for documentation,
+                              examples, support, or anything you wish.
+                           </p>
+                        </div>
+                     </li>
+                     <li class="Box-row py-0">
+                        <div class="form-checkbox js-repo-option">
+                           <input type="hidden" name="wiki_access_to_pushers" value="0">
+                           <input type="checkbox" name="wiki_access_to_pushers" value="1" id="wiki-pusher-access" checked="">
+                           <label for="wiki-pusher-access">Restrict editing to collaborators only</label>
+                           <span class="status-indicator ml-1 js-status-indicator">
+                              <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                              </svg>
+                              <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                              </svg>
+                           </span>
+                           <p class="note">Public wikis will still be readable by everyone.</p>
+                        </div>
+                     </li>
+                     <li class="Box-row py-0">
+                        <div class="form-checkbox js-repo-option">
+                           <input type="hidden" name="has_issues" value="0">
+                           <input type="checkbox" name="has_issues" value="1" id="issue-feature" checked="">
+                           <label for="issue-feature">Issues</label>
+                           <span class="status-indicator ml-1 js-status-indicator">
+                              <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                              </svg>
+                              <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                              </svg>
+                           </span>
+                           <p class="note">
+                              GitHub Issues adds lightweight issue tracking tightly integrated with
+                              your repository. Add issues to milestones, label issues, and
+                              close &amp; reference issues from commit messages.
+                           </p>
+                        </div>
+                     </li>
+                     <li class="Box-row py-0">
+                        <div class="form-checkbox js-repo-option">
+                           <input type="hidden" name="projects_enabled" value="0">
+                           <input type="checkbox" name="projects_enabled" id="projects-feature" value="1" checked="">
+                           <label for="projects-feature">Projects</label>
+                           <span class="status-indicator v-align-top ml-1 js-status-indicator">
+                              <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                              </svg>
+                              <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                              </svg>
+                           </span>
+                           <p class="note">
+                              Project boards on GitHub help you organize and prioritize your work.
+                              You can create project boards for specific feature work,
+                              comprehensive roadmaps, or even release checklists.
+                           </p>
+                        </div>
+                     </li>
+                  </div>
+                  <div class="Subhead Subhead--spacious">
+                     <h2 class="Subhead-heading">Data services</h2>
+                  </div>
+                  <p>Use the data from your repository to power these enhanced features.
+                  </p>
+                  <div class="Box js-repo-data-services">
+                     <div class="Box-row py-0">
+                        <div class="form-checkbox js-repo-option">
+                           <input type="hidden" name="vulnerability_alerts_enabled" value="0">
+                           <input type="checkbox" name="vulnerability_alerts_enabled" class="js-repo-data-option" data-octo-click="repo_vuln_alerts" data-octo-dimensions="enabled:false,location:settings" value="1" id="vulnerability-alerts-feature" checked="">
+                           <label for="vulnerability-alerts-feature">
+                           Vulnerability alerts
+                           </label>
+                           <span class="status-indicator ml-1 js-status-indicator">
+                              <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                              </svg>
+                              <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                              </svg>
+                           </span>
+                           <p class="note text-gray-light">
+                              Receive alerts for known security vulnerablities found in dependencies.
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+                  <noscript>
+                     <button class="btn btn-primary" type="submit">Save changes</button>
+                  </noscript>
+               </form>
+               <div class="Subhead Subhead--spacious">
+                  <h2 class="Subhead-heading">
+                     Merge button
+                  </h2>
+               </div>
+               <p>
+                  When merging pull requests, you can allow any combination of
+                  merge commits, squashing, or rebasing. At least one option must be enabled.
+               </p>
+               <div class="Box">
+                  <!-- '"` --><!-- </textarea></xmp> -->
+                  <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/update_merge_settings" class="repository-merge-features js-merge-features-form" data-autosubmit="true" data-remote="true" method="post">
+                     <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="put"><input name="authenticity_token" type="hidden" value="Job/1+kNZRXw+3zPvmCFc9kmNhUO6PVyzZHSscAM56IjB3cphrfgB3W10nfxWvg+z1WSq0+BkxAg5HsT9/Cp4g=="></div>
+                     <div class="flash flash-full flash-warn d-none js-select-one-warning">
+                        You must select at least one option
+                     </div>
+                     <ul>
+                        <li class="Box-row py-0">
+                           <div class="form-group js-repo-option">
+                              <div class="form-checkbox">
+                                 <label for="merge_types_merge_commit">Allow merge commits</label>
+                                 <span class="status-indicator js-status-indicator">
+                                    <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                    </svg>
+                                 </span>
+                                 <input type="checkbox" name="merge_types[]" value="merge_commit" id="merge_types_merge_commit" checked="">
+                                 <p class="note">Add all commits from the head branch to the base branch with a merge commit.</p>
+                              </div>
+                           </div>
+                        </li>
+                        <li class="Box-row py-0">
+                           <div class="form-group js-repo-option">
+                              <div class="form-checkbox">
+                                 <label for="merge_types_squash">Allow squash merging</label>
+                                 <span class="status-indicator js-status-indicator">
+                                    <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                    </svg>
+                                 </span>
+                                 <input type="checkbox" name="merge_types[]" value="squash_merge" id="merge_types_squash" checked="">
+                                 <p class="note">Combine all commits from the head branch into a single commit in the base branch.</p>
+                              </div>
+                           </div>
+                        </li>
+                        <li class="Box-row py-0">
+                           <div class="form-group js-repo-option">
+                              <div class="form-checkbox">
+                                 <label for="merge_types_rebase">Allow rebase merging</label>
+                                 <span class="status-indicator js-status-indicator">
+                                    <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                    </svg>
+                                 </span>
+                                 <input type="checkbox" name="merge_types[]" value="rebase_merge" id="merge_types_rebase" checked="">
+                                 <p class="note">Add all commits from the head branch onto the base branch individually.</p>
+                              </div>
+                           </div>
+                        </li>
+                     </ul>
+                     <noscript>
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                     </noscript>
+                  </form>
+               </div>
+               <div class="Subhead Subhead--spacious">
+                  <h2 class="Subhead-heading">
+                     Temporary interaction limits
+                  </h2>
+               </div>
+               <p>
+                  Temporarily restrict which users can interact with your repository (comment, open issues, or create pull requests) for a 24-hour period. This may be used to force a "cool-down" period during heated discussions.
+               </p>
+               <div class="Box">
+                  <!-- '"` --><!-- </textarea></xmp> -->
+                  <form accept-charset="UTF-8" action="/enesyteam/meovn/community" class="js-repo-features-form" data-autosubmit="true" data-remote="true" method="post">
+                     <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="put"><input name="authenticity_token" type="hidden" value="dtteaIkQ1I8/oGgV2wESFWhqu0ZkcvGj/xgzHFTXaSmgrucvOyRfvZtBAof/RAjPUP/KOf/9LaEfx7k+anHyKA=="></div>
+                     <ul>
+                        <li class="Box-row py-0">
+                           <div class="form-group js-repo-option">
+                              <div class="form-checkbox">
+                                 <input type="hidden" name="interaction_time_limit" value="0">
+                                 <input type="checkbox" name="interaction_time_limit" value="1" id="time-limit" class="repo-config-option">
+                                 <label for="time-limit">Limit to existing users</label>
+                                 <span class="status-indicator ml-1 js-status-indicator">
+                                    <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                    </svg>
+                                    <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                    </svg>
+                                 </span>
+                                 <p class="note text-green py-2 time-remaining">
+                                    <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                                       <path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                                    </svg>
+                                    Enabled with 1 day remaining
+                                 </p>
+                                 <p class="note">Users that have recently created their account will be unable to interact with the repository.</p>
+                              </div>
+                           </div>
+                        </li>
+                        <li class="Box-row py-0">
+                           <div class="form-group js-repo-option">
+                              <div class="form-checkbox">
+                                 <input type="hidden" name="contributor_interaction_only" value="0">
+                                 <input type="checkbox" name="contributor_interaction_only" value="1" id="contributor-only" class="repo-config-option">
+                                 <label for="contributor-only">Limit to prior contributors</label>
+                                 <span class="status-indicator ml-1 js-status-indicator">
+                                    <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                    </svg>
+                                    <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                    </svg>
+                                 </span>
+                                 <p class="note text-green py-2 time-remaining">
+                                    <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                                       <path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                                    </svg>
+                                    Enabled with 1 day remaining
+                                 </p>
+                                 <p class="note">Users that have not previously <a href="/enesyteam/meovn/graphs/contributors">committed</a> to the repository's master branch will be unable to interact with the repository.</p>
+                              </div>
+                           </div>
+                        </li>
+                        <li class="Box-row py-0">
+                           <div class="form-group js-repo-option">
+                              <div class="form-checkbox">
+                                 <input type="hidden" name="collaborator_interaction_only" value="0">
+                                 <input type="checkbox" name="collaborator_interaction_only" value="1" id="collaborator-only" class="repo-config-option">
+                                 <label for="collaborator-only">Limit to repository collaborators</label>
+                                 <span class="status-indicator ml-1 js-status-indicator">
+                                    <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                    </svg>
+                                    <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                    </svg>
+                                 </span>
+                                 <p class="note text-green py-2 time-remaining">
+                                    <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                                       <path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                                    </svg>
+                                    Enabled with 1 day remaining
+                                 </p>
+                                 <p class="note">Users that have not been granted <a href="/enesyteam/meovn/settings/collaboration">push access</a> will be unable to interact with the repository.</p>
+                              </div>
+                           </div>
+                        </li>
+                     </ul>
+                     <noscript>
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                     </noscript>
+                  </form>
+               </div>
+               <div class="Subhead Subhead--spacious">
+                  <h2 class="Subhead-heading">
+                     GitHub Pages
+                  </h2>
+               </div>
+               <p><a href="https://pages.github.com">GitHub Pages</a> is designed to host your personal, organization, or project pages from a GitHub repository.</p>
+               <div class="Box">
+                  <li class="Box-row">
+                     <!-- '"` --><!-- </textarea></xmp> -->
+                     <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/pages/source" method="post">
+                        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="put"><input name="authenticity_token" type="hidden" value="CrSmoysz1RZpY9mOjXRXIRZInAwnzH3acNE1YmVtkMSXUNCjcvhjYc53pJGTf/JyCSMe0iwmYdLibY4bso6hfw=="></div>
+                        <strong>Source</strong>
+                        <p>
+                           GitHub Pages is currently disabled.
+                           Select a source below to enable GitHub Pages for this repository.
+                           <a href="https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/">Learn more</a>.
+                        </p>
+                        <span class="js-pages-source select-menu js-menu-container js-select-menu">
+                           <button class="btn mr-1 select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false" aria-label="GitHub Pages source">
+                           <span class="js-select-button js-pages-source-btn-text" data-original-text="None">None</span>
+                           </button>
+                           <div class="select-menu-modal-holder">
+                              <div class="select-menu-modal js-menu-content">
+                                 <div class="select-menu-list js-navigation-container" role="menu">
+                                    <div class="select-menu-header js-navigation-enable" tabindex="-1">
+                                       <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                                          <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                       </svg>
+                                       <span class="select-menu-title">Select source</span>
+                                    </div>
+                                    <div class="select-menu-item js-navigation-item" role="menuitem">
+                                       <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                          <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                       </svg>
+                                       <div class="select-menu-item-text">
+                                          <input id="source_master" name="source" type="radio" value="master">
+                                          <span class="select-menu-item-heading js-select-button-text">master branch</span>
+                                          <span class="description">Use the <code>master</code> branch for GitHub Pages.</span>
+                                       </div>
+                                    </div>
+                                    <div class="select-menu-item js-navigation-item" role="menuitem">
+                                       <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                          <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                       </svg>
+                                       <div class="select-menu-item-text">
+                                          <input id="source_master__docs" name="source" type="radio" value="master /docs">
+                                          <span class="select-menu-item-heading js-select-button-text">master branch /docs folder</span>
+                                          <span class="description">Use only the <code>/docs</code> folder for GitHub Pages.</span>
+                                       </div>
+                                    </div>
+                                    <div class="select-menu-item js-navigation-item selected" role="menuitem">
+                                       <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                          <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                       </svg>
+                                       <div class="select-menu-item-text">
+                                          <input checked="checked" id="source_none" name="source" type="radio" value="none">
+                                          <span class="select-menu-item-heading js-select-button-text">None</span>
+                                          <span class="description">Disable GitHub Pages.</span>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </span>
+                        <button type="submit" class="btn js-pages-source-save-btn" disabled="">Save</button>
+                        <strong class="d-block mt-3">Theme Chooser</strong>
+                        <p>
+                           Select a theme to publish your site with a Jekyll theme<span class="js-pages-theme-source-note">
+                           using the <code class="js-pages-theme-source-note-value" data-original-text="master branch"> master branch</code></span>.
+                           <a href="https://help.github.com/articles/creating-a-github-pages-site-with-the-jekyll-theme-chooser/">Learn more</a>.
+                        </p>
+                        <!-- '"` --><!-- </textarea></xmp> -->
+                     </form>
+                     <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/pages/themes" method="get">
+                        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
+                        <input type="hidden" class="js-pages-theme-source-value" name="source" data-original-value="master" value="master">
+                        <button type="submit" class="btn mt-2 tooltipped-s js-enable-btn">
+                        Choose a theme
+                        </button>
+                     </form>
+                  </li>
+               </div>
+               <div class="Subhead Subhead--spacious border-bottom-0 mb-0">
+                  <h2 class="Subhead-heading">
+                     Danger Zone
+                  </h2>
+               </div>
+               <div class="Box Box--danger">
+                  <ul>
+                     <li class="Box-row">
+                        <strong>Make this repository private</strong>
+                        <p>
+                           Please <a href="/settings/billing">upgrade your plan</a> to make this repository private.
+                        </p>
+                     </li>
+                     <li class="Box-row">
+                        <button type="button" class="btn btn-danger boxed-action" data-box-overlay-id="__d40a6ae57f726c5571323e1e3be49ad1" aria-expanded="false">
+                        Transfer
+                        </button>
+                        <div class="Overlay js-box-overlay-container transition-in-out" id="__d40a6ae57f726c5571323e1e3be49ad1" hidden="" aria-modal="true" role="dialog" aria-label="Transfer repository" aria-describedby="__d40a6ae57f726c5571323e1e3be49ad1-description">
+                           <div class="Overlay-table-full bg-transparent-dark">
+                              <div class="Overlay-cell-middle">
+                                 <div class="Box Box--overlay js-box-overlay-content">
+                                    <div class="Box-header">
+                                       <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
+                                          <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                                             <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                          </svg>
+                                       </button>
+                                       <h3 class="Box-title">
+                                          Transfer repository
+                                       </h3>
+                                    </div>
+                                    <div class="Box-body" id="__d40a6ae57f726c5571323e1e3be49ad1-description">
+                                       <div class="flash flash-warn flash-full ml-n3 mt-n3 mr-n3 mb-2 border-top-0">
+                                          To understand admin access, teams, issue assignments, and redirects after a repository is
+                                          transferred, see "<strong><a href="https://help.github.com/articles/transferring-a-repository/">Transferring a repository</a></strong>"
+                                          in GitHub Help.
+                                       </div>
+                                       <p class="repo-transfer-tip">Transferring may be delayed until the new owner approves the transfer.</p>
+                                       <!-- '"` --><!-- </textarea></xmp> -->
+                                       <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/transfer" method="post">
+                                          <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="aISxcbkDngHtIGDLqiiYmUXJMX/FVlbXhVGx2FUke0eESacYozoolbx4anxEf/Fuk4YZM789URlXTr7sOLgoaQ=="></div>
+                                          <dl class="form-group">
+                                             <dt><label for="confirm_repository_name">Type the name of the repository to confirm</label></dt>
+                                             <dd>
+                                                <input class="form-control" type="text" id="confirm_repository_name" autofocus="" required="" pattern="[mM][eE][oO][vV][nN]|[eE][nN][eE][sS][yY][tT][eE][aA][mM]/[mM][eE][oO][vV][nN]" aria-label="Type in the name of the repository to confirm that you want to transfer this repository.">
+                                             </dd>
+                                          </dl>
+                                          <dl class="form-group">
+                                             <dt><label for="confirm_new_owner">New owner’s GitHub username or organization name</label></dt>
+                                             <dd><input id="confirm_new_owner" class="form-control" type="text" name="new_owner" required="" aria-label="Type in the username of the new owner."></dd>
+                                          </dl>
+                                          <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" disabled="">I understand, transfer this repository.</button>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <h4>Transfer ownership</h4>
+                        <p>
+                           Transfer this repository to another user or to an organization where you
+                           have the ability to create repositories.
+                        </p>
+                     </li>
+                     <li class="Box-row">
+                        <button type="button" class="btn btn-danger boxed-action" data-box-overlay-id="__686b79816a75b3ce7a77526ff4fd759a" aria-expanded="false">
+                        Archive this repository
+                        </button>
+                        <div class="Overlay js-box-overlay-container transition-in-out" id="__686b79816a75b3ce7a77526ff4fd759a" hidden="" aria-modal="true" role="dialog" aria-label="Archive repository" aria-describedby="__686b79816a75b3ce7a77526ff4fd759a-description">
+                           <div class="Overlay-table-full bg-transparent-dark">
+                              <div class="Overlay-cell-middle">
+                                 <div class="Box Box--overlay js-box-overlay-content">
+                                    <div class="Box-header">
+                                       <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
+                                          <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                                             <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                          </svg>
+                                       </button>
+                                       <h3 class="Box-title">
+                                          Archive repository
+                                       </h3>
+                                    </div>
+                                    <div class="Box-body" id="__686b79816a75b3ce7a77526ff4fd759a-description">
+                                       <div class="flash flash-warn flash-full ml-n3 mt-n3 mr-n3 mb-2 border-top-0">
+                                          Unexpected bad things will happen if you don’t read this!
+                                       </div>
+                                       <p>
+                                          This will make the <strong>enesyteam/meovn</strong> repository, issues,
+                                          pull requests, labels, milestones, projects, wiki, releases, commits, tags, branches, reactions and
+                                          comments read-only and disable any future comments. The repository can still be forked.
+                                       </p>
+                                       <p>Ensure you've changed any repository settings, considered closing all open issues and pull requests and updated your README before you archive this repository.</p>
+                                       <p>Once archived, you can unarchive the repository at any time.</p>
+                                       <p>Please type in the name of the repository to confirm.</p>
+                                       <!-- '"` --><!-- </textarea></xmp> -->
+                                       <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/archive" class="js-normalize-submit" method="post">
+                                          <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="hPdu0OWj91bKxKJHYJgWLYXkZnTGmuB7iMiEY1GI2GTQflWVet5BAGzve2a9L2iwK3ylBB0T6atm6569okThBA=="></div>
+                                          <p>
+                                             <input type="text" class="form-control input-block" autofocus="" required="" pattern="[mM][eE][oO][vV][nN]|[eE][nN][eE][sS][yY][tT][eE][aA][mM]/[mM][eE][oO][vV][nN]" aria-label="Type in the name of the repository to confirm that you want to archive this repository." name="verify">
+                                          </p>
+                                          <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" disabled="">I understand the consequences, archive this repository</button>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <strong>Archive this repository</strong>
+                        <p>Mark this repository as archived and read-only.</p>
+                     </li>
+                     <li class="Box-row">
+                        <button type="button" class="btn btn-danger boxed-action" data-box-overlay-id="__9efa967a575401481604d4204fb717f9" aria-expanded="false">
+                        Delete this repository
+                        </button>
+                        <div class="Overlay js-box-overlay-container transition-in-out" id="__9efa967a575401481604d4204fb717f9" hidden="" aria-modal="true" role="dialog" aria-label="Are you absolutely sure?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
+                           <div class="Overlay-table-full bg-transparent-dark">
+                              <div class="Overlay-cell-middle">
+                                 <div class="Box Box--overlay js-box-overlay-content">
+                                    <div class="Box-header">
+                                       <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
+                                          <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                                             <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                          </svg>
+                                       </button>
+                                       <h3 class="Box-title">
+                                          Are you absolutely sure?
+                                       </h3>
+                                    </div>
+                                    <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
+                                       <div class="flash flash-warn flash-full ml-n3 mt-n3 mr-n3 mb-2 border-top-0">
+                                          Unexpected bad things will happen if you don’t read this!
+                                       </div>
+                                       <p>
+                                          This action <strong>cannot</strong> be undone. This will permanently delete the <strong>enesyteam/meovn</strong>
+                                          repository, wiki, issues, and comments, and remove all collaborator associations.
+                                       </p>
+                                       <p>Please type in the name of the repository to confirm.</p>
+                                       <!-- '"` --><!-- </textarea></xmp> -->
+                                       <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/delete" class="js-normalize-submit" method="post">
+                                          <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="delete"><input name="authenticity_token" type="hidden" value="7RVqJ97Xnzn6xJ1oUUy7e1YlYLWUTppjbsAZI81msI5yxsdkB4yX9NIId7LJHK77Zqzk7yG4C5oOEPulM7hOkQ=="></div>
+                                          <p>
+                                             <input type="text" class="form-control input-block" autofocus="" required="" pattern="[mM][eE][oO][vV][nN]|[eE][nN][eE][sS][yY][tT][eE][aA][mM]/[mM][eE][oO][vV][nN]" aria-label="Type in the name of the repository to confirm that you want to delete this repository." name="verify">
+                                          </p>
+                                          <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" disabled="">I understand the consequences, delete this repository</button>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <strong>Delete this repository</strong>
+                        <p>
+                           Once you delete a repository, there is no going back. Please be certain.
+                        </p>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+            <!-- /#options_bucket -->
+         </div>
+      </div>
+   </div>
+   <div class="modal-backdrop js-touch-events"></div>
+</div>
