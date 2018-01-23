@@ -177,6 +177,426 @@
       </div>
       <!-- /Header -->
       <div ui-view></div>
+      <div class="facebox" id="facebox" style="top: 73.4px; left: 531px;">
+   <div class="facebox-popup">
+      <div class="facebox-content" role="dialog" aria-labelledby="facebox-header" aria-describedby="facebox-description">
+         <h2 class="facebox-header pb-0 border-bottom-0 mb-1" data-facebox-id="facebox-header" tabindex="-1" id="facebox-header">
+            Customize your pinned repositories
+         </h2>
+         <!-- '"` --><!-- </textarea></xmp> -->
+         <form accept-charset="UTF-8" action="/users/enesyteam/set_pinned_repositories" class="js-pinned-repos-selection-form" data-facebox-id="user-16075067-pinned-repos-form" method="post">
+            <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="put"><input name="authenticity_token" type="hidden" value="I/YMWxLHV7oDpcMaQyAD3nbuMCClJ5r3kAQBzyrgwK/70mh54nXCcVCSeNa3Z5LP2k80rfcKE/p77Cn2M2yOrQ=="></div>
+            <p class="text-gray mb-2">
+               Select up to six public repositories you'd like to show.
+            </p>
+            <div class="pinned-repo-filters">
+               <input type="search" class="form-control width-full js-pinned-repos-filter" placeholder="Filter repositories" autofocus="autofocus">
+               <div class="mt-2">
+                  <strong class="d-inline-block mr-1">Show:</strong>
+                  <label class="text-normal mr-3">
+                  <input type="checkbox" checked="checked" class="js-pinned-repo-source" value="owned" disabled="">
+                  Your repositories
+                  </label>
+                  <label class="text-normal">
+                  <input type="checkbox" class="js-pinned-repo-source" value="contributed">
+                  Repositories you contribute to
+                  </label>
+               </div>
+            </div>
+            <ul class="pinned-repos-selection-list js-pinned-repos-selection-list" data-max-repo-count="6">
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public source  selected ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="81220894" checked="">
+                  <span class="css-truncate-target js-repo ml-1">enesy</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="72322210">
+                  <span class="css-truncate-target js-repo ml-1">enesyteam.github.io</span>
+                  </label>
+                  <span class="stars">
+                     1
+                     <svg aria-label="star" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public source   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="52573815">
+                  <span class="css-truncate-target js-repo ml-1">Shopdrawing</span>
+                  </label>
+                  <span class="stars">
+                     1
+                     <svg aria-label="star" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="55203153">
+                  <span class="css-truncate-target js-repo ml-1">AcExtensionLibrary</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="115515707">
+                  <span class="css-truncate-target js-repo ml-1">angular-loading-bar</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork no-description  ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="72211950">
+                  <span class="css-truncate-target js-repo ml-1">bakery-store</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="113595725">
+                  <span class="css-truncate-target js-repo ml-1">charts</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="104537987">
+                  <span class="css-truncate-target js-repo ml-1">colour-schemes</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public source   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="47089831">
+                  <span class="css-truncate-target js-repo ml-1">EChess</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public source   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="51972269">
+                  <span class="css-truncate-target js-repo ml-1">EnesyCAD</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="101283876">
+                  <span class="css-truncate-target js-repo ml-1">filter.js</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public source no-description  ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="98515789">
+                  <span class="css-truncate-target js-repo ml-1">flarumproduct</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork no-description  ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="110682667">
+                  <span class="css-truncate-target js-repo ml-1">GHN</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="113567815">
+                  <span class="css-truncate-target js-repo ml-1">GitHub-Dark</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="108722365">
+                  <span class="css-truncate-target js-repo ml-1">highcharts-ng</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="113345272">
+                  <span class="css-truncate-target js-repo ml-1">material2-docs-content</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public source   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="107764876">
+                  <span class="css-truncate-target js-repo ml-1">meovn</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public source no-description  ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="113472740">
+                  <span class="css-truncate-target js-repo ml-1">meovn4</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public source no-description  ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="114364047">
+                  <span class="css-truncate-target js-repo ml-1">micam</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="82798566">
+                  <span class="css-truncate-target js-repo ml-1">normalize.css</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="113638413">
+                  <span class="css-truncate-target js-repo ml-1">octicons</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="56602152">
+                  <span class="css-truncate-target js-repo ml-1">openscholar</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public source no-description  ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="114449128">
+                  <span class="css-truncate-target js-repo ml-1">osaki</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="115416162">
+                  <span class="css-truncate-target js-repo ml-1">primer</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public source   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="58094074">
+                  <span class="css-truncate-target js-repo ml-1">QuickPlot</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="55576057">
+                  <span class="css-truncate-target js-repo ml-1">tagspaces</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="56611110">
+                  <span class="css-truncate-target js-repo ml-1">thelia</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="98957373">
+                  <span class="css-truncate-target js-repo ml-1">themes</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="77423872">
+                  <span class="css-truncate-target js-repo ml-1">tutorial-twitter-clone</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public fork   ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="77464837">
+                  <span class="css-truncate-target js-repo ml-1">uikit</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="pinned-repos-selection-list-item js-pinned-repos-selection css-truncate js-owned-repo public source no-description  ">
+                  <label class="pinned-repo-name">
+                  <input type="checkbox" name="repo_ids[]" value="114753604">
+                  <span class="css-truncate-target js-repo ml-1">webphongthuy</span>
+                  </label>
+                  <span class="stars">
+                     0
+                     <svg aria-label="stars" class="octicon octicon-star" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+                     </svg>
+                  </span>
+               </li>
+               <li class="text-gray mb-2 mx-2 js-no-repos-message d-none">
+                  No repositories found.
+               </li>
+            </ul>
+            <div class="facebox-footer">
+               <span class="js-remaining-pinned-repos-count text-small float-left pt-3 lh-condensed-ultra " data-remaining-label="remaining">
+               5 remaining
+               </span>
+               <button type="submit" class="btn btn-primary">
+               Save pinned repositories
+               </button>
+            </div>
+         </form>
+      </div>
+      <button type="button" class="facebox-close js-facebox-close" aria-label="Close modal">
+         <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+            <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+         </svg>
+      </button>
+   </div>
+</div>
       <!-- <div ng-include="'/src/realtime/home.html'"></div> -->
       <!-- <script src="/node_modules/jquery/dist/jquery.min.js"></script> -->
       <script src="/assets/js/scripts-angular.min.js"></script>
