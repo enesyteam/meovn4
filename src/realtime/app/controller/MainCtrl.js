@@ -1,6 +1,18 @@
 mRealtime.controller('MainCtrl',
-    function($rootScope, $scope, $window, $filter, $timeout, cfpLoadingBar, cfpLoadingBar, Facebook, firebaseService) {
-    	$rootScope.orders = [];
+    function($rootScope, $scope, $http, $window, $filter, $timeout, cfpLoadingBar, cfpLoadingBar, Facebook, firebaseService) {
+    	
+        var getAccessToken = function(){
+            $http.get('../access_token.json').
+              then(function onSuccess(response) {
+                 $rootScope.access_token_arr = response.data;
+              }).
+              catch(function onError(response) {
+               // console.log(response);
+              });
+        }
+        getAccessToken();
+
+        $rootScope.orders = [];
     	$rootScope.sources = [];
     	$rootScope.packs = [];
         $rootScope.windowsHeight = $window.innerHeight;
@@ -37,6 +49,9 @@ mRealtime.controller('MainCtrl',
         // v4
         firebaseService.getNewOrders().then(function(snapshot){
             $scope.$apply(function(){
+                // snapshot.forEach(function(child){
+                //     $rootScope.orders.push(child.val());
+                // });
                 $rootScope.orders = snapshot.val();
                 $rootScope.finishLoadingOrders = true;
             });
@@ -50,6 +65,10 @@ mRealtime.controller('MainCtrl',
     		});
     		
     	});
+
+        $rootScope.testScroll = function(){
+            console.log('dd');
+        }
 
         
 	});

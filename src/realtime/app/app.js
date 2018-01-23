@@ -7,6 +7,7 @@ var mRealtime = angular.module('mRealtime', [
   'firebase',
   'angular.filter',
   'facebook',
+  'infinite-scroll',
 	])
     .constant('appVersion', '3.0.0')
     .constant('releaseDate', 'Nov-20, 2017')

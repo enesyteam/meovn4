@@ -29,12 +29,12 @@ mRealtime.controller('OdersCtrl',
                 }
             });
 
-        	// console.log(pageId);
 	        Facebook.api('/' + pageId + '?fields=picture,name&access_token=' + $rootScope.access_token, function(response) {
 	        	// console.log(response);
 	        	if(response && !response.error){
 	        		$scope.$apply(function(){
 		        		$scope.data = response; 
+                        $scope.finishGraphPage = true;
 		        	});
                     graphPost($scope.post_id);
                     graphOriginalConversation($scope.conversation_id);
@@ -63,7 +63,7 @@ mRealtime.controller('OdersCtrl',
                 if(response && !response.error){
                     $scope.$apply(function(){
                         $scope.conversation = response;
-                        
+                        $scope.finishGraphConversation = true; 
                     });
                 }
             });
@@ -71,6 +71,16 @@ mRealtime.controller('OdersCtrl',
         }
 
 	    graphPage($scope.page_id);
+
+        //
+        var getCurrentPageAccessToken = function(){
+            if(!$rootScope.access_token_arr) return;
+            var token = $scope.filterById($rootScope.access_token_arr, $scope.page_id);
+            if(token){
+                $scope.currentAccessToken = token.acess_token;
+            }
+        }
+        getCurrentPageAccessToken();
 	    
 
         // 
@@ -81,4 +91,28 @@ mRealtime.controller('OdersCtrl',
             }, 500);
         }
         testGraph();
+
+        // test reply comment
+        $scope.comentText = null;
+        $scope.replyToComment = function(){
+            /* make the API call */
+            FB.api(
+                "/" + $scope.conversation_id + "/comments",
+                "POST",
+                {
+                    "message": $scope.comentText,
+                    // "attachment_url" : "http://pluspng.com/img-png/github-octocat-logo-vector-png-octocat-icon-1600.png",
+                    "access_token" : $scope.currentAccessToken
+                },
+                function (response) {
+                  if (response && !response.error) {
+                    /* handle the result */
+                    $scope.$apply(function(){
+                        $scope.comentText = null;
+                        graphOriginalConversation($scope.conversation_id);
+                    });
+                  }
+                }
+            );
+        }
 	});

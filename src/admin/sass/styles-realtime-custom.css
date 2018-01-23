@@ -988,14 +988,17 @@ body .filterbar li.active svg {
     vertical-align: top;
     max-width: 100%;
 }
-.inner_col_left .chat::-webkit-scrollbar-thumb {
+.inner_col_left .chat::-webkit-scrollbar-thumb,
+.inner_col_right .log::-webkit-scrollbar-thumb {
     background: #999;
     border-radius: 15px;
 }
-.inner_col_left .chat::-webkit-scrollbar-track {
+.inner_col_left .chat::-webkit-scrollbar-track,
+.inner_col_right .log::-webkit-scrollbar-track  {
     background: #ebebeb;
 }
-.inner_col_left .chat::-webkit-scrollbar {
+.inner_col_left .chat::-webkit-scrollbar,
+.inner_col_right .log::-webkit-scrollbar {
     width: 7px;
 }
 .col_message .write_chat {

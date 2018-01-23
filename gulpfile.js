@@ -220,10 +220,12 @@ gulp.task('test', function () {
     'node_modules/angular-facebook/angular-facebook.js',
     // 'node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js',
     // 'node_modules/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js',
+    'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
 
 
     /*app*/
     'src/realtime/app/app.js',
+    'src/realtime/app/directive.js',
     // services
     'src/realtime/service/firebase.service.js',
     //

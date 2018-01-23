@@ -53,7 +53,7 @@
                   <div ng-include="'/src/realtime/pages/orders/widgets/post-detail.html'"></div>
                </div>
                <div class="write_chat">
-                  <div class="input_chat"><textarea class="input-msg" id="fb_info_message" name="input_message" placeholder="Nhập nội dung tại đây..." autocomplete="on"></textarea></div>
+                  <div class="input_chat"><textarea ng-model="comentText" class="input-msg" id="fb_info_message" name="input_message" placeholder="Nhập nội dung tại đây..." autocomplete="on" comment-enter=""></textarea></div>
                   <div class="function_message">
                   <ul class="list_action">
                      <li id="open_image_" class="open_image_post">
@@ -103,7 +103,7 @@
    </div>
    <div class="inner_col_right">
       <!-- {{postData}} -->
-      <div style="padding: 15px" ng-include="'/src/realtime/pages/orders/widgets/order-log.html'"></div>
+      <div class="log" style="padding: 15px;  margin: 0;overflow: auto;overflow-x: hidden;height: 100%;" ng-include="'/src/realtime/pages/orders/widgets/order-log.html'"></div>
 
    </div>
 </div>

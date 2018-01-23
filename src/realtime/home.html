@@ -38,8 +38,9 @@
                         <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
                      </pan-loader>
                   </div>
-                  <div class="people scrollable" ng-if="finishLoadingOrders">
-                     <li ng-repeat="order in orders" ui-sref="home.detail({id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person">
+                  <div class="people scrollable" ng-if="finishLoadingOrders"  infinite-scroll="testScroll()">
+                     <div style="height: 100%">
+                        <li ng-repeat="order in orders" ui-sref="home.detail({id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person">
                         <div class="wrap_chat">
                            <!-- <div class="check">
                               <input type="checkbox" class="check_people" value="on">
@@ -63,6 +64,7 @@
                         </div>
                         
                      </li>
+                     </div>
                   </div>
                </div>
             </div>
