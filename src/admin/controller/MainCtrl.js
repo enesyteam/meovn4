@@ -1,5 +1,18 @@
 m_admin.controller('MainCtrl',
-    function($rootScope, $scope, $filter, $timeout, cfpLoadingBar, firebaseService, cfpLoadingBar, Facebook) {
+    function($rootScope, $scope, $http, $filter, $timeout, cfpLoadingBar, firebaseService, cfpLoadingBar, Facebook) {
+        // get access token
+        var getAccessToken = function(){
+            $http.get('../access_token.json').
+              then(function onSuccess(response) {
+                 $rootScope.access_token_arr = response.data;
+              }).
+              catch(function onError(response) {
+               // console.log(response);
+              });
+        }
+        getAccessToken();
+
+
         $scope.start = function() {
             cfpLoadingBar.start();
         };

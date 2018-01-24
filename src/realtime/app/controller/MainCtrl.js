@@ -70,5 +70,13 @@ mRealtime.controller('MainCtrl',
             console.log('dd');
         }
 
+        $rootScope.isFaceboxShowing = false;
+        $scope.showSelectPhotoFacebox = function(){
+            $rootScope.isFaceboxShowing = true;
+        }
+        $scope.hideSelectPhotoFacebox = function(){
+            $rootScope.isFaceboxShowing = false;
+        }
+
         
 	});

@@ -31,13 +31,13 @@
          </div>
       </div>
    </div>
-   <div class="group-day" style="padding: 10px" ng-if="finishGraphConversation">
+   <div class="group-day" style="padding: 10px">
       <div class="conversation-start">
          <span>
             <p>Chat log</p>
          </span>
       </div>
-      <div class="group-time for-you">
+      <div class="group-time for-you" ng-if="finishGraphConversation">
          <div class="line_chat">
             <div class="chat_content">
                <span class="time_chat">
@@ -55,7 +55,7 @@
                </div> -->
          </div>
       </div>
-      <div class="group-time" ng-repeat="m in conversation.comments.data" ng-class="m.from.id==page_id ? 'for-me' : 'for-you'">
+      <div ng-if="finishGraphConversation" class="group-time" ng-repeat="m in conversation.comments.data" ng-class="m.from.id==page_id ? 'for-me' : 'for-you'">
          <div class="line_chat">
             <div class="chat_content">
                <!-- <span class="time_chat" style="top: 250.2px; left: 69%;">
@@ -66,7 +66,23 @@
                <span style="background-image: url(&quot;{{m.from ? '//graph.facebook.com/' + m.from.id + '/picture?width=50&amp;height=50' : '';}}&quot;); border-radius: 24px; background-position: center center;"></span>
                </a>
                <h5 class="_ih3">{{m.from.id!=page_id ? m.from.name : ''}}</h5>
-               <div class="normal-text bubble tooltipped tooltipped-no-delay {{m.from.id==page_id ? 'tooltipped-w' : 'tooltipped-e'}}" aria-label="{{m.created_time}}" ng-class="m.from.id==page_id ? 'me' : 'you'">{{m.message}}</div>
+               <div class="normal-text bubble tooltipped tooltipped-no-delay {{m.from.id==page_id ? 'tooltipped-w' : 'tooltipped-e'}}" aria-label="{{m.created_time | date:'HH:mm dd/MM'}}" ng-class="m.from.id==page_id ? 'me' : 'you'">{{m.message}}</div>
+            </div>
+         </div>
+      </div>
+      <!-- Messages -->
+      <div ng-if="messsageLog" class="group-time" ng-repeat="m in messsageLog.messages.data  | reverse" ng-class="m.from.id==page_id ? 'for-me' : 'for-you'">
+         <div class="line_chat">
+            <div class="chat_content">
+               <!-- <span class="time_chat" style="top: 250.2px; left: 69%;">
+                  19:07
+                  <p class="user_reply"></p>
+                  </span> -->
+               <a ng-if="m.from.id!=page_id" href="//facebook.com/{{m.from.id}}" target="_blank">
+               <span style="background-image: url(&quot;{{m.from ? '//graph.facebook.com/' + m.from.id + '/picture?width=50&amp;height=50' : '';}}&quot;); border-radius: 24px; background-position: center center;"></span>
+               </a>
+               <h5 class="_ih3">{{m.from.id!=page_id ? m.from.name : ''}}</h5>
+               <div class="normal-text bubble tooltipped tooltipped-no-delay {{m.from.id==page_id ? 'tooltipped-w' : 'tooltipped-e'}}" aria-label="{{m.created_time | date:'HH:mm dd/MM'}}" ng-class="m.from.id==page_id ? 'me' : 'you'">{{m.message}}</div>
             </div>
          </div>
       </div>

@@ -14,10 +14,10 @@
     // $urlRouterProvider.when('/admin/dashboard','/admin/dashboard/general');
     $stateProvider
         .state('home.detail', {
-                url: 'o/:id&pa=:page_id&po=:post_id&c=:conversation_id&u=:customer_id',
+                url: 'o/type=:type&:id&pa=:page_id&po=:post_id&c=:conversation_id&u=:customer_id',
                 controller: 'OdersCtrl',
                 templateUrl: "/src/realtime/pages/orders/detail.html",
-                params     : { id : null, page_id: null, post_id: null, conversation_id: null, customer_id: null},
+                params     : { type: null, id : null, page_id: null, post_id: null, conversation_id: null, customer_id: null},
             });
   }
 

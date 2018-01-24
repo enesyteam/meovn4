@@ -1,4 +1,14 @@
 t_100005112109094?fields=messages{message}
 
+// get 1000 messages
 320354418368799/conversations?fields=id,link&limit=1000
+
+// read message by thread id
 t_100000185744717?fields=messages{message,from,created_time},snippet,link,unread_count
+
+// reply message
+t_100008409105289/messages
+
+// get never expires token
+https://graph.facebook.com/oauth/access_token?client_id=1085772744867580&client_secret=14bd07d4734343c6faaf885863902bca&grant_type=fb_exchange_token&fb_exchange_token=
+

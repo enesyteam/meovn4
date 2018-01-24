@@ -8,6 +8,7 @@ var mRealtime = angular.module('mRealtime', [
   'angular.filter',
   'facebook',
   'infinite-scroll',
+  'snackbar',
 	])
     .constant('appVersion', '3.0.0')
     .constant('releaseDate', 'Nov-20, 2017')
@@ -38,3 +39,10 @@ function themeRun($rootScope, appVersion, releaseDate, access_token) {
     $rootScope.appVersion = appVersion;
     $rootScope.releaseDate = releaseDate;
 }
+
+mRealtime.filter('reverse', function() {
+  return function(items) {
+    if(!items) return;
+    return items.slice().reverse();
+  };
+});

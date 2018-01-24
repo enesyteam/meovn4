@@ -1126,6 +1126,7 @@ body .filterbar li.active svg {
     overflow: hidden;
 }
 .list_content_col_left .people .person .wrap_chat .time_tag span {
+    font-size: 12px;
     line-height: 24px;
     display: block;
     text-align: right;
@@ -1140,7 +1141,7 @@ body .filterbar li.active svg {
 }
 .list_content_col_left .people .person .wrap_chat .time_tag .list_tag li {
     float: right;
-    width: 13px;
+    width: 16px;
     height: 13px;
     list-style: none;
     margin-left: 9px;
@@ -1164,7 +1165,7 @@ body .filterbar li.active svg {
     right: 0;
 }
 .inner_col_left .write_chat .input_chat {
-    width: 60%;
+    width: 70%;
     float: left;
     display: block;
 }
@@ -1192,7 +1193,7 @@ body .filterbar li.active svg {
 
 }
 .inner_col_left .write_chat .function_message {
-    width: 40%;
+    width: 30%;
     float: left;
     display: block;
     background: #fff;
@@ -1270,4 +1271,49 @@ body .filterbar li.active svg {
     margin-right: 20px;
 }
 
+/*// snackbar*/
+.snackbar-wrapper {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    position: fixed;
+    bottom: -250px;
+    left: 0px;
+    width: 100%;
+    margin-left: 15px;
+}
 
+.snackbar-content {
+    background: #323232;
+    color: #fff;
+    font-size: 13px;
+    z-index: 1000;
+    width: 100%;
+    max-height: 40px;
+    box-sizing: border-box;
+    line-height: 22px;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.snackbar-wrapper.active {
+  bottom: 0;
+}
+
+.snackbar-msg {
+  margin: 0;
+}
+
+.snackbar-btn {
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-left:24px;
+}

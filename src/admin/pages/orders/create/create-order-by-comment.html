@@ -52,14 +52,15 @@
 	            <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
 	         </pan-loader>
 	      </div>
+	      <div ng-if="pageInfo">
+			<a href="https://facebook.com/{{pageInfo.id}}" target="_blank">
+		      <img alt="@VadimDez" class="avatar rounded-1" height="44" ng-src="{{'//graph.facebook.com/' + pageInfo.id  + '/picture?width=200&amp;height=200'}}" width="44">
+		      </a>
+		      <span>{{pageInfo.name}}</span>
+		</div>
 	      <div  ng-if="finishedGraph">
 	      	<div ng-if="originalMessage">
-				<div>
-					<a href="https://facebook.com/{{pageInfo.id}}" target="_blank">
-				      <img alt="@VadimDez" class="avatar rounded-1" height="44" ng-src="{{'//graph.facebook.com/' + pageInfo.id  + '/picture?width=200&amp;height=200'}}" width="44">
-				      </a>
-				      <span>{{pageInfo.name}}</span>
-				</div>
+				
 				<div>
 					<span style="white-space: pre-line;display: block; text-align: left;max-height: 150px;overflow-y: hidden;font-size: 12px;">
 						<img alt="@VadimDez" class="avatar rounded-1" ng-src="{{post_data.picture}}">
@@ -166,6 +167,10 @@
 		   		</div>
 		   		
 		   </div>
+	      </div>
+	      {{messsageLog.snippet}}
+	      <div ng-repeat="m in messsageLog.messages.data  | reverse">
+	      	{{m}}
 	      </div>
 		</div>
 			

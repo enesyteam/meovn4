@@ -161,6 +161,8 @@ gulp.task('test', function () {
 
     'node_modules/angular-facebook/angular-facebook.js',
 
+
+
     // app
     'src/admin/app/app.js',
     // services
@@ -221,6 +223,8 @@ gulp.task('test', function () {
     // 'node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js',
     // 'node_modules/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js',
     'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
+
+    'assets/js/snackbar.js', //snackbar
 
 
     /*app*/

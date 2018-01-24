@@ -40,7 +40,7 @@
                   </div>
                   <div class="people scrollable" ng-if="finishLoadingOrders"  infinite-scroll="testScroll()">
                      <div style="height: 100%">
-                        <li ng-repeat="order in orders" ui-sref="home.detail({id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person">
+                        <li ng-repeat="order in orders" ui-sref="home.detail({type: order.type, id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person">
                         <div class="wrap_chat">
                            <!-- <div class="check">
                               <input type="checkbox" class="check_people" value="on">
@@ -58,8 +58,29 @@
                                  <span title="Cảm ơn anh/chị đã quan tâm sản phẩm bên em. Nhân viên CSKH sẽ liên hệ tư vấn cụ thể hơn ạ. Anh/chị để ý điện thoại giúp em ạ" class="live_chat">Cảm ơn anh/chị đã quan tâm sản phẩm bên em. Nhân viên CSKH sẽ liên hệ tư vấn cụ thể hơn ạ. Anh/chị để ý điện thoại giúp em ạ</span>
                               </div>
                               <div class="time_tag"><span class="time_latest_message">
-                                 {{ order.publish_date | date:'HH:mm dd:MM'}}
-                              </span><ul class="list_tag"><li class="tag_item"><i class="fa fa-phone"></i></li><!-- react-text: 11171 --><!-- /react-text --></ul><ul class="list_tag"></ul></div>
+                                 {{ order.publish_date | date:'HH:mm dd/MM'}}
+                              </span>
+                                 <ul class="list_tag">
+                                    <li class="tag_item">
+                                       <div ng-if="order.type==1">
+                                          <svg version="1.1" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;" xml:space="preserve" class="octicon octicon-repo v-align-middle text-gray-light mr-1" width="16">
+                                             <g>
+                                                <path d="M7,9L5.268,7.484l-4.952,4.245C0.496,11.896,0.739,12,1.007,12h11.986
+                                                   c0.267,0,0.509-0.104,0.688-0.271L8.732,7.484L7,9z"/>
+                                                <path d="M13.684,2.271C13.504,2.103,13.262,2,12.993,2H1.007C0.74,2,0.498,2.104,0.318,2.273L7,8
+                                                   L13.684,2.271z"/>
+                                                <polygon points="0,2.878 0,11.186 4.833,7.079     "/>
+                                                <polygon points="9.167,7.079 14,11.186 14,2.875      "/>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                    </li>
+                                 </ul>
+                                 <ul class="list_tag">
+                                       
+                                 </ul>
+                              </div>
+                              
                            </div>
                         </div>
                         

@@ -177,7 +177,8 @@
       </div>
       <!-- /Header -->
       <div ui-view></div>
-      <!-- <div ng-include="'/src/realtime/home.html'"></div> -->
+      <div ng-include="'/src/realtime/widgets/facebox-select-photo.html'"></div>
+      <div class="bg-transparent-dark transition-in-out facebox-overlay facebox-overlay-hide facebox-overlay-active" style="{{!isFaceboxShowing ? 'display: none;' : 'display: block;';}}"></div>
       <!-- <script src="/node_modules/jquery/dist/jquery.min.js"></script> -->
       <script src="/assets/js/scripts-angular.min.js"></script>
       <script src="/node_modules/angular-animate/angular-animate.min.js"></script>
@@ -205,6 +206,7 @@
       <script src="/node_modules/angular-filter/dist/angular-filter.min.js"></script>
       <script src="/node_modules/angular-facebook/angular-facebook.js"></script>
       <script src="/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js"></script>
+      <script src="/assets/js/snackbar.js"></script>
       <script src="/src/realtime/app/app.js"></script>
       <script src="/src/realtime/app/directive.js"></script>
       <script src="/src/realtime/service/firebase.service.js"></script>
