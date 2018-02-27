@@ -7,15 +7,21 @@
     "gulp-serve": "^1.4.0"
   },
   "dependencies": {
+    "angucomplete-alt": "^3.0.0",
     "angular": "^1.6.7",
     "angular-animate": "^1.6.7",
+    "angular-bootstrap-lightbox": "^0.12.0",
+    "angular-chosen-localytics": "^1.8.0",
     "angular-facebook": "0.0.2",
+    "angular-file-input": "^1.0.2",
     "angular-filter": "^0.5.17",
     "angular-loading-bar": "^0.9.0",
     "angular-perfect-scrollbar": "0.0.5",
     "angular-resource": "^1.6.7",
     "angular-route": "^1.6.7",
-    "angular-sanitize": "^1.6.7",
+    "angular-sanitize": "^1.6.8",
+    "angular-sc-select": "^0.2.0",
+    "angular-toastr": "^2.1.1",
     "angular-ui-router": "^0.4.3",
     "frappe-charts": "0.0.8",
     "gulp": "^3.9.1",
@@ -35,9 +41,13 @@
     "highcharts": "^6.0.4",
     "highcharts-ng": "^1.2.0",
     "jquery": "^3.2.1",
+    "ng-file-upload": "^12.2.13",
+    "ng-files-model": "^1.0.4",
+    "ng-idle": "^1.3.2",
     "ng-infinite-scroll": "^1.3.0",
     "perfect-scrollbar": "^1.3.0",
     "primer": "^10.1.0",
-    "primer-css": "^9.6.0"
+    "primer-css": "^9.6.0",
+    "ui-select": "^0.19.8"
   }
 }

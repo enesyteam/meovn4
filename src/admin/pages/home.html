@@ -5,7 +5,7 @@
           <!-- Page Head -->
           <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav ">
              <div class="repohead-details-container clearfix container ">
-                <ul class="pagehead-actions">
+                <ul class="pagehead-actions" style="opacity: {{finishLoading ? 1 : 0}}">
                    <li>
                       <!-- '"` --><!-- </textarea></xmp> -->
                       <form accept-charset="UTF-8" action="/notifications/subscribe" class="js-social-container" data-autosubmit="true" data-remote="true" method="post">
@@ -21,7 +21,7 @@
                                </span>
                             </a>
                             <a class="social-count js-social-count" href="/enesyteam/enesy/watchers" aria-label="3 users are watching this repository">
-                            {{todayArr.length}}
+                            {{todayReport.today || 0}}
                             </a>
                             <div class="select-menu-modal-holder">
                                <div class="select-menu-modal subscription-menu-modal js-menu-content" aria-expanded="false">
@@ -113,7 +113,7 @@
                                Đã chốt
                             </button>
                             <a class="social-count js-social-count" href="/enesyteam/enesy/stargazers" aria-label="0 users starred this repository">
-                            {{successArr.length}}
+                            {{todayReport.successCount || 0}}
                             </a>
                          </form>
                       </div>
@@ -130,7 +130,7 @@
                          </button>
                       </form>
                       <a href="/enesyteam/enesy/network" class="social-count" aria-label="0 users forked this repository">
-                      {{notCalledArr.length}}
+                      {{todayReport.notCalledCount || 0}}
                       </a>
                    </li>
                 </ul>

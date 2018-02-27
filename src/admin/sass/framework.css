@@ -1515,7 +1515,7 @@ button {
     line-height: inherit
 }
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.5;
     color: #24292e;
@@ -1847,7 +1847,7 @@ pre {
     display: inline-block;
     padding: 6px 12px;
     font-size: 14px;
-    font-weight: 600;
+    /*font-weight: 600;*/
     line-height: 20px;
     white-space: nowrap;
     vertical-align: middle;
@@ -2069,7 +2069,7 @@ pre {
     box-shadow: none
 }
 .btn-outline {
-    color: #0366d6;
+    /*color: #0366d6;*/
     background-color: #fff;
     background-image: none
 }
@@ -2134,7 +2134,7 @@ pre {
     height: 12px;
     padding: 0 5px 5px;
     font-size: 12px;
-    font-weight: 600;
+    /*font-weight: 600;*/
     line-height: 6px;
     color: #444d56;
     text-decoration: none;
@@ -2512,7 +2512,7 @@ input::-webkit-inner-spin-button {
     min-height: 0
 }
 .form-group {
-    margin: 15px 0
+    margin: 10px 0
 }
 .form-group .form-control {
     width: 440px;
@@ -3746,7 +3746,7 @@ a.tabnav-extra:hover {
     position: relative;
     float: left;
     padding: 6px 14px;
-    font-weight: 600;
+    /*font-weight: 600;*/
     line-height: 20px;
     color: #586069;
     border: 1px solid #e1e4e8
@@ -3815,7 +3815,7 @@ a.tabnav-extra:hover {
     border-bottom-left-radius: 0
 }
 .subnav-search-context .select-menu-modal-holder {
-    z-index: 30
+    z-index: 999
 }
 .subnav-search-context .select-menu-modal {
     width: 220px

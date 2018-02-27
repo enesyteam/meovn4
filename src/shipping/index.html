@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" ng-app="mShipping">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="description" content="Introducing Lollipop, a sweet new take on Android.">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+      <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&amp;subset=vietnamese" rel="stylesheet" class="next-head">
+      <title>Shipping - Meovn 4</title>
+      <!-- Page styles -->
+      <!--     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+      <!--     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+      <!--     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+         <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script> -->
+      <link rel="stylesheet" href="/src/admin/sass/framework.css">
+      <link rel="stylesheet" href="/src/admin/sass/styles-realtime.css">
+      <link rel="stylesheet" href="/src/shipping/sass/app.css">
+      <link rel="stylesheet" href="/node_modules/perfect-scrollbar/css/perfect-scrollbar.css">
+      <link rel="stylesheet" href="/node_modules/angular-toastr/dist/angular-toastr.css">
+      <!-- <link rel="stylesheet" type="text/css" href="/node_modules/angular-chosen-localytics/dist/chosen.css"> -->
+      <!-- <link rel="stylesheet" href="/node_modules/ui-select/dist/select.css"> -->
+      <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css"> -->
+      <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css"> -->
+      <!-- <link rel="stylesheet" href="/node_modules/angular-chosen-localytics/dist/chosen.css" /> -->
+      <!-- inject:css -->
+      <!-- endinject -->
+   </head>
+   <body class="logged-in env-production height-full d-flex flex-column full-width no-footer intent-mouse">
+      <!-- Header -->
+      <div class="position-relative js-header-wrapper ">
+         <a href="#start-of-content" tabindex="1" class="bg-black text-white p-3 show-on-focus js-skip-to-content">Skip to content</a>
+         <div id="js-pjax-loader-bar" class="pjax-loader-bar">
+            <div class="progress"></div>
+         </div>
+         <header class="Header  f5" role="banner">
+            <div class="d-flex px-3 flex-justify-between container-lg">
+               <div class="d-flex flex-justify-between">
+                  <a class="header-logo-invertocat page-realtime tooltipped tooltipped-se tooltipped-no-delay  js-socket-channel js-notification-indicator" href="#" data-hotkey="g d" aria-label="Chế độ gộp trang" data-ga-click="Header, go to dashboard, icon:logo">
+                     <svg aria-hidden="true" class="octicon octicon-mark-github" height="32" version="1.1" viewBox="0 0 16 16" width="32">
+                        <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                     </svg>
+                  </a>
+               </div>
+               <div class="HeaderMenu d-flex flex-justify-between flex-auto">
+                  <div class="d-flex">
+                     <div class="">
+                        <div class="header-search scoped-search site-scoped-search js-site-search" role="search">
+                           <!-- '"` --><!-- </textarea></xmp> -->
+                           <form accept-charset="UTF-8" class="js-site-search-form" method="get">
+                              <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
+                              <label class="form-control header-search-wrapper js-chromeless-input-container">
+                              <a class="header-search-scope no-underline">All pages</a>
+                              <input ng-model="searchText" type="text" class="form-control header-search-input js-site-search-focus js-site-search-field is-clearable" data-hotkey="s" name="q" value="" placeholder="Tìm kiếm" aria-label="Search this repository" data-unscoped-placeholder="Search GitHub" data-scoped-placeholder="Search" autocapitalize="off" >
+                              </label>
+                           </form>
+                        </div>
+                     </div>
+                     <ul class="d-flex pl-2 flex-items-center list-style-none" role="navigation">
+                        <li>
+                           <a href="/pulls" aria-label="Pull requests you created" class="js-selected-navigation-item HeaderNavlink px-2" data-ga-click="Header, click, Nav menu - item:pulls context:user" data-hotkey="g p" data-selected-links="/pulls /pulls/assigned /pulls/mentioned /pulls">
+                              <svg aria-hidden="true" class="octicon octicon-eye" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                                 <path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path>
+                              </svg>
+                              Conversation
+                           </a>
+                        </li>
+                        <li>
+                           <a href="/issues" aria-label="Issues you created" class="js-selected-navigation-item HeaderNavlink px-2" data-ga-click="Header, click, Nav menu - item:issues context:user" data-hotkey="g i" data-selected-links="/issues /issues/assigned /issues/mentioned /issues">
+                              <svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
+                                 <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
+                              </svg>
+                              Posts Manager
+                           </a>
+                        </li>
+                        <li>
+                           <a href="/marketplace" class="js-selected-navigation-item HeaderNavlink px-2" data-ga-click="Header, click, Nav menu - item:marketplace context:user" data-selected-links=" /marketplace">
+                              <svg aria-hidden="true" class="octicon octicon-graph" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                                 <path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"></path>
+                              </svg>
+                              Report
+                           </a>
+                        </li>
+                        <li>
+                           <a href="/explore" class="js-selected-navigation-item HeaderNavlink px-2" data-ga-click="Header, click, Nav menu - item:explore" data-selected-links="/explore /trending /trending/developers /integrations /integrations/feature/code /integrations/feature/collaborate /integrations/feature/ship showcases showcases_search showcases_landing /explore">
+                              <svg aria-hidden="true" class="octicon octicon-gear" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                                 <path fill-rule="evenodd" d="M14 8.77v-1.6l-1.94-.64-.45-1.09.88-1.84-1.13-1.13-1.81.91-1.09-.45-.69-1.92h-1.6l-.63 1.94-1.11.45-1.84-.88-1.13 1.13.91 1.81-.45 1.09L0 7.23v1.59l1.94.64.45 1.09-.88 1.84 1.13 1.13 1.81-.91 1.09.45.69 1.92h1.59l.63-1.94 1.11-.45 1.84.88 1.13-1.13-.92-1.81.47-1.09L14 8.75v.02zM7 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"></path>
+                              </svg>
+                              Setting
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+                  <div class="d-flex">
+                     <ul class="user-nav d-flex flex-items-center list-style-none" id="user-links">
+                        <li class="dropdown js-menu-container">
+                           <span class="d-inline-block  px-2">
+                              <a href="/notifications" aria-label="Bạn không có thông báo mới nào" class="notification-indicator tooltipped tooltipped-s  js-socket-channel js-notification-indicator" data-channel="notification-changed:16075067" data-ga-click="Header, go to notifications, icon:read" data-hotkey="g n">
+                                 <span class="mail-status "></span>
+                                 <svg aria-hidden="true" class="octicon octicon-bell" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                                    <path fill-rule="evenodd" d="M14 12v1H0v-1l.73-.58c.77-.77.81-2.55 1.19-4.42C2.69 3.23 6 2 6 2c0-.55.45-1 1-1s1 .45 1 1c0 0 3.39 1.23 4.16 5 .38 1.88.42 3.66 1.19 4.42l.66.58H14zm-7 4c1.11 0 2-.89 2-2H5c0 1.11.89 2 2 2z"></path>
+                                 </svg>
+                              </a>
+                           </span>
+                        </li>
+                        <li class="dropdown js-menu-container">
+                           <details class="dropdown-details details-reset js-dropdown-details d-flex px-2 flex-items-center">
+                              <summary class="HeaderNavlink" aria-label="Create new…" data-ga-click="Header, create new, icon:add">
+                                 <svg aria-hidden="true" class="octicon octicon-plus float-left mr-1 mt-1" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                    <path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5z"></path>
+                                 </svg>
+                                 <span class="dropdown-caret mt-1"></span>
+                              </summary>
+                              <ul class="dropdown-menu dropdown-menu-sw">
+                                 <a class="dropdown-item" href="/new" data-ga-click="Header, create new repository">
+                                 New repository
+                                 </a>
+                                 <a class="dropdown-item" href="/new/import" data-ga-click="Header, import a repository">
+                                 Import repository
+                                 </a>
+                                 <a class="dropdown-item" href="https://gist.github.com/" data-ga-click="Header, create new gist">
+                                 New gist
+                                 </a>
+                                 <a class="dropdown-item" href="/organizations/new" data-ga-click="Header, create new organization">
+                                 New organization
+                                 </a>
+                              </ul>
+                           </details>
+                        </li>
+                        <li class="dropdown js-menu-container">
+                           <details class="dropdown-details details-reset js-dropdown-details d-flex pl-2 flex-items-center">
+                              <summary class="HeaderNavlink name mt-1" aria-label="View profile and more" data-ga-click="Header, show menu, icon:avatar">
+                                 <img alt="@enesyteam" class="avatar float-left mr-1" ng-src="{{firebaseUser.photoURL ? firebaseUser.photoURL : '/assets/images/default-avatar-contact.svg'}}" height="20" width="20">
+                                 <span class="dropdown-caret"></span>
+                              </summary>
+                              <ul class="dropdown-menu dropdown-menu-sw">
+                                 <li class="dropdown-header header-nav-current-user css-truncate">
+                                    Signed in as <strong class="css-truncate-target">{{currentMember.email}}</strong>
+                                 </li>
+                                 <li class="dropdown-divider"></li>
+                                 <li><a class="dropdown-item" href="/" data-ga-click="Header, go to profile, text:your profile">
+                                    Admin page
+                                    </a>
+                                 </li>
+                                 <li><a class="dropdown-item" href="/enesyteam?tab=stars" data-ga-click="Header, go to starred repos, text:your stars">
+                                    Your stars
+                                    </a>
+                                 </li>
+                                 <li><a class="dropdown-item" href="https://gist.github.com/" data-ga-click="Header, your gists, text:your gists">Your Gists</a></li>
+                                 <li class="dropdown-divider"></li>
+                                 <li><a class="dropdown-item" href="https://help.github.com" data-ga-click="Header, go to help, text:help">
+                                    Help
+                                    </a>
+                                 </li>
+                                 <li><a class="dropdown-item" href="/settings/profile" data-ga-click="Header, go to settings, icon:settings">
+                                    Settings
+                                    </a>
+                                 </li>
+                                 <li>
+                                    <!-- '"` --><!-- </textarea></xmp> -->
+                                    <form accept-charset="UTF-8" class="logout-form" method="post">
+                                       <button type="submit" class="dropdown-item dropdown-signout" ng-click="signout()">
+                                       Thoát
+                                       </button>
+                                    </form>
+                                 </li>
+                              </ul>
+                           </details>
+                        </li>
+                     </ul>
+                     <!-- '"` --><!-- </textarea></xmp> -->
+                     <form accept-charset="UTF-8" class="sr-only right-0" method="post">
+                        <form accept-charset="UTF-8" class="logout-form" method="post">
+                           <button type="submit" class="dropdown-item dropdown-signout" ng-click="signout()">
+                           Thoát
+                           </button>
+                        </form>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </header>
+      </div>
+      <!-- /Header -->
+      <div ui-view style="height: calc(100vh - 55px)!important;"></div>
+      <div ng-include="'/src/realtime/widgets/facebox-select-photo.html'"></div>
+      <div class="bg-transparent-dark transition-in-out facebox-overlay facebox-overlay-hide facebox-overlay-active" style="{{!isFaceboxShowing ? 'display: none;' : 'display: block;';}}"></div>
+      <!-- <script src="/node_modules/jquery/dist/jquery.min.js"></script> -->
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+      <script data-require="chosen@*" data-semver="1.5.1" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.proto.min.js"></script>
+
+      <script src="/assets/js/scripts-angular.min.js"></script>
+      <script src="/node_modules/angular-animate/angular-animate.min.js"></script>
+      <script src="/node_modules/angular-resource/angular-resource.min.js"></script>
+      <script src="/node_modules/angular-route/angular-route.min.js"></script>
+      <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+      <script src="/node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+
+      <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script>
+      <script>
+         // Initialize Firebase
+         var config = {
+            apiKey: "AIzaSyD7LUAvgwADpNZqzvm_-4Um7aBMXh7Ed1M",
+            authDomain: "meo4-f0335.firebaseapp.com",
+            databaseURL: "https://meo4-f0335.firebaseio.com",
+            projectId: "meo4-f0335",
+            storageBucket: "meo4-f0335.appspot.com",
+            messagingSenderId: "155610084230"
+         };
+         firebase.initializeApp(config);
+      </script>
+      <!-- AngularFire -->
+      <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+      
+      <!-- <script src="https://rawgit.com/leocaseiro/angular-chosen/master/dist/angular-chosen.min.js"></script> -->
+      <!-- inject:js -->
+      <!-- endinject -->
+
+      <script src="https://assets-cdn.github.com/assets/frameworks-f6afcaeac971138fed77bef35a12efac982cf10f6d34190912b7307946f14c8b.js"></script>
+      <!-- <script type="text/javascript" src="https://assets-cdn.github.com/assets/github-0bf824ad9b5c44a4ba98c8d86ede76a76d1bf24675f586cb61210f717b420cbe.js"></script> -->
+      <!-- jQuery -->
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+      <script src="/assets/js/idle.js"></script>
+   </body>
+</html>

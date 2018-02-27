@@ -5,6 +5,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="description" content="Introducing Lollipop, a sweet new take on Android.">
       <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+      <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&amp;subset=vietnamese" rel="stylesheet" class="next-head">
       <title>Realtime - Meovn 4</title>
       <!-- Page styles -->
       <!--     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
@@ -19,7 +20,7 @@
       <!-- inject:css -->
       <!-- endinject -->
    </head>
-   <body class="logged-in env-production height-full d-flex flex-column full-width no-footer intent-mouse" ng-controller="MainCtrl">
+   <body class="logged-in env-production height-full d-flex flex-column full-width no-footer intent-mouse">
       <!-- Header -->
       <div class="position-relative js-header-wrapper">
          <a href="#start-of-content" tabindex="1" class="bg-black text-white p-3 show-on-focus js-skip-to-content">Skip to content</a>
@@ -40,12 +41,11 @@
                      <div class="">
                         <div class="header-search scoped-search site-scoped-search js-site-search" role="search">
                            <!-- '"` --><!-- </textarea></xmp> -->
-                           <form accept-charset="UTF-8" action="/enesyteam/GitHub-Dark/search" class="js-site-search-form" data-scoped-search-url="/enesyteam/GitHub-Dark/search" data-unscoped-search-url="/search" method="get">
+                           <form accept-charset="UTF-8" class="js-site-search-form" method="get">
                               <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
                               <label class="form-control header-search-wrapper js-chromeless-input-container">
-                              <a href="/enesyteam/GitHub-Dark" class="header-search-scope no-underline">All pages</a>
-                              <input type="text" class="form-control header-search-input js-site-search-focus js-site-search-field is-clearable" data-hotkey="s" name="q" value="" placeholder="Search" aria-label="Search this repository" data-unscoped-placeholder="Search GitHub" data-scoped-placeholder="Search" autocapitalize="off">
-                              <input type="hidden" class="js-site-search-type-field" name="type">
+                              <a class="header-search-scope no-underline">All pages</a>
+                              <input ng-model="searchText" type="text" class="form-control header-search-input js-site-search-focus js-site-search-field is-clearable" data-hotkey="s" name="q" value="" placeholder="Tìm kiếm" aria-label="Search this repository" data-unscoped-placeholder="Search GitHub" data-scoped-placeholder="Search" autocapitalize="off">
                               </label>
                            </form>
                         </div>
@@ -124,12 +124,12 @@
                         <li class="dropdown js-menu-container">
                            <details class="dropdown-details details-reset js-dropdown-details d-flex pl-2 flex-items-center">
                               <summary class="HeaderNavlink name mt-1" aria-label="View profile and more" data-ga-click="Header, show menu, icon:avatar">
-                                 <img alt="@enesyteam" class="avatar float-left mr-1" src="https://avatars3.githubusercontent.com/u/16075067?s=40&amp;v=4" height="20" width="20">
+                                 <img alt="@enesyteam" class="avatar float-left mr-1" ng-src="{{firebaseUser.photoURL ? firebaseUser.photoURL : '/assets/images/default-avatar-contact.svg'}}" height="20" width="20">
                                  <span class="dropdown-caret"></span>
                               </summary>
                               <ul class="dropdown-menu dropdown-menu-sw">
                                  <li class="dropdown-header header-nav-current-user css-truncate">
-                                    Signed in as <strong class="css-truncate-target">Admin</strong>
+                                    Signed in as <strong class="css-truncate-target">{{currentMember.email}}</strong>
                                  </li>
                                  <li class="dropdown-divider"></li>
                                  <li><a class="dropdown-item" href="/" data-ga-click="Header, go to profile, text:your profile">
@@ -152,10 +152,9 @@
                                  </li>
                                  <li>
                                     <!-- '"` --><!-- </textarea></xmp> -->
-                                    <form accept-charset="UTF-8" action="/logout" class="logout-form" method="post">
-                                       <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="NVayhTfBMar9/9Acebvt8tf1tQV3H7JeLPvece3M2wJL5V5x3ODZZs1A/+LCpmJRQU/NCYGI3b/nBH8IElr2bA=="></div>
-                                       <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout">
-                                       Sign out
+                                    <form accept-charset="UTF-8" class="logout-form" method="post">
+                                       <button type="submit" class="dropdown-item dropdown-signout" ng-click="signout()">
+                                       Thoát
                                        </button>
                                     </form>
                                  </li>
@@ -164,11 +163,12 @@
                         </li>
                      </ul>
                      <!-- '"` --><!-- </textarea></xmp> -->
-                     <form accept-charset="UTF-8" action="/logout" class="sr-only right-0" method="post">
-                        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="0VBZDlAAhP94B98uATsHaehId0uhg1B0X7zLbfRrCROv47X6uyFsM0i48NC6JojKfvIPR1cUP5WUQ2oUC/0kfQ=="></div>
-                        <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout">
-                        Sign out
-                        </button>
+                     <form accept-charset="UTF-8" class="sr-only right-0" method="post">
+                        <form accept-charset="UTF-8" class="logout-form" method="post">
+                           <button type="submit" class="dropdown-item dropdown-signout" ng-click="signout()">
+                           Thoát
+                           </button>
+                        </form>
                      </form>
                   </div>
                </div>
@@ -185,17 +185,18 @@
       <script src="/node_modules/angular-resource/angular-resource.min.js"></script>
       <script src="/node_modules/angular-route/angular-route.min.js"></script>
       <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+      <script src="/node_modules/angular-sanitize/angular-sanitize.min.js"></script>
 
       <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script>
       <script>
          // Initialize Firebase
          var config = {
-           apiKey: "AIzaSyBVv2Pm48P_ml5EnVUnio0OGAu2YyCepIs",
-           authDomain: "meoorder.firebaseapp.com",
-           databaseURL: "https://meoorder.firebaseio.com",
-           projectId: "meoorder",
-           storageBucket: "meoorder.appspot.com",
-           messagingSenderId: "918210217082"
+            apiKey: "AIzaSyD7LUAvgwADpNZqzvm_-4Um7aBMXh7Ed1M",
+            authDomain: "meo4-f0335.firebaseapp.com",
+            databaseURL: "https://meo4-f0335.firebaseio.com",
+            projectId: "meo4-f0335",
+            storageBucket: "meo4-f0335.appspot.com",
+            messagingSenderId: "155610084230"
          };
          firebase.initializeApp(config);
       </script>
@@ -207,14 +208,20 @@
       <script src="/node_modules/angular-facebook/angular-facebook.js"></script>
       <script src="/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js"></script>
       <script src="/assets/js/snackbar.js"></script>
+      <script src="/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
       <script src="/src/realtime/app/app.js"></script>
       <script src="/src/realtime/app/directive.js"></script>
       <script src="/src/realtime/service/firebase.service.js"></script>
+      <script src="/src/realtime/service/firebase.storage.service.js"></script>
+      <script src="/src/realtime/service/access_token.service.js"></script>
       <script src="/src/realtime/app/controller/MainCtrl.js"></script>
       <script src="/src/realtime/pages/orders/orders.module.js"></script>
       <script src="/src/realtime/pages/orders/OrdersCtrl.js"></script>
       <!-- endinject -->
       <script src="https://assets-cdn.github.com/assets/frameworks-f6afcaeac971138fed77bef35a12efac982cf10f6d34190912b7307946f14c8b.js"></script>
       <!-- <script type="text/javascript" src="https://assets-cdn.github.com/assets/github-0bf824ad9b5c44a4ba98c8d86ede76a76d1bf24675f586cb61210f717b420cbe.js"></script> -->
+      <!-- jQuery -->
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+      <script src="/assets/js/idle.js"></script>
    </body>
 </html>

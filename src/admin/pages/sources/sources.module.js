@@ -21,6 +21,11 @@
           url: '/pages',
               controller : 'SourcePageCtrl',
               templateUrl: "src/admin/pages/sources/pages/pages.html"
+            })
+      .state('home.sources.upload',{
+          url: '/uploads',
+              controller : 'UploadCtrl',
+              templateUrl: "src/admin/pages/sources/upload/upload.html"
             });
   }
 

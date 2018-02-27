@@ -5,13 +5,13 @@
          <a href="//facebook.com/{{data.id}}" target="_blank" class="title_stt">
          {{ data.name }}
          </a>
-         <div ng-if="!finishGraphPostDetail" class="p6n-ls-wrapper" aria-hidden="true" style="text-align: center;">
+         <!-- <div ng-if="!finishGraphPostDetail" class="p6n-ls-wrapper" aria-hidden="true" style="text-align: center;">
             <pan-loader offline="offline" pan-buttertip-message="" pan-show-tip-if="offline" style="
                display: block;
                ">
                <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
             </pan-loader>
-         </div>
+         </div> -->
          <div ng-if="finishGraphPostDetail" style="padding-left: 15px">
             <a href="{{postData.permalink_url}}" target="_blank" style="font-size: 12px">{{postData.story}}</a>
             <span style="white-space: pre-line;display: block; text-align: left;overflow-y: hidden;{{isShowFullPost ? 'max-height: none' : 'max-height: 250px'}}">
@@ -29,12 +29,15 @@
                </span>
             </div>
          </div>
+         <!-- <div class="blankslate blankslate-clean-background" ng-if="conversation_type==1">
+           <p>Chưa xác định bài viết khách hàng quan tâm. Khách hàng gửi tin nhắn trực tiếp.</p>
+         </div> -->
       </div>
    </div>
-   <div class="group-day" style="padding: 10px">
+   <div class="group-day" style="padding: 0 10px">
       <div class="conversation-start">
          <span>
-            <p>Chat log</p>
+            <p>{{conversation_type==1 ? 'Messages log' : 'Comments log'}}</p>
          </span>
       </div>
       <div class="group-time for-you" ng-if="finishGraphConversation">
@@ -47,6 +50,7 @@
                <span style="background-image: url(&quot;{{conversation ? '//graph.facebook.com/' + conversation.from.id + '/picture?width=50&amp;height=50' : '';}}&quot;); border-radius: 24px; background-position: center center;"></span>
                </a>
                <h5 class="_ih3">{{conversation ? conversation.from.name : 'Unknown'}}</h5>
+               <!-- <relative-time datetime="{{conversation.created_time}}" title="{{conversation.created_time}}"></relative-time> -->
                <div class="normal-text bubble you tooltipped tooltipped-no-delay tooltipped-e" aria-label="{{conversation ? conversation.created_time : 'Unknown'}}">{{conversation.message}}</div>
             </div>
             <!-- <div class="tooltip_comment">
@@ -66,11 +70,22 @@
                <span style="background-image: url(&quot;{{m.from ? '//graph.facebook.com/' + m.from.id + '/picture?width=50&amp;height=50' : '';}}&quot;); border-radius: 24px; background-position: center center;"></span>
                </a>
                <h5 class="_ih3">{{m.from.id!=page_id ? m.from.name : ''}}</h5>
-               <div class="normal-text bubble tooltipped tooltipped-no-delay {{m.from.id==page_id ? 'tooltipped-w' : 'tooltipped-e'}}" aria-label="{{m.created_time | date:'HH:mm dd/MM'}}" ng-class="m.from.id==page_id ? 'me' : 'you'">{{m.message}}</div>
+               <!-- <relative-time datetime="{{m.created_time}}" title="{{m.created_time}}"></relative-time> -->
+               <div class="normal-text bubble tooltipped tooltipped-no-delay {{m.from.id==page_id ? 'tooltipped-w me' : 'tooltipped-e you'}}" aria-label="{{m.created_time | date:'HH:mm dd/MM'}}" ng-class="m.attachment ? 'hasAttachments' : ''">{{m.message}}
+                  <div ng-if="m.attachment" ng-repeat="image in m.attachment.media">
+                     <img ng-src="{{image.src}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
+                  </div>
+                  <div ng-if="m.shares.data">
+                     {{m.shares.data.link}}
+                     <span>{{m.shares.data.name}}</span>
+                  </div>
+
+               </div>
             </div>
          </div>
       </div>
       <!-- Messages -->
+      <!-- {{messsageLog}} -->
       <div ng-if="messsageLog" class="group-time" ng-repeat="m in messsageLog.messages.data  | reverse" ng-class="m.from.id==page_id ? 'for-me' : 'for-you'">
          <div class="line_chat">
             <div class="chat_content">
@@ -82,7 +97,28 @@
                <span style="background-image: url(&quot;{{m.from ? '//graph.facebook.com/' + m.from.id + '/picture?width=50&amp;height=50' : '';}}&quot;); border-radius: 24px; background-position: center center;"></span>
                </a>
                <h5 class="_ih3">{{m.from.id!=page_id ? m.from.name : ''}}</h5>
-               <div class="normal-text bubble tooltipped tooltipped-no-delay {{m.from.id==page_id ? 'tooltipped-w' : 'tooltipped-e'}}" aria-label="{{m.created_time | date:'HH:mm dd/MM'}}" ng-class="m.from.id==page_id ? 'me' : 'you'">{{m.message}}</div>
+               <div class="normal-text bubble tooltipped tooltipped-no-delay {{m.from.id==page_id ? 'tooltipped-w me' : 'tooltipped-e you'}}" aria-label="{{m.created_time | date:'HH:mm dd/MM'}}" ng-class="m.attachments || m.sticker ? 'hasAttachments' : ''">{{m.message}}
+                  <!-- {{m.attachments.data[0].image_data.url}} -->
+                  <div ng-if="m.attachments" ng-repeat="image in m.attachments.data">
+                     <img ng-src="{{image.image_data.url}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
+                  </div>
+                  <div ng-if="m.sticker">
+                     <img ng-src="{{m.sticker}}" style="width: 50px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
+                  </div>
+                  <div ng-if="m.shares.data" style="float: right">
+                     <img ng-src="{{detectSharesLink(m.shares.data[0].link)}}" style="height: 140px;border-radius: 6px;">
+                     <!-- <span>{{m.shares.data[0].name}}</span> -->
+                     <div>
+                        <a target="_blank" href="{{m.shares.data[0].link}}">
+                           <svg aria-hidden="true" class="octicon octicon-link-external select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M11 10h1v3c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h3v1H1v10h10v-3zM6 2l2.25 2.25L5 7.5 6.5 9l3.25-3.25L12 8V2H6z"></path>
+                              </svg>
+                        Xem trên facebook</a>
+                     </div>
+                  </div>
+               </div>
+
+               
             </div>
          </div>
       </div>

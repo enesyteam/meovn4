@@ -10,12 +10,17 @@
 
   /** @ngInject */
   function routeConfig($stateProvider, $urlRouterProvider) {
-    // $urlRouterProvider.when('/settings','/settings/options');
+    $urlRouterProvider.when('/admin/settings','/admin/settings/options');
     $stateProvider
       .state('home.settings',{
           url: '/settings',
               templateUrl: "src/admin/pages/settings/settings.html"
-            });
+            })
+      .state('home.settings.options',{
+              url: '/options',
+                  controller : 'OptionsCtrl',
+                  templateUrl: "src/admin/pages/settings/options.html"
+                });
   }
 
 })();

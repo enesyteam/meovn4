@@ -16,8 +16,13 @@
         .state('home.detail', {
                 url: 'o/type=:type&:id&pa=:page_id&po=:post_id&c=:conversation_id&u=:customer_id',
                 controller: 'OdersCtrl',
+                resolve: {
+                  access_token_arr: function (accessTokenService) {
+                    return accessTokenService.getAccessToken();
+                  }
+                },
                 templateUrl: "/src/realtime/pages/orders/detail.html",
-                params     : { type: null, id : null, page_id: null, post_id: null, conversation_id: null, customer_id: null},
+                params     : { type: null, id : null, page_id: null, post_id: null, conversation_id: null, customer_id: null, status_id: null},
             });
   }
 

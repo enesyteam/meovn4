@@ -22994,3 +22994,40 @@ td .p6n-ls-wrapper{
         transform:rotate(360deg)
     }
 }
+
+
+.listgroup-item.listgroup-item-preview{
+    border: 1px solid #e5e5e5;
+    /* padding: 5px; */
+    margin: 5px;
+}
+.listgroup-item.listgroup-item-preview.selected{
+   color: #fff;
+    background-color: #0366d6;
+    background-image: none;
+    border-color: #0366d6;
+}
+
+.session-state-indicator {
+    float: left;
+    width: 8px;
+    height: 8px;
+    margin-top: 10px;
+    border-radius: 5px
+}
+.session-state-indicator.recent {
+    background-color: #28a745;
+    box-shadow: 0 0 10px rgba(108, 198, 68, 0.5)
+}
+.session-state-indicator.not-recent {
+    background-image: linear-gradient(#aaa, #ccc);
+    box-shadow: 0 1px 0 #fff
+}
+.session-icon {
+    float: right;
+    width: 32px;
+    margin-top: 1px;
+    margin-left: 15px;
+    color: #bbb;
+    text-align: center
+}

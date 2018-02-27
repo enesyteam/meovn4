@@ -6,33 +6,10 @@
 			   <dd><input ng-model="conversationLink" class="form-control" type="text" placeholder="e.g: https://facebook.com/326410367763204_326415471096027" graph-enter="">
 			   </dd>
 			</dl>
-			<dl class="form-group">
-			   <dt><label>Select Source</label></dt>
-			   <dd>
-			      <!-- <select class="form-select form-control">
-			         <option>From Source</option>
-			         <option ng-repeat="source in sources" ng-model="selectedSource" ng-change="sourceChanged()" value="{{source.id}}">{{source.short_title}}-{{source.source_name}}</option>
-			      </select> -->
-			      <select class="form-select form-control" ng-model="selectedSource" ng-change="sourceChanged()" ng-options="(source.short_title + '-' + source.source_name) for source in sources"></select>
-			   </dd>
-			</dl>
-			<dl class="form-group">
-			   <dt><label>Select Pack</label></dt>
-			   <dd>
-			      <select class="form-select form-control">
-			         <option>Choose an option</option>
-			         <option>Git</option>
-			         <option>Subversion</option>
-			         <option>Social Coding</option>
-			         <option>Beets</option>
-			         <option>Bears</option>
-			         <option>Battlestar Galactica</option>
-			      </select>
-			   </dd>
-			</dl>
+			
 		</form>
 		<!-- {{sources}} -->
-		{{orderData}}
+		<pre>{{orderData | json}}</pre> 
 		<a ng-click="submitOrder()" class="btn btn-sm btn-primary">
         Submit
         </a>

@@ -1,5 +1,5 @@
 m_admin.controller('CreateOrderByCommentCtrl',
-    function($rootScope, $scope, $http, $filter, $rootScope, $timeout, cfpLoadingBar, firebaseService, Facebook) {
+    function($rootScope, $scope, $http, $filter, $rootScope, $timeout, cfpLoadingBar, Facebook, firebaseService) {
 
         $scope.originalMessage = null;
         $scope.subMessages = null;
@@ -13,7 +13,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
 
         $scope.finishedGraph = null;
 
-        $scope.orderData = {
+        var newOrderData = {
             type: null,
             id: null,
             page_id: null,
@@ -25,8 +25,11 @@ m_admin.controller('CreateOrderByCommentCtrl',
             customer_message: null,
             admin_note: null,
             seller_will_call_id: null,
+            status_id: 1,
             publish_date: Date.now(),
         }
+
+        $scope.orderData = newOrderData;
 
         // facebookService.graphOriginalConversation('326410367763204_326415471096027').then(function(data){
         //  console.log(data);
@@ -35,14 +38,60 @@ m_admin.controller('CreateOrderByCommentCtrl',
         // graph original conversation
         // params: conversationId = Conversation ID; e.g: 326410367763204_326415471096027
         var graphOriginalConversation = function(conversationId) {
-            Facebook.api('/' + conversationId + '?fields=comments{from,message,created_time,id},permalink_url,from,message,created_time,admin_creator&access_token=' + $rootScope.access_token, function(response) {
+            // first we need find page
+
+            Facebook.api('/' + conversationId + '?fields=permalink_url&access_token=' + $rootScope.access_token, function(response) {
+                var link = response.permalink_url;
+                console.log(response.permalink_url);
+                if (link.indexOf('permalink') !== -1) {
+                    Facebook.api('/' + link + '&access_token=' + $rootScope.access_token, function(r) {
+                        $scope.pageInfo = r;
+
+                        // get page access token
+                        if (!$rootScope.access_token_arr) return;
+                        var token = $scope.filterById($rootScope.access_token_arr, $scope.pageInfo.id);
+                        if (token) {
+                            $scope.$apply(function() {
+                                $scope.currentAccessToken = token.acess_token;
+                                graphConver(conversationId);
+                            });
+                        }
+                    });
+                } else {
+                    var s = link.split('/');
+                    // alert(s[3]);
+                    Facebook.api('/' + s[3] + '?access_token=' + $rootScope.access_token, function(r) {
+                        // console.log(r);
+                        // console.log($rootScope.access_token_arr);
+                        // get page access token
+                        if (!$rootScope.access_token_arr) return;
+                        var token = $scope.filterById($rootScope.access_token_arr, r.id);
+                        if (token) {
+                            // console.log(token.acess_token);
+                            $scope.$apply(function() {
+                                $scope.pageInfo = r;
+                                $scope.currentAccessToken = token.acess_token;
+                                graphConver(conversationId);
+                            });
+                        }
+                    });
+                }
+            });
+
+            // alert($scope.currentAccessToken);
+        }
+
+        function graphConver(conversationId) {
+            Facebook.api('/' + conversationId + '?fields=comments{from,message,created_time,id},permalink_url,from,message,created_time,admin_creator&access_token=' + $scope.currentAccessToken, function(response) {
                 // console.log(response);
+                // console.log($scope.currentAccessToken );
                 var p = conversationId.split('_');
 
                 $scope.orderData.conversation_id = conversationId; //
 
                 $scope.$apply(function() {
                     $scope.originalMessage = response;
+                    // console.log(response);
                     $scope.orderData.customer_id = response.from.id; //
                     $scope.orderData.customer_name = response.from.name; //
                     // find owner post
@@ -129,19 +178,22 @@ m_admin.controller('CreateOrderByCommentCtrl',
         }
         // TODO: SUBMIT NEW ORDER
         $scope.graph = function() {
+            // https://business.facebook.com/DaQuyPhongThuyTrangAn/manager/messages/?threadid=144606886204668&folder=inbox
             // message link = https://facebook.com/128910997779161/manager/messages/?threadid=141327656537495&folder=inbox
             // comment link = https://facebook.com/188076085089506_142551766431653
             var link = $scope.conversationLink;
 
             // we need to check link
             if (link.indexOf('threadid') !== -1) {
+                $scope.post_data = null;
+                $scope.subMessages = null;
+                $scope.orderData.post_id = null;
                 // message
                 var l = $scope.conversationLink.split('/').pop();
                 var s = l.split('=');
                 var x = s[1]; //141327656537495&folder
                 var y = x.split('&');
                 var thread = y[0];
-
                 // page id
                 var p = $scope.conversationLink.split('/');
 
@@ -152,6 +204,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
                     // console.log(response);
                     // pid = response.id;
                     $scope.$apply(function() {
+
                         $scope.pageInfo = response;
                         $scope.orderData.page_id = response.id;
 
@@ -175,14 +228,14 @@ m_admin.controller('CreateOrderByCommentCtrl',
 
                                             Facebook.api('/' + t_id + '?fields=messages.limit(100){message,from,created_time},snippet,link,unread_count,participants&access_token=' + $scope.currentAccessToken, function(r) {
                                                 $scope.messsageLog = r;
-                                                angular.forEach(r.participants.data, function(p){
-                                                  if(p.id !== $scope.pageInfo.id){
-                                                    $scope.customer = p;
-                                                    // order data
-                                                    $scope.orderData.customer_id = p.id;
-                                                    $scope.orderData.customer_name = p.name;
-                                                    $scope.orderData.type = 1; // message
-                                                  }
+                                                angular.forEach(r.participants.data, function(p) {
+                                                    if (p.id !== $scope.pageInfo.id) {
+                                                        $scope.customer = p;
+                                                        // order data
+                                                        $scope.orderData.customer_id = p.id;
+                                                        $scope.orderData.customer_name = p.name;
+                                                        $scope.orderData.type = 1; // message
+                                                    }
                                                 });
 
                                                 // console.log(r);
@@ -200,8 +253,9 @@ m_admin.controller('CreateOrderByCommentCtrl',
 
             } else {
                 // comment
+                $scope.messsageLog = null;
                 $scope.finishedGraph = null;
-                 $scope.orderData.type = null; // message
+                $scope.orderData.type = null; // message
 
                 var l = $scope.conversationLink.split('/');
                 var conversationId = l[l.length - 1];
@@ -223,14 +277,18 @@ m_admin.controller('CreateOrderByCommentCtrl',
         }
 
         $scope.submitOrder = function() {
-            $scope.orderData.publish_date = Date.now();
             var newOrderKey = firebase.database().ref().child('newOrders').push().key;
-
+            $scope.orderData.publish_date = Date.now();
             $scope.orderData.id = newOrderKey;
+            $scope.orderData.status_id = 1;
 
-            firebase.database().ref().child('newOrders').push($scope.orderData).then(function(response) {
-                console.log(response);
+            firebaseService.onAddNewOrder($scope.orderData).then(function(response) {
+                // reset order
+                $scope.orderData = newOrderData;
+
+
             });
+
         }
 
 

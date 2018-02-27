@@ -25,25 +25,11 @@ var m_admin = angular.module('m_admin', [
         $urlRouterProvider.otherwise("/admin");
         $urlRouterProvider.when('/admin','/admin/dashboard/general');
         $urlRouterProvider.when('/','admin');
-        $urlRouterProvider.when('/webhook',function(){
-          console.log('dsf');
-        });
         $stateProvider
         .state('home',{
             url: '/admin',
                 controller : 'MainCtrl',
                 templateUrl: "src/admin/pages/home.html"
-              })
-        .state('webhook',{
-            url: '/webhook',
-                controller : function(req, res){
-                    if (req.query['hub.verify_token'] === 'testbot_verify_token') {
-                        res.send(req.query['hub.challenge']);
-                    } else {
-                        res.send('Invalid verify token');
-                    }
-                },
-                templateUrl: " "
               });
 
     })

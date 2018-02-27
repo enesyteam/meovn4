@@ -12,12 +12,18 @@
         $stateProvider
           .state('home.orders',{
               url: '/orders',
+                  controller : 'OrdersCtrl',
                   templateUrl: "src/admin/pages/orders/orders.html"
                 })
           .state('home.orders.list',{
               url: '/list',
                   controller : 'ListOrderCtrl',
                   templateUrl: "src/admin/pages/orders/list/list.html"
+                })
+          .state('home.orders.push',{
+              url: '/push',
+                  controller : 'PushOrderCtrl',
+                  templateUrl: "src/admin/pages/orders/push/list.html"
                 })
           .state('home.orders.create',{
                 url: '/create',

@@ -7,7 +7,12 @@
       </div>
       <div class="a_right">
          <div style="display: inline-block;">
-            Actions
+            <div class="BtnGroup float-right" style="margin-top: 8px;">
+               <a ng-repeat="status in statuses track by $index" class="btn btn-sm btn-outline BtnGroup-item" ng-if="status.active==1" ng-click="changeStatus(status)" style="opacity:{{activeStatusId==status.id ? '1' : '0.5'}}">
+                  <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" name="circle" style="vertical-align: text-bottom; color: {{status.color}}; font-size: 14px; margin-left: 2px; margin-right: 0px; line-height: 24px;"><g><path d="m37.3 20q0 4.7-2.3 8.6t-6.3 6.2-8.6 2.3-8.6-2.3-6.2-6.2-2.3-8.6 2.3-8.6 6.2-6.2 8.6-2.3 8.6 2.3 6.3 6.2 2.3 8.6z"></path></g></svg>
+                  {{status.name}}
+               </a>
+            </div>
          </div>
       </div>
    </div>
@@ -15,7 +20,7 @@
       <div class="col_message guard-wrapper">
          <div class="chat_body">
             <div class="list-mes">
-               <div class="wrap_body_chat chat active-chat" style="overflow-x: hidden; overflow-y: auto;background: #f6f7f9;">
+               <div class="wrap_body_chat chat active-chat" style="overflow-x: hidden; overflow-y: auto;background: #eaeaea;">
                   <!--  <div class="conversation-heading">
                      {{buyer_mobile}}
                      </div>
@@ -52,8 +57,15 @@
                      </div> -->
                   <div ng-include="'/src/realtime/pages/orders/widgets/post-detail.html'"></div>
                </div>
+               <div ng-if="startReplying" class="p6n-ls-wrapper" aria-hidden="true" style="display: block;position: absolute;bottom: 0;left: 15px;">
+                  <pan-loader offline="offline" pan-buttertip-message="" pan-show-tip-if="offline" style="
+                     display: block;
+                     ">
+                     <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
+                  </pan-loader>
+               </div>
                <div class="write_chat">
-                  <div class="input_chat"><textarea ng-model="comentText" class="input-msg" id="fb_info_message" name="input_message" placeholder="Nhập nội dung tại đây..." autocomplete="on" comment-enter=""></textarea></div>
+                  <div class="input_chat"><textarea ng-model="comentText" class="input-msg" id="fb_info_message" name="input_message" placeholder="{{conversation_type==1 ? 'Tin nhắn' : 'Bình luận'}} sẽ được gửi trực tiếp đến khách hàng..." autocomplete="on" comment-enter=""></textarea></div>
                   <div class="function_message">
                   <ul class="list_action">
                      <li id="open_image_" class="open_image_post">
@@ -83,17 +95,57 @@
                         <!-- <span class="noti_f">Gửi ảnh</span> -->
                      </li>
                      <li>
-                        <div id="q_reply" class="quick_reply_clicked" ng-click="showSnackbar()"><a data-placement="top">
+                        <!-- <div id="q_reply" class="quick_reply_clicked boxed-action" data-box-overlay-id="__9efa967a575401481604d4204fb717f9"><a data-placement="top">
                            <svg aria-hidden="true" class="octicon octicon-comment v-align-middle" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"></path></svg>
-                        </a></div>
+                        </a></div> -->
+                        <button type="button" class="btn btn-danger boxed-action" data-box-overlay-id="__9efa967a575401481604d4204fb717f9" aria-expanded="false">
+                        <svg aria-hidden="true" class="octicon octicon-eye" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                            <path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path>
+                         </svg>
+                        </button>
+                        <div class="Overlay js-box-overlay-container transition-in-out" id="__9efa967a575401481604d4204fb717f9" hidden="" aria-modal="true" role="dialog" aria-label="Are you absolutely sure?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
+                           <div class="Overlay-table-full bg-transparent-dark">
+                              <div class="Overlay-cell-middle">
+                                 <div class="Box Box--overlay js-box-overlay-content">
+                                    <div class="Box-header">
+                                       <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
+                                          <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                                             <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                          </svg>
+                                       </button>
+                                       <h3 class="Box-title">
+                                          Are you absolutely sure?
+                                       </h3>
+                                    </div>
+                                    <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
+                                       <div class="flash flash-warn flash-full ml-n3 mt-n3 mr-n3 mb-2 border-top-0">
+                                          Unexpected bad things will happen if you don’t read this!
+                                       </div>
+                                       <p>
+                                          This action <strong>cannot</strong> be undone. This will permanently delete the <strong>enesyteam/meovn</strong>
+                                          repository, wiki, issues, and comments, and remove all collaborator associations.
+                                       </p>
+                                       <p>Please type in the name of the repository to confirm.</p>
+                                       <!-- '"` --><!-- </textarea></xmp> -->
+                                       <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/delete" class="js-normalize-submit" method="post">
+                                          <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="delete"><input name="authenticity_token" type="hidden" value="7RVqJ97Xnzn6xJ1oUUy7e1YlYLWUTppjbsAZI81msI5yxsdkB4yX9NIId7LJHK77Zqzk7yG4C5oOEPulM7hOkQ=="></div>
+                                          <p>
+                                             <input type="text" class="form-control input-block" autofocus="" required="" pattern="[mM][eE][oO][vV][nN]|[eE][nN][eE][sS][yY][tT][eE][aA][mM]/[mM][eE][oO][vV][nN]" aria-label="Type in the name of the repository to confirm that you want to delete this repository." name="verify">
+                                          </p>
+                                          <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" disabled="">I understand the consequences, delete this repository</button>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                         <!-- <span class="noti_f">Trả lời nhanh</span> -->
                         <div class="quick_chat quick_reply hidden"><span class="add_qc">Thêm mẫu trả lời nhanh</span></div>
                      </li>
-                     <li class="click_send_product">
-                        <!-- react-text: 1543 --><!-- /react-text -->
+                     <!-- <li class="click_send_product">
                         <div><a class="open_file"><i class="fa fa-tags"></i></a></div>
                         <span class="noti_f">Gửi sản phẩm</span>
-                     </li>
+                     </li> -->
                   </ul>
                </div>
                </div>

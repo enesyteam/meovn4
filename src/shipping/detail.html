@@ -1,0 +1,249 @@
+<div class="row_col_right">
+	<div class="create-shipping">
+		<div class="write-area"  style="height: {{windowsHeight-(55+75)}}px;">
+			<div class="pl-2 pr-2 pt-0">
+				<div class="columns mb-1">
+					<div class="column block-blue pl-3 pr-3 mt-0">
+						<div data-reactroot="" hidden="">
+						   <div class="mb-2">
+						      <div class="flash">
+						         <button type="submit" class="btn btn-sm primary flash-action">OK</button><!-- react-text: 5 --><strong>Ghi chú của telesale: </strong> Nhận hàng vào buổi tối các ngày trong tuần.<!-- /react-text -->
+						      </div>
+						   </div>
+						</div>
+						<!-- <form accept-charset="UTF-8"> -->
+							<div style="display: block;">
+								<nav class="UnderlineNav">
+								   <div class="UnderlineNav-body">
+								      <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+								      	<svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
+										   <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
+										</svg>
+								      Người gửi</a>
+								  </div>
+								  <div class="UnderlineNav-actions">
+								  	<span class="tooltipped tooltipped-sw tooltipped-no-delay" aria-label="Thông tin người gửi được tự động tạo">
+								  		<svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+										   <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+										</svg>
+								  	</span>
+								  	
+								  </div>
+								</nav>
+								<div class="one-half column pl-0">
+									<dl class="form-group">
+									   <dt><label>Số điện thoại</label></dt>
+									   <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.ClientContactPhone"></dd>
+									</dl>
+								</div>
+								<div class="one-half column pr-0">
+									<dl class="form-group">
+									   <dt><label>Họ và tên</label></dt>
+									   <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.ClientContactName"></dd>
+									</dl>
+								</div>
+								<dl class="form-group">
+								   <dt><label>Địa chỉ</label></dt>
+								   <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.ClientAddress"></dd>
+								</dl>
+								<div class="one-half column pl-0">
+									<dl class="form-group">
+									   <dt><label>Khu vực</label></dt>
+									   <dd>
+									   	
+											    <select class="form-control" chosen ng-model="shippingData.FromDistrictID" ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in Districts">
+											    	<option value=""></option>
+												</select>
+									   </dd>
+									</dl>
+								</div>
+								<div class="one-half column pr-0">
+									<dl class="form-group">
+									   <dt><label>Phường/Xã</label></dt>
+									   <dd>
+										   	<select class="form-control" chosen ng-model="shippingData.FromWardCode" ng-options="s.WardCode as s.WardName for s in Wards" data-placeholder-text-single="'Chọn Phường/Xã'">
+												    	<option value=""></option>
+											</select>
+									   </dd>
+									</dl>
+								</div>
+								<!-- Khu vực: {{selectedDistrict}} - Phường/Xã: {{selectedWard}} -->
+							</div>
+							<div style="display: block;">
+								<nav class="UnderlineNav"  style="float: none;clear: both;">
+								   <div class="UnderlineNav-body">
+								      <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+								      <svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
+										   <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
+										</svg>
+										Người nhận</a>
+									</div>
+								  <div class="UnderlineNav-actions">
+								  	
+								  </div>
+								</nav>
+								<div class="one-half column pl-0">
+									<dl class="form-group">
+									   <dt><label>Số điện thoại</label></dt>
+									   <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.CustomerPhone"></dd>
+									</dl>
+								</div>
+								<div class="one-half column pr-0">
+									<dl class="form-group">
+									   <dt><label>Họ và tên</label></dt>
+									   <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.CustomerName"></dd>
+									</dl>
+								</div>
+								<dl class="form-group">
+								   <dt><label>Địa chỉ</label></dt>
+								   <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.ShippingAddress"></dd>
+								</dl>
+								<div class="one-half column pl-0">
+									<dl class="form-group">
+									   <dt><label>Khu vực</label></dt>
+									   <dd>
+									   	<select class="form-control" chosen ng-model="shippingData.ToDistrictID" ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in Districts">
+											    	<option value=""></option>
+												</select>
+									   </dd>
+									</dl>
+								</div>
+								<div class="one-half column pr-0">
+									<dl class="form-group">
+									   <dt><label>Phường/Xã</label></dt>
+									   <dd>
+									   	<select class="form-control" chosen ng-model="shippingData.ToWardCode" ng-options="s.WardCode as s.WardName for s in toWards" data-placeholder-text-single="'Chọn Phường/Xã'">
+												    	<option value=""></option>
+											</select>
+									   </dd>
+									</dl>
+								</div>
+								<!-- Khu vực: {{toSelectedDistrict}} - Phường/Xã: {{toSelectedWard}} -->
+							</div>
+							<div style="display: block;">
+								<nav class="UnderlineNav"  style="float: none;clear: both;">
+								   <div class="UnderlineNav-body">
+								      <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+								      <svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
+										   <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
+										</svg>
+									Gói hàng</a>
+									</div>
+									  <div class="UnderlineNav-actions">
+									  	
+									  </div>
+								</nav>
+								<dl class="form-group">
+								   <dt><label for="user_profile_email">Ghi chú bắt buộc</label></dt>
+								   <dd>
+								      <select class="form-select select" id="user_profile_email" name="user[profile_email]">
+								         <option value="">Cho xem hàng, không cho thử</option>
+								         <option value="congnvc@gmail.com">Cho thử hàng</option>
+								         <option value="">Không cho xem hàng</option>
+								      </select>
+								   </dd>
+								</dl>
+								<dl class="form-group">
+								   <dt><label for="user_profile_bio">Ghi chú</label></dt>
+								   <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
+								      <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="user_profile_bio" rows="20" style="margin: 0px 5px 0px 0px; width: 442px; height: 69px;" ng-model="shippingData.Note"></textarea>
+								      <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
+								      <div class="suggester-container">
+								         <div class="suggester js-suggester js-navigation-container" data-url="/autocomplete/user-suggestions">
+								         </div>
+								      </div>
+								   </dd>
+								</dl>
+							</div>
+							<div style="display: block;">
+								<nav class="UnderlineNav"  style="float: none;clear: both;">
+								   <div class="UnderlineNav-body">
+								      <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+								      <svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
+										   <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
+										</svg>
+									Gói cước</a>
+									</div>
+									  <div class="UnderlineNav-actions">
+									  	
+									  </div>
+								</nav>
+								
+								<dl class="form-group">
+									<div class="form-checkbox" ng-repeat="service in availableServices">
+									   <div class="one-third column block-blue">
+									   	<label>
+										   <input class="js-email-global-unsubscribe" id="type_marketing" name="type" type="radio" value="marketing">
+										   {{service.Name}}
+										   </label>
+									   </div>
+									   <div class="one-third column block-blue">
+									   		Cước: {{service.ServiceFee}}
+									   </div>
+									   <div class="one-third column block-blue">
+									   		Dự kiến giao: {{service.ExpectedDeliveryTime}}
+									   </div>
+									</div>
+								</dl>
+								<dl class="form-group">
+								   <dt>
+								   	<span title="Label: default label" class="Label bg-blue">Tiền thu hộ (COD)</span>
+								   </dt>
+								   <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.CoDAmount"></dd>
+								</dl>
+								<div class="form-checkbox">
+								   <label>
+								   <input class="js-email-global-unsubscribe" id="type_marketing" name="type" type="radio" value="marketing">
+								   Người gửi thanh toán.
+								   </label>
+								</div>
+								<div class="form-checkbox">
+								   <label>
+								   <input checked="checked" class="js-email-global-unsubscribe" id="type_transactional" name="type" type="radio" value="transactional">
+								   Người nhận thanh toán.
+								   </label>
+								</div>
+								<div class="form-checkbox">
+								   <!-- '"` --><!-- </textarea></xmp> -->
+								   <form accept-charset="UTF-8" action="/users/enesyteam/emails/toggle_visibility" data-autosubmit="true" method="post">
+								      <label>
+								      <input id="toggle_visibility" name="toggle_visibility" type="checkbox" value="true" checked="">
+								      Gửi hàng tại điểm giao dịch
+								      </label>
+								   </form>
+								</div>
+							</div>
+							
+							
+							
+						<!-- </form> -->
+					</div>
+					
+				</div>
+				
+				
+			</div>
+		</div>
+		<div class="actions-area">
+			<div class="notification">
+				notifications
+			</div>
+			<div class="actions">
+				<ul class="list_action">
+					<li>
+						<button class="btn btn-primary" ng-click="submitGHN()">Lưu & Tạo GHN</button>
+					</li>
+					<li>
+						<button class="btn">Lưu</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="conversation-log">
+		<pre>
+			{{shippingData | json}}
+		</pre>
+		
+	</div>
+</div>

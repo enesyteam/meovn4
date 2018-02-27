@@ -25,7 +25,7 @@
       Click <a href="#" rel="nofollow">vào đây</a> để tiến hành phân bổ.
 	</div>
    <!-- <span ng-if="!finishLoading">Loading data, please wait...</span> -->
-   <div class="blankslate blankslate-spacious blankslate-large" ng-if="finishLoading && successArr.length == 0">
+   <div class="blankslate blankslate-spacious blankslate-large" ng-if="finishLoading && !todayUsersReport">
       <svg aria-hidden="true" class="octicon octicon-issue-opened blankslate-icon" height="40" version="1.1" viewBox="0 0 14 16" width="35">
          <path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
       </svg>
@@ -73,64 +73,73 @@
                   </svg>
                   Đã tham gia hôm nay
                   <span class="Counter v-align-middle">
-                      {{activedSellers}}
+                      {{todayUsersReport.length}}
                     </span>
                </a>
 
             </div>
          </div>
          <div id="projects-results">
-            <div class="p-3 pr-6 container-lg clearfix position-relative border-bottom border-gray-light" data-filter-value="Ramblings" ng-repeat="sellerData in chartData | orderBy:sortProperty:true" ng-if="sellerData.data.called.length > 0">
-               <div class="col-12 col-md-4 pr-2 float-left" ng-init="w = sellerData.data.success.length/((chartData | max: 'data.success.length').data.success.length)*100">
+            <div class="p-3 pr-6 container-lg clearfix position-relative border-bottom border-gray-light" data-filter-value="Ramblings" ng-repeat="sellerData in todayUsersReport">  <!-- | orderBy:sortProperty:true -->
+               <div class="col-12 col-md-4 pr-2 float-left" ng-init="w = sellerData.successCount/(todayUsersReport | max: successCount)*100">
+                  
                 	<span class="d-inline-block">
                 		<h4 class="mb-1">
             				<div class="spinner" style="display: inline-block;" ng-if="orderChanging"></div>
-				          <a href="#" class="link-gray-dark">
-				            {{ sellerData.name }}
+				          <a href="#" class="link-gray-dark" style="margin-left: 5px">
+				            {{ sellerData.userName }}
 				          </a>
+                      <span class="session-state-indicator recent"></span>
 				        </h4>
+                    
                 	</span>
-			        <span class="label v-align-text-top d-inline-block" style="background-color: #EEEEEE; color: #333333">
-			        	{{sellerData.fullName}}
-			        </span>
-                  <div class="mt-1 pr-5 mb-2 mb-md-0" style="width: {{w > 50 ? w : 40;}}%">
+			        <!-- <span class="label v-align-text-top d-inline-block" style="background-color: #EEEEEE; color: #333333">
+			        	{{sellerData.id}}
+			        </span> -->
+                  <div class="mt-1 pr-5 mb-2 mb-md-0" style="{{w > 50 ? w  : 50}}%;">
                      <!-- <div class="tooltipped tooltipped-s" aria-label="{{'Gọi ' + sellerData.data.called + '/ Chốt ' + sellerData.data.success + '/' + ' thất bại ' + sellerData.data.failed}}">
                         <span class="progress-bar progress-bar-small">
                         <span class="progress d-inline-block bg-green" style="width: {{sellerData.data.success/sellerData.data.called*100}}%;">&nbsp;</span>
                         <span class="progress d-inline-block bg-purple" style="width: {{sellerData.data.failed/sellerData.data.called*100}}%;">&nbsp;</span>
                         </span>
                      </div> -->
-                     <div class="tooltipped tooltipped-s" aria-label="{{'Gọi ' + sellerData.data.called.length + '/ Chốt ' + sellerData.data.success.length + '/' + ' thất bại ' + sellerData.data.failed.length}}">
-					  <span class="progress-bar progress-bar-small" ng-init="cw = sellerData.data.success.length/sellerData.data.called.length*100">
-					    <span class="progress-bar progress-bar-small">
-					    <span class="progress d-inline-block bg-green" style="width: {{cw}}%">&nbsp;</span>
-					    <span class="progress d-inline-block bg-red" style="width: {{(sellerData.data.failed.length/sellerData.data.called.length*100)}}%">&nbsp;</span>
-					    <span class="progress d-inline-block bg-yellow" style="width: {{(sellerData.data.miss.length.length + sellerData.data.busy.length + sellerData.data.cancel.length + sellerData.data.bad.length)/sellerData.data.called.length*100}}%">&nbsp;</span>
-					    <!-- <span class="progress d-inline-block bg-purple" style="width: {{sellerData.data.busy.length/sellerData.data.called.length*100}}%">&nbsp;</span>
-					    <span class="progress d-inline-block bg-gray" style="width: {{sellerData.data.cancel.length/sellerData.data.called.length*100}}%">&nbsp;</span> -->
-					  </span>
-					  </span>
-					</div>
+                     <!-- <div class="tooltipped tooltipped-s" aria-label="{{'Gọi ' + sellerData.calledCount + '/ Chốt ' + sellerData.successCount + '/' + ' thất bại ' + sellerData.data.failed.length}}">
+      					  <span class="progress-bar anim-grow-x progress-bar-small" ng-init="cw = sellerData.successCount/sellerData.calledCount*100">
+      					    <span class="progress-bar progress-bar-small">
+      					    <span class="progress d-inline-block bg-green" style="width: {{cw}}%;">&nbsp;</span>
+      					    <span class="progress d-inline-block bg-red" style="width: {{(sellerData.data.failed.length/sellerData.data.called.length*100)}}%;">&nbsp;</span>
+      					    <span class="progress d-inline-block bg-yellow" style="width: {{(sellerData.data.miss.length.length + sellerData.data.busy.length + sellerData.data.cancel.length + sellerData.data.bad.length)/sellerData.data.called.length*100}}%;">&nbsp;</span>
+      					  </span>
+      					  </span>
+      					</div> -->
+
+                     <div class="d-table width-full bg-gray" ng-init="cw = sellerData.successCount/sellerData.calledCount*100">
+                        <a class="d-table-cell bg-green pt-2" style="width: {{cw}}%;" aria-label="View all merged pull requests"></a>
+                        <a class="d-table-cell pt-2" style="width:{{100 - cw}}%;background-color:#e34c26;" aria-label="View all open pull requests"></a>
+                     </div>
+
                   </div>
                   <div class="f6 pr-sm-5 mb-2 mt-2 mb-md-0 text-gray-light">
                   	<span ng-if="w<50" class="tooltipped tooltipped-s" aria-label="Đồ thị đã được tăng lên nhằm mục đích hiển thị.">
                   		<svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path></svg>
                   	</span>
-                     <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14">
-                        <path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
-                     </svg>
-                     Vừa chốt
-                     <relative-time datetime="2017-11-16T16:49:16Z" title="Nov 16, 2017, 11:49 PM GMT+7">on Nov 16, 2017</relative-time>
+                     <span ng-if="sellerData.lastSuccessAt">
+                        <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                           <path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                        </svg>
+                        Vừa chốt
+                        <span>{{sellerData.lastSuccessAt | date:'h:mma'}}</span>
+                     </span>
                   </div>
                </div>
                <div class="col-12 col-md-8 float-left text-gray-light">
                   <p>
                   	 Đã thực hiện&nbsp;
                   	<strong>
-                  		{{sellerData.data.called.length}}&nbsp;cuộc gọi,&nbsp;
+                  		{{sellerData.calledCount}}&nbsp;cuộc gọi,&nbsp;
                   	</strong> 
                   	<strong style="color: #28a745;">
-                  		chốt&nbsp;{{sellerData.data.success.length }} 
+                  		chốt&nbsp;{{sellerData.successCount }} 
                   	</strong>
                   	<span>
                   		<strong style="color: #cb2431;">
@@ -140,11 +149,11 @@
                   	, còn&nbsp;
                   	<span>
                   		<span class="label v-align-text-top" style="background-color: #EEEEEE; color: #333333">
-                  			{{sellerData.data.notCalled.length}}
+                  			{{sellerData.notCalledCount}}
                   		</span>
-                  	&nbsp;số chưa gọi. <br /> Hiệu suất chốt đơn tại thời điểm hiện tại là <strong> {{sellerData.data.success.length/sellerData.data.called.length*100 | number:2}}%</strong>
+                  	&nbsp;số chưa gọi. <br /> Hiệu suất chốt đơn tại thời điểm hiện tại là <strong> {{sellerData.succesCount/sellerData.calledCount*100 | number:2}}%</strong>
                   	</span>
-                     <span class="issue-meta-section task-progress ml-2"><svg aria-hidden="true" class="octicon octicon-checklist" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M16 8.5l-6 6-3-3L8.5 10l1.5 1.5L14.5 7 16 8.5zM5.7 12.2l.8.8H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h7c.55 0 1 .45 1 1v6.5l-.8-.8c-.39-.39-1.03-.39-1.42 0L5.7 10.8a.996.996 0 0 0 0 1.41v-.01zM4 4h5V3H4v1zm0 2h5V5H4v1zm0 2h3V7H4v1zM3 9H2v1h1V9zm0-2H2v1h1V7zm0-2H2v1h1V5zm0-2H2v1h1V3z"></path></svg><span class="task-progress-counts">2 of 3</span><span class="progress-bar v-align-middle"><span class="progress" style="width: {{(sellerData.data.called.length/(sellerData.data.called.length + sellerData.data.notCalled.length)*100)}}%"></span></span></span>
+                     <span class="issue-meta-section task-progress ml-2"><svg aria-hidden="true" class="octicon octicon-checklist" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M16 8.5l-6 6-3-3L8.5 10l1.5 1.5L14.5 7 16 8.5zM5.7 12.2l.8.8H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h7c.55 0 1 .45 1 1v6.5l-.8-.8c-.39-.39-1.03-.39-1.42 0L5.7 10.8a.996.996 0 0 0 0 1.41v-.01zM4 4h5V3H4v1zm0 2h5V5H4v1zm0 2h3V7H4v1zM3 9H2v1h1V9zm0-2H2v1h1V7zm0-2H2v1h1V5zm0-2H2v1h1V3z"></path></svg><span class="task-progress-counts">2 of 3</span><span class="progress-bar  v-align-middle"><span class="progress" style="width: {{(sellerData.calledCount/(sellerData.calledCount + sellerData.notCallCount)*100)}}%"></span></span></span>
                   </p>
                </div>
             </div>
