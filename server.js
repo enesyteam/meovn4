@@ -44,7 +44,7 @@ app.use('/src', express.static('src'));
 // app.use('/', express.static('/'));
 
 app.get('/webhook', function(req, res) {
-	console.log(res);
+	// console.log(res);
   // if (req.query['hub.verify_token'] === 'anh_hoang_dep_trai_vo_doi') {
   //   res.send(req.query['hub.challenge']);
   // }
