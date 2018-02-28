@@ -2,6 +2,9 @@
     "name": "MEOVN",
   "version": "4.0.0",
   "main": "server.js",
+  "scripts": {
+    "start": "node server"
+  },
   "engines": {
     "node": "~6.10.3",
     "npm": "~3.10.5"
