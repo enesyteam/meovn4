@@ -19,3 +19,7 @@ exports.login = function (req, res) {
 exports.shipping = function (req, res) {
 	res.render('shipping');
 };
+
+exports.printing = function (req, res) {
+	res.render('printing');
+};

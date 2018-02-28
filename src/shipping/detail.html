@@ -220,7 +220,7 @@
 		</div>
 		<div class="actions-area">
 			<div class="notification">
-				<input class="form-control mt-3 ml-3" type="text" name="" ng-blur="testLostFocus()">
+				<input class="form-control mt-3 ml-3" type="text" name="" ng-model="trackingCode">
 			</div>
 			<div class="actions">
 				<ul class="list_action">
@@ -235,10 +235,13 @@
 		</div>
 	</div>
 	<div class="conversation-log" style="overflow-y: scroll;">
-		<h3>Hubs</h3>
-		<pre>
+		<!-- <h3>Hubs</h3> -->
+		<!-- <pre>
 			{{Hubs | json}}
-		</pre>
+		</pre> -->
+		<div ng-repeat="log in orderLogs.data.data.Logs">
+			{{log.OrderCode}}
+		</div>
 		<pre>
 			{{shippingData | json}}
 		</pre>

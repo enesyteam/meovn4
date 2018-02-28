@@ -28,6 +28,7 @@ app.get('/',  routes.index);
 app.get('/realtime',  routes.realtime);
 app.get('/login',  routes.login);
 app.get('/shipping',  routes.shipping);
+app.get('/printing',  routes.printing);
 
 // var env = process.env.NODE_ENV || 'development';
 

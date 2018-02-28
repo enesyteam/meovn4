@@ -10357,22 +10357,33 @@ mShipping.controller('DetailCtrl',
                     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                 }
             }
+
+            var startTime = new Date(); // today
+            var endTime = new Date(); // today
+
+            startTime.setDate(startTime.getDate() - 2); // get 4 recent days
+            endTime.setDate(endTime.getDate());
+            startTime = startTime.getTime();
+            endTime = endTime.getTime();
+
             var data = {
                 "token": '5a0baf851070b03e4d16f4cb', //$rootScope.ghnToken,
                 // "OrderCode": "DB9NKNQ4"
-                "FromTime": 1509358405981,
+                "FromTime": startTime,
+                // "ToTime" : Date.now(),
                 "Condition": {
-                    "ShippingOrderID": 56493318,
-                    "CurrentStatus": "Delivering",
+                    // "ShippingOrderID": 56721015,
+                    "CurrentStatus": "ReadyToPick",
                     "CustomerID": 187464,
-                    "OrderCode": "DB9NKNQ4"
+                    "OrderCode": $scope.trackingCode
                 },
                 "Skip": 0
             }
             $http.post('https://console.ghn.vn/api/v1/apiv3/GetOrderLogs', data, config)
                 .then(function(data) {
                     // console.log(data);
-                    console.log(data)
+                    console.log(data);
+                    $scope.orderLogs = data;
                 })
                  .catch(function(err) {
                     console.log(err);

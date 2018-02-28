@@ -1,32 +1,42 @@
-<div class="content page-break" style="" ng-repeat="order in orders">
+<div style="position: fixed;right: 0">
+   <input type="text" name="" ng-model="orderCode">
+   <button class="btn btn-primary mr-3" ng-click="getOrders()">Tạo trang in</button>   
+   <button class="btn" ng-click="getOrders1()">Get list</button>
+   <div ng-if="orders" ng-repeat="o in orders">
+      <div>
+         <div ng-click="setPrintOrder(o)" class="mt-2" style="cursor: pointer;">{{o.OrderCode + ' - ' + o.OrderInfo.CustomerPhone + ' - ' + o.OrderInfo.CustomerName}}</div>
+      </div>
+   </div>
+</div>
+<div class="content page-break" style="" ng-if="order">
    <div class="info-user">
       <div class="row">
          <div class="col-6">
             <p>
                <span>Người <b>GỬI</b>:</span>
-               <span ng-bind="(x.senderName | limitTo:50)" class="ng-binding">Phong thủy Tràng An</span>
+               <span ng-bind="(order.SenderName | limitTo:50)" class="ng-binding">Phong thủy Tràng An</span>
             </p>
             <p>
-               <span class="bold ng-binding" ng-bind="x.senderPhone">0987944265</span>
+               <span class="bold ng-binding" ng-bind="order.SenderPhone">0987944265</span>
             </p>
             <p>
-               <span ng-bind="(x.senderAddress | limitTo:200)" class="ng-binding">238 Khương Thượng, Trung Tự, Hà Nội, Việt Nam</span>
+               <span ng-bind="(order.PickAddress | limitTo:200)" class="ng-binding">238 Khương Thượng, Trung Tự, Hà Nội, Việt Nam</span>
             </p>
          </div>
          <div class="col-5">
             <p>
                <span>Người <b>NHẬN</b>: </span>
-               <span ng-bind="(x.receiveName | limitTo: 50)" class="ng-binding">Doi Phieu Bat</span>
+               <span ng-bind="(order.CustomerName | limitTo: 50)" class="ng-binding">Tên người nhận</span>
             </p>
             <p>
-               <span class="bold ng-binding" ng-bind="x.receivePhone">0989718781</span>
+               <span class="bold ng-binding" ng-bind="order.CustomerPhone">0989718781</span>
             </p>
             <p>
-               <span ng-bind="(x.receiveAddress | limitTo: 200)" class="ng-binding">xóm lá, tt chi lăng, chi lăng, lạng sơn</span>
+               <span ng-bind="(order.ShippingAddress | limitTo: 200)" class="ng-binding">xóm lá, tt chi lăng, chi lăng, lạng sơn</span>
             </p>
          </div>
          <div class="col-1">
-            <img src="https://barcode.ghn.vn/api/v1/barcode/generate?code=DB775QRU&amp;width=64&amp;height=64&amp;type=QR" alt="">
+            <img ng-src="{{'https://barcode.ghn.vn/api/v1/barcode/generate?code=' + order.OrderCode + '&amp;width=64&amp;height=64&amp;type=QR'}}" alt="">
             <!-- ngIf: x.hub == x.sorting.split('/')[0] -->
          </div>
       </div>
@@ -43,8 +53,8 @@
             </div>
          </div>
          <div class="col-4 hbarcode center">
-            <img ng-src="https://barcode.ghn.vn/api/v1/barcode/generate?code=DB775QRU&amp;type=C128A&amp;width=250&amp;height=50" src="https://barcode.ghn.vn/api/v1/barcode/generate?code=DB775QRU&amp;type=C128A&amp;width=250&amp;height=50">
-            <p ng-bind="x.orderCode" flowtype="" min-font="25" max-font="30" maximum="450" class="ng-binding">DB775QRU</p>
+            <img ng-src="{{'https://barcode.ghn.vn/api/v1/barcode/generate?code=' + order.OrderCode + '&amp;type=C128A&amp;width=250&amp;height=50'}}">
+            <p ng-bind="order.OrderCode" flowtype="" min-font="25" max-font="30" maximum="450" class="ng-binding">DB775QRU</p>
          </div>
          <div class="col-3 info-packet-service">
             <div>
@@ -52,7 +62,7 @@
             </div>
             <div>
                <label>Ngày giao hàng</label>
-               <p ng-bind="x.sorting.split('/')[1]" class="ng-binding"> 02</p>
+               <p ng-bind="order.ExpectedDeliveryTime.split('-')[2]" class="ng-binding"> 02</p>
             </div>
          </div>
       </div>
@@ -62,9 +72,9 @@
          <div class="col-5">
             <ul class="hul">
                <li><span>Giao</span>
-                  <img src="public/images/print-checkbox.png" atl="">
+                  <img src="assets/images/print-checkbox.png" atl="">
                   <span>Trả</span>
-                  <img src="public/images/print-checkbox.png" atl="">
+                  <img src="assets/images/print-checkbox.png" atl="">
                </li>
                <li style="height:90px;">
                   <p class="ng-binding"><strong>Ghi chú KH:</strong> </p>
@@ -75,12 +85,12 @@
          <div class="col-3">
             <ul class="hul" style="text-align: center">
                <li>
-                  <span><b ng-bind="x.noteCode" class="ng-binding">Cho thử hàng</b></span>
+                  <span><b ng-bind="order.NoteCode" class="ng-binding">Cho thử hàng</b></span>
                </li>
                <!-- ngIf: x.externalCode != null -->
                <li>
                   <span>Ngày gửi:</span>
-                  <h2 ng-bind="x.createdDate" class="ng-binding">27/02/2018 16:49</h2>
+                  <h2 ng-bind="order.StartPickTime" class="ng-binding">27/02/2018 16:49</h2>
                </li>
             </ul>
          </div>
