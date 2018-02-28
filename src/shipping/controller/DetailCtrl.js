@@ -10359,17 +10359,17 @@ mShipping.controller('DetailCtrl',
             }
             var data = {
                 "token": '5a0baf851070b03e4d16f4cb', //$rootScope.ghnToken,
-                "OrderCode": "DB9NKNQ4"
-                // "FromTime": 1509358405981,
-                // "Condition": {
-                //     "ShippingOrderID": 56493318,
-                //     "CurrentStatus": "Delivering",
-                //     "CustomerID": 187464,
-                //     "OrderCode": "DB9NKNQ4"
-                // },
-                // "Skip": 0
+                // "OrderCode": "DB9NKNQ4"
+                "FromTime": 1509358405981,
+                "Condition": {
+                    "ShippingOrderID": 56493318,
+                    "CurrentStatus": "Delivering",
+                    "CustomerID": 187464,
+                    "OrderCode": "DB9NKNQ4"
+                },
+                "Skip": 0
             }
-            $http.post('https://console.ghn.vn/api/v1/apiv3/QuickSearchOrder', data, config)
+            $http.post('https://console.ghn.vn/api/v1/apiv3/GetOrderLogs', data, config)
                 .then(function(data) {
                     // console.log(data);
                     console.log(data)
