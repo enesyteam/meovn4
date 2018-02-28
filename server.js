@@ -10,6 +10,8 @@ var morgan = require('morgan');
 var router = express();
 path = require('path');
 
+const PORT = process.env.PORT || 5000
+
 routes = require('./routes');
 
 var app = express();
@@ -57,3 +59,5 @@ app.use(morgan('dev'));
 // server.listen(app.get('port'), app.get('ip'), function() {
 //   console.log("Chat bot server listening at %s:%d ", app.get('ip'), app.get('port'));
 // });
+
+router.listen(PORT, () => console.log(`Listening on ${ PORT }`));
