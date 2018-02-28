@@ -55,6 +55,10 @@ function themeRun($rootScope, appVersion, releaseDate, access_token, accessToken
       }.bind(this));
 }
 
+// angular.get('/wh', function(){
+//   console.log('sdfsdf');
+// });
+
 mShipping.filter('reverse', function() {
       function toArray(list) {
          var k, out = [];

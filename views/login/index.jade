@@ -1,0 +1,105 @@
+doctype html
+html(lang='en', ng-app='meovnAuth')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='description', content='Introducing Lollipop, a sweet new take on Android.')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, minimum-scale=1.0')
+    title Meovn 4
+    link(rel='stylesheet', href='/src/admin/sass/framework.css')
+    link(rel='stylesheet', href='/src/admin/sass/styles.css')
+  body.logged-out.env-production.page-responsive.min-width-0.session-authentication(ng-controller='AuthController')
+    .position-relative.js-header-wrapper
+      a.px-2.py-4.show-on-focus.js-skip-to-content(href='#start-of-content', tabindex='1') Skip to content
+      #js-pjax-loader-bar.pjax-loader-bar
+        .progress
+      .header.header-logged-out.width-full.pt-5.pb-4(role='banner')
+        .container.clearfix.width-full.text-center
+          a.header-logo(href='https://github.com/', aria-label='Homepage', data-ga-click='(Logged out) Header, go to homepage, icon:logo-wordmark')
+            svg.octicon.octicon-mark-github(aria-hidden='true', height='48', version='1.1', viewbox='0 0 16 16', width='48')
+              path(fill-rule='evenodd', d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z')
+    #start-of-content.show-on-focus
+    div(role='main')
+      #js-pjax-container(data-pjax-container='')
+        #login.auth-form.px-3
+          // '"`
+          // </textarea></xmp>
+          form(accept-charset='UTF-8', method='post')
+            .auth-form-header.p-0
+              h1 Sign in to MEOVN
+            #js-flash-container
+              .flash.flash-full.flash-error(ng-if='loginFail==true')
+                .container
+                  button.flash-close.js-flash-close(type='button', aria-label='Dismiss this message', ng-click='reset()')
+                    svg.octicon.octicon-x(aria-hidden='true', height='16', version='1.1', viewbox='0 0 12 16', width='12')
+                      path(fill-rule='evenodd', d='M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z')
+                  |                            {{errorMes}}
+            .auth-form-body.mt-3
+              label(for='login_field')
+                | Username or email address
+              input#login_field.form-control.input-block(autocapitalize='off', autocorrect='off', autofocus='autofocus', name='login', tabindex='1', type='text', ng-model='email')
+              label(for='password')
+                | Password 
+                a.label-link(href='/password_reset') Forgot password?
+              input#password.form-control.form-control.input-block(name='password', tabindex='2', type='password', ng-model='password')
+              input.btn.btn-primary.btn-block(data-disable-with='Signing in…', name='commit', tabindex='3', type='submit', value='Sign in', ng-click='signIn($event)')
+          p.create-account-callout.mt-3
+            | New to GitHub?
+            a(href='/join?source=login', data-ga-click='Sign in, switch to sign up') Create an account
+            | .
+      .modal-backdrop.js-touch-events
+    .footer.container-lg.p-responsive.py-6.mt-6.f6(role='contentinfo')
+      ul.list-style-none.d-flex.flex-justify-center
+        li.mr-3
+          a.link-gray(href='https://github.com/site/terms', data-ga-click='Footer, go to terms, text:terms') Terms
+        li.mr-3
+          a.link-gray(href='https://github.com/site/privacy', data-ga-click='Footer, go to privacy, text:privacy') Privacy
+        li.mr-3
+          a.link-gray(href='https://github.com/security', data-ga-click='Footer, go to security, text:security') Security
+        li
+          a.link-gray(href='https://github.com/contact', data-ga-click='Footer, go to contact, text:contact') Contact GitHub
+    #ajax-error-message.ajax-error-message.flash.flash-error
+      svg.octicon.octicon-alert(aria-hidden='true', height='16', version='1.1', viewbox='0 0 16 16', width='16')
+        path(fill-rule='evenodd', d='M8.865 1.52c-.18-.31-.51-.5-.87-.5s-.69.19-.87.5L.275 13.5c-.18.31-.18.69 0 1 .19.31.52.5.87.5h13.7c.36 0 .69-.19.86-.5.17-.31.18-.69.01-1L8.865 1.52zM8.995 13h-2v-2h2v2zm0-3h-2V6h2v4z')
+      button.flash-close.js-ajax-error-dismiss(type='button', aria-label='Dismiss error')
+        svg.octicon.octicon-x(aria-hidden='true', height='16', version='1.1', viewbox='0 0 12 16', width='12')
+          path(fill-rule='evenodd', d='M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z')
+      |          You can't perform that action at this time.
+    script(src='/assets/js/scripts-angular.min.js')
+    script(src='/node_modules/angular-animate/angular-animate.min.js')
+    script(src='/node_modules/angular-resource/angular-resource.min.js')
+    script(src='/node_modules/angular-route/angular-route.min.js')
+    script(src='/node_modules/angular-ui-router/release/angular-ui-router.min.js')
+    script(src='/node_modules/angular-sanitize/angular-sanitize.min.js')
+    script(src='https://www.gstatic.com/firebasejs/4.5.1/firebase.js')
+    script.
+      // Initialize Firebase
+      var config = {
+      apiKey: "AIzaSyD7LUAvgwADpNZqzvm_-4Um7aBMXh7Ed1M",
+      authDomain: "meo4-f0335.firebaseapp.com",
+      databaseURL: "https://meo4-f0335.firebaseio.com",
+      projectId: "meo4-f0335",
+      storageBucket: "meo4-f0335.appspot.com",
+      messagingSenderId: "155610084230"
+      };
+      firebase.initializeApp(config);
+    // AngularFire
+    script(src='https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js')
+    script(src='/assets/js/auth.js')
+    .js-stale-session-flash.stale-session-flash.flash.flash-warn.flash-banner.d-none
+      svg.octicon.octicon-alert(aria-hidden='true', height='16', version='1.1', viewbox='0 0 16 16', width='16')
+        path(fill-rule='evenodd', d='M8.865 1.52c-.18-.31-.51-.5-.87-.5s-.69.19-.87.5L.275 13.5c-.18.31-.18.69 0 1 .19.31.52.5.87.5h13.7c.36 0 .69-.19.86-.5.17-.31.18-.69.01-1L8.865 1.52zM8.995 13h-2v-2h2v2zm0-3h-2V6h2v4z')
+      span.signed-in-tab-flash
+        | You signed in with another tab or window. 
+        a(href='') Reload
+        |  to refresh your session.
+      span.signed-out-tab-flash
+        | You signed out in another tab or window. 
+        a(href='') Reload
+        |  to refresh your session.
+    #facebox.facebox(style='display:none;')
+      .facebox-popup
+        .facebox-content(role='dialog', aria-labelledby='facebox-header', aria-describedby='facebox-description')
+        button.facebox-close.js-facebox-close(type='button', aria-label='Close modal')
+          svg.octicon.octicon-x(aria-hidden='true', height='16', version='1.1', viewbox='0 0 12 16', width='12')
+            path(fill-rule='evenodd', d='M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z')

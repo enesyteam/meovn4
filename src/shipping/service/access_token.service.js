@@ -9,7 +9,7 @@
   .service('accessTokenService', ["$http", function ($http, scope) { 
 
 	var getAccessToken = function(){
-       return $http.get('../access_token.json').
+       return $http.get('../assets/access_token.json').
           then(function onSuccess(response) {
              return response.data;
           }).

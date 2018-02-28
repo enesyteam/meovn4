@@ -2,7 +2,7 @@ m_admin.controller('MainCtrl',
     function($rootScope, $scope, $http, $filter, $timeout, cfpLoadingBar, firebaseService, cfpLoadingBar, Facebook) {
         // get access token
         var getAccessToken = function(){
-            $http.get('../access_token.json').
+            $http.get('../assets/access_token.json').
               then(function onSuccess(response) {
                  $rootScope.access_token_arr = response.data;
               }).
