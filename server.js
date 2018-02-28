@@ -51,6 +51,14 @@ app.get('/webhook', function(req, res) {
   res.send('Error, wrong validation token');
 });
 
+app.get('/terms', function(req, res) {
+  res.send('Terms page');
+});
+
+app.get('/privacy', function(req, res) {
+  res.send('Privacy page');
+});
+
 app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3002);
 app.set('ip', process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "127.0.0.1");
 app.set('views', __dirname + '/views');
