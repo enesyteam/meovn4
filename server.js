@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 5000
 routes = require('./routes');
 
 var app = express();
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -60,4 +61,4 @@ app.use(morgan('dev'));
 //   console.log("Chat bot server listening at %s:%d ", app.get('ip'), app.get('port'));
 // });
 
-router.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
