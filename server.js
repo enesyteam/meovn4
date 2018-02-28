@@ -45,10 +45,10 @@ app.use('/src', express.static('src'));
 
 app.get('/webhook', function(req, res) {
 	// console.log(res);
-  // if (req.query['hub.verify_token'] === 'anh_hoang_dep_trai_vo_doi') {
-  //   res.send(req.query['hub.challenge']);
-  // }
-  // res.send('Error, wrong validation token');
+  if (req.query['hub.verify_token'] === 'meovn') {
+    res.send(req.query['hub.challenge']);
+  }
+  res.send('Error, wrong validation token');
 });
 
 app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3002);
