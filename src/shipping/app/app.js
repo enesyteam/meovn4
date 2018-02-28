@@ -10,7 +10,8 @@ var mShipping = angular.module('mShipping', [
   'infinite-scroll',
   'snackbar',
   'ngFileUpload',
-  'toastr'
+  'toastr',
+  'angularMoment'
 	])
     .constant('appVersion', '3.0.0')
     .constant('releaseDate', 'Nov-20, 2017')

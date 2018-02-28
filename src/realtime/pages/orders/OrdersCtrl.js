@@ -108,8 +108,9 @@ mRealtime.controller('OdersCtrl',
 
         // graph messages
         var graphMessages = function(){
-
-            Facebook.api('/' + $stateParams.conversation_id + '?fields=messages.limit(100){message,from,created_time,attachments,sticker,shares{link,description,name}},snippet,link,unread_count,participants&access_token=' + $scope.currentAccessToken, function(r) {
+            console.log($scope.currentAccessToken);
+            // console.log('/' + $stateParams.conversation_id + '?fields=messages.limit(100){message,from,created_time,attachments,sticker,shares{link,description,name}},snippet,link,unread_count,participants&access_token=' + $scope.currentAccessToken);
+            Facebook.api('/' + $stateParams.conversation_id + '?fields=messages.limit(100){message,from,created_time,attachments,sticker,shares{link,description,name}},snippet,link&access_token=' + $scope.currentAccessToken, function(r) {
                 $scope.messsageLog = r;
                 // console.log(r);
             });
@@ -136,7 +137,7 @@ mRealtime.controller('OdersCtrl',
 
         // if comment => graph conversation log
         var graphComments = function(){
-            Facebook.api('/' + $stateParams.conversation_id + '?fields=comments{from,message,created_time,id,attachment},permalink_url,from,message,created_time,admin_creator&access_token=' + $scope.currentAccessToken, function(response) {
+            Facebook.api('/' + $stateParams.conversation_id + '?fields=comments{from,message,created_time,id,attachment},permalink_url,from,message,created_time&access_token=' + $scope.currentAccessToken, function(response) {
                 // console.log(response);
                 if(response && !response.error){
                     $scope.$apply(function(){

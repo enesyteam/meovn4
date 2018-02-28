@@ -278,6 +278,8 @@ var shippingSources = gulp.src([
     
     'node_modules/angular-chosen-localytics/dist/angular-chosen.js',
     'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
+    'node_modules/moment/min/moment.min.js',
+    'node_modules/angular-moment/angular-moment.min.js',
 
     /*app*/
     'src/shipping/app/app.js',
@@ -289,6 +291,15 @@ var shippingSources = gulp.src([
     //
     'src/shipping/controller/MainCtrl.js',
     'src/shipping/controller/DetailCtrl.js',
+
+], {
+    read: false
+});
+
+var printingSources = gulp.src([
+    /*app*/
+    'src/print/app/app.js',
+    'src/print/controller/MainCtrl.js',
 
 ], {
     read: false
@@ -313,6 +324,16 @@ gulp.task('shippingBuild', function() {
             collapseWhitespace: false
         }))
         .pipe(gulp.dest('./shipping/'));
+});
+
+gulp.task('printingBuild', function() {
+
+    var printingPage = gulp.src('./src/print/index.html');
+    printingPage.pipe(inject(printingSources))
+        .pipe(htmlmin({
+            collapseWhitespace: false
+        }))
+        .pipe(gulp.dest('./printing/'));
 });
 
 // serve realtime page
@@ -342,7 +363,7 @@ gulp.task('start-realtime', ['realtime'], function() {
 
 gulp.task('serve:realtime', ['start-realtime'], serve());
 
-gulp.task('app', ['test', 'realtimeBuild', 'shippingBuild'], function() {
+gulp.task('app', ['test', 'realtimeBuild', 'shippingBuild', 'printingBuild'], function() {
     var options = {
         uri: '127.0.0.1:3000',
         app: 'chrome'

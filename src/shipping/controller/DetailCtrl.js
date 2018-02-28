@@ -1,9 +1,35 @@
 mShipping.controller('DetailCtrl',
     function($rootScope, $scope, $http, $window, $state, $stateParams, $document, $filter, $timeout, cfpLoadingBar,
-        cfpLoadingBar, Facebook, toastr, toastrConfig) {
-        // console.log(toastrConfig);
+        cfpLoadingBar, Facebook, toastr, toastrConfig, moment) {
+        // console.log(moment);
         toastrConfig.closeButton = true;
         toastrConfig.timeOut = 3000;
+
+        $scope.NoteCodes = [
+          {
+            code : 'CHOTHUHANG',
+            text : 'Cho thử hàng'
+          },
+          {
+            code : 'CHOXEMHANGKHONGTHU',
+            text : 'Cho xem hàng không cho thử'
+          },
+          {
+            code : 'KHONGCHOXEMHANG',
+            text : 'Không cho xem hàng'
+          }
+        ];
+
+        $scope.paymentTypes = [
+          {
+            id : 1,
+            text : 'Người gửi thanh toán'
+          },
+          {
+            id : 2,
+            text : 'Người nhận thanh toán'
+          }
+        ];
 
         function AlertError(c, d) {
             toastr.error(c, d)
@@ -10325,6 +10351,35 @@ mShipping.controller('DetailCtrl',
                 });
         }
 
+        $scope.testPrint = function() {
+            var config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+            var data = {
+                "token": '5a0baf851070b03e4d16f4cb', //$rootScope.ghnToken,
+                "OrderCode": "DB9NKNQ4"
+                // "FromTime": 1509358405981,
+                // "Condition": {
+                //     "ShippingOrderID": 56493318,
+                //     "CurrentStatus": "Delivering",
+                //     "CustomerID": 187464,
+                //     "OrderCode": "DB9NKNQ4"
+                // },
+                // "Skip": 0
+            }
+            $http.post('https://console.ghn.vn/api/v1/apiv3/QuickSearchOrder', data, config)
+                .then(function(data) {
+                    // console.log(data);
+                    console.log(data)
+                })
+                 .catch(function(err) {
+                    console.log(err);
+                    // AlertError(err.data.msg, err.statusText);
+                });
+        }
+
         function FindAvailableServices() {
             var config = {
                 headers: {
@@ -10333,10 +10388,10 @@ mShipping.controller('DetailCtrl',
             }
             var data = {
                 "token": $rootScope.ghnToken,
-                "Weight": 10000,
+                "Weight": 200,
                 "Length": 10,
-                "Width": 110,
-                "Height": 20,
+                "Width": 5,
+                "Height": 2,
                 "FromDistrictID": $scope.shippingData.FromDistrictID,
                 "ToDistrictID": $scope.shippingData.ToDistrictID,
                 "CouponCode": "",
@@ -10348,6 +10403,9 @@ mShipping.controller('DetailCtrl',
                     $scope.availableServices = data.data.data;
                 })
                 .catch(function(err) {
+                  if(err.status == -1){
+                    AlertError('Lỗi chọn khu vực', err.xhrStatus);
+                  }
                     console.log(err);
                     AlertError(err.data.msg, err.statusText);
                 });
@@ -10372,7 +10430,7 @@ mShipping.controller('DetailCtrl',
             "CustomerPhone": "01666666666",
             "ShippingAddress": "137 Lê Quang Định",
             "CoDAmount": 1500000,
-            "NoteCode": "CHOXEMHANGKHONGTHU",
+            "NoteCode": "CHOTHUHANG",
             "InsuranceFee": 0,
             "ClientHubID": 0,
             "ServiceID": 53319,
@@ -10380,12 +10438,12 @@ mShipping.controller('DetailCtrl',
             "ToLongitude": 10.54324322,
             "FromLat": 1.2343322,
             "FromLng": 10.54324322,
-            "Content": "Test nội dung",
+            "Content": "",
             "CouponCode": "",
-            "Weight": 10200,
+            "Weight": 200,
             "Length": 10,
-            "Width": 10,
-            "Height": 10,
+            "Width": 5,
+            "Height": 2,
             "CheckMainBankAccount": false,
             "ShippingOrderCosts": [{
                 "ServiceID": 53332,
@@ -10417,7 +10475,12 @@ mShipping.controller('DetailCtrl',
                 })
                 .catch(function(err) {
                     console.log(err);
-                    AlertError(err.data.msg, err.statusText);
+                    if(err.data){
+                      AlertError(err.data.msg, err.statusText);
+                    } else{
+                      AlertError('Lỗi chọn khu vực', err.xhrStatus);
+                    }
+                    
                 });
         }
 
@@ -10441,7 +10504,15 @@ mShipping.controller('DetailCtrl',
             return !c || !/[^\s]+/.test(c)
         };
 
+        $scope.formatDate = function(d){
+          return moment(d).format("DD/MM/YYYY");
+        }
+
         var p_validPhone = "86,88,89,90,91,92,93,94,96,97,98,99,120,121,122,123,124,125,126,127,128,129,161,162,163,164,165,166,167,168,169,186,188,199,868";
         var p_validHomePhone = "4,8,55,56,57,58,59,60,61,62,63,64,66,67,68,70,72,73,75,203,204,205,206,207,208,209,212,213,214,215,216,220,221,222,225,226,227,228,229,232,233,234,235,236,237,238,239,251,252,254,255,256,257,258,259,260,261,262,263,269,270,271,272,273,274,275,276,277,290,291,292,293,294,296,297,299,500,501,650,651,241,242,243,244,245,246,247,248,249,281,282,283,284,285,286,287,288,289";
+        
+        $scope.testLostFocus = function(){
+          AlertError('test lost focus', 'test');
+        }        
 
     });

@@ -136,10 +136,9 @@
 								<dl class="form-group">
 								   <dt><label for="user_profile_email">Ghi chú bắt buộc</label></dt>
 								   <dd>
-								      <select class="form-select select" id="user_profile_email" name="user[profile_email]">
-								         <option value="">Cho xem hàng, không cho thử</option>
-								         <option value="congnvc@gmail.com">Cho thử hàng</option>
-								         <option value="">Không cho xem hàng</option>
+								      <select class="form-select select" id="user_profile_email" ng-model="shippingData.NoteCode" ng-options="note.code as note.text for note in NoteCodes">
+								         <!-- <option value="">{{note.text}}</option> -->
+								         
 								      </select>
 								   </dd>
 								</dl>
@@ -173,7 +172,7 @@
 									<div class="form-checkbox" ng-repeat="service in availableServices">
 									   <div class="one-third column block-blue">
 									   	<label>
-										   <input class="js-email-global-unsubscribe" id="type_marketing" name="type" type="radio" value="marketing">
+										   <input class="js-email-global-unsubscribe" id="type_marketing" name="service" type="radio" value="marketing" ng-value="service.ServiceID" ng-model="shippingData.ServiceID">
 										   {{service.Name}}
 										   </label>
 									   </div>
@@ -181,7 +180,7 @@
 									   		Cước: {{service.ServiceFee}}
 									   </div>
 									   <div class="one-third column block-blue">
-									   		Dự kiến giao: {{service.ExpectedDeliveryTime}}
+									   		Dự kiến giao: {{formatDate(service.ExpectedDeliveryTime)}}
 									   </div>
 									</div>
 								</dl>
@@ -191,18 +190,13 @@
 								   </dt>
 								   <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.CoDAmount"></dd>
 								</dl>
-								<div class="form-checkbox">
+								<div class="form-checkbox" ng-repeat="paymentType in paymentTypes">
 								   <label>
-								   <input class="js-email-global-unsubscribe" id="type_marketing" name="type" type="radio" value="marketing">
-								   Người gửi thanh toán.
+								   		<input class="js-email-global-unsubscribe" id="type_marketing" name="paymentType" type="radio" value="marketing" ng-value="paymentType.id" ng-model="shippingData.PaymentTypeID">
+								   		{{paymentType.text}}
 								   </label>
 								</div>
-								<div class="form-checkbox">
-								   <label>
-								   <input checked="checked" class="js-email-global-unsubscribe" id="type_transactional" name="type" type="radio" value="transactional">
-								   Người nhận thanh toán.
-								   </label>
-								</div>
+								
 								<div class="form-checkbox">
 								   <!-- '"` --><!-- </textarea></xmp> -->
 								   <form accept-charset="UTF-8" action="/users/enesyteam/emails/toggle_visibility" data-autosubmit="true" method="post">
@@ -226,7 +220,7 @@
 		</div>
 		<div class="actions-area">
 			<div class="notification">
-				notifications
+				<input class="form-control mt-3 ml-3" type="text" name="" ng-blur="testLostFocus()">
 			</div>
 			<div class="actions">
 				<ul class="list_action">
@@ -234,13 +228,17 @@
 						<button class="btn btn-primary" ng-click="submitGHN()">Lưu & Tạo GHN</button>
 					</li>
 					<li>
-						<button class="btn">Lưu</button>
+						<button class="btn" ng-click="testPrint()">Lưu</button>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</div>
-	<div class="conversation-log">
+	<div class="conversation-log" style="overflow-y: scroll;">
+		<h3>Hubs</h3>
+		<pre>
+			{{Hubs | json}}
+		</pre>
 		<pre>
 			{{shippingData | json}}
 		</pre>

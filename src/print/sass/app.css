@@ -1,0 +1,492 @@
+           * {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: "Arial";
+                font-size: 10.7px;
+            }
+
+            @media print {
+                @page {
+                    size: a5 landscape;
+                    margin: 0;
+                    min-height: auto;
+                }
+
+                html, body {
+                    border: 0px solid white;
+                }
+
+                .content {
+                    width: 794px;
+                    height: 540px;
+                    content: ".";
+                }
+
+                .info-hub {
+                    border-bottom: solid 1px #ddd;
+                }
+            }
+
+            .content {
+                width: 794px;
+                height: 546px;
+                content: ".";
+                margin: 10px 0;
+            }
+
+                .content:last-child {
+                    height: 530px;
+                }
+
+                .content.page-break {
+                    display: block;
+                    page-break-after: always;
+                }
+
+                    .content.page-break:last-child {
+                        display: block;
+                        page-break-after: avoid;
+                    }
+
+            .center {
+                text-align: center !important;
+            }
+
+            .bold {
+                font-weight: bold !important;
+            }
+
+            .hul {
+                display: inline-block;
+                padding: 0;
+                margin: 0 0 -15px 0;
+                list-style: none;
+                width: 100%;
+            }
+
+                .hul li {
+                    margin: 5px 0;
+                }
+
+            .row {
+                margin-left: -10px;
+                margin-right: -10px;
+                display: inline-block;
+                width: calc(100% + 20px);
+            }
+
+            .col-6, .col-8, .col-9, .col-1, .col-2, .col-3, .col-4, .col-5 {
+                /*padding: 0 10px;*/
+                float: left;
+            }
+
+            .col-5 {
+                width: 41.66%;
+            }
+
+            .col-6 {
+                width: 50%;
+            }
+
+            .col-9 {
+                width: 75%;
+            }
+
+            .col-8 {
+                width: 60%;
+            }
+
+            .col-1 {
+                width: 8.33%;
+            }
+
+            .col-2 {
+                width: 16.66%;
+            }
+
+            .col-3 {
+                width: 25%;
+            }
+
+            .col-4 {
+                width: 33.33%;
+            }
+
+            .info-user, .info-packet,
+            .info-hub,
+            .info-header,
+            .info-return {
+                display: table;
+                border-left: solid 1px #ddd;
+                border-top: solid 1px #ddd;
+                border-right: solid 1px #ddd;
+                width: 100%;
+            }
+
+            .info-hnote {
+                display: inline-block;
+                border: solid 1px #ddd;
+                width: 100%;
+            }
+
+            p {
+                margin: 0;
+            }
+
+            span {
+                font-size: 15px;
+            }
+
+
+            img {
+                max-width: 100%;
+            }
+
+            .row {
+                display: block;
+            }
+            /*info-header*/
+            .info-header {
+                padding: 15px 20px;
+                height: 50px;
+            }
+
+                .info-header .hgc {
+                    text-align: right;
+                    margin-top: 3px;
+                }
+
+                    .info-header .hgc label {
+                        border: solid 1px #ddd;
+                        border-radius: 2px;
+                        padding: 3px 8px;
+                    }
+
+                .info-header span {
+                    font-weight: bold;
+                }
+            /*info-user*/
+            .info-user img {
+                width: 74px;
+                max-width: none;
+            }
+
+            .info-user p {
+                line-height: 16px;
+            }
+
+            .info-user .col-6,
+            .info-user .col-5 {
+                min-height: 150px;
+                padding: 5px 10px;
+            }
+
+            .info-packet .col-4,
+            .info-packet .col-3,
+            .info-packet .col-5 {
+                min-height: 180px;
+            }
+
+            .row .col-5, .row .col-4, .row .col-3 {
+                border-right: 1px solid #ddd;
+            }
+
+                .row .col-5:last-child, .row .col-4:last-child, .row .col-3:last-child {
+                    border-right: 0px;
+                }
+
+            .info-user {
+                padding: 0px 20px;
+                line-height: 16px;
+                height: 108px;
+                position: relative;
+            }
+
+                .info-user .col-6:first-child {
+                    border-right: solid 1px #ddd;
+                }
+
+                .info-user .col-6 label {
+                    color: #636363;
+                }
+
+                .info-user .col-1 {
+                    padding: 0px;
+                }
+
+                    .info-user .col-1 h3 {
+                        margin: 10px 0 0 10px;
+                    }
+
+                .info-user ul li {
+                    position: relative;
+                    padding-left: 85px;
+                    min-height: 16px;
+                }
+
+                    .info-user ul li span:first-child {
+                        position: absolute;
+                        left: 0;
+                    }
+            /*info-packet*/
+            .info-packet, .info-hub {
+                font-size: 13.4px;
+                /*height: 130px;*/
+                padding: 0px 10px;
+            }
+
+            /*.info-packet .info-packet-service {
+                    margin: 0 0 0 -10px;
+                }*/
+
+            .toAddress {
+                text-align: left;
+                margin: 0 10px;
+            }
+
+                .toAddress b {
+                    display: block;
+                    margin: 0 0 0.2em;
+                }
+
+            .info-packet .hbarcode p {
+                word-wrap: break-word;
+                font-weight: bold;
+                font-size: 13px !important;
+            }
+
+            .info-packet .col-4 {
+                text-align: center;
+                min-height: 180px;
+            }
+
+            .hnote {
+                font-size: 13px;
+                color: #636363;
+                font-style: italic;
+                text-align: center;
+                margin: 10px;
+            }
+
+            .info-packet .hul {
+                line-height: 22.8px;
+            }
+            /*info-packet*/
+            /*.info-hub {
+                padding-left: 20px;
+                height: 154px;
+            }*/
+
+            .info-hub {
+                border-bottom: solid 1px #ddd;
+            }
+
+                .info-hub .hul h2 {
+                    font-size: 24px;
+                    margin: 5px 0;
+                }
+
+                .info-hub .col-5, .info-hub .col-4, .info-hub .col-3 {
+                    min-height: 200px;
+                    padding: 5px;
+                }
+
+                .info-hub .col-8 {
+                    padding-top: 10px;
+                    border-right: solid 1px #ddd;
+                    height: 154px;
+                }
+
+                .info-hub label {
+                    color: #636363;
+                    margin-bottom: 3px;
+                    display: inline-block;
+                }
+
+                .info-hub .col-8 p {
+                    font-size: 25px;
+                    font-weight: bold;
+                    line-height: 30px;
+                }
+
+                .info-hub .col-4 p {
+                    font-size: 30px;
+                    font-weight: bold;
+                }
+
+            .info-packet .col-3 p {
+                font-size: 45px;
+                font-weight: bold;
+            }
+
+            .info-hub .col-4 div {
+                padding: 10px;
+            }
+
+            .info-user .col-1 div:first-child {
+                border-bottom: solid 1px #eee;
+                height: 77px;
+            }
+
+            .info-user .col-2 div:first-child,
+            .info-packet .col-4 h2 {
+                margin: 0px;
+            }
+
+            .info-packet .col-3.info-packet-service {
+                text-align: center;
+            }
+
+                .info-packet .col-3.info-packet-service div:first-child {
+                    border-bottom: solid 1px #eee;
+                    min-height: 80px;
+                    margin: 10px 0;
+                }
+            /*info-hnote*/
+            .info-hnote {
+                padding: 13px 20px;
+                height: 58px;
+            }
+            /*info-return*/
+            .info-return {
+                padding: 13px 20px;
+                border: 0;
+                font-size: 8px;
+                /*height: 220px;*/
+            }
+
+                .info-return li {
+                    position: relative;
+                    padding-left: 12px;
+                    height: 15px;
+                    overflow: hidden;
+                }
+
+                    .info-return li:before {
+                        content: '';
+                        height: 5px;
+                        width: 5px;
+                        display: inline-block;
+                        border: solid 1px #000;
+                        position: absolute;
+                        left: 0;
+                    }
+
+                    .info-return li:after {
+                        content: '';
+                        width: 100%;
+                        height: 1px;
+                        border-bottom: dotted 1px #000;
+                        display: inline-block;
+                        position: absolute;
+                        left: 12px;
+                        bottom: 7px;
+                    }
+
+                .info-return .hdate {
+                    text-align: right;
+                }
+
+                    .info-return .hdate ul {
+                        width: auto;
+                    }
+
+                    .info-return .hdate li {
+                        padding-left: 0;
+                        float: left;
+                        width: 35px;
+                        margin-right: 2px;
+                        text-align: left;
+                    }
+
+                        .info-return .hdate li:before {
+                            content: none;
+                        }
+
+                .info-return li span {
+                    background: #fff;
+                    display: inline-block;
+                    height: 8px;
+                    position: relative;
+                    z-index: 1;
+                    padding-right: 2px;
+                }
+
+                .info-return .htitle {
+                    font-weight: bold;
+                    min-height: 6px;
+                    display: block;
+                    margin-top: 2px;
+                    margin-bottom: 4px;
+                }
+
+                .info-return .htitle-b {
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    font-size: 8px;
+                }
+
+            .hnotef {
+                position: relative;
+                height: 26px;
+            }
+
+                .hnotef:before, .hnotef:after {
+                    content: '';
+                    width: 100%;
+                    height: 1px;
+                    border-bottom: dotted 1px #000;
+                    position: absolute;
+                }
+
+                .hnotef:before {
+                    bottom: 12px;
+                }
+
+                .hnotef:after {
+                    bottom: 0;
+                }
+
+            .fend {
+                margin-top: 8px;
+                margin-bottom: 30px;
+                text-align: center;
+            }
+
+            .info-hub {
+                position: relative;
+            }
+
+                .info-hub .col-4 div:first-child {
+                    height: 77px;
+                }
+
+            .hbarcode label {
+                display: inline-block;
+                width: 100%;
+                text-align: center;
+                font-size: 10.7px;
+            }
+
+            .hbarcode {
+                padding-top: 35px;
+            }
+
+            .ads p {
+                font-size: 11px !important;
+                font-weight: normal !important;
+            }
+
+            .ads h2 {
+                line-height: 25px;
+                margin: 5px 0 10px 0;
+            }
+
+            .ads h3 {
+                line-height: 25px;
+                margin: -10px 0 0 0;
+            }
