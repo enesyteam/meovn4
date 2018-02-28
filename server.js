@@ -40,7 +40,7 @@ app.get('/shipping',  routes.shipping);
 app.use('/assets', express.static('assets'));
 app.use('/node_modules', express.static('node_modules'));
 app.use('/src', express.static('src'));
-app.use('/', express.static('/'));
+// app.use('/', express.static('/'));
 
 app.get('/webhook', function(req, res) {
 	console.log(res);
