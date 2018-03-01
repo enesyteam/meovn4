@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" ng-app="mPrinting">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="description" content="Introducing Lollipop, a sweet new take on Android.">
+      <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+      <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&amp;subset=vietnamese" rel="stylesheet" class="next-head">
+      <title>Order Manager - Meovn 4</title>
+      <link rel="stylesheet" href="/src/admin/sass/framework.css">
+      <link rel="stylesheet" href="/src/print/sass/app.css">
+   </head>
+   <body>
+
+      <div ui-view></div>
+
+      <script src="/assets/js/scripts-angular.min.js"></script>
+      <script src="/node_modules/angular-animate/angular-animate.min.js"></script>
+      <script src="/node_modules/angular-resource/angular-resource.min.js"></script>
+      <script src="/node_modules/angular-route/angular-route.min.js"></script>
+      <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+      <script src="/node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+
+      <!-- inject:js -->
+      <script src="/src/orderManager/app/app.js"></script>
+      <script src="/src/orderManager/controller/MainCtrl.js"></script>
+      <!-- endinject -->
+   </body>
+</html>

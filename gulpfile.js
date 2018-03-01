@@ -285,9 +285,10 @@ var shippingSources = gulp.src([
     'src/shipping/app/app.js',
     // 'src/realtime/app/directive.js',
     // // services
-    // 'src/realtime/service/firebase.service.js',
+    'src/shipping/service/firebase.service.js',
     // 'src/realtime/service/firebase.storage.service.js',
     'src/shipping/service/access_token.service.js',
+    'src/shipping/service/product-pack.service.js',
     //
     'src/shipping/controller/MainCtrl.js',
     'src/shipping/controller/DetailCtrl.js',
@@ -300,6 +301,18 @@ var printingSources = gulp.src([
     /*app*/
     'src/print/app/app.js',
     'src/print/controller/MainCtrl.js',
+
+], {
+    read: false
+});
+
+var orderManagerSources = gulp.src([
+    'node_modules/moment/min/moment.min.js',
+    'node_modules/angular-moment/angular-moment.min.js',
+    /*app*/
+    'src/orderManager/app/app.js',
+    'src/orderManager/controller/MainCtrl.js',
+
 
 ], {
     read: false
@@ -336,6 +349,16 @@ gulp.task('printingBuild', function() {
         .pipe(gulp.dest('./printing/'));
 });
 
+gulp.task('orderManagerBuild', function() {
+
+    var orderManagerPage = gulp.src('./src/print/index.html');
+    orderManagerPage.pipe(inject(orderManagerSources))
+        .pipe(htmlmin({
+            collapseWhitespace: false
+        }))
+        .pipe(gulp.dest('./orderManager/'));
+});
+
 // serve realtime page
 gulp.task('realtime', function() {
     var target = gulp.src('./src/realtime/index.html');
@@ -363,7 +386,7 @@ gulp.task('start-realtime', ['realtime'], function() {
 
 gulp.task('serve:realtime', ['start-realtime'], serve());
 
-gulp.task('app', ['test', 'realtimeBuild', 'shippingBuild', 'printingBuild'], function() {
+gulp.task('app', ['test', 'realtimeBuild', 'shippingBuild', 'printingBuild', 'orderManagerBuild'], function() {
     var options = {
         uri: '127.0.0.1:3000',
         app: 'chrome'

@@ -127,32 +127,101 @@
 								      <svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
 										   <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
 										</svg>
+									Sản phẩm</a>
+									</div>
+									  <div class="UnderlineNav-actions">
+									  	<span class="tooltipped tooltipped-sw tooltipped-no-delay" aria-label="Thông tin này chỉ hiển thị nội bộ">
+								  		<svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+										   <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+										</svg>
+								  	</span>
+									  </div>
+								</nav>
+								<div class="pt-3"><div class="flash flash-warn">
+									Vui lòng xem kỹ hội thoại của khách hàng và ghi chú của Telesale trước khi chọn sản phẩm.
+								</div></div>
+								<div class="row" style="display: flex" ng-repeat="p in selectedProducts track by $index">
+									
+										<dl class="form-group">
+											<div class="one-third column pl-0">
+												<dt><label>Sản phẩm {{$index+1}}</label>
+												   	<span class="d-inline-block mr-1">
+													   <div class="commit-build-statuses">
+													      <a class="text-red tooltipped tooltipped-e tooltipped-no-delay" aria-label="Xóa sản phẩm này" ng-click="deleteProduct($index)" style="cursor: pointer;">
+													         <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+													            <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+													         </svg>
+													      </a>
+													   </div>
+													</span>
+												   </dt>
+												   <select class="form-control" chosen ng-model="p.id" ng-options="s.id as s.name for s in aProducts" data-placeholder-text-single="'Chọn sản phẩm'">
+												    	<option value=""></option>
+													</select>
+											</div>
+
+											<div class="two-thirds column pr-0 pl-0">
+												<div class="one-fourth column">
+													<dt><label>Số lượng</label>
+													<input type="text" class="form-control" id="example-text" placeholder="Số lượng" ng-model="p.count">
+												</div>
+												<div class="three-fourths column pr-0">
+													<dt><label>Ghi chú</label>
+													<input type="text" class="form-control" id="example-text" placeholder="Ghi chú về sản phẩm"  ng-model="p.note">
+												</div>
+											</div>
+
+
+
+										   
+										   
+										</dl>
+								</div>
+								<div class="">
+									<button class="btn btn-primary" ng-click="addProduct()">
+										<svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 12 16" width="12" class="octicon octicon-plus float-left mr-1"><path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5z"></path></svg>
+										Thêm
+									</button>
+								</div>
+							</div>
+							<div style="display: block;">
+								<nav class="UnderlineNav"  style="float: none;clear: both;">
+								   <div class="UnderlineNav-body">
+								      <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+								      <svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
+										   <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
+										</svg>
 									Gói hàng</a>
 									</div>
 									  <div class="UnderlineNav-actions">
 									  	
 									  </div>
 								</nav>
-								<dl class="form-group">
-								   <dt><label for="user_profile_email">Ghi chú bắt buộc</label></dt>
-								   <dd>
-								      <select class="form-select select" id="user_profile_email" ng-model="shippingData.NoteCode" ng-options="note.code as note.text for note in NoteCodes">
-								         <!-- <option value="">{{note.text}}</option> -->
-								         
-								      </select>
-								   </dd>
-								</dl>
-								<dl class="form-group">
-								   <dt><label for="user_profile_bio">Ghi chú</label></dt>
-								   <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
-								      <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="user_profile_bio" rows="20" style="margin: 0px 5px 0px 0px; width: 442px; height: 69px;" ng-model="shippingData.Note"></textarea>
-								      <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
-								      <div class="suggester-container">
-								         <div class="suggester js-suggester js-navigation-container" data-url="/autocomplete/user-suggestions">
-								         </div>
-								      </div>
-								   </dd>
-								</dl>
+								{{selectedProducts}}
+								<div class="row">
+									
+									<dl class="form-group">
+									   <dt><label for="user_profile_email">Ghi chú bắt buộc</label></dt>
+									   <dd>
+									      <select class="form-select select" id="user_profile_email" ng-model="shippingData.NoteCode" ng-options="note.code as note.text for note in NoteCodes">
+									         <!-- <option value="">{{note.text}}</option> -->
+									         
+									      </select>
+									   </dd>
+									</dl>
+									<dl class="form-group">
+									   <dt><label for="user_profile_bio">Ghi chú</label></dt>
+									   <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
+									      <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="user_profile_bio" rows="20" style="margin: 0px 5px 0px 0px; width: 442px; height: 69px;" ng-model="shippingData.Note"></textarea>
+									      <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
+									      <div class="suggester-container">
+									         <div class="suggester js-suggester js-navigation-container" data-url="/autocomplete/user-suggestions">
+									         </div>
+									      </div>
+									   </dd>
+									</dl>
+								</div>
+
 							</div>
 							<div style="display: block;">
 								<nav class="UnderlineNav"  style="float: none;clear: both;">

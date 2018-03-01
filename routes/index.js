@@ -23,3 +23,7 @@ exports.shipping = function (req, res) {
 exports.printing = function (req, res) {
 	res.render('printing');
 };
+
+exports.orderManager = function (req, res) {
+	res.render('orderManager');
+};

@@ -1,6 +1,6 @@
 mShipping.controller('MainCtrl',
     function($rootScope, $scope, $http, $window, $document, $filter, $timeout, cfpLoadingBar,
-        cfpLoadingBar, Facebook) {
+        cfpLoadingBar, Facebook, firebaseService) {
         //GHN API
         $rootScope.ghnToken = '5a93de5d1070b06c97794a48';
 

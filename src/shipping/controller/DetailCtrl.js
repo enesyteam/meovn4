@@ -1,6 +1,49 @@
 mShipping.controller('DetailCtrl',
     function($rootScope, $scope, $http, $window, $state, $stateParams, $document, $filter, $timeout, cfpLoadingBar,
-        cfpLoadingBar, Facebook, toastr, toastrConfig, moment) {
+        cfpLoadingBar, Facebook, toastr, toastrConfig, moment, ProductPackService, firebaseService) {
+        // console.log(ProductPackService);
+        var products = [];
+        
+
+        // products.push(product);
+
+        // get all products
+        $scope.aProducts = [];
+        var getAllAvailableProducts = function(){
+          var ref = firebase.database().ref();
+          let productsRef = ref.child('products');
+          productsRef.on('child_added', snapshot => {
+            $scope.aProducts.push(snapshot.val());
+          });
+        }
+        getAllAvailableProducts();
+        $scope.selectedProducts = [];
+        $scope.selectedProducts.push({
+                id : 1,
+                count : 0,
+                note : ''
+            });
+        
+        $scope.addProduct = function(){
+            $scope.selectedProducts.push({
+                id : 1,
+                count : 0,
+                note : ''
+            });
+        }
+        $scope.deleteProduct = function(index){
+            console.log('xóa ' + index);
+            $scope.selectedProducts.splice(index, 1);
+        }
+
+        $scope.$watch('selectedProducts', function() {
+            console.log('need to recalculate');
+        });
+
+        $scope.recalculateProductPacks = function(){
+
+        }
+        // console.log($scope.aProducts);
         // console.log(moment);
         toastrConfig.closeButton = true;
         toastrConfig.timeOut = 3000;
@@ -10373,11 +10416,11 @@ mShipping.controller('DetailCtrl',
                 // "ToTime" : Date.now(),
                 "Condition": {
                     // "ShippingOrderID": 56721015,
-                    "CurrentStatus": "ReadyToPick",
+                    // "CurrentStatus": "ReadyToPick",
                     "CustomerID": 187464,
                     "OrderCode": $scope.trackingCode
                 },
-                "Skip": 0
+                "Skip": 100
             }
             $http.post('https://console.ghn.vn/api/v1/apiv3/GetOrderLogs', data, config)
                 .then(function(data) {

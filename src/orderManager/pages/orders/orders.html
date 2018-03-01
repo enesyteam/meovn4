@@ -1,0 +1,32 @@
+<div class="pContainer new-discussion-timeline experiment-repo-nav ng-scope">
+  <div class="d-sm-flex flex-wrap flex-items-stretch flex-justify-start gutter-sm-condensed">
+   <article class="col-sm-4 col-md-3 py-2" ng-repeat="order in orders">
+      <a class="casestudy-link d-block position-relative height-full border border-gray-light rounded-1 p-3">
+         <!-- <img src="https://assets-cdn.github.com/images/modules/explore/resources/open_source_guides.png" alt="" class="width-fit mb-2"> -->
+         <h1 class="h3 lh-condensed mb-2">
+           {{order.OrderCode}}
+         </h1>
+         <h5 class="text-gray mb-0">
+          {{order.OrderInfo.CustomerName}} / {{order.OrderInfo.CustomerPhone}}
+         </h5>
+         <p class="text-gray mb-0">
+          CODE: {{order.OrderInfo.CoDAmount}} VNĐ
+         </p>
+         <p class="text-gray mb-0">
+          Đang ở: {{order.OrderInfo.CurrentWarehouseName}}
+         </p>
+         <p class="text-gray mb-0">
+          Ghi chú: {{order.OrderInfo.Note}}
+         </p>
+         <p class="text-gray mb-0">
+          Ngày tạo: {{formatDate(order.CreateTime)}}
+         </p>
+      </a>
+   </article>
+   
+</div>
+<!-- <a class="btn btn-outline f6 mt-2 float-right d-none d-md-inline-block" ng-click="getNextOrders()">Tải thêm</a> -->
+<p class="f4 text-center  mt-8 mb-10">
+      <a class="btn btn-large btn-outline mx-auto d-none d-sm-inline-block" ng-class="isLoading ? 'disabled' : ''" style="cursor: pointer;" ng-click="getNextOrders()">Tải thêm (30)</a>
+    </p>
+</div>

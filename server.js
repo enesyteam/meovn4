@@ -8,7 +8,10 @@ var express = require('express');
 var request = require('request');
 var morgan = require('morgan');
 var router = express();
-path = require('path');
+var path = require('path');
+
+var cors = require('cors');
+
 
 const PORT = process.env.PORT || 5000
 
@@ -29,6 +32,7 @@ app.get('/realtime',  routes.realtime);
 app.get('/login',  routes.login);
 app.get('/shipping',  routes.shipping);
 app.get('/printing',  routes.printing);
+app.get('/orderManager',  routes.orderManager);
 
 // var env = process.env.NODE_ENV || 'development';
 
@@ -36,6 +40,8 @@ app.get('/printing',  routes.printing);
 // if (env === 'development') {
 //   app.use(express.errorHandler());
 // }
+
+// app.use(cors());
 
 // app.use(express.static(path.join(__dirname, 'assets')));
 // app.use('/static', express.static('public'))
@@ -68,8 +74,9 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(morgan('dev'));
 
+
 // server.listen(app.get('port'), app.get('ip'), function() {
-//   console.log("Chat bot server listening at %s:%d ", app.get('ip'), app.get('port'));
+//   console.log("Meo server listening at %s:%d ", app.get('ip'), app.get('port'));
 // });
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`));

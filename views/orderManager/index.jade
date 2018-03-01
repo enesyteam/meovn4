@@ -1,0 +1,27 @@
+doctype html
+html(lang='en', ng-app='mOrderManager')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='description', content='Introducing Lollipop, a sweet new take on Android.')
+    meta(name='viewport', content='width=device-width,initial-scale=1,minimum-scale=1')
+    link.next-head(href='https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=vietnamese', rel='stylesheet')
+    title Order Manager - Meovn 4
+    link(rel='stylesheet', href='/src/admin/sass/framework.css')
+    link(rel='stylesheet', href='/src/admin/sass/styles.css')
+    link(rel='stylesheet', href='/src/orderManager/sass/app.css')
+  body
+    div(ui-view='')
+    script(src='/assets/js/scripts-angular.min.js')
+    script(src='/node_modules/angular-animate/angular-animate.min.js')
+    script(src='/node_modules/angular-resource/angular-resource.min.js')
+    script(src='/node_modules/angular-route/angular-route.min.js')
+    script(src='/node_modules/angular-ui-router/release/angular-ui-router.min.js')
+    script(src='/node_modules/angular-sanitize/angular-sanitize.min.js')
+
+    script(src='/node_modules/moment/min/moment.min.js')
+    script(src='/node_modules/angular-moment/angular-moment.min.js')
+    // inject:js
+    script(src='/src/orderManager/app/app.js')
+    script(src='/src/orderManager/controller/MainCtrl.js')
+    // endinject

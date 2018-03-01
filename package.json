@@ -1,5 +1,5 @@
 {
-    "name": "MEOVN",
+  "name": "MEOVN",
   "version": "4.0.0",
   "main": "server.js",
   "scripts": {
@@ -34,6 +34,7 @@
     "angular-toastr": "^2.1.1",
     "angular-ui-router": "^0.4.3",
     "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "express": "^4.16.2",
     "frappe-charts": "0.0.8",
     "gulp": "^3.9.1",
