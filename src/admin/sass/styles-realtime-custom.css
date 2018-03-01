@@ -1452,3 +1452,14 @@ body .filterbar li.active svg {
 .subnav-search-context .select-menu-modal{
     width: 265px;
 }
+.btn-square{
+ border-radius: 0px; 
+}
+.btn-square.last{
+ /*border-radius: 0px; */
+ border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+.BtnGroup-item.status-bar:last-child{
+    border-radius: 0px !important; 
+}

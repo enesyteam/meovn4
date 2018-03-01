@@ -27,12 +27,6 @@ mOrderManager.controller('MainCtrl',
                 description : 'Trạng thái ReadyToPick là trạng thái đơn hàng mới được tạo ra và chờ nhân viên lấy hàng đến lấy. Khi đơn hàng được tạo ra mặc định sẽ nằm trong trạng thái này.'
             },
             {
-                id: 102,
-                code: 'Picking',
-                text: 'Đang lấy hàng',
-                description : 'Là trạng thái nhân viên giao nhận của giaohangnhanh đang đi lấy hàng'
-            },
-            {
                 id: 0,
                 code: 'Cancel',
                 text: 'Hủy',
@@ -41,19 +35,19 @@ mOrderManager.controller('MainCtrl',
             {
                 id: 201,
                 code: 'Storing',
-                text: 'GHN Đã lấy',
+                text: 'Đã lấy',
                 description : 'Là trạng thái nhân viên giao nhận của giaohangnhanh đã nhận được và chuyển hàng hóa về kho lưu trữ'
             },
             {
                 id: 202,
                 code: 'Delivering',
-                text: 'Đang giao hàng',
+                text: 'Đang giao',
                 description : 'Là trạng thái nhân viên giao nhận của giaohangnhanh đang đi giao hàng cho người nhận'
             },
             {
                 id: 203,
                 code: 'Delivered',
-                text: 'Giao thành công',
+                text: 'Thành công',
                 description : 'Là trạng thái đơn hàng đã được giao thành công'
             },
             {
@@ -71,7 +65,7 @@ mOrderManager.controller('MainCtrl',
             {
                 id: 204,
                 code: 'WaitingToFinish',
-                text: 'WaitingToFinish',
+                text: 'Chờ trả',
                 description : 'Là trạng thái đơn hàng đang được xử lý để hoàn thành (ví dụ chuyển tiền thu hộ)'
             },
             {

@@ -160,7 +160,9 @@
 		                   <a class="js-selected-navigation-item reponav-item" ng-class="selectedStatus==status ? 'selected' : ''" data-hotkey="g c" ng-click="changeStatus(status)" style="cursor: pointer;">
 		                      <span itemprop="name">{{status.text}}</span>
 		                      <meta itemprop="position" content="1">
+		                      <span class="Counter" ng-if="selectedStatus==status">{{Total}}</span>
 		                   </a>
+
 		                </span>
 		                
 		             </nav>
