@@ -1,4 +1,11 @@
 /*! * Primer-marketing * http://primer.github.io * * Released under MIT license. Copyright (c) 2018 GitHub Inc. */
+.Header {
+    z-index: 1;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: rgba(255, 255, 255, 0.75);
+    background-color: firebrick;
+}
 .pContainer {
     max-width: 1200px;
     margin: 0 auto;
