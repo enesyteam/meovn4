@@ -2313,7 +2313,7 @@ fieldset {
     border: 0
 }
 label {
-    font-weight: 600
+    /*font-weight: 600*/
 }
 .form-control,
 .form-select {
@@ -3839,7 +3839,7 @@ a.tabnav-extra:hover {
     margin-bottom: -1px
 }
 .UnderlineNav-item {
-    padding: 16px 8px;
+    padding: 10px 8px;
     margin-right: 16px;
     font-size: 14px;
     line-height: 1.5;

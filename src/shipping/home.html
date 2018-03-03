@@ -1,3 +1,12 @@
+<!-- 
+<div ng-if="isLoading" class="p6n-ls-wrapper" aria-hidden="true" style="display: block;position: absolute;bottom: 0;left: 15px;">
+   <pan-loader offline="offline" pan-buttertip-message="" pan-show-tip-if="offline" style="
+      display: block;
+      ">
+      <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
+   </pan-loader>
+</div> -->
+
 <div class="fpage_mes">
    <div class="fpage_mes_content">
       <div class="wrap_content">
@@ -33,30 +42,30 @@
                   </div> -->
                   <div class="people scrollable">
                      <div style="height: 100%">
-                        <li ng-repeat="order in shippingItems | reverse" class="person order-{{order.id}}" ng-click="activeOrder(order)" ui-sref="home.detail({ctype: order.ctype, id : order.id, cm:order.customer_mobile, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active">
+                        <li ng-repeat="order in shippingItems | reverse" class="person order-{{order.id}}" ui-sref="home.detail({ctype: order.data.orderData.type, id : order.id, cm: order.data.customerData.recievedPhone, page_id: order.data.orderData.page_id, post_id: order.data.orderData.post_id, customer_id: order.data.orderData.customer_id, oid: order.data.orderData.id, cv_id: order.data.orderData.conversation_id})" ui-sref-active="active">
                         <div class="wrap_chat">
                            <!-- <div class="check">
                               <input type="checkbox" class="check_people" value="on">
                            </div> -->
                            <div class="clearfix">
                               <div class="">
-                                 <img ng-src="{{'//graph.facebook.com/' + order.fbId  + '/picture?width=50&amp;height=50'}}" alt="avatar" title="{{order.customer_name}}">
+                                 <img ng-src="{{'//graph.facebook.com/' + order.data.orderData.customer_id  + '/picture?width=50&amp;height=50'}}" alt="avatar" title="{{order.data.orderData.customer_name}}">
                               </div>
                               <div class="info">
                                  <div class="title">
                                     <span class="name">
-                                       {{order.customer_name}}
+                                       {{order.data.customerData.realName || order.data.orderData.customer_name}}
                                     </span>
                                  </div>
                                  <span class="live_chat">
-                                    <span>{{order.customer_address}} {{getStatusById(order.status_id).name}}</span>
+                                    <span>{{order.data.customerData.addresss}}</span>
                                  </span>
                               </div>
                               <div class="time_tag"><span class="time_latest_message">
-                                 {{ order.publish_date | date:'HH:mm dd/MM'}}
+                                 {{ order.data.created_time | date:'HH:mm dd/MM'}}
                               </span>
                                  <ul class="list_tag">
-                                    <li class="tag_item" ng-if="order.type==1">
+                                    <li class="tag_item" ng-if="order.data.orderData.type==1">
                                        <svg version="1.1" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;" xml:space="preserve" class="octicon octicon-repo v-align-middle text-gray-light mr-1" width="16">
                                           <g>
                                              <path d="M7,9L5.268,7.484l-4.952,4.245C0.496,11.896,0.739,12,1.007,12h11.986

@@ -1,7 +1,29 @@
 mRealtime.controller('OdersCtrl',
     function($rootScope, $scope, $state, $stateParams, $filter, $timeout, cfpLoadingBar, 
-        cfpLoadingBar, Facebook, $snackbar, firebaseService) {
+        cfpLoadingBar, Facebook, firebaseService, ProductPackService, toastr,  toastrConfig, access_token_arr, activeItem) {
+
+        $rootScope.access_token_arr = access_token_arr;
+
+        angular.forEach(activeItem, function(value, key){
+            // console.log(value);
+            $rootScope.activeOrder = value;
+          });
+
         $scope.conversation_type = $stateParams.type;
+        function AlertError(c, d) {
+            toastr.error(c, d)
+        };
+
+        function AlertSuccessful(c, d) {
+            toastr.success(c, d)
+        };
+
+        function AlertWarning(c, d) {
+            toastr.warning(c, d)
+        };
+
+        toastrConfig.closeButton = true;
+        toastrConfig.timeOut = 3000;
 
         $scope.isShowFullPost = false;
         $scope.showFullPost = function(){
@@ -21,7 +43,8 @@ mRealtime.controller('OdersCtrl',
         $scope.noteContent = {};
         $scope.addNote = function(){
             if(!$scope.noteContent.text || $scope.noteContent.text.length == 0){
-                snackbar('Vui lòng nhập nội dung');
+                // snackbar('Vui lòng nhập nội dung');
+                AlertError('Vui lòng nhập nội dung', 'Lỗi');
                 return;
             }
             var activeLogItem = {
@@ -72,13 +95,15 @@ mRealtime.controller('OdersCtrl',
 
         // get current access token
         var getCurrentPageAccessToken = function(){
-            if(!$rootScope.access_token_arr) return;
+            if(!$rootScope.access_token_arr) {
+                AlertError('Access token array is null', 'Error');
+                return;
+            }
             var token = $scope.filterById($rootScope.access_token_arr, $stateParams.page_id);
             if(token){
                 $scope.currentAccessToken = token.acess_token;
             }
-        }
-        getCurrentPageAccessToken();
+        }.call(this)
 
         // graph user
         if($stateParams.customer_id){
@@ -177,7 +202,8 @@ mRealtime.controller('OdersCtrl',
         $scope.comentText = null;
         $scope.replyToComment = function(){
             if(!$scope.comentText || $scope.comentText.length==0){
-                snackbar('Vui lòng nhập nội dung!');
+                // snackbar('Vui lòng nhập nội dung!');
+                AlertError('Vui lòng nhập nội dung', 'Lỗi');
                 return;
             } 
             if($stateParams.type == 1){
@@ -206,7 +232,8 @@ mRealtime.controller('OdersCtrl',
                         $scope.comentText = null;
                         graphComments();
                         $scope.startReplying = false;
-                        snackbar('Gửi bình luận thành công!');
+                        // snackbar('Gửi bình luận thành công!');
+                        AlertSuccessful('Gửi bình luận thành công', 'Thông báo');
                     });
                   }
                 }
@@ -219,7 +246,7 @@ mRealtime.controller('OdersCtrl',
                 "POST",
                 {
                     "message": $scope.comentText,
-                    // "attachment_url" : "http://pluspng.com/img-png/github-octocat-logo-vector-png-octocat-icon-1600.png",
+                    // "attachment_url" : "https://storage.googleapis.com/content.pages.fm/2017/12/24/33e1abe1858d07830ab3f53b2b2c08988c507b5a.jpg",
                     "access_token" : $scope.currentAccessToken
                 },
                 function (response) {
@@ -229,7 +256,8 @@ mRealtime.controller('OdersCtrl',
                         $scope.comentText = null;
                         graphMessages();
                         $scope.startReplying = false;
-                        snackbar('Gửi tin nhắn thành công đến khách hàng!');
+                        // snackbar('Gửi tin nhắn thành công đến khách hàng!');
+                        AlertSuccessful('Gửi tin nhắn thành công', 'Thông báo');
                     });
                   }
                 }
@@ -237,17 +265,17 @@ mRealtime.controller('OdersCtrl',
         }
 
         // snackbar functions
-        var snackbar = function(message){
-            var options = {
-              message : message,
-              time: "SHORT"
-            }
-            $snackbar.show(options);
-        }
+        // var snackbar = function(message){
+        //     var options = {
+        //       message : message,
+        //       time: "SHORT"
+        //     }
+        //     $snackbar.show(options);
+        // }
 
-        $scope.showSnackbar = function() {
-            snackbar('Gửi tin nhắn thành công đến khách hàng');
-        };
+        // $scope.showSnackbar = function() {
+        //     snackbar('Gửi tin nhắn thành công đến khách hàng');
+        // };
 
         /**
         * Check before user change status
@@ -256,15 +284,15 @@ mRealtime.controller('OdersCtrl',
         */
         function validationBeforChangeStatus(status){
             if($rootScope.currentMember.is_admin == 1){
-               return true; 
+               return true;
             }
             if($rootScope.activeOrder.seller_will_call_id !== $rootScope.currentMember.id){
-                snackbar('Oop! Thao tác không được chấp nhận!');
+                // snackbar('Oop! Thao tác không được chấp nhận!');
                 return false;
             }
 
             if($rootScope.activeOrder.status_id == status.id){
-                snackbar('Oop! Không thay đổi trạng thái!');
+                // snackbar('Oop! Không thay đổi trạng thái!');
                 return false;
             }
             return true;
@@ -328,5 +356,157 @@ mRealtime.controller('OdersCtrl',
             var exists = (snapshot.val() !== null);
             userExistsCallback(userId, exists);
           });
+        }
+
+        // products
+        // var products = [];
+        
+
+        // products.push(product);
+
+        // get all products
+        $scope.aProducts = [];
+        var getAllAvailableProducts = function(){
+          var ref = firebase.database().ref();
+          let productsRef = ref.child('products');
+          productsRef.on('child_added', snapshot => {
+            $scope.aProducts.push(snapshot.val());
+          });
+        }
+        getAllAvailableProducts();
+        $scope.selectedProducts = [];
+        // $scope.selectedProducts.push({
+        //         id : 1,
+        //         count : 0,
+        //         note : ''
+        //     });
+        
+        $scope.addProduct = function(){
+            $scope.selectedProducts.push({
+                id : null,
+                count : 1,
+                note : ''
+            });
+        }
+        $scope.deleteProduct = function(index){
+            console.log('xóa ' + index);
+            $scope.selectedProducts.splice(index, 1);
+        }
+        $scope.customerData = {
+            realName: "Khách lẻ",
+            recievedPhone: '',
+            birthDay: '',
+            addresss: '',
+            products: [],
+            customerNote: '',
+            orderNote: ''
+        }
+        $scope.newProduct = {
+            name: ''
+        };
+        $scope.onAddNewProduct = function(){
+            console.log($scope.newProduct.name);
+            if($scope.newProduct.name == ''){
+                AlertError('Vui lòng nhập tên sản phẩm', 'Thông báo');
+                return false;
+            }
+            firebaseService.addNewProduct($scope.newProduct.name).then(function(response){
+                console.log(response);
+                AlertSuccessful('Thêm sản phẩm thành công', 'Thông báo');
+                $scope.newProduct = {
+                    name: ''
+                };
+            })
+        }
+        var validateCustomerData = function(){
+            console.log($scope.selectedProducts);
+            if(!$scope.customerData.birthDay || $scope.customerData.birthDay.length < 1){
+                AlertError('Vui lòng nhập năm sinh', 'Thông báo');
+                return false;
+            }
+            if(!angular.isNumber($scope.customerData.birthDay)){
+                AlertError('Năm sinh không đúng', 'Thông báo');
+                return false;
+            }
+            if(!$scope.customerData.addresss || $scope.customerData.addresss.length < 1){
+                AlertError('Vui lòng nhập địa chỉ nhận hàng', 'Thông báo');
+                return false;
+            }
+            if(!$scope.selectedProducts || $scope.selectedProducts.length == 0){
+                AlertError('Vui lòng thêm sản phẩm', 'Thông báo');
+                return false;
+            }
+            if($scope.selectedProducts.length > 0){
+                // if($scope.selectedProducts.indexOf(null) !== -1) {
+                //   AlertError('Vui lòng chọn sản phẩm', 'Thông báo');
+                //   return false;
+                // }
+                var pass = true;
+                var countProductPass = true;
+                angular.forEach($scope.selectedProducts, function(product){
+                    pass = pass && product.id;
+                    if(!angular.isNumber(product.count)){
+                        AlertError('Số lượng không đúng', 'Thông báo');
+                        return false;
+                    }
+                    if(product.count < 1){
+                        countProductPass = false;
+                    }
+                })
+                if(!countProductPass){
+                    AlertError('Số lượng không đúng', 'Thông báo');
+                    return false;
+                }
+                if(!pass){
+                    AlertError('Vui lòng chọn sản phẩm', 'Thông báo');
+                    return false;
+                }
+            }
+            return true;
+        }
+        $scope.onSubmitOrder = function(){
+            if(validateCustomerData()){
+                $scope.customerData.products = $scope.selectedProducts;
+                console.log($scope.customerData);
+                
+
+                //
+                // console.log($rootScope.statuses);
+                var successStatus = $rootScope.filterById($rootScope.statuses, 6);
+                if(successStatus){
+                    $scope.changeStatus(successStatus);
+                    // add shipping item
+                    var data = {
+                        customerData : $scope.customerData,
+                        orderData : {
+                            conversation_id : $rootScope.activeOrder.conversation_id,
+                            customer_id : $rootScope.activeOrder.customer_id,
+                            customer_name : $rootScope.activeOrder.customer_name,
+                            id : $rootScope.activeOrder.id,
+                            page_id: $rootScope.activeOrder.page_id,
+                            post_id : $rootScope.activeOrder.post_id || null,
+                            publish_date : $rootScope.activeOrder.publish_date,
+                            status_id : $rootScope.activeOrder.status_id,
+                            type :  $rootScope.activeOrder.type || null
+                        },
+                        created_time : Date.now()
+                    }
+                    firebaseService.addNewShippingItem(data).then(function(response){
+
+                    })
+                    AlertSuccessful('Chốt đơn hàng thành công', 'Thông báo');
+                    // addNewShippingItem
+                }
+
+                // reset customerData
+                $scope.customerData = {
+                    realName: "Khách lẻ",
+                    recievedPhone: '',
+                    birthDay: '',
+                    addresss: '',
+                }
+                // reset products
+                $scope.selectedProducts = [];
+            }
         }
 	});

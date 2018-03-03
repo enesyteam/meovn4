@@ -7,7 +7,7 @@
 
   angular.module('mShipping')
   .service('firebaseService', ["$firebaseArray", "$filter", function ($firebaseArray, $filter, scope) { 
-
+    var ref = firebase.database().ref();
   var getStatuses = function() {
       return ref.child('statuses').orderByChild('allow_change').equalTo(1).once('value', function(snapshot) {
       });
@@ -38,7 +38,7 @@
       return d.getFullYear() + ("0"+(d.getMonth() + 1)).slice(-2) + "" + ("0" + d.getDate()).slice(-2);
   }
 
-  var ref = firebase.database().ref();
+  
   var getTodayReport = function(){
         var today = new Date();
         var reportDateString = convertDate(today);
@@ -58,6 +58,29 @@
           console.log(snapshot.val());
         });
     }
+
+  var getShippingItems = function() {
+        return new Promise(function(resolve, reject) {
+          var shippingItems = [];
+          let shippingRef = ref.child('shippingItems').limitToLast(100);
+          shippingRef.on('child_added', snapshot => {
+              shippingItems.push({
+                  id: snapshot.val().id,
+                  data : snapshot.val().data,
+              });
+          });
+          resolve(shippingItems);
+        });
+    }
+
+  var getShippingItem = function(id){
+    return ref.child('shippingItems').orderByChild('id').equalTo(id).once('value', function(snapshot){
+      // console.log(snapshot.val());
+      // return snapshot.val()
+      
+      
+    })
+  }
 
   /**
   * Convert date from 12315648465 to YYYYMMDD
@@ -180,6 +203,8 @@
     getStatuses : getStatuses,
     getNewOrders : getNewOrders,
     onAddNewOrder : onAddNewOrder,
+    getShippingItems : getShippingItems,
+    getShippingItem : getShippingItem,
 	}
 
 }]);

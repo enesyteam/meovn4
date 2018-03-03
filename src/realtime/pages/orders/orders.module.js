@@ -19,7 +19,14 @@
                 resolve: {
                   access_token_arr: function (accessTokenService) {
                     return accessTokenService.getAccessToken();
+                  },
+                  activeItem : function(firebaseService, $stateParams){
+                    return firebaseService.getOrderItem($stateParams.id).then(function(snapshot){
+                      // console.log(snapshot.val());
+                      return snapshot.val();
+                    });
                   }
+
                 },
                 templateUrl: "/src/realtime/pages/orders/detail.html",
                 params     : { type: null, id : null, page_id: null, post_id: null, conversation_id: null, customer_id: null, status_id: null},

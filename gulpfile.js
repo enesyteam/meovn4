@@ -242,8 +242,10 @@ var realtimeSources = gulp.src([
     // 'node_modules/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js',
     'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
 
-    'assets/js/snackbar.js', //snackbar
+    // 'assets/js/snackbar.js', //snackbar
     'node_modules/ng-file-upload/dist/ng-file-upload.min.js',
+    'node_modules/angular-chosen-localytics/dist/angular-chosen.js',
+    'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
 
 
     /*app*/
@@ -253,6 +255,7 @@ var realtimeSources = gulp.src([
     'src/realtime/service/firebase.service.js',
     'src/realtime/service/firebase.storage.service.js',
     'src/realtime/service/access_token.service.js',
+    'src/realtime/service/product-pack.service.js',
     //
     'src/realtime/app/controller/MainCtrl.js',
 
@@ -273,7 +276,7 @@ var shippingSources = gulp.src([
     // 'node_modules/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js',
     'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
 
-    'assets/js/snackbar.js', //snackbar
+    // 'assets/js/snackbar.js', //snackbar
     'node_modules/ng-file-upload/dist/ng-file-upload.min.js',
     
     'node_modules/angular-chosen-localytics/dist/angular-chosen.js',

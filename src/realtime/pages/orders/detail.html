@@ -5,62 +5,213 @@
          <span class="f_name"><a class="replace_chat_name" href="//facebook.com/{{customer.id}}" target="_blank">{{customer.name}}</a><a href="//facebook.com/351786215296716" target="_blank" data-toggle="tooltip" data-placement="right" data-original-title="Xem trên facebook"><i class="max-768 fa fa-lg fa-external-link"></i></a></span>
          <div class="f_profile"></div>
       </div>
-      <div class="a_right">
+      <div class="a_right" ng-if="statuses.length>0">
          <div style="display: inline-block;">
             <div class="float-right">
-            <div class="BtnGroup">
-               <a ng-repeat="status in statuses track by $index" class="btn btn-sm btn-outline BtnGroup-item  dropdown-details details-reset status-bar" ng-if="status.active==1 && status.id!==6" ng-click="changeStatus(status)" >
-                  <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" name="circle" style="vertical-align: text-bottom; color: {{status.color}}; font-size: 14px; margin-left: 2px; margin-right: 0px; line-height: 24px;"><g><path d="m37.3 20q0 4.7-2.3 8.6t-6.3 6.2-8.6 2.3-8.6-2.3-6.2-6.2-2.3-8.6 2.3-8.6 6.2-6.2 8.6-2.3 8.6 2.3 6.3 6.2 2.3 8.6z"></path></g></svg>
-                  {{status.name}}
-               </a>
-               
-            </div>
-            <details class="get-repo-select-menu js-menu-container float-right position-relative dropdown-details details-reset file-navigation">
-            <summary class="btn btn-sm btn-primary btn-square last" style="line-height: 20px">
-               Chốt
-               <span class="dropdown-caret"></span>
-            </summary>
-            <div class="position-relative" style="line-height: 20px">
-               <div class="get-repo-modal dropdown-menu dropdown-menu-sw pb-0 js-toggler-container ">
-                  <div class="clone-options https-clone-options">
-                     <!-- '"` --><!-- </textarea></xmp> -->
-                     <h4 class="mb-1">
-                        Bổ sung thông tin đơn hàng
-                        <a class="muted-link" href="https://help.github.com/articles/which-remote-url-should-i-use" target="_blank" title="Which remote URL should I use?">
-                           <svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14">
-                              <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
-                           </svg>
-                        </a>
-                     </h4>
-                     <p class="mb-2 get-repo-decription-text">
-                        Vui lòng bổ sung các thông tin sau:
-                     </p>
-                     <div class="input-group js-zeroclipboard-container">
-                        <input type="text" class="form-control input-monospace input-sm js-zeroclipboard-target js-url-field" placeholder="Địa chỉ nhận hàng" aria-label="Clone this repository at https://github.com/iamkdev/ng-frappe-charts.git">
-                        <div class="input-group-button">
-                           <button aria-label="Copy to clipboard" class="js-zeroclipboard btn btn-sm zeroclipboard-button tooltipped tooltipped-s" data-copied-hint="Copied!" type="button">
-                              <svg aria-hidden="true" class="octicon octicon-clippy" height="16" version="1.1" viewBox="0 0 14 16" width="14">
-                                 <path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path>
+               <div class="BtnGroup">
+                  <a ng-repeat="status in statuses track by $index" class="btn btn-sm btn-outline BtnGroup-item  dropdown-details details-reset status-bar" ng-if="status.active==1 && status.id!==6" ng-click="changeStatus(status)" >
+                     <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" name="circle" style="vertical-align: text-bottom; color: {{status.color}}; font-size: 14px; margin-left: 2px; margin-right: 0px; line-height: 24px;">
+                        <g>
+                           <path d="m37.3 20q0 4.7-2.3 8.6t-6.3 6.2-8.6 2.3-8.6-2.3-6.2-6.2-2.3-8.6 2.3-8.6 6.2-6.2 8.6-2.3 8.6 2.3 6.3 6.2 2.3 8.6z"></path>
+                        </g>
+                     </svg>
+                     {{status.name}}
+                  </a>
+               </div>
+               <details class="get-repo-select-menu js-menu-container float-right position-relative dropdown-details details-reset file-navigation">
+                  <summary class="btn btn-sm btn-primary btn-square last" style="line-height: 20px">
+                     Chốt
+                     <span class="dropdown-caret"></span>
+                  </summary>
+                  <div class="position-relative" style="line-height: 20px;height: 500px">
+                     <div class="get-repo-modal dropdown-menu dropdown-menu-sw pb-0 js-toggler-container ">
+                        <div class="clone-options https-clone-options">
+                           <!-- '"` --><!-- </textarea></xmp> -->
+                           <div class="orderData" style="max-height: 450px;overflow-y: auto;overflow-x: hidden;margin-right: -15px">
+                              <div style="padding-right: 15px">
+                              </h4>
+                              <div style="display: block;">
+                                 <nav class="UnderlineNav"  style="float: none;clear: both;">
+                                    <div class="UnderlineNav-body">
+                                       <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+                                          <svg height="16" class="octicon octicon-person" viewBox="0 0 12 16" version="1.1" width="14" aria-hidden="true">
+                                             <path fill-rule="evenodd" d="M12 14.002a.998.998 0 0 1-.998.998H1.001A1 1 0 0 1 0 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path>
+                                          </svg>
+                                          Khách hàng
+                                       </a>
+                                    </div>
+                                    <div class="UnderlineNav-actions">
+                                       <span class="tooltipped tooltipped-sw tooltipped-no-delay" aria-label="Thông tin về khách hàng">
+                                          <svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                                             <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                                          </svg>
+                                       </span>
+                                    </div>
+                                 </nav>
+                                 <div style="display: flex;">
+                                    <dl class="form-group">
+                                       <div class="one-third column pr-0 pl-0">
+                                          <div class="">
+                                             <dt><label>Tên khách hàng</label></dt>
+                                             <input type="text" class="form-control input-sm" id="example-text" placeholder="Nhập tên khách" ng-model="customerData.realName">
+                                          </div>
+                                       </div>
+                                       <div class="two-thirds column pr-0 pl-0">
+                                          <div class="two-thirds column">
+                                             <dt><label>Số điện thoại</label></dt>
+                                             <input type="text" class="form-control input-sm" title="Chỉ thêm nếu khách cho số điện thoại khác" id="example-text" placeholder="Số điện thoại nhận hàng"  ng-model="customerData.recievedPhone">
+                                          </div>
+                                          <div class="one-third column pl-0">
+                                             <dt><label>Năm sinh</label></dt>
+                                             <input type="number" class="form-control input-sm" id="example-text" placeholder="Năm sinh"  ng-model="customerData.birthDay">
+                                          </div>
+                                       </div>
+                                    </dl>
+                                 </div>
+                                 <dl class="form-group">
+                                    <dt><label>Địa chỉ nhận hàng</label></dt>
+                                    <input type="text" class="form-control input-sm" id="example-text" placeholder="Địa chỉ" ng-model="customerData.addresss">
+                                 </dl>
+                              </div>
+                              <div style="display: block;">
+                                 <nav class="UnderlineNav"  style="float: none;clear: both;">
+                                    <div class="UnderlineNav-body">
+                                       <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+                                          <svg height="16" class="octicon octicon-file-text" viewBox="0 0 12 16" version="1.1" width="15" aria-hidden="true">
+                                             <path d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path>
+                                          </svg>
+                                          Sản phẩm
+                                       </a>
+                                    </div>
+                                    <div class="UnderlineNav-actions">
+                                       <span class="tooltipped tooltipped-sw tooltipped-no-delay" aria-label="Danh sách các sản phẩm mà khách đặt hàng">
+                                          <svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                                             <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                                          </svg>
+                                       </span>
+                                    </div>
+                                 </nav>
+                                 <div class="row" style="display: flex;" ng-repeat="p in selectedProducts track by $index">
+                                    <dl class="form-group">
+                                       <div class="one-third column pl-0 chosen-sm">
+                                          <dt>
+                                             <label>Sản phẩm {{$index+1}}</label>
+                                             <span class="d-inline-block mr-1">
+                                                <div class="commit-build-statuses">
+                                                   <a class="text-red tooltipped tooltipped-e tooltipped-no-delay" aria-label="Xóa sản phẩm này" ng-click="deleteProduct($index)" style="cursor: pointer;">
+                                                      <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                                         <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                                      </svg>
+                                                   </a>
+                                                </div>
+                                             </span>
+                                          </dt>
+                                          <select class="form-control input-sm " chosen ng-model="p.id" ng-options="s.id as s.name for s in aProducts" data-placeholder-text-single="'Chọn sản phẩm'" style="width: 100%">
+                                             <option value=""></option>
+                                          </select>
+                                       </div>
+                                       <div class="two-thirds column pr-0 pl-0">
+                                          <div class="one-fourth column">
+                                             <dt><label>Số lượng</label></dt>
+                                             <input type="number" class="form-control input-sm" id="example-text" placeholder="Số lượng" ng-model="p.count">
+                                          </div>
+                                          <div class="three-fourths column pl-0">
+                                             <dt><label>Ghi chú</label></dt>
+                                             <input type="text" class="form-control input-sm" id="example-text" placeholder="vd: 14 hạt/12mm"  ng-model="p.note">
+                                          </div>
+                                       </div>
+                                    </dl>
+                                 </div>
+                                 <div class="mt-2 mb-2">
+                                    
+                                    
+                                    <div>
+                                       <button class="btn btn-primary btn-sm" ng-click="addProduct()">
+                                       <svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 12 16" width="12" class="octicon octicon-plus float-left mr-2">
+                                          <path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5z"></path>
+                                       </svg>
+                                       Thêm
+                                    </button>
+                                       <button class="btn-link btn-sm tooltipped tooltipped-se tooltipped-no-delay" data-box-overlay-id="add-new-product-to-list" aria-expanded="false" aria-label="Nếu sản phẩm không có trong danh mục">
+                                          Thêm sản phẩm mới vào danh mục
+                                       </button>
+                                       <div class="Overlay js-box-overlay-container transition-in-out" id="add-new-product-to-list" hidden="" aria-modal="true" role="dialog" aria-label="Thêm sản phẩm mới vào danh mục?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
+                                          <div class="Overlay-table-full bg-transparent-dark">
+                                             <div class="Overlay-cell-middle">
+                                                <div class="Box Box--overlay js-box-overlay-content">
+                                                   <div class="Box-header">
+                                                      <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
+                                                         <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                                                            <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                                         </svg>
+                                                      </button>
+                                                      <h3 class="Box-title">
+                                                         Thêm sản phẩm mới vào danh mục
+                                                      </h3>
+                                                   </div>
+                                                   <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
+                                                      <p>Vui lòng nhập tên sản phẩm</p>
+                                                      <!-- '"` --><!-- </textarea></xmp> -->
+                                                      <form accept-charset="UTF-8" class="js-normalize-submit">
+                                                         <p>
+                                                            <input type="text" class="form-control input-block" ng-model="newProduct.name">
+                                                         </p>
+                                                         <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" ng-click="onAddNewProduct()">
+                                                            Thêm sản phẩm
+                                                         </button>
+                                                      </form>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <!-- {{selectedProducts}} -->
+                              <div style="display: block;">
+                                 <dl class="form-group">
+                                    <dt><label for="user_profile_bio">Yêu cầu của khách hàng</label></dt>
+                                    <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
+                                       <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input input-sm" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="user_profile_bio" rows="20" ng-model="customerData.customerNote" placeholder="Các yêu cầu đặc biệt của khách hàng"></textarea>
+                                       <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
+                                       <div class="suggester-container">
+                                          <div class="suggester js-suggester js-navigation-container">
+                                          </div>
+                                       </div>
+                                    </dd>
+                                 </dl>
+                                 <dl class="form-group">
+                                    <dt><label for="user_profile_bio">Ghi chú về đơn hàng</label></dt>
+                                    <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
+                                       <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input input-sm" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="user_profile_bio" rows="20" ng-model="customerData.orderNote" placeholder="vd: Nhận hàng vào lúc..."></textarea>
+                                       <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
+                                       <div class="suggester-container">
+                                          <div class="suggester js-suggester js-navigation-container">
+                                          </div>
+                                       </div>
+                                    </dd>
+                                 </dl>
+                              </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="mt-2">
+                           <!-- <a href="github-windows://openRepo/https://github.com/iamkdev/ng-frappe-charts" class="btn btn-outline get-repo-btn tooltipped tooltipped-s tooltipped-multiline" aria-label="Clone iamkdev/ng-frappe-charts to your computer and use it in GitHub Desktop.">
+                              Open in Desktop
+                              </a> -->
+                           <a class="btn btn-outline get-repo-btn
+                              " rel="nofollow" ng-click="onSubmitOrder()" style="cursor: pointer;">
+                              <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
                               </svg>
-                           </button>
+                              Bấm vào đây để chốt
+                           </a>
                         </div>
                      </div>
                   </div>
-                  
-                  <div class="mt-2">
-                     <!-- <a href="github-windows://openRepo/https://github.com/iamkdev/ng-frappe-charts" class="btn btn-outline get-repo-btn tooltipped tooltipped-s tooltipped-multiline" aria-label="Clone iamkdev/ng-frappe-charts to your computer and use it in GitHub Desktop.">
-                     Open in Desktop
-                     </a> -->
-                     <a href="/iamkdev/ng-frappe-charts/archive/master.zip" class="btn btn-outline get-repo-btn
-                        " rel="nofollow" data-ga-click="Repository, download zip, location:repo overview">
-                        <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" name="circle" style="vertical-align: text-bottom; color: red; font-size: 14px; margin-left: 2px; margin-right: 0px; line-height: 24px;"><g><path d="m37.3 20q0 4.7-2.3 8.6t-6.3 6.2-8.6 2.3-8.6-2.3-6.2-6.2-2.3-8.6 2.3-8.6 6.2-6.2 8.6-2.3 8.6 2.3 6.3 6.2 2.3 8.6z"></path></g></svg>
-                     Bấm vào đây để chốt
-                     </a>
-                  </div>
-               </div>
+               </details>
             </div>
-         </details>
-         </div>
          </div>
       </div>
    </div>
@@ -115,87 +266,91 @@
                <div class="write_chat">
                   <div class="input_chat"><textarea ng-model="comentText" class="input-msg" id="fb_info_message" name="input_message" placeholder="{{conversation_type==1 ? 'Tin nhắn' : 'Bình luận'}} sẽ được gửi trực tiếp đến khách hàng..." autocomplete="on" comment-enter=""></textarea></div>
                   <div class="function_message">
-                  <ul class="list_action">
-                     <li id="open_image_" class="open_image_post">
-                        <div class="image_post_form hidden" id="image_post_form">
-                           <ul class="drop_image_post">
-                              <li class="item">
-                                 <a title="true">
-                                    <i class="fa fa-picture-o"></i><!-- react-text: 1521 --> Chọn từ Bizweb<!-- /react-text -->
-                                 </a>
-                              </li>
-                              <li class="item">
-                                 <a title="true" data-toggle="modal" data-target="#Modal_Open_Image_Facebook">
-                                    <i class="fa fa-picture-o"></i><!-- react-text: 1525 --> Chọn từ Facebook<!-- /react-text -->
-                                 </a>
-                              </li>
-                              <li class="item input_open_image">
-                                 <a title="true">
-                                    <i class="fa fa-cloud-upload"></i><!-- react-text: 1529 --> Tải lên<!-- /react-text -->
-                                 </a>
-                                 <input type="file" class="" id="attachmentFile" multiple="">
-                              </li>
-                           </ul>
-                        </div>
-                        <div><a class="open_file" ng-click="showSelectPhotoFacebox()">
-                           <svg aria-hidden="true" class="octicon octicon-file" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
-                        </a></div>
-                        <!-- <span class="noti_f">Gửi ảnh</span> -->
-                     </li>
-                     <li>
-                        <!-- <div id="q_reply" class="quick_reply_clicked boxed-action" data-box-overlay-id="__9efa967a575401481604d4204fb717f9"><a data-placement="top">
-                           <svg aria-hidden="true" class="octicon octicon-comment v-align-middle" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"></path></svg>
-                        </a></div> -->
-                        <button type="button" class="btn btn-danger boxed-action" data-box-overlay-id="__9efa967a575401481604d4204fb717f9" aria-expanded="false">
-                        <svg aria-hidden="true" class="octicon octicon-eye" height="16" version="1.1" viewBox="0 0 16 16" width="16">
-                            <path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path>
-                         </svg>
-                        </button>
-                        <div class="Overlay js-box-overlay-container transition-in-out" id="__9efa967a575401481604d4204fb717f9" hidden="" aria-modal="true" role="dialog" aria-label="Are you absolutely sure?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
-                           <div class="Overlay-table-full bg-transparent-dark">
-                              <div class="Overlay-cell-middle">
-                                 <div class="Box Box--overlay js-box-overlay-content">
-                                    <div class="Box-header">
-                                       <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
-                                          <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                                             <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                                          </svg>
-                                       </button>
-                                       <h3 class="Box-title">
-                                          Are you absolutely sure?
-                                       </h3>
-                                    </div>
-                                    <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
-                                       <div class="flash flash-warn flash-full ml-n3 mt-n3 mr-n3 mb-2 border-top-0">
-                                          Unexpected bad things will happen if you don’t read this!
+                     <ul class="list_action">
+                        <li id="open_image_" class="open_image_post">
+                           <div class="image_post_form hidden" id="image_post_form">
+                              <ul class="drop_image_post">
+                                 <li class="item">
+                                    <a title="true">
+                                       <i class="fa fa-picture-o"></i><!-- react-text: 1521 --> Chọn từ Bizweb<!-- /react-text -->
+                                    </a>
+                                 </li>
+                                 <li class="item">
+                                    <a title="true" data-toggle="modal" data-target="#Modal_Open_Image_Facebook">
+                                       <i class="fa fa-picture-o"></i><!-- react-text: 1525 --> Chọn từ Facebook<!-- /react-text -->
+                                    </a>
+                                 </li>
+                                 <li class="item input_open_image">
+                                    <a title="true">
+                                       <i class="fa fa-cloud-upload"></i><!-- react-text: 1529 --> Tải lên<!-- /react-text -->
+                                    </a>
+                                    <input type="file" class="" id="attachmentFile" multiple="">
+                                 </li>
+                              </ul>
+                           </div>
+                           <div>
+                              <a class="open_file" ng-click="showSelectPhotoFacebox()">
+                                 <svg aria-hidden="true" class="octicon octicon-file" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                    <path fill-rule="evenodd" d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path>
+                                 </svg>
+                              </a>
+                           </div>
+                           <!-- <span class="noti_f">Gửi ảnh</span> -->
+                        </li>
+                        <li>
+                           <!-- <div id="q_reply" class="quick_reply_clicked boxed-action" data-box-overlay-id="__9efa967a575401481604d4204fb717f9"><a data-placement="top">
+                              <svg aria-hidden="true" class="octicon octicon-comment v-align-middle" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"></path></svg>
+                              </a></div> -->
+                           <button type="button" class="btn btn-danger boxed-action" data-box-overlay-id="__9efa967a575401481604d4204fb717f9" aria-expanded="false">
+                              <svg aria-hidden="true" class="octicon octicon-eye" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                                 <path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path>
+                              </svg>
+                           </button>
+                           <div class="Overlay js-box-overlay-container transition-in-out" id="__9efa967a575401481604d4204fb717f9" hidden="" aria-modal="true" role="dialog" aria-label="Are you absolutely sure?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
+                              <div class="Overlay-table-full bg-transparent-dark">
+                                 <div class="Overlay-cell-middle">
+                                    <div class="Box Box--overlay js-box-overlay-content">
+                                       <div class="Box-header">
+                                          <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
+                                             <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                                                <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                             </svg>
+                                          </button>
+                                          <h3 class="Box-title">
+                                             Are you absolutely sure?
+                                          </h3>
                                        </div>
-                                       <p>
-                                          This action <strong>cannot</strong> be undone. This will permanently delete the <strong>enesyteam/meovn</strong>
-                                          repository, wiki, issues, and comments, and remove all collaborator associations.
-                                       </p>
-                                       <p>Please type in the name of the repository to confirm.</p>
-                                       <!-- '"` --><!-- </textarea></xmp> -->
-                                       <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/delete" class="js-normalize-submit" method="post">
-                                          <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="delete"><input name="authenticity_token" type="hidden" value="7RVqJ97Xnzn6xJ1oUUy7e1YlYLWUTppjbsAZI81msI5yxsdkB4yX9NIId7LJHK77Zqzk7yG4C5oOEPulM7hOkQ=="></div>
+                                       <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
+                                          <div class="flash flash-warn flash-full ml-n3 mt-n3 mr-n3 mb-2 border-top-0">
+                                             Unexpected bad things will happen if you don’t read this!
+                                          </div>
                                           <p>
-                                             <input type="text" class="form-control input-block" autofocus="" required="" pattern="[mM][eE][oO][vV][nN]|[eE][nN][eE][sS][yY][tT][eE][aA][mM]/[mM][eE][oO][vV][nN]" aria-label="Type in the name of the repository to confirm that you want to delete this repository." name="verify">
+                                             This action <strong>cannot</strong> be undone. This will permanently delete the <strong>enesyteam/meovn</strong>
+                                             repository, wiki, issues, and comments, and remove all collaborator associations.
                                           </p>
-                                          <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" disabled="">I understand the consequences, delete this repository</button>
-                                       </form>
+                                          <p>Please type in the name of the repository to confirm.</p>
+                                          <!-- '"` --><!-- </textarea></xmp> -->
+                                          <form accept-charset="UTF-8" action="/enesyteam/meovn/settings/delete" class="js-normalize-submit" method="post">
+                                             <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="delete"><input name="authenticity_token" type="hidden" value="7RVqJ97Xnzn6xJ1oUUy7e1YlYLWUTppjbsAZI81msI5yxsdkB4yX9NIId7LJHK77Zqzk7yG4C5oOEPulM7hOkQ=="></div>
+                                             <p>
+                                                <input type="text" class="form-control input-block" autofocus="" required="" pattern="[mM][eE][oO][vV][nN]|[eE][nN][eE][sS][yY][tT][eE][aA][mM]/[mM][eE][oO][vV][nN]" aria-label="Type in the name of the repository to confirm that you want to delete this repository." name="verify">
+                                             </p>
+                                             <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" disabled="">I understand the consequences, delete this repository</button>
+                                          </form>
+                                       </div>
                                     </div>
                                  </div>
                               </div>
                            </div>
-                        </div>
-                        <!-- <span class="noti_f">Trả lời nhanh</span> -->
-                        <div class="quick_chat quick_reply hidden"><span class="add_qc">Thêm mẫu trả lời nhanh</span></div>
-                     </li>
-                     <!-- <li class="click_send_product">
-                        <div><a class="open_file"><i class="fa fa-tags"></i></a></div>
-                        <span class="noti_f">Gửi sản phẩm</span>
-                     </li> -->
-                  </ul>
-               </div>
+                           <!-- <span class="noti_f">Trả lời nhanh</span> -->
+                           <div class="quick_chat quick_reply hidden"><span class="add_qc">Thêm mẫu trả lời nhanh</span></div>
+                        </li>
+                        <!-- <li class="click_send_product">
+                           <div><a class="open_file"><i class="fa fa-tags"></i></a></div>
+                           <span class="noti_f">Gửi sản phẩm</span>
+                           </li> -->
+                     </ul>
+                  </div>
                </div>
             </div>
          </div>
@@ -205,6 +360,5 @@
       <!-- {{postData}} -->
       <!-- {{currentAccessToken}} -->
       <div class="log" style="padding: 15px;  margin: 0;overflow: auto;overflow-x: hidden;height: 100%;" ng-include="'/src/realtime/pages/orders/widgets/order-log.html'"></div>
-
    </div>
 </div>

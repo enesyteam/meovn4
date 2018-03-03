@@ -1,5 +1,5 @@
 m_admin.controller('DashboardCtrl',
-    function($rootScope, $scope, $http, $filter, $timeout, cfpLoadingBar, firebaseService, cfpLoadingBar, Facebook) {
+    function($rootScope, $scope, $http, $filter, $timeout, cfpLoadingBar, firebaseService, Facebook) {
         // get access token
         var getAccessToken = function(){
             $http.get('../assets/access_token.json').
@@ -16,6 +16,7 @@ m_admin.controller('DashboardCtrl',
         // $scope.start = function() {
         //     cfpLoadingBar.start();
         // };
+        // $scope.start();
 
         // $scope.complete = function() {
         //     cfpLoadingBar.complete();

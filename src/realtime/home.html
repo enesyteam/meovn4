@@ -1,4 +1,4 @@
-<div class="fpage_mes">
+<div class="fpage_mes" ng-cloak>
    <div class="fpage_mes_content">
       <div class="wrap_content">
          <div class="col_left sidebar_list_chat open_sidebar_chat">
@@ -33,7 +33,7 @@
                   </div>
                   <div class="people scrollable" ng-if="finishLoadingOrders" infinite-scroll="myPagingFunction()" infinite-scroll-distance="3">
                      <div style="height: 100%">
-                        <li ng-repeat="order in orders | reverse" ui-sref="home.detail({type: order.type, id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person order-{{order.id}}" ng-click="activeOrder(order)">
+                        <li ng-repeat="order in orders | reverse" ui-sref="home.detail({type: order.type, id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person order-{{order.id}}">
                         <div class="wrap_chat">
                            <!-- <div class="check">
                               <input type="checkbox" class="check_people" value="on">

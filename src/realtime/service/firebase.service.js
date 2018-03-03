@@ -255,6 +255,40 @@
         });
     }
 
+    var addNewProduct = function(productName){
+        return new Promise(function(resolve, reject) {
+            var newKey = ref.child('products').push().key;
+            ref.child('products').push({
+                id: newKey,
+                name: productName,
+                note: 'none',
+                size: 10,
+            })
+            resolve('Thêm sản phẩm thành công!');
+        });
+    }
+
+    var addNewShippingItem = function(shippingItemData){
+        console.log(shippingItemData)
+        return new Promise(function(resolve, reject) {
+            var newKey = ref.child('shippingItems').push().key;
+            ref.child('shippingItems').push({
+                id: newKey,
+                data: shippingItemData
+            })
+
+            resolve('Thêm shipping item thành công!');
+        });
+    }
+
+    /*
+    * get specific order item given by id
+    */
+    var getOrderItem = function(id){
+        return ref.child('newOrders').orderByChild('id').equalTo(id).once('value', function(snapshot){
+        })
+    }
+
     return {
     	getOrders : getOrders,
     	getSources : getSources,
@@ -265,6 +299,9 @@
         updateReport : updateReport,
         submitFileItem : submitFileItem,
         getAllFiles : getAllFiles,
+        addNewProduct: addNewProduct,
+        addNewShippingItem : addNewShippingItem,
+        getOrderItem : getOrderItem
     }
 
 }])

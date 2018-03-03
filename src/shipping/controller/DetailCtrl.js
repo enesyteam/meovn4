@@ -1,11 +1,27 @@
 mShipping.controller('DetailCtrl',
     function($rootScope, $scope, $http, $window, $state, $stateParams, $document, $filter, $timeout, cfpLoadingBar,
-        cfpLoadingBar, Facebook, toastr, toastrConfig, moment, ProductPackService, firebaseService) {
-        // console.log(ProductPackService);
-        var products = [];
-        
+        cfpLoadingBar, Facebook, toastr, toastrConfig, moment, ProductPackService, firebaseService, activeItem) {
 
-        // products.push(product);
+        // $scope.tessttt = activeItem[$stateParams.id];
+        angular.forEach(activeItem, function(value, key){
+            // console.log(value);
+            $scope.activedItem = value;
+          });
+
+        var products = [];
+
+       $scope.selectedProducts = [];
+               // add to products list
+        $scope.packageSize = {
+            width : 0,
+            height : 0,
+            length : 10,
+        }
+        angular.forEach($scope.activedItem.data.customerData.products, function(product){
+                $scope.selectedProducts.push(product);
+                $scope.packageSize.width += product.count*10;
+                $scope.packageSize.height += product.count*10;
+            })
 
         // get all products
         $scope.aProducts = [];
@@ -17,12 +33,12 @@ mShipping.controller('DetailCtrl',
           });
         }
         getAllAvailableProducts();
-        $scope.selectedProducts = [];
-        $scope.selectedProducts.push({
-                id : 1,
-                count : 0,
-                note : ''
-            });
+        
+        // $scope.selectedProducts.push({
+        //         id : 1,
+        //         count : 0,
+        //         note : ''
+        //     });
         
         $scope.addProduct = function(){
             $scope.selectedProducts.push({
@@ -31,6 +47,8 @@ mShipping.controller('DetailCtrl',
                 note : ''
             });
         }
+
+
         $scope.deleteProduct = function(index){
             console.log('xóa ' + index);
             $scope.selectedProducts.splice(index, 1);
@@ -10480,9 +10498,9 @@ mShipping.controller('DetailCtrl',
             "ClientContactName": "client name",
             "ClientContactPhone": "0987654321",
             "ClientAddress": "140 Lê Trọng Tấn",
-            "CustomerName": "Nguyễn Văn A",
-            "CustomerPhone": "01666666666",
-            "ShippingAddress": "137 Lê Quang Định",
+            "CustomerName": $scope.activedItem ? $scope.activedItem.data.customerData.realName : null,
+            "CustomerPhone": $scope.activedItem ? $scope.activedItem.data.customerData.recievedPhone : null,
+            "ShippingAddress": $scope.activedItem ? $scope.activedItem.data.customerData.addresss : null,
             "CoDAmount": 1500000,
             "NoteCode": "CHOTHUHANG",
             "InsuranceFee": 0,

@@ -5,7 +5,7 @@
 (function() {
     'use strict';
 
-    angular.module('mShipping')
+    angular.module('mRealtime')
       .service('ProductPackService', ["$http", "firebaseService", function($http, scope, firebaseService) {
         // console.log(firebaseService);
         var ref = firebase.database().ref();
@@ -24,6 +24,8 @@
           height : 10,
           weight : 100,
         }
+
+        
 
         return {
             Product: Product,

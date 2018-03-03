@@ -1003,16 +1003,19 @@ body .filterbar li.active svg {
     max-width: 100%;
 }
 .inner_col_left .chat::-webkit-scrollbar-thumb,
-.inner_col_right .log::-webkit-scrollbar-thumb {
+.inner_col_right .log::-webkit-scrollbar-thumb,
+.clone-options .orderData::-webkit-scrollbar-thumb {
     background: #999;
     border-radius: 15px;
 }
 .inner_col_left .chat::-webkit-scrollbar-track,
-.inner_col_right .log::-webkit-scrollbar-track  {
+.inner_col_right .log::-webkit-scrollbar-track,
+.clone-options .orderData::-webkit-scrollbar-track  {
     background: #ebebeb;
 }
 .inner_col_left .chat::-webkit-scrollbar,
-.inner_col_right .log::-webkit-scrollbar {
+.inner_col_right .log::-webkit-scrollbar,
+.clone-options .orderData::-webkit-scrollbar {
     width: 7px;
 }
 .col_message .write_chat {
@@ -1462,4 +1465,25 @@ body .filterbar li.active svg {
 }
 .BtnGroup-item.status-bar:last-child{
     border-radius: 0px !important; 
+}
+
+.file-navigation .get-repo-modal{
+    top: 0; 
+    width: 495px;
+}
+.form-group {
+    margin: 10px 0 0;
+}
+
+.chosen-sm .chosen-container-single .chosen-single{
+        height: 28px;
+    min-height: 28px;
+    padding: 2px 8px;
+}
+.chosen-sm .chosen-container-single .chosen-single div b{
+    height: 24px;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
 }

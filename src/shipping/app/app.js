@@ -8,7 +8,7 @@ var mShipping = angular.module('mShipping', [
   'angular.filter',
   'facebook',
   'infinite-scroll',
-  'snackbar',
+  // 'snackbar',
   'ngFileUpload',
   'toastr',
   'angularMoment'
@@ -23,28 +23,46 @@ var mShipping = angular.module('mShipping', [
         FacebookProvider.init(myAppId);
 
         cfpLoadingBarProvider.includeSpinner = false;
+        cfpLoadingBarProvider.parentSelector = '#loading-bar';
         // $locationProvider.hashPrefix('');
 
         // $urlRouterProvider.otherwise("/");
-        // $urlRouterProvider.when('/','realtime');
+        // $urlRouterProvider.when( '/','realtime');
         $stateProvider
             .state('home', {
                 url: '/',
                 controller: 'MainCtrl',
                 templateUrl: "/src/shipping/home.html",
+                // resolve: {
+                //   shippingItems: function (firebaseService) {
+                //     return firebaseService.getShippingItems().then(function(items){
+                //       return items;
+                //     });
+                //   }
+                // },
+                
             })
             .state('home.detail', {
-                url: 'detail/id=:id&ctype=:ctype&cm=:cm',
+                url: 'detail/id=:id&ctype=:ctype&cm=:cm&oid=:oid&pid=:page_id&poid=:post_id&cid=:customer_id&cv_id=:cv_id',
                 controller: 'DetailCtrl',
                 templateUrl: "/src/shipping/detail.html",
-                params     : { id : null, ctype : null, cm : null},
+                params     : { id : null, ctype : null, cm : null, oid : null, page_id : null, post_id : null, 
+                  customer_id : null, cv_id : null},
+                resolve : {
+                  activeItem : function(firebaseService, $stateParams){
+                    return firebaseService.getShippingItem($stateParams.id).then(function(snapshot){
+                      return snapshot.val();
+                    });
+
+                  }
+                }
             });
             
         $urlRouterProvider.otherwise('/');
     })
     .run(themeRun);
 
-function themeRun($rootScope, appVersion, releaseDate, access_token, accessTokenService) {
+function themeRun($rootScope, appVersion, releaseDate, access_token, accessTokenService, cfpLoadingBar) {
     $rootScope.access_token = access_token;
     $rootScope.appVersion = appVersion;
     $rootScope.releaseDate = releaseDate;
@@ -53,6 +71,22 @@ function themeRun($rootScope, appVersion, releaseDate, access_token, accessToken
     accessTokenService.getAccessToken().then(function(response){
         $rootScope.access_token_arr = response;
       }.bind(this));
+
+    // show loading
+    $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+      if(toState.resolve){
+        $rootScope.isLoading = true;
+        cfpLoadingBar.start();
+      }
+    });
+
+    $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
+      if(toState.resolve){
+        $rootScope.isLoading = false;
+        cfpLoadingBar.complete();
+        
+      }
+    });
 }
 
 // angular.get('/wh', function(){

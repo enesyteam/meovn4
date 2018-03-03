@@ -1,6 +1,8 @@
 var mRealtime = angular.module('mRealtime', [
   'ui.router', 
   'ngAnimate',
+  'ngSanitize',
+  'localytics.directives',
   'mRealtime.orders',
 
   'angular-loading-bar',
@@ -8,8 +10,8 @@ var mRealtime = angular.module('mRealtime', [
   'angular.filter',
   'facebook',
   'infinite-scroll',
-  'snackbar',
-  'ngSanitize',
+  // 'snackbar',
+  'toastr',
   'ngFileUpload'
 	])
     .constant('appVersion', '3.0.0')
@@ -37,15 +39,12 @@ var mRealtime = angular.module('mRealtime', [
     })
     .run(themeRun);
 
-function themeRun($rootScope, appVersion, releaseDate, access_token, accessTokenService) {
+function themeRun($rootScope, appVersion, releaseDate, access_token) {
     $rootScope.access_token = access_token;
     $rootScope.appVersion = appVersion;
     $rootScope.releaseDate = releaseDate;
 
-    $rootScope.access_token_arr = [];
-    accessTokenService.getAccessToken().then(function(response){
-        $rootScope.access_token_arr = response;
-      }.bind(this));
+    
 }
 
 mRealtime.filter('reverse', function() {

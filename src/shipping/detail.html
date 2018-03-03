@@ -16,9 +16,7 @@
 								<nav class="UnderlineNav">
 								   <div class="UnderlineNav-body">
 								      <a role="tab" title="Item 1" class="UnderlineNav-item selected">
-								      	<svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
-										   <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
-										</svg>
+								      	<svg height="16" class="octicon octicon-person" viewBox="0 0 12 16" version="1.1" width="14" aria-hidden="true"><path fill-rule="evenodd" d="M12 14.002a.998.998 0 0 1-.998.998H1.001A1 1 0 0 1 0 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg>
 								      Người gửi</a>
 								  </div>
 								  <div class="UnderlineNav-actions">
@@ -51,9 +49,9 @@
 									   <dt><label>Khu vực</label></dt>
 									   <dd>
 									   	
-											    <select class="form-control" chosen ng-model="shippingData.FromDistrictID" ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in Districts">
-											    	<option value=""></option>
-												</select>
+										    <select class="form-control" chosen ng-model="shippingData.FromDistrictID" ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in Districts">
+										    	<option value=""></option>
+											</select>
 									   </dd>
 									</dl>
 								</div>
@@ -73,9 +71,7 @@
 								<nav class="UnderlineNav"  style="float: none;clear: both;">
 								   <div class="UnderlineNav-body">
 								      <a role="tab" title="Item 1" class="UnderlineNav-item selected">
-								      <svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
-										   <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
-										</svg>
+								      <svg height="16" class="octicon octicon-person" viewBox="0 0 12 16" version="1.1" width="14" aria-hidden="true"><path fill-rule="evenodd" d="M12 14.002a.998.998 0 0 1-.998.998H1.001A1 1 0 0 1 0 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg>
 										Người nhận</a>
 									</div>
 								  <div class="UnderlineNav-actions">
@@ -85,18 +81,18 @@
 								<div class="one-half column pl-0">
 									<dl class="form-group">
 									   <dt><label>Số điện thoại</label></dt>
-									   <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.CustomerPhone"></dd>
+									   <dd><input type="text" class="form-control" id="example-text" ng-model="activedItem.data.customerData.recievedPhone"></dd>
 									</dl>
 								</div>
 								<div class="one-half column pr-0">
 									<dl class="form-group">
 									   <dt><label>Họ và tên</label></dt>
-									   <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.CustomerName"></dd>
+									   <dd><input type="text" class="form-control" id="example-text" ng-model="activedItem.data.customerData.realName"></dd>
 									</dl>
 								</div>
 								<dl class="form-group">
 								   <dt><label>Địa chỉ</label></dt>
-								   <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.ShippingAddress"></dd>
+								   <dd><input type="text" class="form-control" id="example-text" ng-model="activedItem.data.customerData.addresss"></dd>
 								</dl>
 								<div class="one-half column pl-0">
 									<dl class="form-group">
@@ -137,9 +133,9 @@
 								  	</span>
 									  </div>
 								</nav>
-								<div class="pt-3"><div class="flash flash-warn">
+								<!-- <div class="pt-3"><div class="flash flash-warn">
 									Vui lòng xem kỹ hội thoại của khách hàng và ghi chú của Telesale trước khi chọn sản phẩm.
-								</div></div>
+								</div></div> -->
 								<div class="row" style="display: flex" ng-repeat="p in selectedProducts track by $index">
 									
 										<dl class="form-group">
@@ -162,11 +158,11 @@
 
 											<div class="two-thirds column pr-0 pl-0">
 												<div class="one-fourth column">
-													<dt><label>Số lượng</label>
+													<dt><label>Số lượng</label></dt>
 													<input type="text" class="form-control" id="example-text" placeholder="Số lượng" ng-model="p.count">
 												</div>
 												<div class="three-fourths column pr-0">
-													<dt><label>Ghi chú</label>
+													<dt><label>Ghi chú</label></dt>
 													<input type="text" class="form-control" id="example-text" placeholder="Ghi chú về sản phẩm"  ng-model="p.note">
 												</div>
 											</div>
@@ -197,7 +193,7 @@
 									  	
 									  </div>
 								</nav>
-								{{selectedProducts}}
+								{{packageSize}}
 								<div class="row">
 									
 									<dl class="form-group">

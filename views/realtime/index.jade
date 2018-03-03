@@ -18,6 +18,8 @@ html(lang='en', ng-app='mRealtime')
     link(rel='stylesheet', href='/src/admin/sass/framework.css')
     link(rel='stylesheet', href='/src/admin/sass/styles-realtime.css')
     link(rel='stylesheet', href='/src/admin/sass/styles-realtime-custom.css')
+    link(rel='stylesheet', href='/src/admin/sass/chosen.css')
+    link(rel='stylesheet', href='/node_modules/angular-toastr/dist/angular-toastr.css')
     link(rel='stylesheet', href='/node_modules/perfect-scrollbar/css/perfect-scrollbar.css')
     // inject:css
     // endinject
@@ -131,6 +133,11 @@ html(lang='en', ng-app='mRealtime')
     div(ng-include="'/src/realtime/widgets/facebox-select-photo.html'")
     .bg-transparent-dark.transition-in-out.facebox-overlay.facebox-overlay-hide.facebox-overlay-active(style="{{!isFaceboxShowing ? 'display: none;' : 'display: block;';}}")
     // <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js')
+      //- 'node_modules/chosen-js/chosen.jquery.js',
+      
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js')
+    script(data-require='chosen@*', data-semver='1.5.1', src='https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.proto.min.js')
     script(src='/assets/js/scripts-angular.min.js')
     script(src='/node_modules/angular-animate/angular-animate.min.js')
     script(src='/node_modules/angular-resource/angular-resource.min.js')
@@ -152,17 +159,23 @@ html(lang='en', ng-app='mRealtime')
     // AngularFire
     script(src='https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js')
     // inject:js
+    
+
     script(src='/node_modules/angular-loading-bar/build/loading-bar.min.js')
     script(src='/node_modules/angular-filter/dist/angular-filter.min.js')
     script(src='/node_modules/angular-facebook/angular-facebook.js')
     script(src='/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js')
-    script(src='/assets/js/snackbar.js')
+    //- script(src='/assets/js/snackbar.js')
     script(src='/node_modules/ng-file-upload/dist/ng-file-upload.min.js')
+    script(src='/node_modules/angular-chosen-localytics/dist/angular-chosen.js')
+    script(src='/node_modules/angular-toastr/dist/angular-toastr.tpls.min.js')
+
     script(src='/src/realtime/app/app.js')
     script(src='/src/realtime/app/directive.js')
     script(src='/src/realtime/service/firebase.service.js')
     script(src='/src/realtime/service/firebase.storage.service.js')
     script(src='/src/realtime/service/access_token.service.js')
+    script(src='/src/realtime/service/product-pack.service.js')
     script(src='/src/realtime/app/controller/MainCtrl.js')
     script(src='/src/realtime/pages/orders/orders.module.js')
     script(src='/src/realtime/pages/orders/OrdersCtrl.js')
