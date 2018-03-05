@@ -1,8 +1,9 @@
 mShipping.controller('MainCtrl',
     function($rootScope, $scope, $http, $window, $document, $filter, $timeout, cfpLoadingBar,
-        cfpLoadingBar, Facebook, firebaseService) {
+        cfpLoadingBar, Facebook, firebaseService, Hubs) {
         var ref = firebase.database().ref();
 
+        // console.log(Hubs);
         // var deferred = $q.defer();
         // console.log(deferred);
         
@@ -21,6 +22,7 @@ mShipping.controller('MainCtrl',
                 $rootScope.shippingItems.push({
                       id: snapshot.val().id,
                       data : snapshot.val().data,
+                      orderCode: snapshot.val().orderCode
                   });
               })
           });
@@ -37,6 +39,12 @@ mShipping.controller('MainCtrl',
         $rootScope.filterById = function(sources, id){
             return $filter("filter")(sources, {
                 id: id
+            })[0];
+        }
+
+        $rootScope.filterInArray = function(arr, fieldTofilter, valueToFilter){
+            return $filter("filter")(arr, {
+                fieldTofilter: valueToFilter
             })[0];
         }
 

@@ -194,6 +194,29 @@
     });
   }
 
+  /*
+  * update order code from ghn to an shipping item
+  * param id: order id
+  * param dataToUpdate
+  */
+  var onUpdateOrderCode = function(id, orderCode){
+    return new Promise(function(resolve, reject) {
+      ref.child('shippingItems').orderByChild('id').equalTo(id).once('value', function(snapshot){
+        if(snapshot.val() !== null){
+          angular.forEach(snapshot.val(), function(value, key){
+              // console.log(key);
+              snapshot.ref.child(key).update({
+                  "orderCode": orderCode
+                });
+            });
+            resolve('Update Order Code thành công');
+          } else {
+            reject('Không tìm thấy dữ liệu để update order code');
+          }
+      });
+    })
+  }
+
 
 
 	return{
@@ -205,6 +228,7 @@
     onAddNewOrder : onAddNewOrder,
     getShippingItems : getShippingItems,
     getShippingItem : getShippingItem,
+    onUpdateOrderCode: onUpdateOrderCode,
 	}
 
 }]);

@@ -2,6 +2,7 @@ var mPrinting = angular.module('mPrinting', [
   'ui.router', 
   'ngAnimate',
   'ngSanitize',
+  'infinite-scroll',
 	])
     .constant('appVersion', '3.0.0')
     .constant('releaseDate', 'Nov-20, 2017')

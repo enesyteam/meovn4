@@ -11,7 +11,8 @@ var mShipping = angular.module('mShipping', [
   // 'snackbar',
   'ngFileUpload',
   'toastr',
-  'angularMoment'
+  'angularMoment',
+  'mFacebook'
 	])
     .constant('appVersion', '3.0.0')
     .constant('releaseDate', 'Nov-20, 2017')
@@ -33,13 +34,13 @@ var mShipping = angular.module('mShipping', [
                 url: '/',
                 controller: 'MainCtrl',
                 templateUrl: "/src/shipping/home.html",
-                // resolve: {
-                //   shippingItems: function (firebaseService) {
-                //     return firebaseService.getShippingItems().then(function(items){
-                //       return items;
-                //     });
-                //   }
-                // },
+                resolve: {
+                  Hubs: function (GiaoHangNhanhService) {
+                    return GiaoHangNhanhService.getAllHubs().then(function(response){
+                      return response;
+                    });
+                  }
+                },
                 
             })
             .state('home.detail', {

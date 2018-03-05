@@ -31,8 +31,10 @@
                         <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
                      </pan-loader>
                   </div>
-                  <div class="people scrollable" ng-if="finishLoadingOrders" infinite-scroll="myPagingFunction()" infinite-scroll-distance="3">
-                     <div style="height: 100%">
+                  <div class="people" ng-if="finishLoadingOrders" id="list-wrapper">
+                     <div style="height: 100%" 
+                     infinite-scroll="myPagingFunction()" infinite-scroll-distance="3"
+                     infinite-scroll-container="'#list-wrapper'" infinite-scroll-parent="true">
                         <li ng-repeat="order in orders | reverse" ui-sref="home.detail({type: order.type, id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person order-{{order.id}}">
                         <div class="wrap_chat">
                            <!-- <div class="check">
@@ -88,6 +90,7 @@
                         </div>
                         
                      </li>
+                     
                      </div>
                   </div>
                </div>

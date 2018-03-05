@@ -10,6 +10,7 @@ var mRealtime = angular.module('mRealtime', [
   'angular.filter',
   'facebook',
   'infinite-scroll',
+  // 'ui.scroll',
   // 'snackbar',
   'toastr',
   'ngFileUpload'
@@ -39,12 +40,26 @@ var mRealtime = angular.module('mRealtime', [
     })
     .run(themeRun);
 
-function themeRun($rootScope, appVersion, releaseDate, access_token) {
+function themeRun($rootScope, appVersion, releaseDate, access_token, cfpLoadingBar) {
     $rootScope.access_token = access_token;
     $rootScope.appVersion = appVersion;
     $rootScope.releaseDate = releaseDate;
 
-    
+        // show loading
+    $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+      if(toState.resolve){
+        $rootScope.isLoading = true;
+        cfpLoadingBar.start();
+      }
+    });
+
+    $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
+      if(toState.resolve){
+        $rootScope.isLoading = false;
+        cfpLoadingBar.complete();
+        
+      }
+    });
 }
 
 mRealtime.filter('reverse', function() {

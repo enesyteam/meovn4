@@ -274,7 +274,8 @@
             var newKey = ref.child('shippingItems').push().key;
             ref.child('shippingItems').push({
                 id: newKey,
-                data: shippingItemData
+                data: shippingItemData,
+                orderId: shippingItemData.orderData.id,
             })
 
             resolve('Thêm shipping item thành công!');
@@ -286,6 +287,12 @@
     */
     var getOrderItem = function(id){
         return ref.child('newOrders').orderByChild('id').equalTo(id).once('value', function(snapshot){
+        })
+    }
+
+    var getShippingItemByOrderId = function(orderId){
+        return ref.child('shippingItems').orderByChild('orderId').equalTo(orderId).once('value', function(snapshot){
+            console.log(snapshot.val());
         })
     }
 
@@ -301,7 +308,8 @@
         getAllFiles : getAllFiles,
         addNewProduct: addNewProduct,
         addNewShippingItem : addNewShippingItem,
-        getOrderItem : getOrderItem
+        getOrderItem : getOrderItem,
+        getShippingItemByOrderId: getShippingItemByOrderId,
     }
 
 }])

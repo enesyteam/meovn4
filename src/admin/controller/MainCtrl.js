@@ -12,6 +12,10 @@ m_admin.controller('MainCtrl',
         }
         getAccessToken();
 
+    $rootScope.myPagingFunction = function(){
+        console.log('scrolling...');
+    }
+
     $rootScope.sellers = [];
     firebaseService.getMembers().then(function(snapshot){
         $scope.$apply(function(){

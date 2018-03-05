@@ -69,7 +69,7 @@
 }
 .avatar {
     display: inline-block;
-    overflow: hidden;
+    /*overflow: hidden;*/
     line-height: 1;
     vertical-align: middle;
     border-radius: 3px
@@ -11769,7 +11769,7 @@ h2.ghead::after {
     padding-top: 12px;
     padding-bottom: 12px;
     color: rgba(255, 255, 255, 0.75);
-    background-color: darkmagenta;
+    background-color: #8860d0;
     position: fixed;
     top: 0;
     left: 0;
@@ -11782,7 +11782,7 @@ h2.ghead::after {
     font-size: inherit;
     line-height: 28px;
     color: rgba(255, 255, 255, 0.75);
-    border-right-color: #282e34
+    border-right-color: #79589F
 }
 .Header .header-search-wrapper {
     min-height: 30px;

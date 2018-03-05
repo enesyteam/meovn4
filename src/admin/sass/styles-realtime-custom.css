@@ -667,8 +667,9 @@ body .filterbar li.active svg {
     margin: 0;
     padding: 0;
     list-style-type: none;
-    overflow: auto;
-    overflow-x: hidden;
+    /*overflow: auto;
+    overflow-x: hidden;*/
+    height: 100%
 }
 .list_content_col_left .people .person {
     position: relative;
@@ -1114,7 +1115,7 @@ body .filterbar li.active svg {
 .list_content_col_left .people .person .wrap_chat .info .name {
     font-size: 15px;
     font-weight: 500;
-    color: #111;
+    color: #79589F;
     line-height: 24px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1172,7 +1173,7 @@ body .filterbar li.active svg {
     z-index: 9;
     position: relative;
     /*background-color: #fff;*/
-    color: #caccd7;
+    color: #96A3B6;
     font-size: 14px;
 }
 .inner_col_left .conversation-start span:before {
@@ -1198,7 +1199,7 @@ body .filterbar li.active svg {
 }
 ._ih3 {
     margin-top: -14px;
-    color: rgba(0, 0, 0, .40);
+    color: #96A3B6;
     font-size: 12px;
     font-weight: normal;
     line-height: 1.1;
@@ -1271,10 +1272,7 @@ body .filterbar li.active svg {
     margin-left: 15px;
 }
 .header_col_right .a_left .f_name a {
-    color: #111;
-}
-.header_col_right .a_left .f_name a {
-    color: #111;
+    color: #79589F;
 }
 .header_col_right .a_left .f_name .fa {
     margin-left: 10px;
@@ -1462,6 +1460,7 @@ body .filterbar li.active svg {
  /*border-radius: 0px; */
  border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
+    border: none;
 }
 .BtnGroup-item.status-bar:last-child{
     border-radius: 0px !important; 
@@ -1486,4 +1485,88 @@ body .filterbar li.active svg {
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
+}
+
+/*re themes*/
+.btn-outline{
+    color: #79589F;
+    background-color: #fff;
+    border-color: #79589F;
+}
+.btn-outline, .btn-outline:hover {
+    box-shadow: inset 0 0 0 1px rgba(121,88,159,.6);
+        outline: 0!important;
+    border: none;
+}
+.Header{
+    box-shadow: 0px 4px 4px rgba(0,0,0,0.1);
+}
+.UnderlineNav-item{
+    border-bottom: 2px solid transparent;
+}
+.UnderlineNav-item.selected{
+        font-weight: 500;
+    color: #79589F;
+    border-bottom-color: #A996C0;
+}
+.btn:hover{color:#79589F;text-decoration:none}.btn.active,.btn:active{background-image:none;-webkit-box-shadow:inset 0 3px 5px rgba(0,0,0,.125)}
+.btn-default:hover{box-shadow:inset 0 0 0 1px rgba(121,88,159,.6)}
+.btn-default:hover{background:#FAF7FD;color:#79589F}
+.btn-default:hover{color:#CFD7E6;background-color:rgba(238,241,246,.3);box-shadow:inset 0 0 0 1px #CFD7E6}
+.btn-default:active,.btn-default:hover,.open>.btn-default.drop-down__toggle,.open>.btn-default.dropdown-toggle{color:#79589F;background-color:#e6e6e6;border-color:#5b4278}
+.form-control, .form-select{
+    background-color:#fff;
+    background-image:none;
+    border:1px solid #CFD7E6;
+    border-radius:4px;
+    -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    -o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s
+}
+.form-control:focus, .form-select:focus{
+   border-color:#79589f;
+    box-shadow:0 0 0 2px rgba(157,112,208,.4);
+    outline:none 
+}
+.header-search-input,
+.header-search-input:focus{
+    background-image:none;
+    background: transparent;;
+    outline:none;
+    outline:none;
+    border: none;
+}
+.dropdown-item{
+        display: block;
+    padding: 4px 10px 4px 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    /* height: 40px; */
+    /* border-bottom: 1px solid #EEF1F6; */
+    text-decoration: none;
+    font-size: 14px;
+    /* line-height: 40px; */
+    color: #79589F;
+    /* padding: 0 46px; */
+    background-size: 21px 23px;
+    background-repeat: no-repeat;
+    background-position: 15px 48%;
+}
+.dropdown-item:hover{
+    text-decoration: none;
+    background-color: #F7F8FB;
+    color: #61467f;
+}
+a {
+    color: #79589F;
+    text-decoration: none;
+}
+#list-wrapper{
+    /*//max-height: 400px;*/
+    overflow-y: scroll;
+
+    height: 100%
 }

@@ -7,6 +7,7 @@ mRealtime.controller('OdersCtrl',
         angular.forEach(activeItem, function(value, key){
             // console.log(value);
             $rootScope.activeOrder = value;
+            $rootScope.activeStatusId = value.status_id;
           });
 
         $scope.conversation_type = $stateParams.type;
@@ -195,7 +196,6 @@ mRealtime.controller('OdersCtrl',
                 return sharesLink;
                 // return '//graph.facebook.com/' + $stateParams.page_id + '_' + l + '?fields=picture' + '&access_token=' + $rootScope.access_token;
             }
-
         }
         
         // test reply comment
@@ -288,11 +288,13 @@ mRealtime.controller('OdersCtrl',
             }
             if($rootScope.activeOrder.seller_will_call_id !== $rootScope.currentMember.id){
                 // snackbar('Oop! Thao tác không được chấp nhận!');
+                AlertError('Không cho phép thay đổi trạng thái Order của người khác', 'Thông báo');
                 return false;
             }
 
             if($rootScope.activeOrder.status_id == status.id){
                 // snackbar('Oop! Không thay đổi trạng thái!');
+                AlertWarning('Trạng thái không thay đổi', 'Thông báo');
                 return false;
             }
             return true;
@@ -399,7 +401,8 @@ mRealtime.controller('OdersCtrl',
             addresss: '',
             products: [],
             customerNote: '',
-            orderNote: ''
+            orderNote: '',
+            cod: 0,
         }
         $scope.newProduct = {
             name: ''
@@ -426,6 +429,14 @@ mRealtime.controller('OdersCtrl',
             }
             if(!angular.isNumber($scope.customerData.birthDay)){
                 AlertError('Năm sinh không đúng', 'Thông báo');
+                return false;
+            }
+            if(!angular.isNumber($scope.customerData.cod)){
+                AlertError('Số tiền không đúng', 'Thông báo');
+                return false;
+            }
+            if($scope.customerData.cod <= 10000){
+                AlertError('Số tiền không đúng', 'Thông báo');
                 return false;
             }
             if(!$scope.customerData.addresss || $scope.customerData.addresss.length < 1){
@@ -467,7 +478,7 @@ mRealtime.controller('OdersCtrl',
         $scope.onSubmitOrder = function(){
             if(validateCustomerData()){
                 $scope.customerData.products = $scope.selectedProducts;
-                console.log($scope.customerData);
+                // console.log($scope.customerData);
                 
 
                 //
@@ -508,5 +519,25 @@ mRealtime.controller('OdersCtrl',
                 // reset products
                 $scope.selectedProducts = [];
             }
+        }
+
+        //  EDIT ORDER
+
+        $scope.showEditOrderForm = false;
+        $scope.finishedLoadOrderToEdit = true;
+
+        /*
+        * Show edit form for success order (order with status id == 6)
+        *
+        */
+        $scope.showEditOrder = function(){
+            firebaseService.getShippingItemByOrderId($rootScope.activeOrder.id).then(function(snapshot){
+                $scope.$apply(function(){
+                    angular.forEach(snapshot.val(), function(value, key){
+                        $scope.editData = value;
+                    });
+                    $scope.showEditOrderForm = true;
+                })
+            });
         }
 	});

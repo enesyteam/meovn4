@@ -16,6 +16,8 @@ var gulp = require('gulp'),
 var util = require("gulp-util");
 var open = require('gulp-open');
 
+var html2jade = require('gulp-html2jade');
+
 var serve = require('gulp-serve');
 
 var rename = require('gulp-rename');
@@ -156,9 +158,7 @@ gulp.task('build', function() {
 
 });
 
-gulp.task('test', function() {
-    var target = gulp.src('./src/admin/index.html');
-    var sources = gulp.src([
+var adminSources = gulp.src([
         /*app*/
         // './assets/js/scripts-angular.min.js',
         // 'node_modules/angular-animate/angular-animate.min.js',
@@ -221,16 +221,6 @@ gulp.task('test', function() {
         read: false
     });
 
-    // return target.pipe(inject(sources))
-    //   .pipe(htmlmin({collapseWhitespace: false}))
-    //   .pipe(gulp.dest('./'));
-    return target.pipe(inject(sources))
-        .pipe(htmlmin({
-            collapseWhitespace: false
-        }))
-        .pipe(gulp.dest('./'));
-});
-
 
 var realtimeSources = gulp.src([
     //vendors
@@ -267,6 +257,8 @@ var realtimeSources = gulp.src([
 });
 
 var shippingSources = gulp.src([
+    // modules
+    'src/modules/mFacebook.js',
     //vendors
     'node_modules/angular-loading-bar/build/loading-bar.min.js',
     'node_modules/angular-filter/dist/angular-filter.min.js', // angular filter
@@ -292,6 +284,7 @@ var shippingSources = gulp.src([
     // 'src/realtime/service/firebase.storage.service.js',
     'src/shipping/service/access_token.service.js',
     'src/shipping/service/product-pack.service.js',
+    'src/shipping/service/GiaoHangNhanh.service.js',
     //
     'src/shipping/controller/MainCtrl.js',
     'src/shipping/controller/DetailCtrl.js',
@@ -321,7 +314,18 @@ var orderManagerSources = gulp.src([
     read: false
 });
 
+// inject admin page
+gulp.task('adminBuild', function() {
+    var target = gulp.src('./src/admin/index.html');
+    
+    return target.pipe(inject(adminSources))
+        .pipe(htmlmin({
+            collapseWhitespace: false
+        }))
+        .pipe(gulp.dest('./'));
+});
 
+// inject realtime page
 gulp.task('realtimeBuild', function() {
 
     var realtimePage = gulp.src('./src/realtime/index.html');
@@ -329,9 +333,10 @@ gulp.task('realtimeBuild', function() {
         .pipe(htmlmin({
             collapseWhitespace: false
         }))
-        .pipe(gulp.dest('./realtime/'));
+        .pipe(gulp.dest('./dist/realtime/'));
 });
 
+// inject shipping page
 gulp.task('shippingBuild', function() {
 
     var shippingPage = gulp.src('./src/shipping/index.html');
@@ -339,9 +344,10 @@ gulp.task('shippingBuild', function() {
         .pipe(htmlmin({
             collapseWhitespace: false
         }))
-        .pipe(gulp.dest('./shipping/'));
+        .pipe(gulp.dest('./dist/shipping/'));
 });
 
+// inject printing page
 gulp.task('printingBuild', function() {
 
     var printingPage = gulp.src('./src/print/index.html');
@@ -349,68 +355,63 @@ gulp.task('printingBuild', function() {
         .pipe(htmlmin({
             collapseWhitespace: false
         }))
-        .pipe(gulp.dest('./printing/'));
+        .pipe(gulp.dest('./dist/printing/'));
 });
 
+// inject order manager page
 gulp.task('orderManagerBuild', function() {
 
-    var orderManagerPage = gulp.src('./src/print/index.html');
+    var orderManagerPage = gulp.src('./src/orderManager/index.html');
     orderManagerPage.pipe(inject(orderManagerSources))
         .pipe(htmlmin({
             collapseWhitespace: false
         }))
-        .pipe(gulp.dest('./orderManager/'));
+        .pipe(gulp.dest('./dist/orderManager/'));
 });
 
-// serve realtime page
-gulp.task('realtime', function() {
-    var target = gulp.src('./src/realtime/index.html');
-    // It's not necessary to read the files (will speed up things), we're only after their paths:
-    // var sourcesCss = gulp.src([
-    //  './assets/css/styles-bundle*.css', './assets/css/styles-vendor*.css'], {read: false});
-    // var sourcesJs = gulp.src([
-    //  './assets/js/scripts-bundle-*.js'], {read: false});
 
-    return target.pipe(inject(realtimeSources))
-        .pipe(htmlmin({
-            collapseWhitespace: false
-        }))
-        .pipe(gulp.dest('./tmp/realtime/'));
+//  MAKE CSS FILES
+gulp.task('vendorStyles', function() {
+    gulp.src(vendorCssFiles)
+      .pipe(concat('styles-vendor.css'))
+      .pipe(rename('styles-vendor.min.css'))
+      .pipe(sass().on('error', sass.logError))
+      .pipe(cleanCSS())
+      .pipe(rev())
+      .pipe(gulp.dest('./assets/css/'));
 });
 
-gulp.task('start-realtime', ['realtime'], function() {
-    var options = {
-        uri: '127.0.0.1:3000',
-        app: 'chrome'
-    };
-    gulp.src('./tmp/realtime/')
-        .pipe(open(options));
+// inject all asset files to html and make html files
+gulp.task('inject', ['adminBuild', 'realtimeBuild', 'shippingBuild', 'printingBuild', 'orderManagerBuild'], function(){
+
 });
 
-gulp.task('serve:realtime', ['start-realtime'], serve());
 
-gulp.task('app', ['test', 'realtimeBuild', 'shippingBuild', 'printingBuild', 'orderManagerBuild'], function() {
-    var options = {
-        uri: '127.0.0.1:3000',
-        app: 'chrome'
-    };
-    gulp.src('./')
-        .pipe(open(options));
+// MAKE JADE FILES FROM HTML
+var jadeOptions = {nspaces:2};
+gulp.task('make-jade', function(){
+    // admin page
+    gulp.src('index.html')
+    .pipe(html2jade(jadeOptions))
+    .pipe(gulp.dest('views'));
+
+    // realtime page
+    gulp.src('./dist/realtime/index.html')
+    .pipe(html2jade(jadeOptions))
+    .pipe(gulp.dest('views/realtime'));
+
+    // shipping page
+    gulp.src('./dist/shipping/index.html')
+    .pipe(html2jade(jadeOptions))
+    .pipe(gulp.dest('views/shipping'));
+
+    // order manager page
+    gulp.src('./dist/orderManager/index.html')
+    .pipe(html2jade(jadeOptions))
+    .pipe(gulp.dest('views/orderManager'));
+
+    // printing page
+    gulp.src('./dist/printing/index.html')
+    .pipe(html2jade(jadeOptions))
+    .pipe(gulp.dest('views/printing'));
 });
-
-gulp.task('serve', ['app'], serve());
-
-gulp.task('serve:dist', ['dist'], serve(''));
-
-gulp.task('serve-build', serve(['public', 'build']));
-
-gulp.task('serve-prod', serve({
-    root: ['public', 'build'],
-    port: 80,
-    middleware: function(req, res) {
-        // custom optional middleware 
-    }
-}));
-
-// dist:    gulp => gulp build => gulp serve:dist
-// serve:   gulp serve

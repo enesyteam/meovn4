@@ -18,7 +18,11 @@
             {{postData.message}}
             </span>
             <div ng-if="!isShowFullPost">
-               <a ng-click="showFullPost()" style="cursor: pointer;">Xem thêm...</a>
+               <!-- <a ng-click="showFullPost()" style="cursor: pointer;">Xem thêm...</a> -->
+               <button class="btn-link btn-sm mt-3 mb-3" ng-click="showFullPost()" aria-expanded="false" aria-label="Nếu sản phẩm không có trong danh mục">
+                  <svg height="16" class="octicon octicon-chevron-down" viewBox="0 0 10 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6z"></path></svg>
+               Xem thêm...
+               </button>
             </div>
             <div style="max-height: 90px;overflow-y: hidden;    margin: 15px 0;background: #eee;padding: 5px;">
                <span ng-repeat="image in postData.attachments.data[0].subattachments.data">

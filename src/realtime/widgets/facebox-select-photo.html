@@ -72,7 +72,7 @@
             </div>
          </div>
          <div class="photos">
-            <div class="photo" ng-repeat="photo in (imageFiles | photosFilter:filterPageId:filterGender:filterDestiny) | reverse">
+            <div ng-repeat="photo in (imageFiles | photosFilter:filterPageId:filterGender:filterDestiny) | reverse" class="photo" ng-click="selectedPhoto(photo)">
                <div class="pinned"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="2em" width="2em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m19.8 29.1l-9.8 5.9 2.6-11.1-8.6-7.5 11.3-0.9 4.5-10.5 4.4 10.5 11.4 0.9-8.6 7.5 2.5 11.1z"></path></g></svg></div>
                <img width="100" height="100" ng-src="{{photo.fileName}}">
                <span class="text">
