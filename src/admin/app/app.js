@@ -10,6 +10,10 @@ var m_admin = angular.module('m_admin', [
   'firebase',
   'angular.filter',
   'facebook',
+  'toastr',
+  'mGHN',
+  'mFacebook',
+  'mFirebase'
   ])
   .constant('appVersion', '3.0.0')
   .constant('releaseDate', 'Nov-20, 2017')

@@ -166,9 +166,16 @@ var adminSources = gulp.src([
         // 'node_modules/angular-route/angular-route.min.js',
         // 'node_modules/angular-ui-router/release/angular-ui-router.min.js',
 
+        // modules
+        'src/modules/mGHN.js',
+        'src/modules/mFirebase.js',
+        'src/modules/mFacebook.js',
+        
+
         //vendors
         'node_modules/angular-loading-bar/build/loading-bar.min.js',
         'node_modules/angular-filter/dist/angular-filter.min.js', // angular filter
+        'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
 
         'node_modules/angular-facebook/angular-facebook.js',
 
@@ -198,6 +205,7 @@ var adminSources = gulp.src([
         // SETTINGS
         'src/admin/pages/settings/settings.module.js',
         'src/admin/pages/settings/OptionsCtrl.js',
+        'src/admin/pages/settings/ghn/GHNCtrl.js',
 
         // SOURCES
         'src/admin/pages/sources/sources.module.js',

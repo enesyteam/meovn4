@@ -20,7 +20,17 @@
       .state('home.sources.pages',{
           url: '/pages',
               controller : 'SourcePageCtrl',
-              templateUrl: "src/admin/pages/sources/pages/pages.html"
+              templateUrl: "src/admin/pages/sources/pages/pages.html",
+              resolve: {
+                    fanpages: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_fanpages().then(function(response){
+                        console.log(response);
+                        return response;
+                      });
+                    }
+                  }
             })
       .state('home.sources.upload',{
           url: '/uploads',

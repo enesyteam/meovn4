@@ -3,6 +3,8 @@ mShipping.controller('DetailCtrl',
         cfpLoadingBar, Facebook, toastr, toastrConfig, moment, ProductPackService, 
         firebaseService, GiaoHangNhanhService, activeItem, Hubs, MFacebookService) {
 
+        // console.log(firebase.utils);
+
         $scope.conversation_type = $stateParams.ctype;
 
         $scope.detectSharesLink = function(sharesLink){

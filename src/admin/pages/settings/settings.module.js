@@ -20,6 +20,20 @@
               url: '/options',
                   controller : 'OptionsCtrl',
                   templateUrl: "src/admin/pages/settings/options.html"
+                })
+      .state('home.settings.ghn',{
+              url: '/ghn',
+                  controller : 'GHNCtrl',
+                  templateUrl: "src/admin/pages/settings/ghn/ghn.html",
+                  resolve: {
+                    ghn_token: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_ghn_token().then(function(response){
+                        return response;
+                      });
+                    }
+                  }
                 });
   }
 

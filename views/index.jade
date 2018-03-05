@@ -23,6 +23,8 @@ html(lang='en', ng-app='m_admin')
     link(rel='stylesheet', href='src/admin/sass/styles.css')
     |     
     link(rel='stylesheet', href='node_modules/angular-loading-bar/build/loading-bar.css')
+    |     
+    link(rel='stylesheet', href='/node_modules/angular-toastr/dist/angular-toastr.css')
   |   
   body.logged-in.env-production.page-dashboard
     // Header
@@ -196,9 +198,17 @@ html(lang='en', ng-app='m_admin')
     // AngularFire
     script(src='https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js')
     // inject:js
+    script(src='/src/modules/mGHN.js')
+    |   
+    script(src='/src/modules/mFirebase.js')
+    |   
+    script(src='/src/modules/mFacebook.js')
+    |   
     script(src='/node_modules/angular-loading-bar/build/loading-bar.min.js')
     |   
     script(src='/node_modules/angular-filter/dist/angular-filter.min.js')
+    |   
+    script(src='/node_modules/angular-toastr/dist/angular-toastr.tpls.min.js')
     |   
     script(src='/node_modules/angular-facebook/angular-facebook.js')
     |   
@@ -223,6 +233,8 @@ html(lang='en', ng-app='m_admin')
     script(src='/src/admin/pages/settings/settings.module.js')
     |   
     script(src='/src/admin/pages/settings/OptionsCtrl.js')
+    |   
+    script(src='/src/admin/pages/settings/ghn/GHNCtrl.js')
     |   
     script(src='/src/admin/pages/sources/sources.module.js')
     |   

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="src/admin/sass/framework.css">
     <link rel="stylesheet" href="src/admin/sass/styles.css">
     <link rel="stylesheet" href="node_modules/angular-loading-bar/build/loading-bar.css">
+    <link rel="stylesheet" href="/node_modules/angular-toastr/dist/angular-toastr.css">
   </head>
   <body class="logged-in env-production page-dashboard">
     <!-- Header -->
@@ -196,8 +197,12 @@
   <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
 
   <!-- inject:js -->
+  <script src="/src/modules/mGHN.js"></script>
+  <script src="/src/modules/mFirebase.js"></script>
+  <script src="/src/modules/mFacebook.js"></script>
   <script src="/node_modules/angular-loading-bar/build/loading-bar.min.js"></script>
   <script src="/node_modules/angular-filter/dist/angular-filter.min.js"></script>
+  <script src="/node_modules/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
   <script src="/node_modules/angular-facebook/angular-facebook.js"></script>
   <script src="/src/admin/app/app.js"></script>
   <script src="/src/admin/service/firebase.service.js"></script>
@@ -210,6 +215,7 @@
   <script src="/src/admin/pages/report/report.module.js"></script>
   <script src="/src/admin/pages/settings/settings.module.js"></script>
   <script src="/src/admin/pages/settings/OptionsCtrl.js"></script>
+  <script src="/src/admin/pages/settings/ghn/GHNCtrl.js"></script>
   <script src="/src/admin/pages/sources/sources.module.js"></script>
   <script src="/src/admin/pages/sources/pages/SourcePageCtrl.js"></script>
   <script src="/src/admin/pages/sources/upload/UploadCtrl.js"></script>
