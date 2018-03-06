@@ -1,6 +1,7 @@
 mRealtime.controller('MainCtrl',
     function($rootScope, $scope, $http, $window, $document, $filter, $timeout, cfpLoadingBar,
-     cfpLoadingBar, Facebook, firebaseService, firebaseStorageService) {
+     cfpLoadingBar, Facebook, firebaseService, firebaseStorageService, fanpages) {
+        $rootScope.fanpages = fanpages;
 
         $rootScope.filterById = function(sources, id){
             return $filter("filter")(sources, {

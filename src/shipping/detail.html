@@ -53,8 +53,8 @@
                </button>
             </div>
             </div>
-            <div style="max-height: 90px;overflow-y: hidden;    margin: 15px 0;background: #eee;padding: 5px;">
-               <span ng-repeat="image in postData.attachments.data[0].subattachments.data">
+            <div style="max-height: 105px;white-space: nowrap;overflow-y: hidden;overflow-x: auto; margin-bottom: 15px;padding: 5px;">
+               <span ng-repeat="image in postData.attachments.data[0].subattachments.data" style="display: inline-block;">
                <img ng-src="{{image.media.image.src}}" style="height: 80px">
                </span>
                <span>

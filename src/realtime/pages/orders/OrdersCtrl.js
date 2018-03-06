@@ -1,30 +1,33 @@
 mRealtime.controller('OdersCtrl',
-    function($rootScope, $scope, $state, $stateParams, $filter, $timeout, cfpLoadingBar, 
-        cfpLoadingBar, Facebook, firebaseService, ProductPackService, toastr,  toastrConfig, access_token_arr, activeItem) {
+    function($rootScope, $scope, $state, $stateParams, $filter, $timeout, cfpLoadingBar, ngDialog, 
+        cfpLoadingBar, Facebook, firebaseService, ProductPackService,
+         activeItem, fanpages, MFacebookService, MUtilitiesService) {
 
-        $rootScope.access_token_arr = access_token_arr;
+        $scope.testDialog = function(){
+            ngDialog.open({
+                template: '<p>my template</p>',
+                plain: true
+            });
+        }
+        $scope.showImageDialog = function(imageUrl){
+            ngDialog.open({
+                disableAnimation : true,
+                template: '<img src="' + imageUrl + '" class="pt-3" style="width:100%">',
+                plain: true
+            });
+        }
 
-        angular.forEach(activeItem, function(value, key){
-            // console.log(value);
-            $rootScope.activeOrder = value;
-            $rootScope.activeStatusId = value.status_id;
-          });
+        $scope.activeOrder = activeItem;
+        $rootScope.activeStatusId = activeItem.status_id;
 
+        var page = $filter("filter")(fanpages, {id: $stateParams.page_id});
         $scope.conversation_type = $stateParams.type;
-        function AlertError(c, d) {
-            toastr.error(c, d)
-        };
-
-        function AlertSuccessful(c, d) {
-            toastr.success(c, d)
-        };
-
-        function AlertWarning(c, d) {
-            toastr.warning(c, d)
-        };
-
-        toastrConfig.closeButton = true;
-        toastrConfig.timeOut = 3000;
+        $scope.page_id = $stateParams.page_id;
+        // console.log(page);
+        $scope.currentAccessToken = page ? page[0].access_token : null;
+        if(!$scope.currentAccessToken){
+            MUtilitiesService.AlertError('Chưa khai báo Fanpage', 'Lỗi');
+        }
 
         $scope.isShowFullPost = false;
         $scope.showFullPost = function(){
@@ -41,11 +44,15 @@ mRealtime.controller('OdersCtrl',
         activeLogRef.on('child_added', snapshot => {
             $scope.activeLog.push(snapshot.val());
         });
+
+
         $scope.noteContent = {};
+        /*
+        * add a note to order
+        */
         $scope.addNote = function(){
             if(!$scope.noteContent.text || $scope.noteContent.text.length == 0){
-                // snackbar('Vui lòng nhập nội dung');
-                AlertError('Vui lòng nhập nội dung', 'Lỗi');
+                MUtilitiesService.AlertError('Vui lòng nhập nội dung', 'Lỗi');
                 return;
             }
             var activeLogItem = {
@@ -64,117 +71,78 @@ mRealtime.controller('OdersCtrl',
               });
             // update
             var itemChanged = $filter('filter')($rootScope.orders, {'id':$stateParams.id})[0];
-            console.log(itemChanged);
             itemChanged.commentCount = 1;
         }
 
 
-        function formatDateTime(dateStr){
-            var year, month, day, hour, minute, dateUTC, date, ampm, d, time;
-            var iso = (dateStr.indexOf(' ')==-1&&dateStr.substr(4,1)=='-'&&dateStr.substr(7,1)=='-'&&dateStr.substr(10,1)=='T') ? true : false;
-         
-            year = dateStr.substr(0,4);
-            month = parseInt((dateStr.substr(5,1)=='0') ? dateStr.substr(6,1) : dateStr.substr(5,2))-1;
-            day = dateStr.substr(8,2);
-            hour = dateStr.substr(11,2);
-            minute = dateStr.substr(14,2);
-            dateUTC = Date.UTC(year, month, day, hour, minute);                 
-            date = new Date(dateUTC);
-            var curDate = new Date();
-     
-            var currentStamp = curDate.getTime();                   
-            var datesec = date.setUTCSeconds(0);
-            var difference = parseInt((currentStamp - datesec)/1000);
-            return difference;                              
-        }
-
-        
-        $scope.page_id = $stateParams.page_id;
-        $scope.conversation = null;
-
-        $scope.finishGraphPostDetail = false;
-
-        // get current access token
-        var getCurrentPageAccessToken = function(){
-            if(!$rootScope.access_token_arr) {
-                AlertError('Access token array is null', 'Error');
-                return;
+        // GRAPH FACEBOOK
+        var graphUser = function(){
+            if($stateParams.customer_id){
+                MFacebookService.graphUser($stateParams.customer_id, $scope.currentAccessToken).then(function(response){
+                    if(response && !response.error){
+                        $scope.$apply(function(){
+                            $scope.customer = response;
+                        })
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
             }
-            var token = $scope.filterById($rootScope.access_token_arr, $stateParams.page_id);
-            if(token){
-                $scope.currentAccessToken = token.acess_token;
+        }.call(this);
+
+        var graphPage = function(){
+            if($stateParams.page_id){
+                MFacebookService.graphPage($stateParams.page_id, $scope.currentAccessToken).then(function(response){
+                    if(response && !response.error){
+                        $scope.$apply(function(){
+                            $scope.data = response;
+                        })
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
             }
-        }.call(this)
+        }.call(this);
 
-        // graph user
-        if($stateParams.customer_id){
-            Facebook.api('/' + $stateParams.customer_id + '?access_token=' + $rootScope.access_token, function(response) {
-                // console.log(response);
-                if(response && !response.error){
-                    $scope.customer = response;
-                }
-            });
-        }
-
-
-        // graph page
-        if($stateParams.page_id){
-             Facebook.api('/' + $stateParams.page_id + '?fields=picture,name&access_token=' + $rootScope.access_token, function(response) {
-                // console.log(response);
-                if(response && !response.error){
-                    $scope.$apply(function(){
-                        $scope.data = response; 
-                        $scope.finishGraphPage = true;
-                    });
-                    // graphPost($scope.post_id);
-                    // graphOriginalConversation($scope.conversation_id);
-                }
-            });
-        }
-
-        // graph messages
-        var graphMessages = function(){
-            console.log($scope.currentAccessToken);
-            // console.log('/' + $stateParams.conversation_id + '?fields=messages.limit(100){message,from,created_time,attachments,sticker,shares{link,description,name}},snippet,link,unread_count,participants&access_token=' + $scope.currentAccessToken);
-            Facebook.api('/' + $stateParams.conversation_id + '?fields=messages.limit(100){message,from,created_time,attachments,sticker,shares{link,description,name}},snippet,link&access_token=' + $scope.currentAccessToken, function(r) {
-                $scope.messsageLog = r;
-                // console.log(r);
-            });
-        }
-
-        // if mesage => graph all messages
         if($stateParams.type == 1){
-            graphMessages();
+            MFacebookService.graphMessages($stateParams.conversation_id, $scope.currentAccessToken).then(function(response){
+                if(response && !response.error){
+                    $scope.$apply(function(){
+                        $scope.messsageLog = response;
+                    })
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            })
         }
 
-        // if comment => graph post owner
-        if($stateParams.post_id){
-            Facebook.api('/' + $stateParams.post_id + '?fields=full_picture,message,picture,attachments,story,permalink_url&date_format=U&access_token=' + $rootScope.access_token, function(response) {
-                // console.log(response.attachments.data[0].subattachments.data);
+        if(!$stateParams.type){
+            // graph post
+            MFacebookService.graphPost($stateParams.post_id, $scope.currentAccessToken).then(function(response){
                 if(response && !response.error){
-                    // console.log(response);
                     $scope.$apply(function(){
-                        $scope.postData = response; 
-                        $scope.finishGraphPostDetail = true; 
+                        $scope.postData = response;
                     });
                 }
-            });
-        }
+            })
+            .catch(function(error){
+                console.log(error);
+            })
 
-        // if comment => graph conversation log
-        var graphComments = function(){
-            Facebook.api('/' + $stateParams.conversation_id + '?fields=comments{from,message,created_time,id,attachment},permalink_url,from,message,created_time&access_token=' + $scope.currentAccessToken, function(response) {
-                // console.log(response);
+            // graph post comments
+            MFacebookService.graphComments($stateParams.conversation_id, $scope.currentAccessToken).then(function(response){
                 if(response && !response.error){
                     $scope.$apply(function(){
                         $scope.conversation = response;
-                        $scope.finishGraphConversation = true; 
-                    });
+                    })
                 }
-            });
-        }
-        if(!$stateParams.type){
-            graphComments();
+            })
+            .catch(function(error){
+                console.log(error);
+            })
         }
 
         /*
@@ -203,7 +171,7 @@ mRealtime.controller('OdersCtrl',
         $scope.replyToComment = function(){
             if(!$scope.comentText || $scope.comentText.length==0){
                 // snackbar('Vui lòng nhập nội dung!');
-                AlertError('Vui lòng nhập nội dung', 'Lỗi');
+                MUtilitiesService.AlertError('Vui lòng nhập nội dung', 'Lỗi');
                 return;
             } 
             if($stateParams.type == 1){
@@ -233,7 +201,7 @@ mRealtime.controller('OdersCtrl',
                         graphComments();
                         $scope.startReplying = false;
                         // snackbar('Gửi bình luận thành công!');
-                        AlertSuccessful('Gửi bình luận thành công', 'Thông báo');
+                        MUtilitiesService.AlertSuccessful('Gửi bình luận thành công', 'Thông báo');
                     });
                   }
                 }
@@ -257,25 +225,12 @@ mRealtime.controller('OdersCtrl',
                         graphMessages();
                         $scope.startReplying = false;
                         // snackbar('Gửi tin nhắn thành công đến khách hàng!');
-                        AlertSuccessful('Gửi tin nhắn thành công', 'Thông báo');
+                        MUtilitiesService.AlertSuccessful('Gửi tin nhắn thành công', 'Thông báo');
                     });
                   }
                 }
             );
         }
-
-        // snackbar functions
-        // var snackbar = function(message){
-        //     var options = {
-        //       message : message,
-        //       time: "SHORT"
-        //     }
-        //     $snackbar.show(options);
-        // }
-
-        // $scope.showSnackbar = function() {
-        //     snackbar('Gửi tin nhắn thành công đến khách hàng');
-        // };
 
         /**
         * Check before user change status
@@ -286,15 +241,15 @@ mRealtime.controller('OdersCtrl',
             if($rootScope.currentMember.is_admin == 1){
                return true;
             }
-            if($rootScope.activeOrder.seller_will_call_id !== $rootScope.currentMember.id){
+            if($scope.activeOrder.seller_will_call_id !== $rootScope.currentMember.id){
                 // snackbar('Oop! Thao tác không được chấp nhận!');
-                AlertError('Không cho phép thay đổi trạng thái Order của người khác', 'Thông báo');
+                MUtilitiesService.AlertError('Không cho phép thay đổi trạng thái Order của người khác', 'Thông báo');
                 return false;
             }
 
-            if($rootScope.activeOrder.status_id == status.id){
+            if($scope.activeOrder.status_id == status.id){
                 // snackbar('Oop! Không thay đổi trạng thái!');
-                AlertWarning('Trạng thái không thay đổi', 'Thông báo');
+                MUtilitiesService.AlertWarning('Trạng thái không thay đổi', 'Thông báo');
                 return false;
             }
             return true;
@@ -304,7 +259,7 @@ mRealtime.controller('OdersCtrl',
             if(!validationBeforChangeStatus(status)){
                 return;
             };
-            // $rootScope.activeOrder.status_id = status.id;
+            // $scope.activeOrder.status_id = status.id;
             $rootScope.activeStatusId = status.id;
             
             var ref = firebase.database().ref();
@@ -348,8 +303,6 @@ mRealtime.controller('OdersCtrl',
                 }
                 
               });
-
-            
             
         }
         function checkIfUserExists(userId) {
@@ -359,12 +312,6 @@ mRealtime.controller('OdersCtrl',
             userExistsCallback(userId, exists);
           });
         }
-
-        // products
-        // var products = [];
-        
-
-        // products.push(product);
 
         // get all products
         $scope.aProducts = [];
@@ -410,12 +357,12 @@ mRealtime.controller('OdersCtrl',
         $scope.onAddNewProduct = function(){
             console.log($scope.newProduct.name);
             if($scope.newProduct.name == ''){
-                AlertError('Vui lòng nhập tên sản phẩm', 'Thông báo');
+                MUtilitiesService.AlertError('Vui lòng nhập tên sản phẩm', 'Thông báo');
                 return false;
             }
             firebaseService.addNewProduct($scope.newProduct.name).then(function(response){
-                console.log(response);
-                AlertSuccessful('Thêm sản phẩm thành công', 'Thông báo');
+                // console.log(response);
+                MUtilitiesService.AlertSuccessful('Thêm sản phẩm thành công', 'Thông báo');
                 $scope.newProduct = {
                     name: ''
                 };
@@ -424,27 +371,27 @@ mRealtime.controller('OdersCtrl',
         var validateCustomerData = function(){
             console.log($scope.selectedProducts);
             if(!$scope.customerData.birthDay || $scope.customerData.birthDay.length < 1){
-                AlertError('Vui lòng nhập năm sinh', 'Thông báo');
+                MUtilitiesService.AlertError('Vui lòng nhập năm sinh', 'Thông báo');
                 return false;
             }
             if(!angular.isNumber($scope.customerData.birthDay)){
-                AlertError('Năm sinh không đúng', 'Thông báo');
+                MUtilitiesService.AlertError('Năm sinh không đúng', 'Thông báo');
                 return false;
             }
             if(!angular.isNumber($scope.customerData.cod)){
-                AlertError('Số tiền không đúng', 'Thông báo');
+                MUtilitiesService.AlertError('Số tiền không đúng', 'Thông báo');
                 return false;
             }
             if($scope.customerData.cod <= 10000){
-                AlertError('Số tiền không đúng', 'Thông báo');
+                MUtilitiesService.AlertError('Số tiền không đúng', 'Thông báo');
                 return false;
             }
             if(!$scope.customerData.addresss || $scope.customerData.addresss.length < 1){
-                AlertError('Vui lòng nhập địa chỉ nhận hàng', 'Thông báo');
+                MUtilitiesService.AlertError('Vui lòng nhập địa chỉ nhận hàng', 'Thông báo');
                 return false;
             }
             if(!$scope.selectedProducts || $scope.selectedProducts.length == 0){
-                AlertError('Vui lòng thêm sản phẩm', 'Thông báo');
+                MUtilitiesService.AlertError('Vui lòng thêm sản phẩm', 'Thông báo');
                 return false;
             }
             if($scope.selectedProducts.length > 0){
@@ -457,7 +404,7 @@ mRealtime.controller('OdersCtrl',
                 angular.forEach($scope.selectedProducts, function(product){
                     pass = pass && product.id;
                     if(!angular.isNumber(product.count)){
-                        AlertError('Số lượng không đúng', 'Thông báo');
+                        MUtilitiesService.AlertError('Số lượng không đúng', 'Thông báo');
                         return false;
                     }
                     if(product.count < 1){
@@ -465,11 +412,11 @@ mRealtime.controller('OdersCtrl',
                     }
                 })
                 if(!countProductPass){
-                    AlertError('Số lượng không đúng', 'Thông báo');
+                    MUtilitiesService.AlertError('Số lượng không đúng', 'Thông báo');
                     return false;
                 }
                 if(!pass){
-                    AlertError('Vui lòng chọn sản phẩm', 'Thông báo');
+                    MUtilitiesService.AlertError('Vui lòng chọn sản phẩm', 'Thông báo');
                     return false;
                 }
             }
@@ -490,22 +437,22 @@ mRealtime.controller('OdersCtrl',
                     var data = {
                         customerData : $scope.customerData,
                         orderData : {
-                            conversation_id : $rootScope.activeOrder.conversation_id,
-                            customer_id : $rootScope.activeOrder.customer_id,
-                            customer_name : $rootScope.activeOrder.customer_name,
-                            id : $rootScope.activeOrder.id,
-                            page_id: $rootScope.activeOrder.page_id,
-                            post_id : $rootScope.activeOrder.post_id || null,
-                            publish_date : $rootScope.activeOrder.publish_date,
-                            status_id : $rootScope.activeOrder.status_id,
-                            type :  $rootScope.activeOrder.type || null
+                            conversation_id : $scope.activeOrder.conversation_id,
+                            customer_id : $scope.activeOrder.customer_id,
+                            customer_name : $scope.activeOrder.customer_name,
+                            id : $scope.activeOrder.id,
+                            page_id: $scope.activeOrder.page_id,
+                            post_id : $scope.activeOrder.post_id || null,
+                            publish_date : $scope.activeOrder.publish_date,
+                            status_id : $scope.activeOrder.status_id,
+                            type :  $scope.activeOrder.type || null
                         },
                         created_time : Date.now()
                     }
                     firebaseService.addNewShippingItem(data).then(function(response){
 
                     })
-                    AlertSuccessful('Chốt đơn hàng thành công', 'Thông báo');
+                    MUtilitiesService.AlertSuccessful('Chốt đơn hàng thành công', 'Thông báo');
                     // addNewShippingItem
                 }
 
@@ -531,7 +478,7 @@ mRealtime.controller('OdersCtrl',
         *
         */
         $scope.showEditOrder = function(){
-            firebaseService.getShippingItemByOrderId($rootScope.activeOrder.id).then(function(snapshot){
+            firebaseService.getShippingItemByOrderId($scope.activeOrder.id).then(function(snapshot){
                 $scope.$apply(function(){
                     angular.forEach(snapshot.val(), function(value, key){
                         $scope.editData = value;

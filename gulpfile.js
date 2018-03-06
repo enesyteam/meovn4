@@ -170,6 +170,7 @@ var adminSources = gulp.src([
         'src/modules/mGHN.js',
         'src/modules/mFirebase.js',
         'src/modules/mFacebook.js',
+        'src/modules/mUtilities.js',
         
 
         //vendors
@@ -231,9 +232,16 @@ var adminSources = gulp.src([
 
 
 var realtimeSources = gulp.src([
+    // modules
+    'src/modules/mGHN.js',
+    'src/modules/mFirebase.js',
+    'src/modules/mFacebook.js',
+    'src/modules/mUtilities.js',
+
     //vendors
     'node_modules/angular-loading-bar/build/loading-bar.min.js',
     'node_modules/angular-filter/dist/angular-filter.min.js', // angular filter
+    'node_modules/ng-dialog/js/ngDialog.min.js',
 
     'node_modules/angular-facebook/angular-facebook.js',
     // 'node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js',
@@ -269,6 +277,8 @@ var shippingSources = gulp.src([
     'src/modules/mGHN.js',
     'src/modules/mFirebase.js',
     'src/modules/mFacebook.js',
+    'src/modules/mUtilities.js',
+
     //vendors
     'node_modules/angular-loading-bar/build/loading-bar.min.js',
     'node_modules/angular-filter/dist/angular-filter.min.js', // angular filter

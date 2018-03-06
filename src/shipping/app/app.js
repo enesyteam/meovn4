@@ -15,6 +15,7 @@ var mShipping = angular.module('mShipping', [
   'mGHN',
   'mFacebook',
   'mFirebase',
+  'mUtilities',
 	])
     .constant('appVersion', '3.0.0')
     .constant('releaseDate', 'Nov-20, 2017')

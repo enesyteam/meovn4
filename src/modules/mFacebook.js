@@ -4,12 +4,10 @@
   angular.module('mFacebook', []);
 
   angular.module('mFacebook')
-        .service('MFacebookService', ["$http", function($http) {
-
-            var Facebook = null;
+        .service('MFacebookService', ["$http", "Facebook", function($http, Facebook) {
 
             var MFacebookServiceSetApp = function(app){
-                Facebook = app;
+                // Facebook = app;
             }
 
             var graphUser = function(userId, access_token){

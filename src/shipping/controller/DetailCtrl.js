@@ -27,13 +27,6 @@ mShipping.controller('DetailCtrl',
           return moment(d).format("DD/MM/YYYY hh:mm");
         }
 
-        // test facebook
-        // config for facebook service
-        MFacebookService.MFacebookServiceSetApp(Facebook);
-        // MFacebookService.graphUser('857591101095947', 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD').then(function(response){
-        //     console.log(response);
-        // })
-
         // $scope.tessttt = activeItem[$stateParams.id];
         angular.forEach(activeItem, function(value, key){
             // console.log(value);

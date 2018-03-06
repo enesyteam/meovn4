@@ -1,5 +1,6 @@
 m_admin.controller('MainCtrl',
-    function($rootScope, $scope, $http, $filter, $timeout, cfpLoadingBar, firebaseService, cfpLoadingBar, Facebook) {
+    function($rootScope, $scope, $http, $filter, $timeout, cfpLoadingBar, firebaseService, 
+        cfpLoadingBar, Facebook, MUtilitiesService) {
         // get access token
         var getAccessToken = function(){
             $http.get('../assets/access_token.json').

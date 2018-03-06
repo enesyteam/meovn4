@@ -10,6 +10,7 @@ var m_admin = angular.module('m_admin', [
   'mGHN',
   'mFacebook',
   'mFirebase',
+  'mUtilities',
 
   'm_admin.dashboard',
   'm_admin.settings',

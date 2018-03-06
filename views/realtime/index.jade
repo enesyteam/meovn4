@@ -33,6 +33,10 @@ html(lang='en', ng-app='mRealtime')
     link(rel='stylesheet', href='/node_modules/perfect-scrollbar/css/perfect-scrollbar.css')
     |     
     link(rel='stylesheet', href='/node_modules/angular-loading-bar/build/loading-bar.css')
+    |     
+    link(rel='stylesheet', href='/node_modules/ng-dialog/css/ngDialog.min.css')
+    |     
+    link(rel='stylesheet', href='/node_modules/ng-dialog/css/ngDialog-theme-default.min.css')
     // inject:css
     // endinject
   |   
@@ -195,9 +199,19 @@ html(lang='en', ng-app='mRealtime')
     // AngularFire
     script(src='https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js')
     // inject:js
+    script(src='/src/modules/mGHN.js')
+    |     
+    script(src='/src/modules/mFirebase.js')
+    |     
+    script(src='/src/modules/mFacebook.js')
+    |     
+    script(src='/src/modules/mUtilities.js')
+    |     
     script(src='/node_modules/angular-loading-bar/build/loading-bar.min.js')
     |     
     script(src='/node_modules/angular-filter/dist/angular-filter.min.js')
+    |     
+    script(src='/node_modules/ng-dialog/js/ngDialog.min.js')
     |     
     script(src='/node_modules/angular-facebook/angular-facebook.js')
     |     

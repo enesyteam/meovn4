@@ -10,10 +10,15 @@ var mRealtime = angular.module('mRealtime', [
   'angular.filter',
   'facebook',
   'infinite-scroll',
+  'ngDialog',
   // 'ui.scroll',
   // 'snackbar',
+  'ngFileUpload',
   'toastr',
-  'ngFileUpload'
+  'mGHN',
+  'mFacebook',
+  'mFirebase',
+  'mUtilities',
 	])
     .constant('appVersion', '3.0.0')
     .constant('releaseDate', 'Nov-20, 2017')
@@ -34,6 +39,16 @@ var mRealtime = angular.module('mRealtime', [
                 url: '/',
                 controller: 'MainCtrl',
                 templateUrl: "/src/realtime/home.html",
+                resolve: {
+                  fanpages: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_fanpages().then(function(response){
+                        // console.log(response);
+                        return response;
+                      });
+                    }
+                },
             });
             
         $urlRouterProvider.otherwise('/');

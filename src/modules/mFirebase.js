@@ -124,6 +124,21 @@
                 })
             }
 
+            /*
+            * get order item by id
+            */
+            var getOrderItem = function(id){
+                return new Promise(function(resolve, reject) {
+                    firebase.database().ref().child('newOrders/' + id).once('value', function(snapshot){
+                        resolve(snapshot.val());
+                    })
+                    .catch(function(err){
+                        reject(err);
+                    })
+                })
+                
+            }
+
             return {
                 set_firebase : set_firebase,
                 set_ghn_token : set_ghn_token,
@@ -131,6 +146,7 @@
                 get_fanpages : get_fanpages,
                 add_fanpage : add_fanpage,
                 edit_fanpage : edit_fanpage,
+                getOrderItem : getOrderItem,
             }
 
         }]);

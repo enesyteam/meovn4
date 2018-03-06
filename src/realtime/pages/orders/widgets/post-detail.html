@@ -12,24 +12,28 @@
                <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
             </pan-loader>
          </div> -->
-         <div ng-if="finishGraphPostDetail" style="padding-left: 15px">
+         <div ng-if="postData" style="padding-left: 15px">
             <a href="{{postData.permalink_url}}" target="_blank" style="font-size: 12px">{{postData.story}}</a>
-            <span style="white-space: pre-line;display: block; text-align: left;overflow-y: hidden;{{isShowFullPost ? 'max-height: none' : 'max-height: 250px'}}">
+            <span ng-if="postData.message" style="white-space: pre-line;display: block; text-align: left;overflow-y: hidden;{{isShowFullPost ? 'max-height: none' : 'max-height: 250px'}}">
             {{postData.message}}
             </span>
-            <div ng-if="!isShowFullPost">
+            <div ng-if="!isShowFullPost && postData.message">
                <!-- <a ng-click="showFullPost()" style="cursor: pointer;">Xem thêm...</a> -->
                <button class="btn-link btn-sm mt-3 mb-3" ng-click="showFullPost()" aria-expanded="false" aria-label="Nếu sản phẩm không có trong danh mục">
                   <svg height="16" class="octicon octicon-chevron-down" viewBox="0 0 10 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6z"></path></svg>
                Xem thêm...
                </button>
             </div>
-            <div style="max-height: 90px;overflow-y: hidden;    margin: 15px 0;background: #eee;padding: 5px;">
-               <span ng-repeat="image in postData.attachments.data[0].subattachments.data">
-               <img ng-src="{{image.media.image.src}}" style="height: 80px">
+            <div style="max-height: 105px;overflow-y: hidden;margin-bottom: 15px;padding: 5px;white-space: nowrap;overflow-x: auto;">
+               <span ng-repeat="image in postData.attachments.data[0].subattachments.data" style="display: inline-block;">
+                  <a href="" ng-click="showImageDialog(image.media.image.src)">
+                     <img ng-src="{{image.media.image.src}}" style="height: 80px">
+                  </a>
                </span>
                <span>
-               <img ng-src="{{postData.picture}}" style="height: 80px">
+                  <a href="" ng-click="showImageDialog(postData.picture)">
+                     <img ng-src="{{postData.picture}}" style="height: 80px">
+                  </a>
                </span>
             </div>
          </div>
@@ -44,26 +48,20 @@
             <p>{{conversation_type==1 ? 'Messages log' : 'Comments log'}}</p>
          </span>
       </div>
-      <div class="group-time for-you" ng-if="finishGraphConversation">
+      <div ng-if="conversation" class="group-time for-you">
          <div class="line_chat">
             <div class="chat_content">
                <span class="time_chat">
-                  <!-- react-text: 11820 -->19:01<!-- /react-text --><!-- react-text: 11821 --><!-- /react-text -->
                </span>
                <a href="//facebook.com/{{conversation.from.id}}" target="_blank">
                <span style="background-image: url(&quot;{{conversation ? '//graph.facebook.com/' + conversation.from.id + '/picture?width=50&amp;height=50' : '';}}&quot;); border-radius: 24px; background-position: center center;"></span>
                </a>
                <h5 class="_ih3">{{conversation ? conversation.from.name : 'Unknown'}}</h5>
-               <!-- <relative-time datetime="{{conversation.created_time}}" title="{{conversation.created_time}}"></relative-time> -->
                <div class="normal-text bubble you tooltipped tooltipped-no-delay tooltipped-e" aria-label="{{conversation ? conversation.created_time : 'Unknown'}}">{{conversation.message}}</div>
             </div>
-            <!-- <div class="tooltip_comment">
-               <div class="tooltip_action"></div>
-               <div class="action_for_msg"><a>Thích </a><a>Xoá </a><a>Bỏ ẩn </a><a>Nhắn tin </a></div>
-               </div> -->
          </div>
       </div>
-      <div ng-if="finishGraphConversation" class="group-time" ng-repeat="m in conversation.comments.data" ng-class="m.from.id==page_id ? 'for-me' : 'for-you'">
+      <div ng-if="conversation" class="group-time" ng-repeat="m in conversation.comments.data" ng-class="m.from.id==page_id ? 'for-me' : 'for-you'">
          <div class="line_chat">
             <div class="chat_content">
                <!-- <span class="time_chat" style="top: 250.2px; left: 69%;">
@@ -77,7 +75,11 @@
                <!-- <relative-time datetime="{{m.created_time}}" title="{{m.created_time}}"></relative-time> -->
                <div class="normal-text bubble tooltipped tooltipped-no-delay {{m.from.id==page_id ? 'tooltipped-w me' : 'tooltipped-e you'}}" aria-label="{{m.created_time | date:'HH:mm dd/MM'}}" ng-class="m.attachment ? 'hasAttachments' : ''">{{m.message}}
                   <div ng-if="m.attachment" ng-repeat="image in m.attachment.media">
-                     <img ng-src="{{image.src}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
+                     <div ng-if="m.attachments" ng-repeat="image in m.attachments.data">
+                        <a href="" ng-click="showImageDialog(image.image_data.url)">
+                           <img ng-src="{{image.src}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
+                        </a>
+                     </div>
                   </div>
                   <div ng-if="m.shares.data">
                      {{m.shares.data.link}}
@@ -104,7 +106,9 @@
                <div class="normal-text bubble tooltipped tooltipped-no-delay {{m.from.id==page_id ? 'tooltipped-w me' : 'tooltipped-e you'}}" aria-label="{{m.created_time | date:'HH:mm dd/MM'}}" ng-class="m.attachments || m.sticker ? 'hasAttachments' : ''">{{m.message}}
                   <!-- {{m.attachments.data[0].image_data.url}} -->
                   <div ng-if="m.attachments" ng-repeat="image in m.attachments.data">
-                     <img ng-src="{{image.image_data.url}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
+                     <a href="" ng-click="showImageDialog(image.image_data.url)">
+                        <img ng-src="{{image.image_data.url}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
+                     </a>
                   </div>
                   <div ng-if="m.sticker">
                      <img ng-src="{{m.sticker}}" style="width: 50px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
