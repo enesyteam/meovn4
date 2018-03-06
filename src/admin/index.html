@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="src/admin/sass/styles.css">
     <link rel="stylesheet" href="node_modules/angular-loading-bar/build/loading-bar.css">
     <link rel="stylesheet" href="/node_modules/angular-toastr/dist/angular-toastr.css">
+    <link rel="stylesheet" href="/src/admin/sass/chosen.css">
   </head>
   <body class="logged-in env-production page-dashboard">
     <!-- Header -->
@@ -173,6 +174,9 @@
     </button>
     You can't perform that action at this time.
   </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+    <script data-require="chosen@*" data-semver="1.5.1" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.proto.min.js"></script>
 
     <script src="/assets/js/scripts-angular.min.js"></script>
     <script src="/node_modules/angular-animate/angular-animate.min.js"></script>
@@ -195,6 +199,8 @@
   </script>
   <!-- AngularFire -->
   <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+
+  <script src="/node_modules/angular-chosen-localytics/dist/angular-chosen.js"></script>
 
   <!-- inject:js -->
   <!-- endinject -->

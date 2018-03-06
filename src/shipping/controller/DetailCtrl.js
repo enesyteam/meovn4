@@ -1,7 +1,7 @@
 mShipping.controller('DetailCtrl',
     function($rootScope, $scope, $http, $window, $state, $stateParams, $document, $filter, $timeout, cfpLoadingBar,
         cfpLoadingBar, Facebook, toastr, toastrConfig, moment, ProductPackService, 
-        firebaseService, GiaoHangNhanhService, activeItem, Hubs, MFacebookService) {
+        firebaseService, GiaoHangNhanhService, activeItem, ghn_hubs, MFacebookService, current_hub) {
 
         // console.log(firebase.utils);
 
@@ -50,24 +50,8 @@ mShipping.controller('DetailCtrl',
                 })
             })
         }
-        // $scope.currentHub = null;
-        var getCurrentHub = function(){
-            if(!$rootScope.access_token_arr) {
-                AlertError('Access token array is null', 'Error');
-                // return;
-            }
-            var token = $scope.filterById($rootScope.access_token_arr, $stateParams.page_id);
-            if(token){
-                angular.forEach(Hubs, function(hub){
-                    // console.log(hub.HubID);
-                    if(hub.HubID == token.hubID){
-                        $scope.currentHub = hub;
-                    }
-                })
-            }
-        }.call(this);
 
-        if($scope.currentHub){
+        if(current_hub){
             // console.log($scope.currentHub);
         }
         else{
@@ -97,7 +81,7 @@ mShipping.controller('DetailCtrl',
             // messages
             MFacebookService.graphMessages($stateParams.cv_id, $scope.currentAccessToken).then(function(response){
                 $scope.$apply(function(){
-                    console.log(response);
+                    // console.log(response);
                     $scope.messages = response;
                 })
             })
@@ -106,7 +90,7 @@ mShipping.controller('DetailCtrl',
             // graph post
             MFacebookService.graphPost($stateParams.post_id, $scope.currentAccessToken).then(function(response){
                 $scope.$apply(function(){
-                    console.log(response);
+                    // console.log(response);
                     $scope.postData = response;
                 })
             })
@@ -114,7 +98,7 @@ mShipping.controller('DetailCtrl',
             // also graph comments
             MFacebookService.graphComments($stateParams.cv_id, $scope.currentAccessToken).then(function(response){
                 $scope.$apply(function(){
-                    console.log(response);
+                    // console.log(response);
                     $scope.messages = response;
                 })
             })
@@ -125,16 +109,16 @@ mShipping.controller('DetailCtrl',
         $scope.shippingData = {
             "token": $rootScope.ghnToken,
             "PaymentTypeID": 1,
-            "FromDistrictID": $scope.currentHub ? $scope.currentHub.DistrictID : '',
+            "FromDistrictID": current_hub ? current_hub.DistrictID : '',
             "FromWardCode": "21402",
             "ToDistrictID": 1462,
             "ToWardCode": "21609",
             "Note": $scope.activedItem ? $scope.activedItem.data.customerData.orderNote : '',
             "SealCode": "",
             "ExternalCode": "",
-            "ClientContactName": $scope.currentHub ? $scope.currentHub.ContactName : '',
-            "ClientContactPhone": $scope.currentHub ? $scope.currentHub.ContactPhone : '',
-            "ClientAddress": $scope.currentHub ? $scope.currentHub.FullAddress : '',
+            "ClientContactName": current_hub ? current_hub.ContactName : '',
+            "ClientContactPhone": current_hub ? current_hub.ContactPhone : '',
+            "ClientAddress": current_hub ? current_hub.Address : '',
             "CustomerName": $scope.activedItem ? $scope.activedItem.data.customerData.realName : null,
             "CustomerPhone": $scope.activedItem ? $scope.activedItem.data.customerData.recievedPhone : null,
             "ShippingAddress": $scope.activedItem ? $scope.activedItem.data.customerData.addresss : null,

@@ -14,7 +14,7 @@
                   <div style="display: block;">
                      <nav class="UnderlineNav">
                         <div class="UnderlineNav-body">
-                           <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+                           <a role="tab" title="Item 1" class="UnderlineNav-item pl-0 selected">
                               <svg height="16" class="octicon octicon-person" viewBox="0 0 12 16" version="1.1" width="14" aria-hidden="true">
                                  <path fill-rule="evenodd" d="M12 14.002a.998.998 0 0 1-.998.998H1.001A1 1 0 0 1 0 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path>
                               </svg>
@@ -29,22 +29,24 @@
                            </span>
                         </div>
                      </nav>
-                     <div class="one-half column pl-0">
+                     <div class="one-third column pl-0 pr-0">
                         <dl class="form-group">
                            <dt><label>Số điện thoại</label></dt>
                            <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.ClientContactPhone"></dd>
                         </dl>
                      </div>
-                     <div class="one-half column pr-0">
+                     <div class="one-third column pr-0">
                         <dl class="form-group">
-                           <dt><label>Họ và tên</label></dt>
+                           <dt><label>Tên người gửi</label></dt>
                            <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.ClientContactName"></dd>
                         </dl>
                      </div>
-                     <dl class="form-group">
+                     <div class="one-third column pr-0">
+                      <dl class="form-group">
                         <dt><label>Địa chỉ</label></dt>
                         <dd><input type="text" class="form-control width-full" id="example-text" ng-model="shippingData.ClientAddress"></dd>
                      </dl>
+                     </div>
                      <div class="one-half column pl-0">
                         <dl class="form-group">
                            <dt><label>Khu vực</label></dt>
@@ -70,7 +72,7 @@
                   <div style="display: block;">
                      <nav class="UnderlineNav"  style="float: none;clear: both;">
                         <div class="UnderlineNav-body">
-                           <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+                           <a role="tab" title="Item 1" class="UnderlineNav-item pl-0 selected">
                               <svg height="16" class="octicon octicon-person" viewBox="0 0 12 16" version="1.1" width="14" aria-hidden="true">
                                  <path fill-rule="evenodd" d="M12 14.002a.998.998 0 0 1-.998.998H1.001A1 1 0 0 1 0 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path>
                               </svg>
@@ -80,22 +82,24 @@
                         <div class="UnderlineNav-actions">
                         </div>
                      </nav>
-                     <div class="one-half column pl-0">
+                     <div class="one-third column pl-0 pr-0">
                         <dl class="form-group">
                            <dt><label>Số điện thoại</label></dt>
                            <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.CustomerPhone"></dd>
                         </dl>
                      </div>
-                     <div class="one-half column pr-0">
+                     <div class="one-third column pr-0">
                         <dl class="form-group">
                            <dt><label>Họ và tên</label></dt>
                            <dd><input type="text" class="form-control" id="example-text" ng-model="shippingData.CustomerName"></dd>
                         </dl>
                      </div>
-                     <dl class="form-group">
+                     <div class="one-third column pr-0">
+                      <dl class="form-group">
                         <dt><label>Địa chỉ</label></dt>
                         <dd><input type="text" class="form-control width-full" id="example-text" ng-model="shippingData.ShippingAddress"></dd>
                      </dl>
+                     </div>
                      <div class="one-half column pl-0">
                         <dl class="form-group">
                            <dt><label>Khu vực</label></dt>
@@ -121,7 +125,7 @@
                   <div style="display: block;">
                      <nav class="UnderlineNav"  style="float: none;clear: both;">
                         <div class="UnderlineNav-body">
-                           <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+                           <a role="tab" title="Item 1" class="UnderlineNav-item pl-0 selected">
                               <svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
                                  <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
                               </svg>
@@ -141,7 +145,7 @@
                         </div></div> -->
                      <div class="row" style="display: flex" ng-repeat="p in selectedProducts track by $index">
                         <dl class="form-group">
-                           <div class="one-third column pl-0">
+                           <div class="one-half column pr-0 pl-0">
                               <dt>
                                  <label>Sản phẩm {{$index+1}}</label>
                                  <span class="d-inline-block mr-1">
@@ -158,8 +162,8 @@
                                  <option value=""></option>
                               </select>
                            </div>
-                           <div class="two-thirds column pr-0 pl-0">
-                              <div class="one-fourth column">
+                           <div class="one-half column pr-0">
+                             <div class="one-fourth column">
                                  <dt><label>Số lượng</label></dt>
                                  <input type="text" class="form-control" id="example-text" placeholder="Số lượng" ng-model="p.count">
                               </div>
@@ -218,7 +222,7 @@
                   <div style="display: block;">
                      <nav class="UnderlineNav"  style="float: none;clear: both;">
                         <div class="UnderlineNav-body">
-                           <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+                           <a role="tab" title="Item 1" class="UnderlineNav-item pl-0 selected">
                               <svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
                                  <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
                               </svg>
@@ -297,7 +301,7 @@
                   <div style="display: block;">
                      <nav class="UnderlineNav"  style="float: none;clear: both;">
                         <div class="UnderlineNav-body">
-                           <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+                           <a role="tab" title="Item 1" class="UnderlineNav-item pl-0 selected">
                               <svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15">
                                  <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
                               </svg>
@@ -350,7 +354,7 @@
       </div>
       <div class="actions-area">
          <div class="notification">
-            <input class="form-control mt-3 ml-3" type="text" name="" ng-model="trackingCode">
+            <!-- <input class="form-control mt-3 ml-3" type="text" name="" ng-model="trackingCode"> -->
          </div>
          <div class="actions">
             <ul class="list_action">

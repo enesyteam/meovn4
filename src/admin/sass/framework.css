@@ -1809,6 +1809,9 @@ pre {
 .Box--danger .Box-body:last-of-type {
     border-color: #d73a49
 }
+.danger{
+    border-color: #d73a49
+}
 .Box-header--blue {
     background-color: #f1f8ff;
     border-color: #c8e1ff

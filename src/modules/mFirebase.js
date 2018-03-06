@@ -116,7 +116,8 @@
                         result.push({
                               id: snapshot.val().id,
                               name : snapshot.val().name,
-                              access_token: snapshot.val().access_token
+                              access_token: snapshot.val().access_token,
+                              HubID : snapshot.val().HubID
                           });
                       });
                     resolve(result);

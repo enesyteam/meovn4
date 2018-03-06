@@ -12,7 +12,9 @@ var mShipping = angular.module('mShipping', [
   'ngFileUpload',
   'toastr',
   'angularMoment',
-  'mFacebook'
+  'mGHN',
+  'mFacebook',
+  'mFirebase',
 	])
     .constant('appVersion', '3.0.0')
     .constant('releaseDate', 'Nov-20, 2017')
@@ -35,11 +37,27 @@ var mShipping = angular.module('mShipping', [
                 controller: 'MainCtrl',
                 templateUrl: "/src/shipping/home.html",
                 resolve: {
-                  Hubs: function (GiaoHangNhanhService) {
-                    return GiaoHangNhanhService.getAllHubs().then(function(response){
-                      return response;
-                    });
-                  }
+                  ghn_token: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_ghn_token().then(function(response){
+                        return response;
+                      });
+                    },
+                  fanpages: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_fanpages().then(function(response){
+                        // console.log(response);
+                        return response;
+                      });
+                    },
+                    ghn_hubs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getHubs().then(function(response){
+                          return response.data.data;
+                      })
+                    }
                 },
                 
             })
@@ -54,8 +72,20 @@ var mShipping = angular.module('mShipping', [
                     return firebaseService.getShippingItem($stateParams.id).then(function(snapshot){
                       return snapshot.val();
                     });
+                  },
+                  current_hub: function(ghn_hubs, fanpages, $stateParams, $filter){
+                    // console.log($stateParams.page_id);
+                    var hubId = $filter("filter")(fanpages, {
+                                    id: $stateParams.page_id
+                                })[0].HubID;
 
-                  }
+                    var hub = $filter("filter")(ghn_hubs, {
+                                    HubID: hubId
+                                })[0];
+
+                    return hub;
+                    // console.log(hub);
+                  },
                 }
             });
             

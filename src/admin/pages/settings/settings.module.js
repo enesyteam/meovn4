@@ -32,7 +32,13 @@
                       return MFirebaseService.get_ghn_token().then(function(response){
                         return response;
                       });
-                    }
+                    },
+                    ghn_districs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getDistricts().then(function(response){
+                          return response.data.data;
+                      })
+                    },
                   }
                 });
   }

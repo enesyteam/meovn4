@@ -41,7 +41,8 @@
         <div ng-if="!conversation_type">
           <div ng-if="postData" style="padding-left: 15px">
             <a href="{{postData.permalink_url}}" target="_blank" style="font-size: 12px">{{postData.story}}</a>
-            <span style="white-space: pre-line;display: block; text-align: left;overflow-y: hidden;{{isShowFullPost ? 'max-height: none' : 'max-height: 250px'}}">
+            <div ng-if="postData.message">
+              <span style="white-space: pre-line;display: block; text-align: left;overflow-y: hidden;{{isShowFullPost ? 'max-height: none' : 'max-height: 250px'}}">
             {{postData.message}}
             </span>
             <div ng-if="!isShowFullPost">
@@ -50,6 +51,7 @@
                   <svg height="16" class="octicon octicon-chevron-down" viewBox="0 0 10 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6z"></path></svg>
                Xem thêm...
                </button>
+            </div>
             </div>
             <div style="max-height: 90px;overflow-y: hidden;    margin: 15px 0;background: #eee;padding: 5px;">
                <span ng-repeat="image in postData.attachments.data[0].subattachments.data">

@@ -19,6 +19,36 @@
                 access_token = token;
             }
 
+            var addHub = function(address, districtId, contactName, contactPhone){
+                var data = {
+                    "token": access_token,
+                    "Address": address,
+                    "ContactName": contactName,
+                    "ContactPhone": contactPhone,
+                    "DistrictID": districtId,
+                    "Email": "",
+                    "IsMain": false,
+                    "Latitude": 10.0000001,
+                    "Longitude": 108.00000032,
+                    "PeCode": "",
+                    "SMSPhone": ""
+                }
+
+                // console.log(data);
+                return new Promise(function(resolve, reject) {
+                    if(!data.token || data.token.length == 0){
+                        reject('Thiếu GHN token');
+                    }
+                    $http.post('https://console.ghn.vn/api/v1/apiv3/AddHubs', data, config)
+                    .then(function(response) {
+                        resolve(response);
+                    })
+                    .catch(function(err){
+                        reject(err);
+                    });
+                })
+            }
+
             /*
             * get list of hubs
             */
@@ -38,9 +68,30 @@
                 })
             }
 
+            /*
+            * get list of Distrcts
+            */
+            var getDistricts = function(){
+                return new Promise(function(resolve, reject) {
+                    var data = {
+                        "token": access_token
+                    }
+
+                    $http.post('https://console.ghn.vn/api/v1/apiv3/GetDistricts', data, config)
+                    .then(function(response) {
+                        resolve(response);
+                    })
+                    .catch(function(err){
+                        reject(err);
+                    });
+                })
+            }
+
             return {
                 setAccessToken : setAccessToken,
-                getHubs : getHubs
+                getHubs : getHubs,
+                addHub : addHub,
+                getDistricts : getDistricts,
             }
 
         }]);

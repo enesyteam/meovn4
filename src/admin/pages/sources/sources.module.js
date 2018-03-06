@@ -22,15 +22,22 @@
               controller : 'SourcePageCtrl',
               templateUrl: "src/admin/pages/sources/pages/pages.html",
               resolve: {
-                    fanpages: function(MFirebaseService){
+                  fanpages: function(MFirebaseService){
                       MFirebaseService.set_firebase(firebase);
                       // console.log(MFirebaseService);
                       return MFirebaseService.get_fanpages().then(function(response){
-                        console.log(response);
+                        // console.log(response);
                         return response;
                       });
+                    },
+                    ghn_hubs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getHubs().then(function(response){
+                          return response.data.data;
+                      })
                     }
                   }
+                  
             })
       .state('home.sources.upload',{
           url: '/uploads',

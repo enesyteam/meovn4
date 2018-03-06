@@ -1,12 +1,13 @@
 mShipping.controller('MainCtrl',
     function($rootScope, $scope, $http, $window, $document, $filter, $timeout, cfpLoadingBar,
-        cfpLoadingBar, Facebook, firebaseService, Hubs) {
+        cfpLoadingBar, Facebook, firebaseService, fanpages, ghn_hubs, ghn_token) {
         var ref = firebase.database().ref();
 
-        // console.log(Hubs);
-        // var deferred = $q.defer();
-        // console.log(deferred);
-        
+        // console.log(fanpages);
+
+        //GHN API
+        $rootScope.ghnToken = ghn_token;
+        $rootScope.Hubs = ghn_hubs;
         
         // $scope.$apply();
 
@@ -47,40 +48,6 @@ mShipping.controller('MainCtrl',
                 fieldTofilter: valueToFilter
             })[0];
         }
-
-        //GHN API
-        $rootScope.ghnToken = '5a93de5d1070b06c97794a48';
-
-        // setup pages and hub
-        $rootScope.pages = [
-          {
-            id : 137428680255822,
-            hubId : 1006532,
-          },
-          {
-            id : 1754290804583419,
-            hubId : 1006561,
-          }
-        ];
-
-        // GetHubs
-        $scope.getHubs = function(){
-          var config = {
-                      headers : {
-                          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-                      }
-                  }
-              var data = {
-                "token": $rootScope.ghnToken
-            }
-
-            $http.post('https://console.ghn.vn/api/v1/apiv3/GetHubs', data, config)
-            .then(function (data) {
-                  $rootScope.Hubs = data;
-            });
-        }.call(this);
-
-        $rootScope.Hubs = [];
 
         $rootScope.windowsHeight = $window.innerHeight;
         $rootScope.windowsWidth = $window.innerWidth;

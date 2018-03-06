@@ -1,6 +1,9 @@
 m_admin.controller('SourcePageCtrl',
-function($rootScope, $scope, $http, $rootScope, $timeout, cfpLoadingBar, firebaseService, Facebook, 
-	MGHNService, MFirebaseService, fanpages, toastr,  toastrConfig, MFacebookService, access_token) {
+function($rootScope, $scope, $http, $state, $rootScope, $timeout, cfpLoadingBar, firebaseService, Facebook, 
+	MGHNService, MFirebaseService, fanpages, toastr,  toastrConfig, MFacebookService, access_token,
+	ghn_token, ghn_hubs) {
+
+	$scope.ghn_hubs = ghn_hubs;
 
 	MFacebookService.MFacebookServiceSetApp(Facebook);
 	// console.log(fanpages);
@@ -22,7 +25,8 @@ function($rootScope, $scope, $http, $rootScope, $timeout, cfpLoadingBar, firebas
 	$scope.page_data = {
 		id : null,
 		name : null,
-		access_token : null
+		access_token : null,
+		HubID : null
 	}
 
 	function validate_page_data(data){
@@ -38,6 +42,10 @@ function($rootScope, $scope, $http, $rootScope, $timeout, cfpLoadingBar, firebas
 			AlertError('Vui lòng nhập Page token', 'Lỗi');
 			return false;
 		}
+		if(!data.HubID){
+			AlertError('Vui lòng chọn khu vực', 'Lỗi');
+			return false;
+		}
 		return true;
 	}
 
@@ -48,7 +56,8 @@ function($rootScope, $scope, $http, $rootScope, $timeout, cfpLoadingBar, firebas
 				$scope.page_data = {
 						id : null,
 						name : null,
-						access_token : null
+						access_token : null,
+						HubID : null
 					}
 			})
 			.catch(function(err){
@@ -57,6 +66,7 @@ function($rootScope, $scope, $http, $rootScope, $timeout, cfpLoadingBar, firebas
 		}
 	}
 	$scope.onEditPage = function(page){
+		console.log(page);
 		$scope.page_data_to_edit = page;
 	}
 	$scope.onSubmitEditPage= function(){
@@ -72,7 +82,22 @@ function($rootScope, $scope, $http, $rootScope, $timeout, cfpLoadingBar, firebas
 
 	$scope.graph_page = function(){
 		MFacebookService.graphPage($scope.page_data_to_edit.id, access_token).then(function(response){
-			console.log(response);
+			$scope.$apply(function(){
+				$scope.page_data_to_edit.name = response.name
+			})
 		});
+	}
+	$scope.graph_add_page = function(){
+		MFacebookService.graphPage($scope.page_data.id, access_token).then(function(response){
+			$scope.$apply(function(){
+				$scope.page_data.name = response.name
+			})
+		})
+		.catch(function(err){
+			AlertError(err, 'Lỗi');
+		})
+	}
+	$scope.goToAddHub = function(){
+		$state.go('home.settings.ghn');
 	}
 });

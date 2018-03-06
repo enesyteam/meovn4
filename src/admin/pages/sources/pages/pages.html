@@ -22,24 +22,38 @@
                                       </h3>
                                    </div>
                                    <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
-                                      <dl class="form-group">
-                                        <dt><label for="user_profile_email">Page ID <span class="Label Label--outline Label--outline-green">number</span></label></dt>
-                                        <dd>
-                                            <input type="number" class="form-control" ng-model="page_data.id">
-                                         </dd>
-                                      </dl>
-                                      <dl class="form-group">
-                                        <dt><label for="user_profile_email">Page's name</label></dt>
-                                        <dd>
-                                            <input type="text" class="form-control" ng-model="page_data.name">
-                                         </dd>
-                                      </dl>
+                                      <div class="one-half column pl-0">
+                                         <dl class="form-group">
+                                           <dt><label for="user_profile_email">Page ID <span class="Label Label--outline Label--outline-green">number</span></label></dt>
+                                           <dd>
+                                               <input type="number" class="form-control" ng-model="page_data.id" ng-blur="graph_add_page()">
+                                            </dd>
+                                         </dl>
+                                      </div>
+                                      <div class="one-half column pr-0">
+                                          <dl class="form-group">
+                                           <dt><label for="user_profile_email">Page's name</label></dt>
+                                           <dd>
+                                               <input type="text" class="form-control" ng-model="page_data.name">
+                                            </dd>
+                                         </dl>
+                                      </div>
                                       <dl class="form-group">
                                         <dt><label for="user_profile_email">Access token</label></dt>
                                         <dd>
-                                            <input type="text" class="form-control" ng-model="page_data.access_token">
+                                            <input type="text" class="form-control" ng-model="page_data.access_token" placeholder="Token của ứng dụng đối với trang này">
                                          </dd>
                                       </dl>
+                                      <!-- <h3>Tạo Hub trên Giao hàng nhanh</h3> -->
+                                      <div class="form-group">
+                                          <dt><label>Chọn hub tương ứng trên GHN</label></dt>
+                                          <p class="note">Hoặc bấm <a href="" ng-click="goToAddHub()">vào đây</a> để thêm mới một Hub trên GHN</p>
+                                          <dd>
+                                             <select class="form-control" chosen ng-model="page_data.HubID" ng-options="s.HubID as (s.Address + ' - ' + s.ContactName + ' - ' + s.ContactPhone) for s in ghn_hubs">
+                                                <option value=""></option>
+                                             </select>
+                                          </dd>
+                                    </div>
                                       
                                    </div>
                                    <div class="Box-footer">
@@ -56,7 +70,9 @@
                      </div>
                   </div>
                </div>
-               
+               <p class="border border-dashed p-2 f6">
+                Mỗi Fanpage được quản lý với các thông số: ID - Fanpage ID; Tên - Tên Fanpage; Access token - access token được cấp bởi facebook cho ứng dụng để thực hiện các quyền trên page; HubID - ID cửa hàng tương ứng trên Giao hàng nhanh.
+              </p>
                <div class="border-bottom">
                   <div class="table-list-header">
                      <div class="p-2">Danh sách các Pages đang quản lý</div>
@@ -80,13 +96,12 @@
                                        </span>
                                     </span>
                                     <div class="mt-1 text-small text-gray">
-                                       <span class="opened-by">
-                                           {{page.access_token}}
-                                       </span>
-                                       <span class="d-inline-block">
-                                       </span>
-                                       <span class="issue-meta-section css-truncate issue-milestone ml-2">
-                                       </span>
+                                       <div class="opened-by" ng-if="page.access_token">
+                                           [ Đã khai báo token ] 
+                                       </div>
+                                       <div class="opened-by" ng-if="page.access_token">
+                                           [ HubID: {{page.HubID}} ]
+                                       </div>
                                     </div>
                                  </div>
                                  <div class="float-right col-1">
@@ -112,7 +127,7 @@
             </div>
             <!-- /#options_bucket -->
 
-            <div class="Overlay js-box-overlay-container transition-in-out" id="edit-fanpage" hidden="" aria-modal="true" role="dialog" aria-label="Thêm sản phẩm mới vào danh mục?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
+            <div class="Overlay js-box-overlay-container transition-in-out" id="edit-fanpage" hidden="" aria-modal="true" role="dialog" aria-label="Chỉnh sửa thông tin Page?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
                           <div class="Overlay-table-full bg-transparent-dark">
                              <div class="Overlay-cell-middle">
                                 <div class="Box Box--overlay js-box-overlay-content">
@@ -145,7 +160,15 @@
                                             <input type="text" class="form-control" ng-model="page_data_to_edit.access_token">
                                          </dd>
                                       </dl>
-                                      
+                                      <div class="form-group">
+                                          <dt><label>Chọn hub tương ứng trên GHN</label></dt>
+                                          <p class="note">Hoặc bấm <a href="" ng-click="goToAddHub()">vào đây</a> để thêm mới một Hub trên GHN</p>
+                                          <dd>
+                                             <select class="form-control" chosen ng-model="page_data_to_edit.HubID" ng-options="s.HubID as (s.Address + ' - ' + s.ContactName + ' - ' + s.ContactPhone) for s in ghn_hubs">
+                                                <option value=""></option>
+                                             </select>
+                                          </dd>
+                                    </div>
                                    </div>
                                    <div class="Box-footer">
                                       <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" ng-click="onSubmitEditPage()">

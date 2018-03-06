@@ -1294,7 +1294,7 @@ a.branch-name {
     width: 448px;
     margin-right: auto;
     margin-left: auto;
-    overflow-y: auto;
+    /*overflow-y: auto;*/
     background-color: #fff;
     background-clip: padding-box;
     border-color: #444d56;

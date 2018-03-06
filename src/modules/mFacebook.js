@@ -39,6 +39,9 @@
                             if(response && !response.error){
                                  resolve(response);
                             }
+                            else{
+                                reject('Không tìm thấy thông tin page: ' + pageId);
+                            }
                         });
                     }
                     else{

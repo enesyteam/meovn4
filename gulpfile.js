@@ -266,6 +266,8 @@ var realtimeSources = gulp.src([
 
 var shippingSources = gulp.src([
     // modules
+    'src/modules/mGHN.js',
+    'src/modules/mFirebase.js',
     'src/modules/mFacebook.js',
     //vendors
     'node_modules/angular-loading-bar/build/loading-bar.min.js',

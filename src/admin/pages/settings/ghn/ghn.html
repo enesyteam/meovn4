@@ -19,7 +19,15 @@
 	   </dd>
 	</dl>
 	<div class="table-list-header">
-		<div class="p-2">Danh sách các Hubs khả dụng ({{hubs.data.data.length}})</div>
+		<div class="float-left p-2">Danh sách các Hubs khả dụng ({{hubs.data.data.length}})</div>
+		<div class="float-right text-right">
+           <div class="p-2 pr-1">
+                 <button class="btn-link btn-sm" style="padding:0" data-box-overlay-id="add-new-hub" ng-click="onEditPage(page)">
+                    <svg height="16" class="octicon octicon-plus-small" viewBox="0 0 7 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 7V4H3v3H0v1h3v3h1V8h3V7H4z"></path></svg>
+                    Thêm Hub
+                 </button>
+           </div>
+        </div>
 	</div>
 	<div class="border-right border-bottom border-left">
 			<ul class="js-navigation-container js-active-navigation-container">
@@ -67,5 +75,57 @@
 				</li>
 			</ul>
 		</div>
-	{{hubs | json}}
+	<!-- {{hubs | json}} -->
+</div>
+
+<div class="Overlay js-box-overlay-container transition-in-out" id="add-new-hub" hidden="" aria-modal="true" role="dialog" aria-label="Thêm một Hub vào danh mục?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
+  <div class="Overlay-table-full bg-transparent-dark">
+     <div class="Overlay-cell-middle">
+        <div class="Box Box--overlay js-box-overlay-content">
+           <div class="Box-header">
+              <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
+                 <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                    <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                 </svg>
+              </button>
+              <h3 class="Box-title">
+                 Thêm mới GHN hub
+              </h3>
+           </div>
+           <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
+              <dl class="form-group">
+                <dt><label for="user_profile_email">Tên người gửi</label></dt>
+                <dd>
+                    <input type="text" class="form-control" ng-model="ghn_hub_data.ContactName" ng-blur="graph_page()">
+                 </dd>
+              </dl>
+              <dl class="form-group">
+                <dt><label for="user_profile_email">Địa chỉ</label></dt>
+                <dd>
+                    <input type="text" class="form-control" ng-model="ghn_hub_data.Address">
+                 </dd>
+              </dl>
+              <dl class="form-group">
+                <dt><label for="user_profile_email">Số điện thoại</label></dt>
+                <dd>
+                    <input type="text" class="form-control" ng-model="ghn_hub_data.ContactPhone">
+                 </dd>
+              </dl>
+              <dl class="form-group">
+	               <dt><label>Khu vực</label></dt>
+	               <dd>
+	                  <select class="form-control" chosen ng-model="ghn_hub_data.DistrictID" ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in ghn_districs">
+	                     <option value=""></option>
+	                  </select>
+	               </dd>
+	            </dl>
+           </div>
+           <div class="Box-footer">
+              <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" ng-click="onAddNewHub()">
+                    Thêm Hub
+              </button>
+           </div>
+        </div>
+     </div>
+  </div>
 </div>
