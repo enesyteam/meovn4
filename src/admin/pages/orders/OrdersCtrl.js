@@ -10,17 +10,16 @@ function($rootScope, $scope, $filter) {
 	    	$rootScope.orders.push(snapshot.val());
 
 		    //test
-		    if(snapshot.val().status_id == 1 || snapshot.val().status_id == 6){
-				var item = {
+		    var item = {
 					customer_name : snapshot.val().customer_name,
 					customer_mobile : snapshot.val().customer_mobile,
 					id : snapshot.val().id,
 					selected : false,
 					seller_will_call_id : snapshot.val().seller_will_call_id,
+					status_id : snapshot.val().status_id
 				}
 
 				$rootScope.notAssignedOrders.push(item);
-			}
 			
 	    // })
 	});

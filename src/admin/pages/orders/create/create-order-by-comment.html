@@ -1,24 +1,84 @@
 <div class="columns">
 	<div class="one-half column">
-		<form>
+		<div class="row" style="display: block">
+			<form>
 			<dl class="form-group">
-			   <dt><label>Input Conversation link</label></dt>
+			   <dt><label>Nhập ID cuộc hội thoại và Enter</label></dt>
 			   <dd><input ng-model="conversationLink" class="form-control" type="text" placeholder="e.g: https://facebook.com/326410367763204_326415471096027" graph-enter="">
 			   </dd>
 			</dl>
 			
-		</form>
+			</form>
+			<div class="Subhead Subhead--spacious mt-2">
+		      <h2 class="Subhead-heading">
+		         Thông tin khách hàng
+		      </h2>
+		      <div class="one-half column pl-0">
+		      	<dl class="form-group width-full">
+				   <dt><label>Số điện thoại</label></dt>
+				   <dd><input ng-model="orderData.customer_mobile" class="form-control" type="text" placeholder="e.g: 0943312354" >
+				   </dd>
+				</dl>
+		      </div>
+		      <div class="one-half column pr-0">
+		      	<dl class="form-group width-full">
+				   <dt><label>Tên khách hàng</label></dt>
+				   <dd><input ng-model="orderData.customer_name" class="form-control" type="text" placeholder="e.g: 0943312354" >
+				   </dd>
+				</dl>
+		      </div>
+				
+		   </div>
+		   <div>
+		   	<h2 class="Subhead-heading">
+		         Ghi chú của Admin
+		      </h2>
+		   	<dl class="form-group">
+                           <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
+                              <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="order-note" rows="20" style="margin: 0px 5px 0px 0px; width: 442px; height: 69px;" ng-model="shippingData.Note"></textarea>
+                              <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
+                              <div class="suggester-container">
+                                 <div class="suggester js-suggester js-navigation-container" data-url="/autocomplete/user-suggestions">
+                                 </div>
+                              </div>
+                           </dd>
+                        </dl>
+		   </div>
+			<datepicker date-format="dd-MM-yyyy" selector="form-control">
+			    <div class="form-group width-full">
+			    	<dt><label>Chọn ngày đăng</label></dt>
+			        <input class="form-control" placeholder="Click để chọn"/>
+			        <span class="input-group-addon" style="cursor: pointer">
+			        <i class="fa fa-lg fa-calendar"></i>
+			        </span>
+			    </div>
+			</datepicker>
+		</div>
 		<!-- {{sources}} -->
-		<pre>{{orderData | json}}</pre> 
-		<a ng-click="submitOrder()" class="btn btn-sm btn-primary">
-        Submit
-        </a>
+		
+		
 	</div>
 	<div class="one-half column">
 
-		<div class="newsfeed-placeholder p-3">
+		<div class="newsfeed-placeholder p-3 mb-3">
+			<div>
+				Chi tiết Order sắp tạo
+			</div>
+			<div class="row" style="display: block">
+				<pre>{{orderData | json}}</pre> 
+			</div>
+			<div>
+				<a ng-click="submitOrder()" class="btn btn-primary">
+		        	Tạo Order
+		        </a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="border border-dashed p-3">
 		   	<div class="blankslate  blankslate-clean-background" ng-if="!originalMessage">
-		  <h3>Conversation Detail</h3>
+		  <h3>Nội dung hội thoại</h3>
 		  <p>After input conversation link and press Enter, conversation detail will show here.</p>
 		</div>
 		<div>
@@ -152,5 +212,3 @@
 		</div>
 			
 		</div>
-	</div>
-</div>

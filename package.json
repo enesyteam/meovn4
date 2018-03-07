@@ -35,6 +35,7 @@
     "angular-toastr": "^2.1.1",
     "angular-ui-router": "^0.4.3",
     "angular-ui-scroll": "^1.7.0",
+    "angularjs-datepicker": "^2.1.23",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",

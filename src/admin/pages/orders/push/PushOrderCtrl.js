@@ -1,5 +1,5 @@
 m_admin.controller('PushOrderCtrl',
-function($rootScope, $scope, firebaseService) {
+function($rootScope, $scope, $timeout, firebaseService, MFirebaseService, MUtilitiesService) {
 	Array.prototype.chunk = function(groupsize){
 	    var sets = [], chunks, i = 0;
 	    chunks = this.length / groupsize;
@@ -36,24 +36,110 @@ function($rootScope, $scope, firebaseService) {
 				selectedUser.push(s);
 			}
 		});
-		// 
-		var updates = {};
 
+		var selectedOrders = [];
+		var selectedUserIds = [];
+
+		// lấy danh sách orders để phân bổ
 		angular.forEach($rootScope.notAssignedOrders, function(order){
 			if(order.selected){
-				updates['/newOrders/' + order.id + '/seller_will_call_id'] = selectedUser[0].id;
-				order.selected = false;
+				selectedOrders.push(order);
+			}
+		})
+
+		// lấy danh sách user id để phân bổ
+		angular.forEach($rootScope.sellers, function(s){
+			if(s.selected){
+				selectedUserIds.push(s.id);
 			}
 		});
-		$scope.onPushing = true;
-		firebase.database().ref().update(updates).then(function(){
-			console.log('Đã phân số xong!');
-			$scope.$apply(function(){
-				$scope.onPushing = false;
-			})
+
+		if(!selectedUserIds || selectedUserIds.length == 0){
+			$scope.toggleShowUserPane();
+		}
+
+		MUtilitiesService.showWaitingDialog('Đang phân bổ Orders, vui lòng chờ...', function(){
+			var init = function(){
+				return new Promise(function(resolve, reject){
+					MFirebaseService.onPushOrders(selectedOrders, selectedUserIds).then(function(response){
+						resolve(true);
+						MUtilitiesService.AlertSuccessful(response);
+					}).catch(function(error){
+						resolve(false);
+						MUtilitiesService.AlertError(error, 'Lỗi');
+					})
+				})
+			}
+
+			return {
+				init : init,
+			}
 		});
-		// ref.child('newOrders').child(reportDateString).child(nodeName).transaction(function(oldValue){
-  //                 return oldValue + 1;
-  //             });
 	}
+
+	$scope.showUserPane = true;
+	$scope.toggleShowUserPane = function(){
+		$scope.showUserPane = true;
+	}
+	$scope.toggleHideUserPane = function(){
+		$scope.showUserPane = false;
+	}
+
+	$scope.releaseUserOrders = function(seller, event){
+		event.stopPropagation();
+		MUtilitiesService.showConfirmDialg('Thông báo',
+                'Bạn có chắc muốn hủy tất cả Orders của : ' + seller.last_name + ' không?', 'Hủy', 'Bỏ qua')
+            .then(function(response) {
+                if (response) {
+                	MUtilitiesService.showWaitingDialog('Đang hủy tất cả Orders của ' + seller.last_name + ', vui lòng chờ...', 
+                		function(){
+                			return new Promise(function(resolve, reject){
+								$timeout(function() {
+									resolve(true);
+								}, 2000);
+							})
+                		});
+                    console.log('Bắt đầu hủy nhận các orders của seller...');
+                    // code hủy ở đây
+                } else {
+                    console.log('Admin hoặc Mod bỏ qua thao tác hủy đơn');
+                }
+            })
+	}
+
+	$scope.testWaitingDialg = function(callBackFunction){
+		MUtilitiesService.showWaitingDialog('Đang phân bổ Orders, vui lòng chờ...', callBackFunction);
+	}
+
+	$scope.onOpenCallback = function(){
+		return new Promise(function(resolve, reject){
+			$timeout(function() {
+				resolve(true);
+			}, 2000);
+		})
+		
+	}
+
+	const $Vals = {};
+	function A() {
+	  return new Promise((resolve, reject) => {
+	    resolve([1, 2, 3])
+	  })
+	}
+
+	function B() {
+	  return new Promise((resolve, reject) => {
+	    resolve([4, 5, 6])
+	  })
+	}
+
+
+
+	A().then((dt) => {
+	  $Vals.A = dt;
+	  return B();
+	}).then((dt) => {
+	  $Vals.B = dt;
+	  console.log($Vals);
+	})
 });

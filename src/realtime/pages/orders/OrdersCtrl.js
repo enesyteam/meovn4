@@ -2,7 +2,6 @@ mRealtime.controller('OdersCtrl',
     function($rootScope, $scope, $state, $stateParams, $filter, $timeout, cfpLoadingBar, ngDialog, 
         cfpLoadingBar, Facebook, firebaseService, ProductPackService,
          activeItem, fanpages, MFacebookService, MFirebaseService, MUtilitiesService) {
-
         $scope.showImageDialog = function(imageUrl){
             ngDialog.open({
                 disableAnimation : true,
@@ -248,6 +247,8 @@ mRealtime.controller('OdersCtrl',
         }
 
         $scope.changeStatus = function(status){
+            // mUtilities.test1();
+
             if(!validationBeforChangeStatus(status)){
                 return;
             };
@@ -255,7 +256,7 @@ mRealtime.controller('OdersCtrl',
 
             MFirebaseService.onChangeOrderStatus($stateParams.id, $rootScope.currentMember, status.id).then(function(response){
                 console.log(response);
-                MUtilitiesService.AlertSuccessful(response, 'Thông báo');
+                // MUtilitiesService.AlertSuccessful(response, 'Thông báo');
             })
             .catch(function(err){
                 MUtilitiesService.AlertError(err, 'Thông báo');

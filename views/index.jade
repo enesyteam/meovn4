@@ -27,6 +27,16 @@ html(lang='en', ng-app='m_admin')
     link(rel='stylesheet', href='/node_modules/angular-toastr/dist/angular-toastr.css')
     |     
     link(rel='stylesheet', href='/src/admin/sass/chosen.css')
+    |     
+    link(rel='stylesheet', href='/src/admin/sass/admin-custom.css')
+    |     
+    link(rel='stylesheet', href='/src/admin/sass/loader.css')
+    |     
+    link(rel='stylesheet', href='/node_modules/angularjs-datepicker/dist/angular-datepicker.min.css')
+    |     
+    link(rel='stylesheet', href='/node_modules/ng-dialog/css/ngDialog.min.css')
+    |     
+    link(rel='stylesheet', href='/node_modules/ng-dialog/css/ngDialog-theme-default.min.css')
   |   
   body.logged-in.env-production.page-dashboard
     // Header
@@ -222,7 +232,11 @@ html(lang='en', ng-app='m_admin')
     |   
     script(src='/node_modules/angular-toastr/dist/angular-toastr.tpls.min.js')
     |   
+    script(src='/node_modules/angularjs-datepicker/dist/angular-datepicker.min.js')
+    |   
     script(src='/node_modules/angular-facebook/angular-facebook.js')
+    |   
+    script(src='/node_modules/ng-dialog/js/ngDialog.min.js')
     |   
     script(src='/src/admin/app/app.js')
     |   

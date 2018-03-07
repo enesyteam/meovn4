@@ -177,8 +177,11 @@ var adminSources = gulp.src([
         'node_modules/angular-loading-bar/build/loading-bar.min.js',
         'node_modules/angular-filter/dist/angular-filter.min.js', // angular filter
         'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
+        'node_modules/angularjs-datepicker/dist/angular-datepicker.min.js', // date picker
 
         'node_modules/angular-facebook/angular-facebook.js',
+
+        'node_modules/ng-dialog/js/ngDialog.min.js',
 
 
         // app

@@ -1,0 +1,44 @@
+.push-order-users-pane{
+        margin: 0;
+    margin-bottom: 0 !important;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    max-width: 250px;
+    top: 210px;
+    overflow-y: scroll;
+    background: #fff;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    border-radius: 4px;
+    box-shadow: 0 3px 12px rgba(27, 31, 35, 0.15);
+    z-index: 30;
+    background-clip: padding-box;
+    box-shadow: -3px 0 5px rgba(36,41,46,0.05);
+    /* position: absolute !important; */
+    width: 360px !important;
+    height: auto !important;
+    animation: show-pane 0.2s cubic-bezier(0, 0, 0, 1);
+    border-left: 1px #e1e4e8 solid !important;
+    border-bottom: 1px #e1e4e8 solid !important;
+    background-color: #f6f8fa !important;
+}
+.listgroup{
+    padding: 10px;
+    background: #fff
+}
+.listgroup-item.listgroup-item-preview{
+    padding: 5px;
+    margin: 5px 0 0;
+}
+.btn-release-user-orders{
+    display: none;
+}
+.listgroup-item.listgroup-item-preview:hover .btn-release-user-orders{
+    display: block;
+}
+
+.listgroup-item.listgroup-item-preview.selected .btn-release-user-orders{
+    color: #fff !important;
+    display: block;
+}

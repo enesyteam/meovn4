@@ -7,6 +7,9 @@ var m_admin = angular.module('m_admin', [
   'angular.filter',
   'facebook',
   'toastr',
+  '720kb.datepicker',
+  'ngDialog',
+  
   'mGHN',
   'mFacebook',
   'mFirebase',

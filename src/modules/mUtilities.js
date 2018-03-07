@@ -1,16 +1,11 @@
 (function() {
   'use strict';
 
-  angular.module('mUtilities', []);
-
-  // mUtilities.$inject = ['$animate', '$injector', '$document', '$rootScope', '$sce', 'toastrConfig', '$q'];
-
-  // function mUtilities(){
-
-  // }
+  angular.module('mUtilities', ['ngDialog']);
 
   angular.module('mUtilities')
-        .service('MUtilitiesService', ["$http", 'toastr', 'toastrConfig', function($http, toastr, toastrConfig) {
+        .service('MUtilitiesService', ['$timeout', 'toastr', 'toastrConfig', 'ngDialog', 
+            function($timeout, toastr, toastrConfig, ngDialog) {
             // TOASTR
             var configToastr = function(){
                 toastrConfig.closeButton = true;
@@ -52,13 +47,78 @@
                 return difference;                              
             }
 
+            var showConfirmDialg = function(title, content, confirmButtonText, rejectButtonText){
+                var html = 
+                            '<div class="ngdialog-message">' +
+                              '  <div class="confirmation-title"><i class="fa fa-exclamation-triangle orange"></i>' + title + '</div>' +
+                              '  <div>' + content + '</div>' +
+                              '  </div>' +
+                              ' <div class="ngdialog-buttons">' +
+                              '    <div class="mt-2 float-right">' +
+                              '      <button type="button" class="btn btn-sm btn-primary" ng-click="confirm(confirmValue)">' + confirmButtonText + '</button>' +
+                              '      <button type="button" class="btn btn-sm" ng-click="closeThisDialog()">' + rejectButtonText + '</button>' +
+                              '    </div>' +
+                              '</div>';
 
+                return new Promise(function(resolve, reject){
+                    ngDialog.openConfirm({
+                        template: html,
+                        plain: true
+                    })
+                    .then(function (confirm) {
+                      resolve(true);
+                    })
+                    .catch(function(s){
+                        resolve(false);
+                    })
+                })
+
+            }
+
+            var showWaitingDialog = function(waitingMessage, onOpenCallback){
+                var html = '<div class="ytp-spinner" data-layer="4" style="">'
+                            + '<div>'
+                            +  '<div class="ytp-spinner-container">'
+                            +     '<div class="ytp-spinner-rotator">'
+                            +        '<div class="ytp-spinner-left">'
+                            +           '<div class="ytp-spinner-circle"></div>'
+                            +        '</div>'
+                            +        '<div class="ytp-spinner-right">'
+                            +           '<div class="ytp-spinner-circle"></div>'
+                            +        '</div>'
+                            +     '</div>'
+                            +  '</div>'
+                            +'</div>'
+                            +'<div class="ytp-spinner-message" style="display: block;">'
+                            +    waitingMessage
+                            +'</div>'
+                        +'</div>';
+
+                return new Promise(function(resolve, reject){
+                    var dlg = ngDialog.open({
+                      template: html,
+                      plain: true,
+                      closeByDocument: false,
+                      showClose: false,
+                      onOpenCallback : onOpenCallback,
+                    });
+                    onOpenCallback().init().then(function(response){
+                        if(response == true){
+                             dlg.close();
+                        }
+
+                    })
+                    
+                })
+            }
 
             return {
                 AlertError : AlertError,
                 AlertSuccessful : AlertSuccessful,
                 AlertWarning : AlertWarning,
                 formatDateTime : formatDateTime,
+                showConfirmDialg : showConfirmDialg,
+                showWaitingDialog : showWaitingDialog,
             }
         }]);
 }());

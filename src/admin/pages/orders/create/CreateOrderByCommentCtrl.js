@@ -284,8 +284,21 @@ m_admin.controller('CreateOrderByCommentCtrl',
 
             firebaseService.onAddNewOrder($scope.orderData).then(function(response) {
                 // reset order
-                $scope.orderData = newOrderData;
-
+                $scope.orderData = {
+                    type: null,
+                    id: null,
+                    page_id: null,
+                    post_id: null,
+                    conversation_id: null,
+                    customer_id: null,
+                    customer_name: null,
+                    customer_mobile: null,
+                    customer_message: null,
+                    admin_note: null,
+                    seller_will_call_id: null,
+                    status_id: 1,
+                    publish_date: Date.now(),
+                }
 
             });
 
