@@ -75,8 +75,8 @@ app.set('view engine', 'jade');
 app.use(morgan('dev'));
 
 
-server.listen(app.get('port'), app.get('ip'), function() {
-  console.log("Meo server listening at %s:%d ", app.get('ip'), app.get('port'));
-});
+// server.listen(app.get('port'), app.get('ip'), function() {
+//   console.log("Meo server listening at %s:%d ", app.get('ip'), app.get('port'));
+// });
 
-// app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
