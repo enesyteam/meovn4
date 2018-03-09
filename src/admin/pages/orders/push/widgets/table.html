@@ -1,6 +1,6 @@
 <div class="border-right border-bottom border-left">
    <ul class="js-navigation-container js-active-navigation-container">
-      <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read" ng-repeat="order in notAssignedOrders | reverse | filter:query">
+      <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read" ng-repeat="order in availableOrders">
          <div class="d-table table-fixed width-full Box-row--drag-hide position-relative">
             <!-- drag handles -->
             <!-- checkbox and issue open icon -->
@@ -64,6 +64,18 @@
 </div>
 <!-- Pagination -->
 <div class="paginate-container">
-   <div class="pagination"><span class="previous_page disabled">Previous</span> <em class="current">1</em> <a rel="next" href="/angular/angular/pulls?page=2&amp;q=is%3Apr+is%3Aopen">2</a> <a href="/angular/angular/pulls?page=3&amp;q=is%3Apr+is%3Aopen">3</a> <a href="/angular/angular/pulls?page=4&amp;q=is%3Apr+is%3Aopen">4</a> <a href="/angular/angular/pulls?page=5&amp;q=is%3Apr+is%3Aopen">5</a> <span class="gap">…</span> <a href="/angular/angular/pulls?page=13&amp;q=is%3Apr+is%3Aopen">13</a> <a href="/angular/angular/pulls?page=14&amp;q=is%3Apr+is%3Aopen">14</a> <a class="next_page" rel="next" href="/angular/angular/pulls?page=2&amp;q=is%3Apr+is%3Aopen">Next</a></div>
+   <div class="pagination">
+      <a class="next_page" ng-class="canLoadMore==false ? 'disabled' : ''" style="padding:0" rel="next" ng-click="getNextOrders()">
+      <span ng-if="isLoaddingOrder" style="border:none">
+         Đang tải Orders...
+      </span>
+      <span ng-if="canLoadMore && !isLoaddingOrder" style="border:none">
+         Tải thêm Orders
+      </span>
+      <span ng-if="canLoadMore==false" style="border:none">
+         Đã tải tất cả Orders
+      </span>
+   </a>
+   </div>
 </div>
 <!-- /Pagination -->

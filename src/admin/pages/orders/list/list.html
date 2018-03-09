@@ -67,7 +67,7 @@
          <!-- '"` --><!-- </textarea></xmp> -->
          <form accept-charset="UTF-8" action="/angular/angular/pulls" class="subnav-search float-left" data-pjax="true" method="get">
             <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
-            <input aria-label="Search all issues" class="form-control form-control subnav-search-input input-contrast" data-hotkey="/" id="js-issues-search" name="q" placeholder="Search all orders" type="text" ng-model="query">
+            <input aria-label="Search all issues" class="form-control form-control subnav-search-input input-contrast" data-hotkey="/" id="js-issues-search" name="q" placeholder="Nhập tên hoặc số điện thoại" type="text" ng-model="query">
             <svg aria-hidden="true" class="octicon octicon-search subnav-search-icon" height="16" version="1.1" viewBox="0 0 16 16" width="16"> 
                <path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path>
             </svg>
@@ -79,7 +79,7 @@
       </div>
    </div>
    <!-- /Filter -->
-   <div class="blankslate blankslate-spacious blankslate-large" ng-if="orders.length == 0">
+   <div class="blankslate blankslate-spacious blankslate-large" ng-if="availableOrders.length == 0">
       <svg aria-hidden="true" class="octicon octicon-issue-opened blankslate-icon" height="40" version="1.1" viewBox="0 0 14 16" width="35">
          <path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
       </svg>
@@ -87,7 +87,7 @@
       <p>Issues are used to track todos, bugs, feature requests, and more. As issues are created, they’ll appear here in a searchable and filterable list. To get started, you should <a href="/enesyteam/meovn/issues/new">create an issue</a>.</p>
    </div>
    <!-- Table -->
-   <div ng-if="orders.length > 0">
+   <div ng-if="availableOrders.length > 0">
       <!-- Table header -->
    <div class="table-list-header" id="js-issues-toolbar">
    <div class="table-list-filters">

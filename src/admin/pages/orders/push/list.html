@@ -1,6 +1,6 @@
 <div id="options_bucket">
    <div class="Subhead">
-      <h2 class="Subhead-heading">Danh sách Orders khả dụng ({{notAssignedOrders.length}})</h2>
+      <h2 class="Subhead-heading">Danh sách Orders khả dụng</h2>
       <div class="">
          <div class="breadcrumb">
          </div>
@@ -64,9 +64,8 @@
             </div>
          </div>
          <!-- '"` --><!-- </textarea></xmp> -->
-         <form accept-charset="UTF-8" action="/angular/angular/pulls" class="subnav-search float-left" data-pjax="true" method="get">
-            <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
-            <input aria-label="Search all issues" class="form-control form-control subnav-search-input input-contrast" data-hotkey="/" id="js-issues-search" name="q" placeholder="Search all orders" type="text" ng-model="query">
+         <form accept-charset="UTF-8" class="subnav-search float-left">
+            <input aria-label="Search all issues" class="form-control form-control subnav-search-input input-contrast" data-hotkey="/" id="js-issues-search" name="q" placeholder="Nhập tên hoặc số điện thoại" type="text" ng-model="query">
             <svg aria-hidden="true" class="octicon octicon-search subnav-search-icon" height="16" version="1.1" viewBox="0 0 16 16" width="16">
                <path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path>
             </svg>
@@ -74,7 +73,7 @@
       </div>
       <div class="subnav-links float-left" role="navigation">
          <a class="js-selected-navigation-item subnav-item" data-selected-links="repo_labels /angular/angular/labels">Sources</a>
-         <a class="js-selected-navigation-item subnav-item" style="cursor: pointer;" ng-click="testWaitingDialg(onOpenCallback)">Test</a>
+         <a class="js-selected-navigation-item subnav-item" style="cursor: pointer;" ng-click="releaseSelectedUsers()">Hủy orders</a>
          <button class="btn-link link-gray subnav-item js-hide-project-menu" aria-label="Close menu" type="button" ng-click="toggleShowUserPane()">
             <svg height="16" class="octicon octicon-organization" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
                <path fill-rule="evenodd" d="M16 12.999c0 .439-.45 1-1 1H7.995c-.539 0-.994-.447-.995-.999H1c-.54 0-1-.561-1-1 0-2.634 3-4 3-4s.229-.409 0-1c-.841-.621-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.442.58 2.5 3c.058 2.41-.159 2.379-1 3-.229.59 0 1 0 1s1.549.711 2.42 2.088C9.196 9.369 10 8.999 10 8.999s.229-.409 0-1c-.841-.62-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.437.581 2.495 3c.059 2.41-.158 2.38-1 3-.229.59 0 1 0 1s3.005 1.366 3.005 4"></path>
@@ -83,7 +82,7 @@
       </div>
    </div>
    <!-- /Filter -->
-   <div class="blankslate blankslate-spacious blankslate-large" ng-if="notAssignedOrders.length == 0">
+   <div class="blankslate blankslate-spacious blankslate-large" ng-if="availableOrders.length == 0">
       <svg aria-hidden="true" class="octicon octicon-issue-opened blankslate-icon" height="40" version="1.1" viewBox="0 0 14 16" width="35">
          <path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
       </svg>
@@ -114,7 +113,7 @@
                      <path fill-rule="evenodd" d="M12 14.002a.998.998 0 0 1-.998.998H1.001A1 1 0 0 1 0 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path>
                   </svg>
                   <span class="css-truncate-target">
-                  {{seller.last_name}}
+                  {{seller.last_name + ': ID = ' +  seller.id}}
                   </span>
                   <!-- <span class="session-state-indicator recent" style="float: right;"></span> -->
 
@@ -143,7 +142,7 @@
       </div>
    </div>
    <!-- Table -->
-   <div ng-if="notAssignedOrders.length > 0">
+   <div ng-if="availableOrders.length > 0">
       <!-- Table header -->
       <div class="table-list-header" id="js-issues-toolbar">
          <div class="table-list-filters">

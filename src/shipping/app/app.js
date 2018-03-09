@@ -8,6 +8,7 @@ var mShipping = angular.module('mShipping', [
   'angular.filter',
   'facebook',
   'infinite-scroll',
+  'ngDialog',
   // 'snackbar',
   'ngFileUpload',
   'toastr',

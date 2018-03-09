@@ -61,14 +61,11 @@ html(lang='en', ng-app='mRealtime')
                 .header-search.scoped-search.site-scoped-search.js-site-search(role='search')
                   // '"`
                   // </textarea></xmp>
-                  form.js-site-search-form(accept-charset='UTF-8', method='get')
-                    div(style='margin:0;padding:0;display:inline')
-                      input(name='utf8', type='hidden', value='✓')
-                    |                     
+                  form.js-site-search-form(accept-charset='UTF-8')
                     label.form-control.header-search-wrapper.js-chromeless-input-container
-                      a.header-search-scope.no-underline All pages
+                      a.header-search-scope.no-underline T&igrave;m ki&#x1EBF;m
                       |                       
-                      input.form-control.header-search-input.js-site-search-focus.js-site-search-field.is-clearable(ng-model='searchText', type='text', data-hotkey='s', name='q', value='', placeholder='Tìm kiếm', aria-label='Search this repository', data-unscoped-placeholder='Search GitHub', data-scoped-placeholder='Search', autocapitalize='off')
+                      input.form-control.header-search-input.js-site-search-focus.js-site-search-field.is-clearable(ng-model='searchQuery.text', type='text', search-enter='searchOrder()', data-hotkey='s', name='q', value='', placeholder='Nhập số điện thoại hoặc tên...', aria-label='Search this repository', data-unscoped-placeholder='Search GitHub', data-scoped-placeholder='Search', autocapitalize='off')
               |               
               ul.d-flex.pl-2.flex-items-center.list-style-none(role='navigation')
                 li

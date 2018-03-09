@@ -13,7 +13,16 @@
           .state('home.orders',{
               url: '/orders',
                   controller : 'OrdersCtrl',
-                  templateUrl: "src/admin/pages/orders/orders.html"
+                  templateUrl: "src/admin/pages/orders/orders.html",
+                  resolve: {
+                    can_release_statuses: function(MFirebaseService){
+                      // MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.getCanReleaseStatusIds().then(function(response){
+                        return response
+                      });
+                    },
+                  }
                 })
           .state('home.orders.list',{
               url: '/list',

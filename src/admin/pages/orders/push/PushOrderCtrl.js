@@ -1,5 +1,10 @@
 m_admin.controller('PushOrderCtrl',
-function($rootScope, $scope, $timeout, firebaseService, MFirebaseService, MUtilitiesService) {
+function($rootScope, $scope, $timeout, firebaseService, MFirebaseService, MUtilitiesService, $q, 
+	can_release_statuses) {
+
+	// MFirebaseService.getOrdersPaginate("-L6zzq3C7ugXdIGN2bJE", 10);
+
+
 	Array.prototype.chunk = function(groupsize){
 	    var sets = [], chunks, i = 0;
 	    chunks = this.length / groupsize;
@@ -11,6 +16,9 @@ function($rootScope, $scope, $timeout, firebaseService, MFirebaseService, MUtili
 		
 	    return sets;
 	};
+
+	// console.log(can_release_statuses);
+
 	$scope.checkedAll = false;
 	$scope.checkAll = function(){
 		if ($scope.checkedAll == false) {
@@ -18,7 +26,7 @@ function($rootScope, $scope, $timeout, firebaseService, MFirebaseService, MUtili
         } else {
             $scope.checkedAll = false;
         }
-		angular.forEach($rootScope.notAssignedOrders, function(order){
+		angular.forEach($rootScope.availableOrders, function(order){
 			order.selected = $scope.checkedAll;
 		});
 	}
@@ -38,10 +46,10 @@ function($rootScope, $scope, $timeout, firebaseService, MFirebaseService, MUtili
 		});
 
 		var selectedOrders = [];
-		var selectedUserIds = [];
+		var selectedUsers = [];
 
 		// lấy danh sách orders để phân bổ
-		angular.forEach($rootScope.notAssignedOrders, function(order){
+		angular.forEach($rootScope.availableOrders, function(order){
 			if(order.selected){
 				selectedOrders.push(order);
 			}
@@ -50,18 +58,20 @@ function($rootScope, $scope, $timeout, firebaseService, MFirebaseService, MUtili
 		// lấy danh sách user id để phân bổ
 		angular.forEach($rootScope.sellers, function(s){
 			if(s.selected){
-				selectedUserIds.push(s.id);
+				selectedUsers.push(s);
 			}
 		});
 
-		if(!selectedUserIds || selectedUserIds.length == 0){
+		if(!selectedUsers || selectedUsers.length == 0){
 			$scope.toggleShowUserPane();
 		}
+
+		// chú ý: sửa validate orders và users trước khi gọi waiting dialog
 
 		MUtilitiesService.showWaitingDialog('Đang phân bổ Orders, vui lòng chờ...', function(){
 			var init = function(){
 				return new Promise(function(resolve, reject){
-					MFirebaseService.onPushOrders(selectedOrders, selectedUserIds).then(function(response){
+					MFirebaseService.onPushOrders(selectedOrders, selectedUsers).then(function(response){
 						resolve(true);
 						MUtilitiesService.AlertSuccessful(response);
 					}).catch(function(error){
@@ -85,21 +95,125 @@ function($rootScope, $scope, $timeout, firebaseService, MFirebaseService, MUtili
 		$scope.showUserPane = false;
 	}
 
-	$scope.releaseUserOrders = function(seller, event){
-		event.stopPropagation();
+
+	/*
+	* Hủy
+	*/
+	// $scope.releaseUserOrders = function(seller, event){
+	// 	event.stopPropagation();
+	// 	MUtilitiesService.showConfirmDialg('Thông báo',
+ //                'Bạn có chắc muốn hủy tất cả Orders của : ' + seller.last_name + ' không?', 'Hủy', 'Bỏ qua')
+ //            .then(function(response) {
+ //                if (response) {
+ //                	MUtilitiesService.showWaitingDialog('Đang hủy tất cả Orders của ' + seller.last_name + ', vui lòng chờ...', 
+ //                		function(){
+ //                			return new Promise(function(resolve, reject){
+	// 							$timeout(function() {
+	// 								resolve(true);
+	// 							}, 2000);
+	// 						})
+ //                		});
+ //                    console.log('Bắt đầu hủy nhận các orders của seller...');
+ //                    // code hủy ở đây
+ //                } else {
+ //                    console.log('Admin hoặc Mod bỏ qua thao tác hủy đơn');
+ //                }
+ //            })
+	// }
+
+	/*
+	* Tùy chọn cho phép chỉ hủy trong số các orders được chọn
+	*/
+	$scope.releaseOnlySelectedOrders = true;
+
+	/*
+	* Tùy chọn cho phép chỉ hủy trong số các users được chọn
+	*/
+	$scope.releaseOnlySelectedUsers = true;
+
+	/*
+	* Lấy danh sách tất cả Orders sẽ hủy
+	*/
+	function getOrdersArrayToRelease(){
+		var result = [];
+		if($scope.releaseOnlySelectedOrders){
+			angular.forEach($rootScope.availableOrders, function(order){
+				if(order.selected){
+					result.push(order);
+				}
+			})
+			return result;
+		}
+		else{
+			return $rootScope.availableOrders;
+		}
+	}
+
+	/*
+	* Lấy danh sách tất cả Users sẽ hủy
+	*/
+	function getUsersArrayToRelease(){
+		var result = [];
+		angular.forEach($rootScope.sellers, function(s){
+			if(s.selected){
+				result.push(s);
+			}
+		});
+		return result;
+	}
+
+	$scope.releaseSelectedUsers = function(){
+		var orders = getOrdersArrayToRelease();
+		var users = getUsersArrayToRelease();
+
+		// make users list
+		var userNames = users.map(function(user){
+			return user.last_name;
+		})
+		.join(", ");
+
+		// var canReleaseArr = can_release_statuses.map(function(status){
+		// 	return status.id;
+		// })
+		// console.log(canReleaseArr);
+
 		MUtilitiesService.showConfirmDialg('Thông báo',
-                'Bạn có chắc muốn hủy tất cả Orders của : ' + seller.last_name + ' không?', 'Hủy', 'Bỏ qua')
+                'Bạn có chắc muốn hủy tất cả Orders của : ' + userNames + ' không?', 'Hủy', 'Bỏ qua')
             .then(function(response) {
                 if (response) {
-                	MUtilitiesService.showWaitingDialog('Đang hủy tất cả Orders của ' + seller.last_name + ', vui lòng chờ...', 
-                		function(){
-                			return new Promise(function(resolve, reject){
-								$timeout(function() {
-									resolve(true);
-								}, 2000);
-							})
+                	MUtilitiesService.showWaitingDialog('Đang hủy tất cả Orders của ' + 
+                		userNames + ', vui lòng chờ...', function(){
+                			var init = function(){
+								return new Promise(function(resolve, reject){
+									var promises = [];
+
+									angular.forEach(users, function(user){
+
+										var deferred = $q.defer();
+
+										MFirebaseService.releaseUser(orders, user, can_release_statuses).then(function(response){
+											// console.log('Hủy thành công ' + orders.length + ' của ' + user.last_name);
+											deferred.resolve(true);
+										})
+										.catch(function(err){
+											
+											deferred.resolve(false);
+										})
+
+										promises.push(deferred.promise);
+									})
+
+									$q.all(promises).then(function(results){
+										resolve(true);
+									})
+								})
+							}
+							
+							return {
+								init : init
+							}
                 		});
-                    console.log('Bắt đầu hủy nhận các orders của seller...');
+                    
                     // code hủy ở đây
                 } else {
                     console.log('Admin hoặc Mod bỏ qua thao tác hủy đơn');
@@ -107,39 +221,4 @@ function($rootScope, $scope, $timeout, firebaseService, MFirebaseService, MUtili
             })
 	}
 
-	$scope.testWaitingDialg = function(callBackFunction){
-		MUtilitiesService.showWaitingDialog('Đang phân bổ Orders, vui lòng chờ...', callBackFunction);
-	}
-
-	$scope.onOpenCallback = function(){
-		return new Promise(function(resolve, reject){
-			$timeout(function() {
-				resolve(true);
-			}, 2000);
-		})
-		
-	}
-
-	const $Vals = {};
-	function A() {
-	  return new Promise((resolve, reject) => {
-	    resolve([1, 2, 3])
-	  })
-	}
-
-	function B() {
-	  return new Promise((resolve, reject) => {
-	    resolve([4, 5, 6])
-	  })
-	}
-
-
-
-	A().then((dt) => {
-	  $Vals.A = dt;
-	  return B();
-	}).then((dt) => {
-	  $Vals.B = dt;
-	  console.log($Vals);
-	})
 });

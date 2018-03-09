@@ -41,13 +41,11 @@ var mRealtime = angular.module('mRealtime', [
                 templateUrl: "/src/realtime/home.html",
                 resolve: {
                   fanpages: function(MFirebaseService){
-                      MFirebaseService.set_firebase(firebase);
-                      // console.log(MFirebaseService);
                       return MFirebaseService.get_fanpages().then(function(response){
-                        // console.log(response);
                         return response;
                       });
                     }
+
                 },
             });
             
@@ -96,6 +94,20 @@ mRealtime.filter('reverse', function() {
          return toArray(items).slice().reverse();
       };
    });
+
+mRealtime.directive('scrollToBottom', function () {
+    var unbind;
+    return {
+      restrict: 'A',
+      scope: { scrollToBottom: "=" },
+      link: function (scope, element) {
+        if( unbind ) { unbind(); }
+        unbind = scope.$watchCollection('scrollToBottom', function () {
+          $(element).animate({scrollTop: element[0].scrollHeight});
+        });
+      }
+    }
+  });
 
 angular.module('mRealtime').directive('ngFileModel', ['$parse', function ($parse, $sce) {
      return {
@@ -163,5 +175,26 @@ mRealtime.filter("photosFilter", function() { // register new filter
       return item.pageId == (pageId || null) && item.gender == (gender || null) && item.destiny == (destiny || null);
     });
   };
+});
+
+mRealtime.directive('searchEnter', function () {
+    return function (scope, element, attrs) {
+
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    // scope.$eval(attrs.searchEnter);
+                    // scope.searchOrder();
+                });
+                event.preventDefault();
+            }
+            else if(event.which === 27){
+                scope.$apply(function (){
+                    scope.$eval(attrs.searchEnter);
+                    // scope.clearCommentData();
+                });
+            }
+        });
+    };
 });
 

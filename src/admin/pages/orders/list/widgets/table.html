@@ -1,12 +1,12 @@
 <div class="border-right border-bottom border-left">
    <ul class="js-navigation-container js-active-navigation-container">
-      <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read" ng-repeat="order in orders | reverse | filter:query" ng-if="!order.seller_will_call_id">
+      <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read" ng-repeat="order in availableOrders">
          <div class="d-table table-fixed width-full Box-row--drag-hide position-relative">
             <!-- drag handles -->
             <!-- checkbox and issue open icon -->
             <div class="float-left pt-2 pl-3">
                <span class="tooltipped tooltipped-n" aria-label="Open pull request">
-                  <input type="checkbox" checked="checked">
+                  <input type="checkbox" ng-model="order.selected">
                </span>
             </div>
             <div class="float-left pt-2 pl-2">
@@ -15,6 +15,7 @@
             <div class="float-left col-9 p-2 lh-condensed">
                <a href="/angular/angular/pull/21406" class="link-gray-dark no-underline h4 js-navigation-open">
                {{order.customer_name}}
+               <span ng-if="order.selected">(Đã chọn)</span>
                </a>
                <span class="d-inline-block mr-1">
                   <div class="commit-build-statuses">
@@ -23,7 +24,7 @@
                            <path fill-rule="evenodd" d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"></path>
                         </svg>
                      </a>
-                     Trạng thái
+                     Trạng thái: {{order.status_id}}
                   </div>
                </span>
                <div class="mt-1 text-small text-gray">
@@ -42,7 +43,8 @@
             <div class="float-right col-2">
                <div class="float-left col-8 pt-2 pr-3 text-right">
                   <div class="AvatarStack AvatarStack--right ">
-                     <div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1" aria-label="Assigned to Dương">Dương
+                     <div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1" aria-label="Assigned to Dương">
+                        {{order.seller_will_call_id}}
                      </div>
                   </div>
                </div>
@@ -62,6 +64,18 @@
 </div>
 <!-- Pagination -->
 <div class="paginate-container">
-   <div class="pagination"><span class="previous_page disabled">Previous</span> <em class="current">1</em> <a rel="next" href="/angular/angular/pulls?page=2&amp;q=is%3Apr+is%3Aopen">2</a> <a href="/angular/angular/pulls?page=3&amp;q=is%3Apr+is%3Aopen">3</a> <a href="/angular/angular/pulls?page=4&amp;q=is%3Apr+is%3Aopen">4</a> <a href="/angular/angular/pulls?page=5&amp;q=is%3Apr+is%3Aopen">5</a> <span class="gap">…</span> <a href="/angular/angular/pulls?page=13&amp;q=is%3Apr+is%3Aopen">13</a> <a href="/angular/angular/pulls?page=14&amp;q=is%3Apr+is%3Aopen">14</a> <a class="next_page" rel="next" href="/angular/angular/pulls?page=2&amp;q=is%3Apr+is%3Aopen">Next</a></div>
+   <div class="pagination">
+      <a class="next_page" ng-class="canLoadMore==false ? 'disabled' : ''" style="padding:0" rel="next" ng-click="getNextOrders()">
+      <span ng-if="isLoaddingOrder" style="border:none">
+         Đang tải Orders...
+      </span>
+      <span ng-if="canLoadMore && !isLoaddingOrder" style="border:none">
+         Tải thêm Orders
+      </span>
+      <span ng-if="canLoadMore==false" style="border:none">
+         Đã tải tất cả Orders
+      </span>
+   </a>
+   </div>
 </div>
 <!-- /Pagination -->

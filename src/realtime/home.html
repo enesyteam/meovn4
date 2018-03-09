@@ -12,7 +12,7 @@
                   </div>
                   </a></div> -->
                <ul class="filterbar-nav">
-                  <li class="home tooltipped tooltipped-e tooltipped-no-delay" ng-repeat="(key, value) in orders | countBy: 'status_id'" aria-label="{{getStatusById(key).name}}">
+                  <li class="home tooltipped tooltipped-e tooltipped-no-delay" ng-repeat="(key, value) in availableOrders | countBy: 'status_id'" aria-label="{{getStatusById(key).name}}">
                      <a class="shortcuts-project">
                         <div class="nav-icon-container" style="margin:0 auto;">
                            <span class="Counter" style="background-color: {{getSourceColor(key)}};color:#fff">{{value}}</span>
@@ -33,9 +33,8 @@
                   </div>
                   <div class="people" ng-if="finishLoadingOrders" id="list-wrapper">
                      <div style="height: 100%" 
-                     infinite-scroll="myPagingFunction()" infinite-scroll-distance="3"
-                     infinite-scroll-container="'#list-wrapper'" infinite-scroll-parent="true">
-                        <li ng-repeat="order in orders | reverse" ui-sref="home.detail({type: order.type, id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person order-{{order.id}}">
+                     scroll-to-bottom="availableOrders">
+                        <li ng-repeat="order in availableOrders track by $index" ui-sref="home.detail({type: order.type, id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person order-{{order.id}}">
                         <div class="wrap_chat">
                            <!-- <div class="check">
                               <input type="checkbox" class="check_people" value="on">
@@ -90,6 +89,21 @@
                         </div>
                         
                      </li>
+                     <!-- Next Orders button -->
+                     <div class="text-center" ng-if="availableOrders">
+                        <button class="btn btn-default btn-primary btn-purple mt-3 mb-3"
+                           ng-class="canLoadMore==false ? 'disabled' : ''" ng-click="getNextOrders()">
+                           <span ng-if="isLoaddingOrder">
+                              Đang tải Orders...
+                           </span>
+                           <span ng-if="canLoadMore && !isLoaddingOrder">
+                              Tải thêm Orders
+                           </span>
+                           <span ng-if="canLoadMore==false">
+                              Đã tải tất cả Orders
+                           </span>
+                        </button>
+                     </div>
                      
                      </div>
                   </div>

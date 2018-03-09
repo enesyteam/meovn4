@@ -1,5 +1,6 @@
 m_admin.controller('CreateOrderByCommentCtrl',
-    function($rootScope, $scope, $http, $filter, $rootScope, $timeout, cfpLoadingBar, Facebook, firebaseService) {
+    function($rootScope, $scope, $http, $filter, $rootScope, $timeout, cfpLoadingBar, Facebook, firebaseService,
+        MFirebaseService, MUtilitiesService) {
 
         $scope.originalMessage = null;
         $scope.subMessages = null;
@@ -282,7 +283,8 @@ m_admin.controller('CreateOrderByCommentCtrl',
             $scope.orderData.id = newOrderKey;
             $scope.orderData.status_id = 1;
 
-            firebaseService.onAddNewOrder($scope.orderData).then(function(response) {
+            MFirebaseService.onAddNewOrder($rootScope.currentMember, $scope.orderData).then(function(response) {
+                MUtilitiesService.AlertSuccessful(response, 'Thông báo');
                 // reset order
                 $scope.orderData = {
                     type: null,
@@ -299,8 +301,9 @@ m_admin.controller('CreateOrderByCommentCtrl',
                     status_id: 1,
                     publish_date: Date.now(),
                 }
-
-            });
+            }).catch(function(err){
+                MUtilitiesService.AlertError(err, 'Thông báo');
+            })
 
         }
 
