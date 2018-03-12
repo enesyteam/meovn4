@@ -484,7 +484,7 @@
         padding-right:26px
     }
     ::-webkit-scrollbar-button{
-        height:4px;
+        height:0;
         background-color:transparent;
         background-repeat:no-repeat;
         cursor:pointer
@@ -3861,7 +3861,7 @@ input,textarea{
     color:#3c3c3c
 }
 .window__chatAgentMessage a,.window__chatVisitorMessage a{
-    display:inline-block;
+    display:block;
     max-width:100%
 }
 .window__chatVisitorMessage .icon-close{

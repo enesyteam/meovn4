@@ -142,3 +142,47 @@ code {
 .socials iframe:first-child {
     width: 90px !important;
 }
+.report {
+    display: flex;
+}
+.report .report-item{
+    /*display: inline-block;*/
+    /*width: 25%*/
+    flex: 1
+}
+.report .report-item h2.total{
+    font-size: 25px;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin: 0;
+}
+.report .report-item h2.total.success{
+    color: #28a745;
+    font-weight: 700;
+}
+.report .report-item h2.total.danger{
+    color: #e34c26;
+    font-weight: 700;
+}
+.users-report .header{
+    display: block;
+    width: 100%;
+    height: 50px;
+}
+.users-report .report-row{
+    display: block;
+    width: 100%;
+    height: 80px;
+    list-style: none;
+}
+.users-report .report-row:last-child{
+    border-bottom: none !important;
+}
+.users-report .header .details-column,
+.users-report .report-row .details-column{
+    display: flex;
+}
+.users-report .header .details-column .detail,
+.users-report .report-row .details-column .detail{
+    flex: 1
+}

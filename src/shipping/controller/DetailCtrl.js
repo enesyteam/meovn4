@@ -1,9 +1,10 @@
 mShipping.controller('DetailCtrl',
     function($rootScope, $scope, $http, $window, $state, $stateParams, $document, $filter, $timeout, cfpLoadingBar,
         cfpLoadingBar, Facebook, toastr, toastrConfig, moment, ProductPackService, 
-        firebaseService, GiaoHangNhanhService, activeItem, ghn_hubs, MFacebookService, current_hub) {
+        firebaseService, GiaoHangNhanhService, activeItem, ghn_hubs, MFacebookService, MUtilitiesService, current_hub) {
 
         // console.log(firebase.utils);
+        // alert($stateParams.cv_id);
 
         $scope.conversation_type = $stateParams.ctype;
 
@@ -62,21 +63,41 @@ mShipping.controller('DetailCtrl',
             }
         }.call(this);
 
-        if($stateParams.page_id){
-            MFacebookService.graphPage($stateParams.page_id, $scope.currentAccessToken).then(function(response){
-                $scope.$apply(function(){
-                    $scope.fanpage = response;
-                })
+        // GRAPH FACEBOOK
+        var getToken = function(pageId){
+            return new Promise(function(resolve, reject){
+                var page = $filter("filter")(fanpages, {id: pageId});
+                if(page[0]){
+                    resolve(page[0].access_token);
+                }
+                else{
+                    reject('Page với ID ' + pageId + ' chưa được thêm vào danh sách quản lý.');
+                }
             })
         }
+        // graph page
+        MFacebookService.graphPage($stateParams.page_id, $scope.currentAccessToken).then(function(response){
+            // console.log(response);
+            $scope.$apply(function(){
+                $scope.pageData = response;
+            })
+        })
+        .catch(function(err){
+            MUtilitiesService.AlertError(err, 'Lỗi');
+        })
 
+        //
         if($stateParams.ctype==1){
             // messages
+            // alert($stateParams.cv_id);
             MFacebookService.graphMessages($stateParams.cv_id, $scope.currentAccessToken).then(function(response){
                 $scope.$apply(function(){
-                    // console.log(response);
-                    $scope.messages = response;
+                    console.log(response);
+                    $scope.messageData = response;
                 })
+            })
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Lỗi');
             })
         }
         else{
@@ -87,13 +108,20 @@ mShipping.controller('DetailCtrl',
                     $scope.postData = response;
                 })
             })
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Lỗi');
+            })
 
             // also graph comments
+            // alert($stateParams.cv_id);
             MFacebookService.graphComments($stateParams.cv_id, $scope.currentAccessToken).then(function(response){
                 $scope.$apply(function(){
-                    // console.log(response);
-                    $scope.messages = response;
+                    console.log(response);
+                    $scope.commentData = response;
                 })
+            })
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Lỗi');
             })
         }
 
@@ -10641,7 +10669,7 @@ mShipping.controller('DetailCtrl',
 
             $http.post('https://console.ghn.vn/api/v1/apiv3/CreateOrder', $scope.shippingData, config)
                 .then(function(data) {
-                    console.log(data);
+                    // console.log(data);
                     AlertSuccessful('Tạo đơn GHN thành công với mã: ' + data.data.data.OrderCode, 'Thông báo');
                     // submit success, return order code
                     // update this order code to shipping item

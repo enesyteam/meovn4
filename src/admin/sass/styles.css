@@ -18996,13 +18996,14 @@ only screen and (min-resolution: 2dppx) {
 .overall-summary {
     position: relative;
     margin-bottom: 10px;
-    border: 1px solid #dfe2e5;
-    border-radius: 3px
+    border-top: 1px dashed #dfe2e5;
+    margin-top: 20px;
+    /*border-radius: 3px*/
 }
 .overall-summary-bottomless {
     margin-bottom: 0;
     border-bottom: 0;
-    border-radius: 3px 3px 0 0
+    /*border-radius: 3px 3px 0 0*/
 }
 .numbers-summary {
     display: table;

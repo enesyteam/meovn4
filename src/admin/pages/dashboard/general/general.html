@@ -1,11 +1,11 @@
-<div class="column three-fourths">
+<div class="">
    <div class="graph-canvas is-graph-loading" ng-if="!finishLoading">
       <div class="activity">
          <img class="graph-loading dots" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-128.gif" width="64" alt="">
          <div class="graph-loading msg">
-            <p>Crunching the latest data, just for you. Hang tight…</p>
+            <p>Đang tải dữ liệu báo cáo…</p>
          </div>
-         <div ng-show="successArr | isEmpty" class="graph-empty msg mt-6">
+         <div ng-show="todayReport.today.length == 0" class="graph-empty msg mt-6">
             <h4>We don’t have enough data to show anything useful.</h4>
             <p>It usually takes about a week to populate this graph.</p>
          </div>
@@ -25,163 +25,248 @@
       Click <a href="#" rel="nofollow">vào đây</a> để tiến hành phân bổ.
 	</div>
    <!-- <span ng-if="!finishLoading">Loading data, please wait...</span> -->
-   <div class="blankslate blankslate-spacious blankslate-large" ng-if="finishLoading && !todayUsersReport">
+   <div class="blankslate blankslate-spacious blankslate-large" ng-if="finishLoading && !todayReport.today">
       <svg aria-hidden="true" class="octicon octicon-issue-opened blankslate-icon" height="40" version="1.1" viewBox="0 0 14 16" width="35">
          <path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
       </svg>
-      <h3>No data to display!</h3>
-      <p>Issues are used to track todos, bugs, feature requests, and more. As issues are created, they’ll appear here in a searchable and filterable list. To get started, you should <a href="/enesyteam/meovn/issues/new">create an issue</a>.</p>
+      <h3>Không có dữ liệu để hiển thị</h3>
+      <p>Không tim thấy dữ liệu báo cáo của ngày {{selectedDate}} trong cơ sở dữ liệu.</p>
    </div>
    <!-- Chart data -->
    <div>
-      <div class="border rounded-1" ng-if="finishLoading">
-         <div class="bg-gray p-3 border-bottom">
-            <div class="float-right table-list-header-toggle states">
-               <!-- '"` --><!-- </textarea></xmp> -->
-               <form accept-charset="UTF-8" action="" method="get">
-                  <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
-                  <div class="float-left select-menu js-menu-container js-select-menu js-transitionable">
-                     <button class="btn-link select-menu-button icon-only js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
-                     Sắp xếp<span class="sort-label"></span>
-                     </button>
-                     <div class="select-menu-modal-holder js-menu-content js-navigation-container" aria-expanded="false">
-                        <div class="select-menu-modal">
-                           <div class="select-menu-header js-navigation-enable" tabindex="-1">
-                              <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                              </svg>
-                              <span class="select-menu-title">Chọn tiêu chí sắp xếp</span>
-                           </div>
-                           <div class="select-menu-list" role="menu">
-                              <a ng-repeat="sortItem in sortArr" ng-click="changeSortProperty(sortItem)" class="select-menu-item width-full js-navigation-item js-navigation-open selected" role="menuitem">
-                                 <svg ng-if="sortItem.property == sortProperty" aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                    <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                                 </svg>
-                                 <div class="select-menu-item-text">{{sortItem.name}}</div>
+      <!-- General -->
+      <div class="readme boxed-group clearfix announce instapaper_body md" ng-if="finishLoading">
+         <h3>
+            <svg aria-hidden="true" class="octicon octicon-book" height="16" version="1.1" viewBox="0 0 20 20" width="16">
+               <path d="M3,5 L4.33333333,9 L4,9 C2.34314575,9 1,10.3431458 1,12 C1,13.6568542 2.34314575,15 4,15 L17,15 L17,13 L4.00684547,13 C3.45078007,13 3,12.5561352 3,12 C3,11.4477153 3.44748943,11 3.99850233,11 L10.5,11 L17,11 L20,2 L4,2 L4,0.997030139 C4,0.453036308 3.54809015,0 2.9906311,0 L0,0 L0,2 L2,2 L3,5 Z M5,20 C6.1045695,20 7,19.1045695 7,18 C7,16.8954305 6.1045695,16 5,16 C3.8954305,16 3,16.8954305 3,18 C3,19.1045695 3.8954305,20 5,20 Z M15,20 C16.1045695,20 17,19.1045695 17,18 C17,16.8954305 16.1045695,16 15,16 C13.8954305,16 13,16.8954305 13,18 C13,19.1045695 13.8954305,20 15,20 Z" id="Combined-Shape"></path>
+            </svg>
+            Bán hàng
+          </h3>
+         <article class="markdown-body entry-content p-3 pt-4">
+            <div class="report">
+               <div class="text-center rounded-1 report-item">
+               <h2 class="total">{{todayReport.today || 0}}</h2>
+               <h3 class="h5 lh-condensed mb-1">Số mới hôm nay</h3>
+               <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
+               <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
+            </div>
+            <div class="text-center rounded-1 report-item">
+               <h2 class="total">{{todayReport.calledCount || 0}}</h2>
+               <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
+               <h3 class="h5 lh-condensed mb-1">Tổng số cuộc gọi</h3>
+               <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
+               <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
+            </div>
+            <div class="text-center rounded-1 report-item">
+               <h2 class="total danger">{{todayReport.notCalledCount || 0}}</h2>
+               <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
+               <h3 class="h5 lh-condensed mb-1">Số chưa gọi</h3>
+               <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
+               <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
+            </div>
+            <div class="text-center rounded-1 report-item">
+               <h2 class="total success">
+               {{todayReport.successCount || 0}}</h2>
+               <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
+               <h3 class="h5 lh-condensed mb-1">Đã chốt</h3>
+               <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
+               <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
+            </div>
+            <div class="text-center rounded-1 report-item">
+               <h2 class="total">{{(todayReport.calledCount > 0 ? todayReport.successCount/todayReport.calledCount : 0)*100 | number : 2}}%</h2>
+               <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
+               <h3 class="h5 lh-condensed mb-1">Tỷ lệ chốt</h3>
+               <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
+               <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
+            </div>
+            </div>
+            <div>
+               <div class="overall-summary overall-summary-bottomless">
+                  <div class="stats-switcher-viewport js-stats-switcher-viewport">
+                     <div class="stats-switcher-wrapper">
+                        <ul class="numbers-summary"  style="opacity: {{finishLoading ? 1 : 0}}">
+                           <li>
+                              <a data-pjax="">
+                                 <span class="repo-language-color ml-0" style="background-color:{{getStatusById(9).color}};"></span>
+                                 <span class="num text-emphasized">
+                                 {{todayReport.missedCount || 0}}
+                                 </span>
+                                 Chưa nghe máy
                               </a>
-                              
-                           </div>
-                        </div>
+                           </li>
+                           <li>
+                              <a>
+                                 <span class="repo-language-color ml-0" style="background-color:{{getStatusById(5).color}}"></span>
+                                 <span class="num text-emphasized">
+                                 {{todayReport.callLaterCount || 0}}
+                                 </span>
+                                 Gọi lại sau
+                              </a>
+                           </li>
+                           <li>
+                              <a>
+                                 <span class="repo-language-color ml-0" style="background-color:{{getStatusById(3).color}}"></span>
+                                 <span class="num text-emphasized">
+                                 {{todayReport.penddingCount || 0}}
+                                 </span>
+                                 Pendding
+                              </a>
+                           </li>
+                           <li>
+                              <a>
+                                 <span class="repo-language-color ml-0" style="background-color:{{getStatusById(7).color}}"></span>
+                                 <span class="num text-emphasized">
+                                 {{todayReport.cancelCount || 0}}
+                                 </span>
+                                 Từ chối
+                              </a>
+                           </li>
+                           <li>
+                              <a>
+                                 <span class="repo-language-color ml-0" style="background-color:{{getStatusById(8).color}}"></span>
+                                 <span class="num text-emphasized">
+                                 {{todayReport.blockedCount || 0}}
+                                 </span>
+                                 Báo xấu
+                              </a>
+                           </li>
+                        </ul>
                      </div>
                   </div>
-               </form>
+               </div>
+               <!-- <div class="repository-lang-stats-graph js-toggle-lang-stats" title="Click for language details" data-ga-click="Repository, language bar stats toggle, location:repo overview">
+                  <span class="language-color" aria-label="TypeScript 72.3%" style="width:72.3%; background-color:#2b7489;" itemprop="keywords">&nbsp;</span>
+                  <span class="language-color" aria-label="JavaScript 16.3%" style="width:16.3%; background-color:#f1e05a;" itemprop="keywords">&nbsp;</span>
+                  <span class="language-color" aria-label="HTML 10.6%" style="width:10.6%; background-color:#e34c26;" itemprop="keywords">&nbsp;</span>
+                  <span class="language-color" aria-label="CSS 0.8%" style="width:0.8%; background-color:#563d7c;" itemprop="keywords">&nbsp;</span>
+               </div> -->
             </div>
-            <div class="table-list-header-toggle states">
-               <a href="/x64dbg/x64dbg/projects?query=is%3Aopen" class="btn-link selected">
-                  <svg aria-hidden="true" class="octicon octicon-organization" height="16" version="1.1" viewBox="0 0 16 16" width="16">
-                     <path fill-rule="evenodd" d="M16 12.999c0 .439-.45 1-1 1H7.995c-.539 0-.994-.447-.995-.999H1c-.54 0-1-.561-1-1 0-2.634 3-4 3-4s.229-.409 0-1c-.841-.621-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.442.58 2.5 3c.058 2.41-.159 2.379-1 3-.229.59 0 1 0 1s1.549.711 2.42 2.088C9.196 9.369 10 8.999 10 8.999s.229-.409 0-1c-.841-.62-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.437.581 2.495 3c.059 2.41-.158 2.38-1 3-.229.59 0 1 0 1s3.005 1.366 3.005 4"></path>
-                  </svg>
-                  Đã tham gia hôm nay
-                  <span class="Counter v-align-middle">
-                      {{todayUsersReport.length}}
-                    </span>
-               </a>
+         </article>
 
-            </div>
-         </div>
-         <div id="projects-results">
-            <div class="p-3 pr-6 container-lg clearfix position-relative border-bottom border-gray-light" data-filter-value="Ramblings" ng-repeat="sellerData in todayUsersReport">  <!-- | orderBy:sortProperty:true -->
-               <div class="col-12 col-md-4 pr-2 float-left" ng-init="w = sellerData.successCount/(todayUsersReport | max: successCount)*100">
-                  
-                	<span class="d-inline-block">
-                		<h4 class="mb-1">
-            				<div class="spinner" style="display: inline-block;" ng-if="orderChanging"></div>
-				          <a href="#" class="link-gray-dark" style="margin-left: 5px">
-				            {{ sellerData.userName }}
-				          </a>
-                      <span class="session-state-indicator recent"></span>
-				        </h4>
-                    
-                	</span>
-			        <!-- <span class="label v-align-text-top d-inline-block" style="background-color: #EEEEEE; color: #333333">
-			        	{{sellerData.id}}
-			        </span> -->
-                  <div class="mt-1 pr-5 mb-2 mb-md-0" style="{{w > 50 ? w  : 50}}%;">
-                     <!-- <div class="tooltipped tooltipped-s" aria-label="{{'Gọi ' + sellerData.data.called + '/ Chốt ' + sellerData.data.success + '/' + ' thất bại ' + sellerData.data.failed}}">
-                        <span class="progress-bar progress-bar-small">
-                        <span class="progress d-inline-block bg-green" style="width: {{sellerData.data.success/sellerData.data.called*100}}%;">&nbsp;</span>
-                        <span class="progress d-inline-block bg-purple" style="width: {{sellerData.data.failed/sellerData.data.called*100}}%;">&nbsp;</span>
-                        </span>
-                     </div> -->
-                     <!-- <div class="tooltipped tooltipped-s" aria-label="{{'Gọi ' + sellerData.calledCount + '/ Chốt ' + sellerData.successCount + '/' + ' thất bại ' + sellerData.data.failed.length}}">
-      					  <span class="progress-bar anim-grow-x progress-bar-small" ng-init="cw = sellerData.successCount/sellerData.calledCount*100">
-      					    <span class="progress-bar progress-bar-small">
-      					    <span class="progress d-inline-block bg-green" style="width: {{cw}}%;">&nbsp;</span>
-      					    <span class="progress d-inline-block bg-red" style="width: {{(sellerData.data.failed.length/sellerData.data.called.length*100)}}%;">&nbsp;</span>
-      					    <span class="progress d-inline-block bg-yellow" style="width: {{(sellerData.data.miss.length.length + sellerData.data.busy.length + sellerData.data.cancel.length + sellerData.data.bad.length)/sellerData.data.called.length*100}}%;">&nbsp;</span>
-      					  </span>
-      					  </span>
-      					</div> -->
-
-                     <div class="d-table width-full bg-gray" ng-init="cw = sellerData.successCount/sellerData.calledCount*100">
-                        <a class="d-table-cell bg-green pt-2" style="width: {{cw}}%;" aria-label="View all merged pull requests"></a>
-                        <a class="d-table-cell pt-2" style="width:{{100 - cw}}%;background-color:#e34c26;" aria-label="View all open pull requests"></a>
-                     </div>
-
+      </div>
+      <!-- Bán Telesales -->
+      <div class="readme boxed-group clearfix announce instapaper_body md" ng-if="finishLoading">
+         <h3>
+            <svg aria-hidden="true" class="octicon octicon-book" height="16" version="1.1" viewBox="0 0 20 20" width="16">
+               <path d="M3,5 L4.33333333,9 L4,9 C2.34314575,9 1,10.3431458 1,12 C1,13.6568542 2.34314575,15 4,15 L17,15 L17,13 L4.00684547,13 C3.45078007,13 3,12.5561352 3,12 C3,11.4477153 3.44748943,11 3.99850233,11 L10.5,11 L17,11 L20,2 L4,2 L4,0.997030139 C4,0.453036308 3.54809015,0 2.9906311,0 L0,0 L0,2 L2,2 L3,5 Z M5,20 C6.1045695,20 7,19.1045695 7,18 C7,16.8954305 6.1045695,16 5,16 C3.8954305,16 3,16.8954305 3,18 C3,19.1045695 3.8954305,20 5,20 Z M15,20 C16.1045695,20 17,19.1045695 17,18 C17,16.8954305 16.1045695,16 15,16 C13.8954305,16 13,16.8954305 13,18 C13,19.1045695 13.8954305,20 15,20 Z" id="Combined-Shape"></path>
+            </svg>
+            Telesales
+          </h3>
+         <article class="markdown-body entry-content p-3 pt-4 users-report">
+            <div id="projects-results">
+               <!-- Header -->
+               <div class="header border-bottom border-gray-light">
+                  <div class="col-3 col-md-3 pr-2 float-left">
+                    <h5 class="strong">Telesale</h5>
                   </div>
-                  <div class="f6 pr-sm-5 mb-2 mt-2 mb-md-0 text-gray-light">
-                  	<span ng-if="w<50" class="tooltipped tooltipped-s" aria-label="Đồ thị đã được tăng lên nhằm mục đích hiển thị.">
-                  		<svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path></svg>
-                  	</span>
-                     <span ng-if="sellerData.lastSuccessAt">
-                        <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14">
-                           <path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
-                        </svg>
-                        Vừa chốt
-                        <span>{{sellerData.lastSuccessAt | date:'h:mma'}}</span>
+                  <div class="col-9 col-md-9 float-left details-column">
+                     <div class="detail">
+                        <h5 class="strong">Đã gọi</h5>
+                     </div>
+                     <div class="detail">
+                        <h5 class="strong">Đã chốt</h5>
+                     </div>
+                     <div class="detail">
+                        <h5 class="strong">Chưa gọi</h5>
+                     </div>
+                     <div class="detail">
+                        <h5 class="strong">CNM</h5>
+                     </div>
+                     <div class="detail">
+                        <h5 class="strong">GLS</h5>
+                     </div>
+                     <div class="detail">
+                        <h5 class="strong">Pendding</h5>
+                     </div>
+                     <div class="detail">
+                        <h5 class="strong">Từ chối</h5>
+                     </div>
+                     <div class="detail">
+                        <h5 class="strong">Báo xấu</h5>
+                     </div>
+                     <div class="detail">
+                        <h5 class="strong">Tỷ lệ chốt</h5>
+                     </div>
+                  </div>
+               </div>
+               <ul class="report-row border-bottom border-gray-light m-0 p-0" ng-repeat="sellerData in todayUsersReport">
+                  <div class="col-3 col-md-3 pr-2 float-left">
+                     <span class="d-inline-block">
+                        <h4 class="mb-1 mt-0">
+                           <!-- <div class="spinner" style="display: inline-block;" ng-if="orderChanging"></div> -->
+                         <a href="#" class="link-gray-dark">
+                           {{ sellerData.userName }}
+                         </a>
+                         <!-- <span class="session-state-indicator recent"></span> -->
+                       </h4>
+                       
                      </span>
+                    <div class="mt-1 pr-5 mb-2 mb-md-0" style="{{w > 50 ? w  : 50}}%;">
+
+                        <div class="d-table width-full bg-gray" ng-init="cw = sellerData.successCount/sellerData.calledCount*100">
+                           <a class="d-table-cell bg-green pt-2" style="width: {{cw > 0 ? cw : 0;}}%;" aria-label="View all merged pull requests"></a>
+                           <a class="d-table-cell pt-2" style="width:{{100 - cw}}%;background-color:#e34c26;" aria-label="View all open pull requests"></a>
+                        </div>
+
+                     </div>
+                     <div class="f6 pr-sm-5 mb-2 mt-2 mb-md-0 text-gray-light">
+                        <span ng-if="w<50" class="tooltipped tooltipped-s" aria-label="Đồ thị đã được tăng lên nhằm mục đích hiển thị.">
+                           <svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path></svg>
+                        </span>
+                        <span ng-if="sellerData.lastSuccessAt">
+                           <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                              <path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                           </svg>
+                           Vừa chốt lúc 
+                           <span>{{sellerData.lastSuccessAt | date:'h:mma'}}</span>
+                        </span>
+                     </div>
                   </div>
-               </div>
-               <div class="col-12 col-md-8 float-left text-gray-light">
-                  <p>
-                  	 Đã thực hiện&nbsp;
-                  	<strong>
-                  		{{sellerData.calledCount}}&nbsp;cuộc gọi,&nbsp;
-                  	</strong> 
-                  	<strong style="color: #28a745;">
-                  		chốt&nbsp;{{sellerData.successCount }} 
-                  	</strong>
-                  	<span>
-                  		<strong style="color: #cb2431;">
-	                  		,&nbsp;thất bại&nbsp;{{ sellerData.data.failed.length }} 
-	                  	</strong>
-                  	</span>
-                  	, còn&nbsp;
-                  	<span>
-                  		<span class="label v-align-text-top" style="background-color: #EEEEEE; color: #333333">
-                  			{{sellerData.notCalledCount}}
-                  		</span>
-                  	&nbsp;số chưa gọi. <br /> Hiệu suất chốt đơn tại thời điểm hiện tại là <strong> {{sellerData.succesCount/sellerData.calledCount*100 | number:2}}%</strong>
-                  	</span>
-                     <span class="issue-meta-section task-progress ml-2"><svg aria-hidden="true" class="octicon octicon-checklist" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M16 8.5l-6 6-3-3L8.5 10l1.5 1.5L14.5 7 16 8.5zM5.7 12.2l.8.8H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h7c.55 0 1 .45 1 1v6.5l-.8-.8c-.39-.39-1.03-.39-1.42 0L5.7 10.8a.996.996 0 0 0 0 1.41v-.01zM4 4h5V3H4v1zm0 2h5V5H4v1zm0 2h3V7H4v1zM3 9H2v1h1V9zm0-2H2v1h1V7zm0-2H2v1h1V5zm0-2H2v1h1V3z"></path></svg><span class="task-progress-counts">2 of 3</span><span class="progress-bar  v-align-middle"><span class="progress" style="width: {{(sellerData.calledCount/(sellerData.calledCount + sellerData.notCallCount)*100)}}%"></span></span></span>
-                  </p>
-               </div>
+                  <div class="col-9 col-md-9 float-left details-column">
+                     <li class="detail">
+                        <span style="font-size:18px">{{sellerData.calledCount }}</span>
+                     </li>
+                     <li class="detail">
+                        <span style="font-size:18px">{{sellerData.successCount }}</span>
+                     </li>
+                     <li class="detail">
+                        <span style="font-size:18px">{{sellerData.notCalledCount}}</span>
+                     </li>
+                     <li class="detail">
+                        <span style="font-size:18px">{{ sellerData.missedCount || 0 }}</span>
+                     </li>
+                     <li class="detail">
+                        <span style="font-size:18px">{{ sellerData.callLaterCount || 0 }}</span>
+                     </li>
+                     <li class="detail">
+                        <span style="font-size:18px">{{ sellerData.penddingCount || 0 }}</span>
+                     </li>
+                     <li class="detail">
+                        <span style="font-size:18px">{{ sellerData.cancelCount || 0 }}</span>
+                     </li>
+                     <li class="detail">
+                        <span style="font-size:18px">{{ sellerData.blockedCount || 0 }}</span>
+                     </li>
+                     <li class="detail">
+                        <span style="font-size:18px">{{(sellerData.calledCount > 0 ? sellerData.successCount/sellerData.calledCount : 0)*100 | number : 2}}%</span>
+                     </li>        
+                  </div>
+               </ul>
+               
             </div>
-         </div>
+         </article>
+      </div>
+      <!-- Tạo đơn -->
+      <div class="readme boxed-group clearfix announce instapaper_body md" ng-if="finishLoading">
+         <h3>
+            <svg aria-hidden="true" class="octicon octicon-book" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+            Tạo đơn
+          </h3>
+         <article class="markdown-body entry-content">
+            <h3><a href="#material-design-icons" aria-hidden="true" class="anchor" id="user-content-material-design-icons"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>
+               Báo cáo tạo đơn hàng
+            </h3>
+         </article>
       </div>
    </div>
-   <!-- {{chartData}} -->
-   <!-- /Chart data -->
-   <!-- <div ng-repeat="(key, value) in successArr | countBy: 'checked_by'">
-      <div class="one-half column" style="height: 20px;padding-top: 10px;">
-      	<div class="mt-1 pr-5 mb-2 mb-md-0">
-      	   <div class="tooltipped tooltipped-s" aria-label="1 done / 0 in progress / 0 to do">
-      	      <span class="progress-bar progress-bar-small">
-      	      <span class="progress d-inline-block bg-green" style="width: 56%;">&nbsp;</span><span class="progress d-inline-block bg-purple" style="width: 33%;">&nbsp;</span>
-      	      </span>
-      	   </div>
-      	</div>
-         </div>
-         <div class="one-half column">
-         	<div class="one-third column">
-            {{ key }}
-          </div>
-          <div class="one-third column">
-            {{ value }}
-          </div>
-          <div class="one-third column">
-            50%
-          </div>
-         </div>
-      </div> -->
 </div>

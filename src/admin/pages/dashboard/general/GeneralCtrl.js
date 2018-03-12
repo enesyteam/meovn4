@@ -19,4 +19,6 @@ function($rootScope, $scope, $filter, $timeout, cfpLoadingBar, firebaseService) 
             id: statusId
         })[0];
     }
+
+    
 });

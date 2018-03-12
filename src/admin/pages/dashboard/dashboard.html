@@ -1,227 +1,45 @@
 <!-- Content -->
 <div class="container new-discussion-timeline experiment-repo-nav">
    <div class="repository-content">
-      <div class="overall-summary overall-summary-bottomless">
-         <div class="stats-switcher-viewport js-stats-switcher-viewport">
-            <div class="stats-switcher-wrapper">
-               <ul class="numbers-summary"  style="opacity: {{finishLoading ? 1 : 0}}">
-                  <li class="commits">
-                     <a data-pjax="" ui-sref="home.orders.list">
-                        <span class="repo-language-color ml-0" style="background-color:#e34c26;"></span>
-                        <span class="num text-emphasized">
-                        {{todayReport.calledCount || 0}}
-                        </span>
-                        Đã gọi
-                     </a>
-                  </li>
-                  <li>
-                     <a data-pjax="" ui-sref="home.orders.list">
-                        <span class="repo-language-color ml-0" style="background-color:{{getStatusById(9).color}};"></span>
-                        <span class="num text-emphasized">
-                        {{todayReport.missedCount || 0}}
-                        </span>
-                        Chưa nghe máy
-                     </a>
-                  </li>
-                  <li>
-                     <a ui-sref="home.orders.list">
-                        <span class="repo-language-color ml-0" style="background-color:{{getStatusById(5).color}}"></span>
-                        <span class="num text-emphasized">
-                        {{todayReport.callLaterCount || 0}}
-                        </span>
-                        Gọi lại sau
-                     </a>
-                  </li>
-                  <li>
-                     <a ui-sref="home.orders.list">
-                        <span class="repo-language-color ml-0" style="background-color:{{getStatusById(3).color}}"></span>
-                        <span class="num text-emphasized">
-                        {{todayReport.penddingCount || 0}}
-                        </span>
-                        Pendding
-                     </a>
-                  </li>
-                  <li>
-                     <a ui-sref="home.orders.list">
-                        <span class="repo-language-color ml-0" style="background-color:{{getStatusById(7).color}}"></span>
-                        <span class="num text-emphasized">
-                        {{todayReport.cancelCount || 0}}
-                        </span>
-                        Từ chối
-                     </a>
-                  </li>
-                  <li>
-                     <a ui-sref="home.orders.list">
-                        <span class="repo-language-color ml-0" style="background-color:{{getStatusById(8).color}}"></span>
-                        <span class="num text-emphasized">
-                        {{todayReport.blockedCount || 0}}
-                        </span>
-                        Báo xấu
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </div>
-      <div class="repository-lang-stats-graph js-toggle-lang-stats" title="Click for language details" data-ga-click="Repository, language bar stats toggle, location:repo overview">
-         <span class="language-color" aria-label="TypeScript 72.3%" style="width:72.3%; background-color:#2b7489;" itemprop="keywords">&nbsp;</span>
-         <span class="language-color" aria-label="JavaScript 16.3%" style="width:16.3%; background-color:#f1e05a;" itemprop="keywords">&nbsp;</span>
-         <span class="language-color" aria-label="HTML 10.6%" style="width:10.6%; background-color:#e34c26;" itemprop="keywords">&nbsp;</span>
-         <span class="language-color" aria-label="CSS 0.8%" style="width:0.8%; background-color:#563d7c;" itemprop="keywords">&nbsp;</span>
-      </div>
+      
       <div class="file-navigation in-mid-page">
-         <details class="get-repo-select-menu js-menu-container float-right position-relative dropdown-details details-reset">
-            <summary class="btn btn-sm btn-primary">
-               Clone or download
-               <span class="dropdown-caret"></span>
-            </summary>
-            <div class="position-relative">
-               <div class="get-repo-modal dropdown-menu dropdown-menu-sw pb-0 js-toggler-container ">
-                  <div class="clone-options https-clone-options">
-                     <!-- '"` --><!-- </textarea></xmp> -->
-                     <form accept-charset="UTF-8" action="/users/set_protocol?protocol_selector=ssh&amp;protocol_type=clone" data-remote="true" method="post">
-                        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="DvjVWXGbPnGOSUHPMQjf0syD4PGthd77yk+0HoKoim9ltK3mlBh6Q4SnqEC3FuQtht2Tt8pApEO4XOA7o7hIiw=="></div>
-                        <button class="btn-link btn-change-protocol js-toggler-target float-right" type="submit">Use SSH</button>
-                     </form>
-                     <h4 class="mb-1">
-                        Clone with HTTPS
-                        <a class="muted-link" href="https://help.github.com/articles/which-remote-url-should-i-use" target="_blank" title="Which remote URL should I use?">
-                           <svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14">
-                              <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
-                           </svg>
-                        </a>
-                     </h4>
-                     <p class="mb-2 get-repo-decription-text">
-                        Use Git or checkout with SVN using the web URL.
-                     </p>
-                     <div class="input-group js-zeroclipboard-container">
-                        <input type="text" class="form-control input-monospace input-sm js-zeroclipboard-target js-url-field" value="https://github.com/iamkdev/ng-frappe-charts.git" aria-label="Clone this repository at https://github.com/iamkdev/ng-frappe-charts.git" readonly="">
-                        <div class="input-group-button">
-                           <button aria-label="Copy to clipboard" class="js-zeroclipboard btn btn-sm zeroclipboard-button tooltipped tooltipped-s" data-copied-hint="Copied!" type="button">
-                              <svg aria-hidden="true" class="octicon octicon-clippy" height="16" version="1.1" viewBox="0 0 14 16" width="14">
-                                 <path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path>
-                              </svg>
-                           </button>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="clone-options ssh-clone-options">
-                     <!-- '"` --><!-- </textarea></xmp> -->
-                     <form accept-charset="UTF-8" action="/users/set_protocol?protocol_selector=https&amp;protocol_type=clone" data-remote="true" method="post">
-                        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="OG6lpXeYvOlmy0BqLXVa9kiITSyhRjOS2d3nV77O5sRTIt0akhv422wlqeWra2EJAtY+asaDSSqrzrNyn94kIA=="></div>
-                        <button class="btn-link btn-change-protocol js-toggler-target float-right" type="submit">Use HTTPS</button>
-                     </form>
-                     <h4 class="mb-1">
-                        Clone with SSH
-                        <a class="muted-link" href="https://help.github.com/articles/which-remote-url-should-i-use" target="_blank" title="Which remote URL should I use?">
-                           <svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14">
-                              <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
-                           </svg>
-                        </a>
-                     </h4>
-                     <p class="mb-2 get-repo-decription-text">
-                        Use an SSH key and passphrase from account.
-                     </p>
-                     <div class="input-group js-zeroclipboard-container">
-                        <input type="text" class="form-control input-monospace input-sm js-zeroclipboard-target js-url-field" value="git@github.com:iamkdev/ng-frappe-charts.git" aria-label="Clone this repository at git@github.com:iamkdev/ng-frappe-charts.git" readonly="">
-                        <div class="input-group-button">
-                           <button aria-label="Copy to clipboard" class="js-zeroclipboard btn btn-sm zeroclipboard-button tooltipped tooltipped-s" data-copied-hint="Copied!" type="button">
-                              <svg aria-hidden="true" class="octicon octicon-clippy" height="16" version="1.1" viewBox="0 0 14 16" width="14">
-                                 <path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path>
-                              </svg>
-                           </button>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="mt-2">
-                     <a href="github-windows://openRepo/https://github.com/iamkdev/ng-frappe-charts" class="btn btn-outline get-repo-btn tooltipped tooltipped-s tooltipped-multiline" aria-label="Clone iamkdev/ng-frappe-charts to your computer and use it in GitHub Desktop.">
-                     Open in Desktop
-                     </a>
-                     <a href="/iamkdev/ng-frappe-charts/archive/master.zip" class="btn btn-outline get-repo-btn
-                        " rel="nofollow" data-ga-click="Repository, download zip, location:repo overview">
-                     Download ZIP
-                     </a>
-                  </div>
-               </div>
-            </div>
-         </details>
          <div class="BtnGroup float-right">
             <!-- '"` --><!-- </textarea></xmp> -->
-            <form accept-charset="UTF-8" action="/iamkdev/ng-frappe-charts/new/master" class="BtnGroup-form" method="post">
-               <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="WLxaluFNzXsWvxjiMN/fqmIadN2vLgggG/ioCjvjSSRc8GUtD3eR2wQ/tMPeYstAuvrIePRBnYAG/wvojtA5dw=="></div>
+            <form accept-charset="UTF-8" class="BtnGroup-form" method="post">
                <button class="btn btn-sm BtnGroup-item" type="submit" data-disable-with="Creating file…">
-               Add Order
+               Thêm Order
                </button>
             </form>
-            <a href="/iamkdev/ng-frappe-charts/upload/master" class="btn btn-sm BtnGroup-item">
-            Add Source
+            <a class="btn btn-sm BtnGroup-item">
+            Thêm Page
             </a>
-            <a href="/iamkdev/ng-frappe-charts/find/master" class="btn btn-sm empty-icon float-right BtnGroup-item" data-pjax="" data-hotkey="t" data-ga-click="Repository, find file, location:repo overview">
-            Add Pack
+            <a class="btn btn-sm empty-icon float-right BtnGroup-item" data-pjax="" data-hotkey="t" data-ga-click="Repository, find file, location:repo overview">
+            Thêm User
             </a>
          </div>
          <div class="select-menu branch-select-menu js-menu-container js-select-menu float-left">
-            <button class=" btn btn-sm select-menu-button js-menu-target css-truncate" data-hotkey="w" type="button" aria-label="Switch branches or tags" aria-expanded="false" aria-haspopup="true">
-            <i>Date:</i>
-            <span class="js-select-button css-truncate-target">Today</span>
-            </button>
-            <div class="select-menu-modal-holder js-menu-content js-navigation-container" data-pjax="">
-               <div class="select-menu-modal">
-                  <div class="select-menu-header">
-                     <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                        <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                     </svg>
-                     <span class="select-menu-title">Switch branches/tags</span>
-                  </div>
-                  <div class="select-menu-filters">
-                     <div class="select-menu-text-filter">
-                        <input type="text" aria-label="Filter branches/tags" id="context-commitish-filter-field" class="form-control js-filterable-field js-navigation-enable" placeholder="Filter branches/tags">
-                     </div>
-                     <div class="select-menu-tabs">
-                        <ul>
-                           <li class="select-menu-tab">
-                              <a href="#" data-tab-filter="branches" data-filter-placeholder="Filter branches/tags" class="js-select-menu-tab" role="tab">Branches</a>
-                           </li>
-                           <li class="select-menu-tab">
-                              <a href="#" data-tab-filter="tags" data-filter-placeholder="Find a tag…" class="js-select-menu-tab" role="tab">Tags</a>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-                  <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="branches" role="menu">
-                     <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
-                        <a class="select-menu-item js-navigation-item js-navigation-open selected" href="/iamkdev/ng-frappe-charts/tree/master" data-name="master" data-skip-pjax="true" rel="nofollow">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <span class="select-menu-item-text css-truncate-target js-select-menu-filter-text">
-                           master
-                           </span>
-                        </a>
-                     </div>
-                     <div class="select-menu-no-results">Nothing to show</div>
-                  </div>
-                  <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="tags">
-                     <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
-                     </div>
-                     <div class="select-menu-no-results">Nothing to show</div>
-                  </div>
-               </div>
-            </div>
+            <datepicker date-format="yyyy-MM-dd" selector="form-control">
+                <div class="input-group">
+                    <input class="form-control input-sm" placeholder="Chọn ngày hiển thị" ng-model="selectedDate"/>
+                    <span class="input-group-addon" style="cursor: pointer">
+                    <i class="fa fa-lg fa-calendar"></i>
+                    </span>
+                </div>
+            </datepicker>
          </div>
-         <a href="/iamkdev/ng-frappe-charts/pull/new/master" class="btn btn-sm new-pull-request-btn" data-pjax="" data-ga-click="Repository, new pull request, location:repo overview">
-         New pull request
+         <a class="btn btn-sm new-pull-request-btn" data-pjax="" data-ga-click="Repository, new pull request, location:repo overview" ng-click="getReportForSelectedDate(selectedDate)">
+         Lấy dữ liệu
          </a>
          <div class="breadcrumb">
          </div>
       </div>
-      <div class="columns">
-         <div class="column one-fourth">
+      <div class="columns m-0">
+         <!-- <div class="column one-fourth">
             <nav class="menu" data-pjax="">
                <a ui-sref="home.dashboard.general" ui-sref-active="selected" class="js-selected-navigation-item menu-item" role="tab">Tổng quát</a>
                <a ui-sref="home.dashboard.realtime" ui-sref-active="selected"  class="js-selected-navigation-item menu-item" role="tab">Thời gian thực</a>
             </nav>
-         </div>
+         </div> -->
          <div ui-view></div>
       </div>
    </div>

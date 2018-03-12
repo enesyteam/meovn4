@@ -275,8 +275,8 @@ mRealtime.controller('OdersCtrl',
                             resolve('Cập nhật trạng thái thành công. Order đã sẵn sàng để tạo đơn');
                             // reset shipping data
                             $scope.customerData = {
-                                realName: "Khách lẻ",
-                                recievedPhone: '',
+                                realName: $scope.activeOrder.customer_name,
+                                recievedPhone: $scope.activeOrder.customer_mobile,
                                 birthDay: '',
                                 addresss: '',
                             }
@@ -365,8 +365,8 @@ mRealtime.controller('OdersCtrl',
             $scope.selectedProducts.splice(index, 1);
         }
         $scope.customerData = {
-            realName: "Khách lẻ",
-            recievedPhone: '',
+            realName: $scope.activeOrder.customer_name,
+            recievedPhone: $scope.activeOrder.customer_mobile,
             birthDay: '',
             addresss: '',
             products: [],

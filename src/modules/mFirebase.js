@@ -968,6 +968,10 @@
             var convertDate = function(d) {
                 return d.getFullYear() + ("0" + (d.getMonth() + 1)).slice(-2) + "" + ("0" + d.getDate()).slice(-2);
             }
+            var convertDate2 = function(a) {
+                var d = new Date(a);
+                return d.getFullYear() + ("0" + (d.getMonth() + 1)).slice(-2) + "" + ("0" + d.getDate()).slice(-2);
+            }
 
             /**
              * Group an Array by one field
@@ -1148,6 +1152,21 @@
                 })
             }
 
+            // REPORT
+
+            var getReportForDate = function(date){
+                // date = 2018-07-03
+                var reportDateString = convertDate2(date);
+                return firebase.database().ref().child('report').child(reportDateString).once('value', function(snapshot) {
+                });
+            }
+            var getUsersReportForDate = function(date){
+                // date = 2018-07-03
+                var reportDateString = convertDate2(date);
+                return firebase.database().ref().child('report').child(reportDateString).child('userReport').once('value', function(snapshot) {
+                });
+            }
+
             return {
                 getCanReleaseStatusIds : getCanReleaseStatusIds,
                 getOrders : getOrders,
@@ -1174,6 +1193,10 @@
                 onUpdateOrdersOwner: onUpdateOrdersOwner,
                 preparingEmptyReport : preparingEmptyReport,
                 releaseUser : releaseUser, // hủy tất cả order của user
+
+                // REPORT
+                getReportForDate : getReportForDate,
+                getUsersReportForDate : getUsersReportForDate,
             }
 
         }]);

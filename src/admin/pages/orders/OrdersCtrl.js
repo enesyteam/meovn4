@@ -15,15 +15,15 @@ function($rootScope, $scope, $filter, MFirebaseService, MUtilitiesService) {
 
     MFirebaseService.getOrders(pageSize).then(function(response) {
         response.reverse().map(function(order) {
+          var item = {
+                  customer_name : order.data.customer_name,
+                  customer_mobile : order.data.customer_mobile,
+                  id : order.data.id,
+                  selected : false,
+                  seller_will_call_id : order.data.seller_will_call_id,
+                  status_id : order.data.status_id
+                }
             $scope.$apply(function() {
-            	var item = {
-					customer_name : order.data.customer_name,
-					customer_mobile : order.data.customer_mobile,
-					id : order.data.id,
-					selected : false,
-					seller_will_call_id : order.data.seller_will_call_id,
-					status_id : order.data.status_id
-				}
                 $rootScope.availableOrders.push(item);
             })
         })
@@ -38,18 +38,17 @@ function($rootScope, $scope, $filter, MFirebaseService, MUtilitiesService) {
     let newOrdersRef = firebase.database().ref().child('newOrders').orderByChild('publish_date').limitToLast(1);
     newOrdersRef.on('child_added', snapshot => {
       if(snapshot.key !== $rootScope.newlyOrderKey){
+        var item = {
+            customer_name : snapshot.val().customer_name,
+            customer_mobile : snapshot.val().customer_mobile,
+            id : snapshot.val().id,
+            selected : false,
+            seller_will_call_id : snapshot.val().seller_will_call_id,
+            status_id : snapshot.val().status_id
+          }
         $scope.$apply(function(){
           $rootScope.newlyOrderKey = snapshot.key;
-          // $rootScope.availableOrders.unshift(snapshot.val());
-          var item = {
-					customer_name : snapshot.val().customer_name,
-					customer_mobile : snapshot.val().customer_mobile,
-					id : snapshot.val().id,
-					selected : false,
-					seller_will_call_id : snapshot.val().seller_will_call_id,
-					status_id : snapshot.val().status_id
-				}
-                $rootScope.availableOrders.unshift(snapshot.val());
+          $rootScope.availableOrders.unshift(snapshot.val());
         });
       }
     });
@@ -59,22 +58,22 @@ function($rootScope, $scope, $filter, MFirebaseService, MUtilitiesService) {
         $rootScope.isLoaddingOrder = true;
         MFirebaseService.getNextOrders($rootScope.lastOrderKey, pageSize).then(function(response) {
             response.reverse().slice(1).map(function(order) {
+                var item = {
+                    customer_name : order.data.customer_name,
+                    customer_mobile : order.data.customer_mobile,
+                    id : order.data.id,
+                    selected : false,
+                    seller_will_call_id : order.data.seller_will_call_id,
+                    status_id : order.data.status_id
+                  }
                 $scope.$apply(function() {
-                    var item = {
-						customer_name : order.data.customer_name,
-						customer_mobile : order.data.customer_mobile,
-						id : order.data.id,
-						selected : false,
-						seller_will_call_id : order.data.seller_will_call_id,
-						status_id : order.data.status_id
-					}
 	                $rootScope.availableOrders.push(item);
                 })
             })
             $scope.$apply(function() {
                 $rootScope.lastOrderKey = response[response.length - 1].key;
                 $rootScope.isLoaddingOrder = false;
-                console.log(response);
+                // console.log(response);
                 if(response.length == 1){ // item bị trùng
                   $rootScope.canLoadMore = false;
                 }

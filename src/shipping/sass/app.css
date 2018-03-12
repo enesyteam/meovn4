@@ -1500,7 +1500,7 @@ body .filterbar li.active svg {
     position: absolute;
     width: 40%;
     height: 100%;
-    background: #ddd;
+    /*background: #ddd;*/
 }
 .row_col_right .create-shipping .actions-area{
     border-top: 1px solid #dddfe2;
