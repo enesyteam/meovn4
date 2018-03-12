@@ -4,7 +4,7 @@
          <div class="container p-0">
             <div class="columns">
                <div class="four-fifths column">
-                  <h3 class="f5 mb-2 mt-1">{{customer.name}} <span class="pl-1 text-gray-light text-normal"></span></h3>
+                  <h3 class="f5 mb-2 mt-1">{{activeOrder.customer_name}} <span class="pl-1 text-gray-light text-normal"></span></h3>
                </div>
                <div class="one-fifth column text-right">
                   <button type="button" class="btn-link link-gray mr-2 js-show-project-triage" aria-label="Add cards">
@@ -21,9 +21,9 @@
             </div>
          </div>
          <div class="project-body-markdown">
-            <p>0943312354</p>
+            <p>{{activeOrder.customer_mobile}}</p>
          </div>
-         <textarea ng-model="noteContent.text" class="form-control input-block mt-4" id="fb_info_message" name="input_message" placeholder="Nội dung ghi chú..." autocomplete="on" note-enter=""></textarea>
+         <textarea ng-model="noteContent.text" class="form-control input-block mt-4" id="fb_info_message" name="input_message" placeholder="Nội dung ghi chú..." autocomplete="on" note-enter="" data-hotkey="f"></textarea>
          <div class="form-actions mt-2 mb-2">
             <button type="submit" class="btn btn-sm" name="state" value="closed" ng-click="addNote()">
             Thêm ghi chú

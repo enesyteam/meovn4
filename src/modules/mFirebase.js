@@ -912,7 +912,13 @@
                                 preparingEmptyReport(user, user).then(function(response){
                                     firebase.database().ref().child('report').child(reportDateString).child('userReport')
                                         .child(user.id).child(nodeName).transaction(function(oldValue) {
-                                            return oldValue - orders.length;
+                                            if(oldValue <= 0){
+                                                return oldValue;
+                                            }
+                                            else{
+                                                return oldValue - orders.length;
+                                            }
+                                            
                                         }).then(function(res){
                                             resolve('Đã hủy thành công ' + orders.length + ' orders của user id = ' + user.id + 
                                                 ' và cập nhật báo cáo của user thành công.');
@@ -1068,6 +1074,80 @@
                 })
             }
 
+            /////////////////////////////////////////////////////////////////////////////////////
+            // TRANG SHIPPING
+            var getShippingItems = function(pageSize){
+                return new Promise(function(resolve, reject){
+                    var result = [];
+                    firebase.database().ref().child('shippingItems')
+                        .orderByKey()
+                        .limitToLast(pageSize)
+                        .on('child_added', snapshot => {
+                            // console.log(snapshot.val());
+                            if(snapshot.val().status_id !== 0)
+                            result.push({
+                                key : snapshot.key,
+                                data : snapshot.val()
+                            });
+                            resolve(result);
+                        })
+                })
+            }
+
+            var getNextShippingItems = function(fromKey, pageSize){
+                return new Promise(function(resolve, reject){
+                    var result = [];
+                    firebase.database().ref().child('shippingItems')
+                        .orderByKey()
+                        .limitToLast(pageSize)
+                        .endAt(fromKey)
+                        // .limitToLast(pageSize)
+                        .on('child_added', snapshot => {
+                            if(snapshot.val().status_id !== 0)
+                            result.push({
+                                key : snapshot.key,
+                                data : snapshot.val()
+                            });
+                            // console.log(snapshot.val());
+                            // console.log(snapshot.key);
+                            resolve(result);
+                        })
+                })
+            }
+
+            // TÌM KIẾM SHIPPING ITEMS
+            var searchShippingItemsByCustomerName = function(query){
+                return new Promise(function(resolve, reject){
+                    var result = [];
+                    firebase.database().ref().child('shippingItems')
+                        .orderByChild('customer_name')
+                        .startAt(query)
+                        .endAt(query + "\uf8ff")
+                        .once('value', snapshot => {
+                            angular.forEach(snapshot.val(), function(value, key){
+                                result.push(value);
+                            })
+                            // console.log(snapshot.val());
+                            resolve(result);
+                        })
+                })
+            }
+            var searchShippingItemsByCustomerPhone = function(phone){
+                return new Promise(function(resolve, reject){
+                    var result = [];
+                    firebase.database().ref().child('shippingItems')
+                        .orderByChild('customer_mobile')
+                        .startAt(phone)
+                        .endAt(phone + "\uf8ff")
+                        .once('value', snapshot => {
+                            angular.forEach(snapshot.val(), function(value, key){
+                                result.push(value);
+                            })
+                            resolve(result);
+                        })
+                })
+            }
+
             return {
                 getCanReleaseStatusIds : getCanReleaseStatusIds,
                 getOrders : getOrders,
@@ -1075,6 +1155,12 @@
                 searchOrderByCustomerName : searchOrderByCustomerName,
                 searchOrderByCustomerPhone : searchOrderByCustomerPhone,
                 getNextOrders : getNextOrders,
+
+                // trang shipping
+                getShippingItems : getShippingItems,
+                getNextShippingItems : getNextShippingItems,
+
+
                 set_firebase: set_firebase,
                 set_ghn_token: set_ghn_token,
                 get_ghn_token: get_ghn_token,

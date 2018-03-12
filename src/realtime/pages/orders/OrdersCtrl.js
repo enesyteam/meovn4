@@ -63,78 +63,68 @@ mRealtime.controller('OdersCtrl',
                   return oldValue + 1;
               });
             // update
-            var itemChanged = $filter('filter')($rootScope.orders, {'id':$stateParams.id})[0];
+            var itemChanged = $filter('filter')($rootScope.availableOrders, {'id':$stateParams.id})[0];
             itemChanged.commentCount = 1;
         }
 
 
         // GRAPH FACEBOOK
-        var graphUser = function(){
-            if($stateParams.customer_id){
-                MFacebookService.graphUser($stateParams.customer_id, $scope.currentAccessToken).then(function(response){
-                    if(response && !response.error){
-                        $scope.$apply(function(){
-                            $scope.customer = response;
-                        })
-                    }
-                })
-                .catch(function(error){
-                    console.log(error);
-                })
-            }
-        }.call(this);
-
-        var graphPage = function(){
-            if($stateParams.page_id){
-                MFacebookService.graphPage($stateParams.page_id, $scope.currentAccessToken).then(function(response){
-                    if(response && !response.error){
-                        $scope.$apply(function(){
-                            $scope.data = response;
-                        })
-                    }
-                })
-                .catch(function(error){
-                    console.log(error);
-                })
-            }
-        }.call(this);
-
-        if($stateParams.type == 1){
-            MFacebookService.graphMessages($stateParams.conversation_id, $scope.currentAccessToken).then(function(response){
-                if(response && !response.error){
-                    $scope.$apply(function(){
-                        $scope.messsageLog = response;
-                    })
+        var getToken = function(pageId){
+            return new Promise(function(resolve, reject){
+                var page = $filter("filter")(fanpages, {id: pageId});
+                if(page[0]){
+                    resolve(page[0].access_token);
                 }
-            })
-            .catch(function(error){
-                console.log(error);
+                else{
+                    reject('Page với ID ' + pageId + ' chưa được thêm vào danh sách quản lý.');
+                }
             })
         }
+        // graph page
+        MFacebookService.graphPage($stateParams.page_id, $scope.currentAccessToken).then(function(response){
+            // console.log(response);
+            $scope.$apply(function(){
+                $scope.pageData = response;
+            })
+        })
+        .catch(function(err){
+            MUtilitiesService.AlertError(err, 'Lỗi');
+        })
 
-        if(!$stateParams.type){
+        //
+        if($stateParams.type==1){
+            // messages
+            MFacebookService.graphMessages($stateParams.conversation_id, $scope.currentAccessToken).then(function(response){
+                $scope.$apply(function(){
+                    console.log(response);
+                    $scope.messageData = response;
+                })
+            })
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Lỗi');
+            })
+        }
+        else{
             // graph post
             MFacebookService.graphPost($stateParams.post_id, $scope.currentAccessToken).then(function(response){
-                if(response && !response.error){
-                    $scope.$apply(function(){
-                        $scope.postData = response;
-                    });
-                }
+                $scope.$apply(function(){
+                    console.log(response);
+                    $scope.postData = response;
+                })
             })
-            .catch(function(error){
-                console.log(error);
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Lỗi');
             })
 
-            // graph post comments
+            // also graph comments
             MFacebookService.graphComments($stateParams.conversation_id, $scope.currentAccessToken).then(function(response){
-                if(response && !response.error){
-                    $scope.$apply(function(){
-                        $scope.conversation = response;
-                    })
-                }
+                $scope.$apply(function(){
+                    console.log(response);
+                    $scope.commentData = response;
+                })
             })
-            .catch(function(error){
-                console.log(error);
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Lỗi');
             })
         }
 

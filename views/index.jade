@@ -30,13 +30,13 @@ html(lang='en', ng-app='m_admin')
     |     
     link(rel='stylesheet', href='/src/admin/sass/admin-custom.css')
     |     
+    link(rel='stylesheet', href='/src/admin/sass/chat-box.css')
+    |     
     link(rel='stylesheet', href='/src/admin/sass/loader.css')
     |     
+    link(rel='stylesheet', href='/src/admin/sass/ng-dialog-custom.css')
+    |     
     link(rel='stylesheet', href='/node_modules/angularjs-datepicker/dist/angular-datepicker.min.css')
-    |     
-    link(rel='stylesheet', href='/node_modules/ng-dialog/css/ngDialog.min.css')
-    |     
-    link(rel='stylesheet', href='/node_modules/ng-dialog/css/ngDialog-theme-default.min.css')
   |   
   body.logged-in.env-production.page-dashboard
     // Header
@@ -225,6 +225,8 @@ html(lang='en', ng-app='m_admin')
     script(src='/src/modules/mFacebook.js')
     |   
     script(src='/src/modules/mUtilities.js')
+    |   
+    script(src='/node_modules/phone-validate-vn/build/chotot.validators.phone.min.js')
     |   
     script(src='/node_modules/angular-loading-bar/build/loading-bar.min.js')
     |   

@@ -21,6 +21,9 @@
                             else{
                                 reject(response.error);
                             }
+                        })
+                        .catch(function(err){
+                            console.log(err);
                         });
                     }
                 });
@@ -40,6 +43,9 @@
                             else{
                                 reject('Không tìm thấy thông tin page: ' + pageId);
                             }
+                        })
+                        .catch(function(err){
+                            console.log(err);
                         });
                     }
                     else{
@@ -54,10 +60,13 @@
                         reject('Thiếu access token');
                     }
                     if(thread_id){
-                        Facebook.api('/' + thread_id + '?fields=messages.limit(100){message,from,created_time,attachments,sticker,shares{link,description,name}},snippet,link&access_token=' + access_token, function(response) {
+                        Facebook.api('/' + thread_id + '?fields=messages.limit(100){message,from,created_time,attachments,sticker,shares{link,description,name}},snippet,link,participants&access_token=' + access_token, function(response) {
                             if(response && !response.error){
                                  resolve(response);
                             }
+                        })
+                        .catch(function(err){
+                            console.log(err);
                         });
                     }
                     else{
@@ -73,10 +82,18 @@
                         reject('Thiếu access token');
                     }
                     if(conversation_id){
-                        Facebook.api('/' + conversation_id + '?fields=comments{from,message,created_time,id,attachment},permalink_url,from,message,created_time,attachment&access_token=' + access_token, function(response) {
+                        Facebook.api('/' + conversation_id + '?fields=comments{from,message,created_time,id,attachment,message_tags,object},permalink_url,from,message,created_time,attachment,object,message_tags&access_token=' + access_token, function(response) {
                             if(response && !response.error){
                                  resolve(response);
                             }
+                            else{
+                                // alert('lỗi');
+                                reject('Cuộc hội thoại không tồn tại hoặc đã bị xóa');
+                            }
+                        })
+                        .catch(function(err){
+                            // alert('lỗi');
+                            console.log(err);
                         });
                     }
                     else{
@@ -95,6 +112,9 @@
                             if(response && !response.error){
                                  resolve(response);
                             }
+                        })
+                        .catch(function(err){
+                            console.log(err);
                         });
                     }
                     else{
@@ -102,6 +122,122 @@
                     }
                 });
             }
+
+            var graphPostAttachments = function(post_id, access_token){
+
+                return new Promise(function(resolve, reject) {
+                    if(!access_token){
+                        reject('Thiếu access token');
+                    }
+                    if(post_id){
+                        Facebook.api('/' + post_id + '?fields=picture,attachments&access_token=' + access_token, function(response) {
+                            if(response && !response.error){
+                                // console.log(response)
+                                 resolve({
+                                    type : 'post',
+                                    data : response,
+                                });
+                                // return;
+                            }
+                        })
+                        .catch(function(err){
+                            console.log(err);
+                        });
+                    }
+                    else{
+                        reject('Thiếu post id');
+                    }
+                });
+            }
+
+            var graphPermalink = function(conversation_id, access_token){
+                return new Promise(function(resolve, reject) {
+                    if(!access_token){
+                        reject('Thiếu access token');
+                    }
+                    if(conversation_id){
+                        Facebook.api('/' + conversation_id + '?fields=permalink_url&access_token=' + access_token, function(response) {
+                            if(response && !response.error){
+                                 resolve(response);
+                            }
+                            else{
+                                reject('Cuộc hội thoại không tồn tại hoặc đã bị xóa');
+                            }
+                        })
+                        .catch(function(err){
+                            console.log(err);
+                        });
+                    }
+                    else{
+                        reject('Thiếu conversation id');
+                    }
+                });
+            }
+
+            /*
+            * tìm thread id trong limit tin nhắn của một page id
+            */
+            var findThreadInPageId = function(pageId, thread_id, access_token, limit){
+                // console.log(thread_id);
+                return new Promise(function(resolve, reject){
+                    // tìm trong 100 tin nhắn mới nhất
+                    console.log('đang tìm trong ' + limit + ' tin nhắn mới nhất...');
+                    Facebook.api('/' + pageId + '/conversations?fields=id,link&limit='+limit+'&access_token=' + access_token, function(response) {
+                        if (response && !response.error) {
+                            // console.log(response.data);
+                            var found = null;
+                            angular.forEach(response.data, function(data) {
+                                // console.log(link.split('/'));
+                                // console.log(data.link.split('/'));
+                                if (data.link.indexOf(thread_id) !== -1) {
+                                    // alert(data.id);
+                                    found = data.id;
+                                    return;
+                                }
+                                
+                            });
+                            if(found){
+                                resolve(found);
+                            }
+                            else{
+                                reject('Không tìm thấy');
+                            }
+                        }
+                        else{
+                            reject('Lỗi. Vui lòng kiểm tra lại');
+                        }
+                    });
+                })
+            }
+
+            /*
+            * photoId: 1803964422949390
+            */
+            var graphPhoto = function(photoId, access_token){
+                return new Promise(function(resolve, reject) {
+                    if(!access_token){
+                        reject('Thiếu access token');
+                    }
+                    if(photoId){
+                        Facebook.api('/' + photoId + '?fields=picture,link,images&access_token=' + access_token, function(response) {
+                            if(response && !response.error){
+                                 resolve(response);
+                            }
+                            else{
+                                reject('Cuộc hội thoại không tồn tại hoặc đã bị xóa');
+                            }
+                        })
+                        .catch(function(err){
+                            console.log(err);
+                        });
+                    }
+                    else{
+                        reject('Thiếu conversation id');
+                    }
+                });
+            }
+
+            
 
 
             return {
@@ -111,6 +247,10 @@
                 graphMessages : graphMessages,
                 graphComments : graphComments,
                 graphPost : graphPost,
+                graphPermalink : graphPermalink,
+                findThreadInPageId : findThreadInPageId,
+                graphPhoto : graphPhoto,
+                graphPostAttachments : graphPostAttachments,
             }
 
         }]);

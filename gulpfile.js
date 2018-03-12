@@ -174,6 +174,7 @@ var adminSources = gulp.src([
         
 
         //vendors
+        'node_modules/phone-validate-vn/build/chotot.validators.phone.min.js',
         'node_modules/angular-loading-bar/build/loading-bar.min.js',
         'node_modules/angular-filter/dist/angular-filter.min.js', // angular filter
         'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',

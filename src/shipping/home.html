@@ -42,7 +42,7 @@
                   </div> -->
                   <div class="people scrollable">
                      <div style="height: 100%">
-                        <li ng-repeat="order in shippingItems | reverse" class="person order-{{order.id}}" ui-sref="home.detail({ctype: order.data.orderData.type, id : order.id, cm: order.data.customerData.recievedPhone, page_id: order.data.orderData.page_id, post_id: order.data.orderData.post_id, customer_id: order.data.orderData.customer_id, oid: order.data.orderData.id, cv_id: order.data.orderData.conversation_id})" ui-sref-active="active">
+                        <li ng-repeat="order in availableShippingItems" class="person order-{{order.id}}" ui-sref="home.detail({ctype: order.data.orderData.type, id : order.id, cm: order.data.customerData.recievedPhone, page_id: order.data.orderData.page_id, post_id: order.data.orderData.post_id, customer_id: order.data.orderData.customer_id, oid: order.data.orderData.id, cv_id: order.data.orderData.conversation_id})" ui-sref-active="active">
                         <div class="wrap_chat">
                            <!-- <div class="check">
                               <input type="checkbox" class="check_people" value="on">
@@ -98,6 +98,21 @@
                         </div>
                         
                      </li>
+                     <!-- Next Orders button -->
+                     <div class="text-center" ng-if="availableShippingItems">
+                        <button class="btn btn-default btn-primary btn-purple mt-3 mb-3"
+                           ng-class="canLoadMore==false ? 'disabled' : ''" ng-click="getNextShippingItems()">
+                           <span ng-if="isLoaddingOrder">
+                              Đang tải Orders...
+                           </span>
+                           <span ng-if="canLoadMore && !isLoaddingOrder">
+                              Tải thêm Orders
+                           </span>
+                           <span ng-if="canLoadMore==false">
+                              Đã tải tất cả Orders
+                           </span>
+                        </button>
+                     </div>
                      </div>
                   </div>
                </div>

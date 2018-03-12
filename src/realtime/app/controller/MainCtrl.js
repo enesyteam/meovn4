@@ -27,8 +27,8 @@ mRealtime.controller('MainCtrl',
         })
     })
 
-    // trigger when new order added
-    let newOrdersRef = firebase.database().ref().child('newOrders').orderByChild('publish_date').limitToLast(1);
+    // trigger when new item
+    let newOrdersRef = firebase.database().ref().child('newOrders').limitToLast(1);
     newOrdersRef.on('child_added', snapshot => {
       if(snapshot.key !== $rootScope.newlyOrderKey){
         $scope.$apply(function(){
@@ -37,7 +37,6 @@ mRealtime.controller('MainCtrl',
         });
       }
     });
-
     
     $rootScope.getNextOrders = function() {
         $rootScope.isLoaddingOrder = true;
@@ -50,7 +49,7 @@ mRealtime.controller('MainCtrl',
             $scope.$apply(function() {
                 $rootScope.lastOrderKey = response[response.length - 1].key;
                 $rootScope.isLoaddingOrder = false;
-                console.log(response);
+                // console.log(response);
                 if(response.length == 1){ // item bị trùng
                   $rootScope.canLoadMore = false;
                 }
@@ -64,7 +63,9 @@ mRealtime.controller('MainCtrl',
 
     $rootScope.searchOrder = function(){
       if(!$rootScope.searchQuery.text || $rootScope.searchQuery.text == ''){
-        MUtilitiesService.AlertError('Vui lòng nhập từ khóa tìm kiếm', 'Lỗi');
+        // reset kết quả về mặc định
+        getOrders();
+        // MUtilitiesService.AlertError('Vui lòng nhập từ khóa tìm kiếm', 'Lỗi');
         return;
       }
       if($rootScope.searchQuery.text.length < 2){
@@ -72,7 +73,6 @@ mRealtime.controller('MainCtrl',
         return;
       }
       if($rootScope.searchQuery.text.match(/^\d/)){
-        alert($rootScope.searchQuery.text);
         if($rootScope.searchQuery.text.length < 4){
           MUtilitiesService.AlertError('Chuỗi tìm kiếm quá ngắn', 'Lỗi');
           return;
@@ -162,7 +162,7 @@ mRealtime.controller('MainCtrl',
         // find item in array
         $timeout(function() {
             $scope.$apply(function() {
-                var itemChanged = $filter('filter')($rootScope.orders, {
+                var itemChanged = $filter('filter')($rootScope.availableOrders, {
                     'id': snapshot.val().id
                 })[0];
                 if (itemChanged.status_id !== snapshot.val().status_id) {
@@ -351,8 +351,5 @@ mRealtime.controller('MainCtrl',
         else
             $rootScope.filterDestiny = null;
         // $rootScope.filterDestiny = !$rootScope.filterDestiny ? 1 : null;
-    }
-    $rootScope.myPagingFunction = function() {
-        console.log('scrolling...');
     }
 });
