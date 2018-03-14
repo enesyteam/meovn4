@@ -1,24 +1,32 @@
-<div id="options_bucket">
+<div class="graph-canvas is-graph-loading" ng-if="isLoaddingOrder">
+   <div class="activity">
+      <img class="graph-loading dots" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-128.gif" width="64" alt="">
+      <div class="graph-loading msg">
+         <p>Đang tải dữ liệu Orders…</p>
+      </div>
+      <div ng-if="canAsignOrders.length == 0" class="graph-empty msg mt-6">
+         <h4>We don’t have enough data to show anything useful.</h4>
+         <p>It usually takes about a week to populate this graph.</p>
+      </div>
+   </div>
+</div>
+<div class="blankslate blankslate-spacious blankslate-large" ng-if="availableOrders.length == 0 && !isLoaddingOrder">
+   <svg aria-hidden="true" class="octicon octicon-issue-opened blankslate-icon" height="40" version="1.1" viewBox="0 0 14 16" width="35">
+      <path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
+   </svg>
+   <h3>Không có Order nào khả dụng!</h3>
+   <!-- <p>Issues are used to track todos, bugs, feature requests, and more. As issues are created, they’ll appear here in a searchable and filterable list. To get started, you should</p> -->
+</div>
+<div id="options_bucket" ng-if="!isLoaddingOrder && availableOrders.length > 0">
    <div class="Subhead">
       <h2 class="Subhead-heading">List Orders</h2>
       <div class="">
-         
          <div class="breadcrumb">
          </div>
-      </div>
-      <div class="p6n-ls-wrapper" aria-hidden="true">
-         <pan-loader offline="offline" pan-buttertip-message="" pan-show-tip-if="offline" style="
-            display: block;
-            ">
-            <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
-         </pan-loader>
       </div>
    </div>
    <!-- Filter -->
    <div class="subnav" data-pjax="">
-      <a href="/angular/angular/compare" class="btn btn-primary float-right" data-hotkey="c" tabindex="0" data-ga-click="Repository, go to compare view, location:pull request list; text:New pull request">
-      Add new order
-      </a>
       <div class="float-left subnav-spacer-right" role="search">
          <div class="float-left select-menu js-menu-container js-select-menu subnav-search-context">
             <button class="btn select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false">
@@ -27,37 +35,14 @@
             <div class="select-menu-modal-holder js-menu-content js-navigation-container">
                <div class="select-menu-modal">
                   <div class="select-menu-list">
-                     <a href="/angular/angular/issues?q=is%3Aopen" class="select-menu-item js-navigation-item">
+                     <a class="select-menu-item js-navigation-item">
                         <div class="select-menu-item-text">
-                           Open issues and pull requests
+                           Tên page 1
                         </div>
                      </a>
-                     <a href="/angular/angular/issues?q=is%3Aopen+is%3Aissue+author%3Aenesyteam" class="select-menu-item js-navigation-item">
+                     <a class="select-menu-item js-navigation-item">
                         <div class="select-menu-item-text">
-                           Your issues
-                        </div>
-                     </a>
-                     <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+author%3Aenesyteam" class="select-menu-item js-navigation-item">
-                        <div class="select-menu-item-text">
-                           Your pull requests
-                        </div>
-                     </a>
-                     <a href="/angular/angular/issues?q=is%3Aopen+assignee%3Aenesyteam" class="select-menu-item js-navigation-item">
-                        <div class="select-menu-item-text">
-                           Everything assigned to you
-                        </div>
-                     </a>
-                     <a href="/angular/angular/issues?q=is%3Aopen+mentions%3Aenesyteam" class="select-menu-item js-navigation-item">
-                        <div class="select-menu-item-text">
-                           Everything mentioning you
-                        </div>
-                     </a>
-                     <a href="https://help.github.com/articles/searching-issues" class="select-menu-item js-navigation-item" target="_blank">
-                        <svg aria-hidden="true" class="octicon octicon-link-external select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                           <path fill-rule="evenodd" d="M11 10h1v3c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h3v1H1v10h10v-3zM6 2l2.25 2.25L5 7.5 6.5 9l3.25-3.25L12 8V2H6z"></path>
-                        </svg>
-                        <div class="select-menu-item-text">
-                           <strong>View advanced search syntax</strong>
+                           Tên page 2
                         </div>
                      </a>
                   </div>
@@ -65,1317 +50,143 @@
             </div>
          </div>
          <!-- '"` --><!-- </textarea></xmp> -->
-         <form accept-charset="UTF-8" action="/angular/angular/pulls" class="subnav-search float-left" data-pjax="true" method="get">
-            <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
+         <form accept-charset="UTF-8" class="subnav-search float-left" data-pjax="true" method="get">
             <input aria-label="Search all issues" class="form-control form-control subnav-search-input input-contrast" data-hotkey="/" id="js-issues-search" name="q" placeholder="Nhập tên hoặc số điện thoại" type="text" ng-model="query">
-            <svg aria-hidden="true" class="octicon octicon-search subnav-search-icon" height="16" version="1.1" viewBox="0 0 16 16" width="16"> 
+            <svg aria-hidden="true" class="octicon octicon-search subnav-search-icon" height="16" version="1.1" viewBox="0 0 16 16" width="16">
                <path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path>
             </svg>
          </form>
       </div>
-      <div class="subnav-links float-left" role="navigation">
-         <a href="/angular/angular/labels" class="js-selected-navigation-item subnav-item" data-selected-links="repo_labels /angular/angular/labels">Sources</a>
-         <a href="/angular/angular/milestones" class="js-selected-navigation-item subnav-item" data-selected-links="repo_milestones /angular/angular/milestones">Packages</a>
-      </div>
    </div>
    <!-- /Filter -->
-   <div class="blankslate blankslate-spacious blankslate-large" ng-if="availableOrders.length == 0">
-      <svg aria-hidden="true" class="octicon octicon-issue-opened blankslate-icon" height="40" version="1.1" viewBox="0 0 14 16" width="35">
-         <path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
-      </svg>
-      <h3>No data to display!</h3>
-      <p>Issues are used to track todos, bugs, feature requests, and more. As issues are created, they’ll appear here in a searchable and filterable list. To get started, you should <a href="/enesyteam/meovn/issues/new">create an issue</a>.</p>
-   </div>
    <!-- Table -->
-   <div ng-if="availableOrders.length > 0">
+   <div>
       <!-- Table header -->
-   <div class="table-list-header" id="js-issues-toolbar">
-   <div class="table-list-filters">
-      <div class="table-list-header-toggle states float-left pl-3">
-         <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr" class="btn-link selected">
-            <input type="checkbox" checked="checked">
-            Chọn tất cả
-         </a>
-      </div>
-      <div class="table-list-header-toggle float-right">
-         <div class="float-left select-menu label-select-menu js-menu-container js-select-menu js-transitionable" data-contents-url="/angular/angular/issues/show_menu_content?partial=issues%2Ffilters%2Flabels_content&amp;q=is%3Apr+is%3Aopen">
-            <button class="btn-link select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false" data-hotkey="l">
-            Labels
-            </button>
-            <div class="select-menu-modal-holder js-menu-content js-navigation-container" aria-expanded="false">
-               <div class="select-menu-modal">
-                  <div class="select-menu-header">
-                     <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                        <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                     </svg>
-                     <span class="select-menu-title">Filter by label</span>
-                  </div>
-                  <div class="js-select-menu-deferred-content">
-                     <div class="select-menu-filters">
-                        <div class="select-menu-text-filter">
-                           <input type="text" id="label-filter-field" class="form-control js-filterable-field js-navigation-enable" placeholder="Filter labels" aria-label="Filter labels" autocomplete="off">
-                        </div>
-                     </div>
-                     <div class="select-menu-list">
-                        <div data-filterable-for="label-filter-field" data-filterable-type="substring">
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+no%3Alabel" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">
-                                 <strong>Unlabeled</strong>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22aio%3A+preview%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #1d76db">&nbsp;</span>
-                                    <span class="name">aio: preview</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22cla%3A+no%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #e11d21">&nbsp;</span>
-                                    <span class="name">cla: no</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22cla%3A+yes%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #009800">&nbsp;</span>
-                                    <span class="name">cla: yes</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+aio%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: aio</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+animations%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: animations</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+bazel%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c5def5">&nbsp;</span>
-                                    <span class="name">comp: bazel</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+benchpress%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: benchpress</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+build+%26+ci%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: build &amp; ci</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+common%2Fhttp%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c5def5">&nbsp;</span>
-                                    <span class="name">comp: common/http</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+common%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: common</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+core+%26+compiler%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: core &amp; compiler</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+docs%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: docs</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+elements%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: elements</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+examples%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #006b75">&nbsp;</span>
-                                    <span class="name">comp: examples</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+forms%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c5def5">&nbsp;</span>
-                                    <span class="name">comp: forms</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+http%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: http</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+i18n%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: i18n</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+language-service%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: language-service</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+metadata-extractor%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: metadata-extractor</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+packaging%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: packaging</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+performance%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: performance</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+router%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: router</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+security%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: security</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+server%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #bfd4f2">&nbsp;</span>
-                                    <span class="name">comp: server</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+service-worker%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c5def5">&nbsp;</span>
-                                    <span class="name">comp: service-worker</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+testing%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: testing</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+upgrade%2Fdynamic%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: upgrade/dynamic</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+upgrade%2Fstatic%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c5def5">&nbsp;</span>
-                                    <span class="name">comp: upgrade/static</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+web-worker%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c7def8">&nbsp;</span>
-                                    <span class="name">comp: web-worker</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22comp%3A+zones%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #c5def5">&nbsp;</span>
-                                    <span class="name">comp: zones</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22deprecated+label%3A+LGTM+%28DO+NOT+USE+ANY+MORE%29%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #b60205">&nbsp;</span>
-                                    <span class="name">deprecated label: LGTM (DO NOT USE ANY MORE)</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22effort1%3A+easy+%28hours%29%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #bfe5bf">&nbsp;</span>
-                                    <span class="name">effort1: easy (hours)</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22effort2%3A+medium+%28days%29%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #bfe5bf">&nbsp;</span>
-                                    <span class="name">effort2: medium (days)</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22effort3%3A+hard+%28weeks%29%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #bfe5bf">&nbsp;</span>
-                                    <span class="name">effort3: hard (weeks)</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22flag%3A+breaking+change%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d93f0b">&nbsp;</span>
-                                    <span class="name">flag: breaking change</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22flag%3A+can+be+closed%3F%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #bfdadc">&nbsp;</span>
-                                    <span class="name">flag: can be closed?</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22freq1%3A+low%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #fbca04">&nbsp;</span>
-                                    <span class="name">freq1: low</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22freq2%3A+medium%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #fbca04">&nbsp;</span>
-                                    <span class="name">freq2: medium</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22freq3%3A+high%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #fbca04">&nbsp;</span>
-                                    <span class="name">freq3: high</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22freq4%3A+critical%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #fbca04">&nbsp;</span>
-                                    <span class="name">freq4: critical</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22hotlist%3A+angular-core-team%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">hotlist: angular-core-team</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22hotlist%3A+community-help%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">hotlist: community-help</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22hotlist%3A+devrel%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #f40732">&nbsp;</span>
-                                    <span class="name">hotlist: devrel</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22hotlist%3A+error+messages%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">hotlist: error messages</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22hotlist%3A+example+tests%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">hotlist: example tests</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22hotlist%3A+google%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">hotlist: google</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22hotlist%3A+Ionic%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">hotlist: Ionic</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22hotlist%3A+lucid%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">hotlist: lucid</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22hotlist%3A+material2%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">hotlist: material2</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22hotlist%3A+release-blocker%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d93f0b">&nbsp;</span>
-                                    <span class="name">hotlist: release-blocker</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22hotlist%3A+sugar%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">hotlist: sugar</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+action%3A+cleanup%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #e11d21">&nbsp;</span>
-                                    <span class="name">PR action: cleanup</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+action%3A+discuss%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #fbca04">&nbsp;</span>
-                                    <span class="name">PR action: discuss</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+action%3A+merge-assistance%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d93f0b">&nbsp;</span>
-                                    <span class="name">PR action: merge-assistance</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+action%3A+merge%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #99ff66">&nbsp;</span>
-                                    <span class="name">PR action: merge</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+action%3A+review%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #fbca04">&nbsp;</span>
-                                    <span class="name">PR action: review</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+state%3A+blocked%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #e11d21">&nbsp;</span>
-                                    <span class="name">PR state: blocked</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+state%3A+WIP%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #fbca04">&nbsp;</span>
-                                    <span class="name">PR state: WIP</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+target%3A+LTS-only%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #5319e7">&nbsp;</span>
-                                    <span class="name">PR target: LTS-only</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+target%3A+master-only%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #5319e7">&nbsp;</span>
-                                    <span class="name">PR target: master-only</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+target%3A+master+%26+patch%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #5319e7">&nbsp;</span>
-                                    <span class="name">PR target: master &amp; patch</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+target%3A+patch-only%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #5319e7">&nbsp;</span>
-                                    <span class="name">PR target: patch-only</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22PR+target%3A+TBD%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #5319e7">&nbsp;</span>
-                                    <span class="name">PR target: TBD</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3Apriority_override" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d32a2d">&nbsp;</span>
-                                    <span class="name">priority_override</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22severity1%3A+confusing%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #0052cc">&nbsp;</span>
-                                    <span class="name">severity1: confusing</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22severity2%3A+inconvenient%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #0052cc">&nbsp;</span>
-                                    <span class="name">severity2: inconvenient</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22severity3%3A+broken%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #0052cc">&nbsp;</span>
-                                    <span class="name">severity3: broken</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22severity4%3A+memleak%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #0052cc">&nbsp;</span>
-                                    <span class="name">severity4: memleak</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22severity5%3A+regression%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #0052cc">&nbsp;</span>
-                                    <span class="name">severity5: regression</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22severity6%3A+security%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #0052cc">&nbsp;</span>
-                                    <span class="name">severity6: security</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22state%3A+Blocked%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #006b75">&nbsp;</span>
-                                    <span class="name">state: Blocked</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22state%3A+Follow+Up%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #006b75">&nbsp;</span>
-                                    <span class="name">state: Follow Up</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22state%3A+Need+repro%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #e11d21">&nbsp;</span>
-                                    <span class="name">state: Need repro</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22state%3A+Needs+Design%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #006b75">&nbsp;</span>
-                                    <span class="name">state: Needs Design</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22state%3A+needs+eng+input%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #8fefd7">&nbsp;</span>
-                                    <span class="name">state: needs eng input</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22type%3A+bug%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #EEEEEE">&nbsp;</span>
-                                    <span class="name">type: bug</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22type%3A+docs%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #EEEEEE">&nbsp;</span>
-                                    <span class="name">type: docs</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22type%3A+feature%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #EEEEEE">&nbsp;</span>
-                                    <span class="name">type: feature</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22type%3A+refactor%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #EEEEEE">&nbsp;</span>
-                                    <span class="name">type: refactor</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22type%3A+RFC+%2F+discussion+%2F+question%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #EEEEEE">&nbsp;</span>
-                                    <span class="name">type: RFC / discussion / question</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22workaround1%3A+obvious%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">workaround1: obvious</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22workaround2%3A+non-obvious%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">workaround2: non-obvious</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22workaround3%3A+complex%22" class="select-menu-item js-navigation-item js-navigation-open">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">workaround3: complex</span>
-                                 </div>
-                              </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22workaround4%3A+none%22" class="select-menu-item js-navigation-item js-navigation-open last-visible">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text css-truncate">
-                                 <div class="color-label-wrapper css-truncate-target">
-                                    <span class="color" style="background-color: #d4c5f9">&nbsp;</span>
-                                    <span class="name">workaround4: none</span>
-                                 </div>
-                              </div>
-                           </a>
-                        </div>
-                        <div class="select-menu-no-results">No labels found. Sorry about that.</div>
-                     </div>
-                  </div>
-                  <div class="select-menu-loading-overlay anim-pulse">
-                     <svg aria-hidden="true" class="octicon octicon-octoface" height="32" version="1.1" viewBox="0 0 16 16" width="32">
-                        <path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path>
-                     </svg>
-                  </div>
-               </div>
+      <div class="table-list-header" id="js-issues-toolbar">
+         <div class="table-list-filters">
+            <div class="table-list-header-toggle states float-left pl-3">
+               <a class="btn-link selected">
+               <input type="checkbox" checked="checked">
+               Chọn tất cả
+               </a>
             </div>
-         </div>
-         <div class="float-left select-menu js-menu-container js-select-menu" data-contents-url="/angular/angular/issues/show_menu_content?partial=issues%2Ffilters%2Fprojects_content&amp;pulls_only=true&amp;q=is%3Apr+is%3Aopen">
-            <button class="btn-link select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false" data-hotkey="m">
-            Projects
-            </button>
-            <div class="select-menu-modal-holder js-menu-content js-navigation-container">
-               <div class="select-menu-modal">
-                  <div class="select-menu-header">
-                     <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                        <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                     </svg>
-                     <span class="select-menu-title">Filter by project</span>
-                  </div>
-                  <div class="js-select-menu-deferred-content">
-                     <div class="select-menu-filters">
-                        <div class="select-menu-text-filter">
-                           <input type="text" id="projects-filter-field" class="form-control js-filterable-field js-navigation-enable" placeholder="Filter projects" aria-label="Filter projects" autocomplete="off">
+            <div class="table-list-header-toggle float-right">
+               <div class="float-left select-menu label-select-menu js-menu-container js-select-menu js-transitionable">
+                  <button class="btn-link select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false" data-hotkey="l">
+                  Trạng thái
+                  </button>
+                  <div class="select-menu-modal-holder js-menu-content js-navigation-container" aria-expanded="false">
+                     <div class="select-menu-modal">
+                        <div class="select-menu-header">
+                           <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                              <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                           </svg>
+                           <span class="select-menu-title">Chọn theo trạng thái Orders</span>
                         </div>
-                        <div class="select-menu-tabs">
-                           <ul>
-                              <li class="select-menu-tab">
-                                 <button type="button" data-tab-filter="tab-repository" class="select-menu-tab-nav js-select-menu-tab ">Repository</button>
-                              </li>
-                              <li class="select-menu-tab">
-                                 <button type="button" data-tab-filter="tab-organization" class="select-menu-tab-nav js-select-menu-tab " "="">Organization</button>
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                     <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="tab-repository">
-                        <div data-filterable-for="projects-filter-field" data-filterable-type="substring">
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+project%3Aangular%2Fangular%2F9" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">Compiler</div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+project%3Aangular%2Fangular%2F5" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">Core</div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+project%3Aangular%2Fangular%2F6" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">Core Roadmap</div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+project%3Aangular%2Fangular%2F8" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">Http</div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+project%3Aangular%2Fangular%2F13" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">Service Worker</div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+project%3Aangular%2Fangular%2F7" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">aio</div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+project%3Aangular%2Fangular%2F12" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">cartaker</div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+project%3Aangular%2Fangular%2F10" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">docs</div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+project%3Aangular%2Fangular%2F11" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">triage: misko</div>
-                           </a>
-                        </div>
-                        <div class="select-menu-no-results">No projects found. Sorry about that.</div>
-                     </div>
-                     <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="tab-organization">
-                        <div data-filterable-for="projects-filter-field" data-filterable-type="substring">
-                        </div>
-                        <div class="select-menu-no-results">No projects found. Sorry about that.</div>
-                     </div>
-                  </div>
-                  <div class="select-menu-loading-overlay anim-pulse">
-                     <svg aria-hidden="true" class="octicon octicon-octoface" height="32" version="1.1" viewBox="0 0 16 16" width="32">
-                        <path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path>
-                     </svg>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="float-left select-menu js-menu-container js-select-menu" data-contents-url="/angular/angular/issues/show_menu_content?partial=issues%2Ffilters%2Fmilestones_content&amp;q=is%3Apr+is%3Aopen">
-            <button class="btn-link select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false" data-hotkey="m">
-            Milestones
-            </button>
-            <div class="select-menu-modal-holder js-menu-content js-navigation-container">
-               <div class="select-menu-modal">
-                  <div class="select-menu-header">
-                     <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                        <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                     </svg>
-                     <span class="select-menu-title">Filter by milestone</span>
-                  </div>
-                  <div class="js-select-menu-deferred-content">
-                     <div class="select-menu-filters">
-                        <div class="select-menu-text-filter">
-                           <input type="text" id="milestones-filter-field" class="form-control js-filterable-field js-navigation-enable" placeholder="Filter milestones" aria-label="Filter milestones" autocomplete="off">
-                        </div>
-                     </div>
-                     <div class="select-menu-list">
-                        <div data-filterable-for="milestones-filter-field" data-filterable-type="substring">
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+no%3Amilestone" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">
-                                 <strong>Issues with no milestone</strong>
+                        <div class="js-select-menu-deferred-content">
+                           <div class="select-menu-filters">
+                              <div class="select-menu-text-filter">
+                                 <input type="text" id="label-filter-field" class="form-control js-filterable-field js-navigation-enable" placeholder="Filter labels" aria-label="Filter labels" autocomplete="off">
                               </div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+milestone%3Av6-candidates" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">v6-candidates</div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+milestone%3A5.1.x-candidates" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">5.1.x-candidates</div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+milestone%3A%225.1.2-Sprint+1+%28Dec+11+-+19%2C+2017%29%22" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">5.1.2-Sprint 1 (Dec 11 - 19, 2017)</div>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+milestone%3A5.2.0-backlog" class="select-menu-item js-navigation-item js-navigation-open ">
-                              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                              </svg>
-                              <div class="select-menu-item-text">5.2.0-backlog</div>
-                           </a>
+                           </div>
+                           <div class="select-menu-list">
+                              <div data-filterable-for="label-filter-field" data-filterable-type="substring">
+                                 <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22aio%3A+preview%22" class="select-menu-item js-navigation-item js-navigation-open">
+                                    <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                    </svg>
+                                    <div class="select-menu-item-text css-truncate">
+                                       <div class="color-label-wrapper css-truncate-target">
+                                          <span class="color" style="background-color: #1d76db">&nbsp;</span>
+                                          <span class="name">aio: preview</span>
+                                       </div>
+                                    </div>
+                                 </a>
+                                 <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22cla%3A+no%22" class="select-menu-item js-navigation-item js-navigation-open">
+                                    <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                    </svg>
+                                    <div class="select-menu-item-text css-truncate">
+                                       <div class="color-label-wrapper css-truncate-target">
+                                          <span class="color" style="background-color: #e11d21">&nbsp;</span>
+                                          <span class="name">cla: no</span>
+                                       </div>
+                                    </div>
+                                 </a>
+                                 <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+label%3A%22cla%3A+yes%22" class="select-menu-item js-navigation-item js-navigation-open">
+                                    <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                    </svg>
+                                    <div class="select-menu-item-text css-truncate">
+                                       <div class="color-label-wrapper css-truncate-target">
+                                          <span class="color" style="background-color: #009800">&nbsp;</span>
+                                          <span class="name">cla: yes</span>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div class="select-menu-no-results">No labels found. Sorry about that.</div>
+                           </div>
                         </div>
-                        <div class="select-menu-no-results">No milestones found. Sorry about that.</div>
-                     </div>
-                  </div>
-                  <div class="select-menu-loading-overlay anim-pulse">
-                     <svg aria-hidden="true" class="octicon octicon-octoface" height="32" version="1.1" viewBox="0 0 16 16" width="32">
-                        <path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path>
-                     </svg>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="float-left select-menu js-menu-container js-select-menu">
-            <button class="btn-link select-menu-button js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
-            Reviews
-            </button>
-            <div class="select-menu-modal-holder js-menu-content js-navigation-container">
-               <div class="select-menu-modal">
-                  <div class="select-menu-header js-navigation-enable" tabindex="-1">
-                     <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                        <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                     </svg>
-                     <span class="select-menu-title">Filter by reviews</span>
-                  </div>
-                  <div class="select-menu-list" role="menu">
-                     <div>
-                        <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+review%3Anone" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                        <div class="select-menu-loading-overlay anim-pulse">
+                           <svg aria-hidden="true" class="octicon octicon-octoface" height="32" version="1.1" viewBox="0 0 16 16" width="32">
+                              <path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path>
                            </svg>
-                           <div class="select-menu-item-text">No reviews</div>
-                        </a>
-                        <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+review%3Arequired" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <div class="select-menu-item-text">Review required</div>
-                        </a>
-                        <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+review%3Aapproved" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <div class="select-menu-item-text">Approved review</div>
-                        </a>
-                        <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+review%3Achanges-requested" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <div class="select-menu-item-text">Changes requested</div>
-                        </a>
-                        <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+reviewed-by%3Aenesyteam" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <div class="select-menu-item-text">Reviewed by you</div>
-                        </a>
-                        <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+review-requested%3Aenesyteam" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <div class="select-menu-item-text">Awaiting review from you</div>
-                        </a>
+                        </div>
                      </div>
                   </div>
                </div>
-            </div>
-         </div>
-         <div class="float-left select-menu js-menu-container js-select-menu js-load-contents" data-contents-url="/angular/angular/issues/show_menu_content?partial=issues%2Ffilters%2Fassigns_content&amp;q=is%3Apr+is%3Aopen">
-            <button class="btn-link select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false" data-hotkey="a">
-            Assignee
-            </button>
-            <div class="select-menu-modal-holder js-menu-content js-navigation-container">
-               <div class="select-menu-modal">
-                  <div class="select-menu-header">
-                     <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                        <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                     </svg>
-                     <span class="select-menu-title">Filter by who’s assigned</span>
-                  </div>
-                  <div class="js-select-menu-deferred-content"></div>
-                  <div class="select-menu-loading-overlay anim-pulse">
-                     <svg aria-hidden="true" class="octicon octicon-octoface" height="32" version="1.1" viewBox="0 0 16 16" width="32">
-                        <path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path>
-                     </svg>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="float-left select-menu js-menu-container js-select-menu">
-            <button class="btn-link select-menu-button icon-only js-menu-target" type="button" aria-haspopup="true" aria-expanded="false">
-            Sort<span class="sort-label"></span>
-            </button>
-            <div class="select-menu-modal-holder js-menu-content js-navigation-container">
-               <div class="select-menu-modal">
-                  <div class="select-menu-header js-navigation-enable" tabindex="-1">
-                     <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                        <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                     </svg>
-                     <span class="select-menu-title">Sort by</span>
-                  </div>
-                  <div class="select-menu-list" role="menu">
-                     <div>
-                        <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr" class="select-menu-item js-navigation-item js-navigation-open selected" role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+               <div class="float-left select-menu js-menu-container js-select-menu">
+                  <button class="btn-link select-menu-button js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
+                  Người gọi
+                  </button>
+                  <div class="select-menu-modal-holder js-menu-content js-navigation-container">
+                     <div class="select-menu-modal">
+                        <div class="select-menu-header js-navigation-enable" tabindex="-1">
+                           <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                              <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
                            </svg>
-                           <div class="select-menu-item-text">Newest</div>
-                        </a>
-                        <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+sort%3Acreated-asc" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <div class="select-menu-item-text">Oldest</div>
-                        </a>
-                        <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+sort%3Acomments-desc" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <div class="select-menu-item-text">Most commented</div>
-                        </a>
-                        <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+sort%3Acomments-asc" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <div class="select-menu-item-text">Least commented</div>
-                        </a>
-                        <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <div class="select-menu-item-text">Recently updated</div>
-                        </a>
-                        <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+sort%3Aupdated-asc" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <div class="select-menu-item-text">Least recently updated</div>
-                        </a>
-                        <div class="select-menu-item select-menu-item-parent js-navigation-item " role="menuitem">
-                           <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                           </svg>
-                           <div class="select-menu-item-text">Most reactions</div>
-                           <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+sort%3Areactions-%2B1-desc" class="reaction-sort-item js-navigation-item ">
-                              <g-emoji alias="+1" class="emoji" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f44d.png" ios-version="6.0">👍</g-emoji>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+sort%3Areactions--1-desc" class="reaction-sort-item js-navigation-item ">
-                              <g-emoji alias="-1" class="emoji" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f44e.png" ios-version="6.0">👎</g-emoji>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+sort%3Areactions-smile-desc" class="reaction-sort-item js-navigation-item ">
-                              <g-emoji alias="smile" class="emoji" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png" ios-version="6.0">😄</g-emoji>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+sort%3Areactions-tada-desc" class="reaction-sort-item js-navigation-item ">
-                              <g-emoji alias="tada" class="emoji" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png" ios-version="6.0">🎉</g-emoji>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+sort%3Areactions-thinking_face-desc" class="reaction-sort-item js-navigation-item ">
-                              <g-emoji alias="thinking_face" class="emoji" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f615.png" ios-version="6.0">😕</g-emoji>
-                           </a>
-                           <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+sort%3Areactions-heart-desc" class="reaction-sort-item js-navigation-item ">
-                              <g-emoji alias="heart" class="emoji" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2764.png" ios-version="6.0">❤️</g-emoji>
-                           </a>
+                           <span class="select-menu-title">Lọc theo người gọi</span>
+                        </div>
+                        <div class="select-menu-list" role="menu">
+                           <div>
+                              <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+review%3Anone" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
+                                 <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                    <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                 </svg>
+                                 <div class="select-menu-item-text">No reviews</div>
+                              </a>
+                              <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+review%3Arequired" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
+                                 <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                    <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                 </svg>
+                                 <div class="select-menu-item-text">Review required</div>
+                              </a>
+                              <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+review%3Aapproved" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
+                                 <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                    <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                 </svg>
+                                 <div class="select-menu-item-text">Approved review</div>
+                              </a>
+                              <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+review%3Achanges-requested" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
+                                 <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                    <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                 </svg>
+                                 <div class="select-menu-item-text">Changes requested</div>
+                              </a>
+                              <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+reviewed-by%3Aenesyteam" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
+                                 <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                    <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                 </svg>
+                                 <div class="select-menu-item-text">Reviewed by you</div>
+                              </a>
+                              <a href="/angular/angular/issues?q=is%3Apr+is%3Aopen+review-requested%3Aenesyteam" class="select-menu-item js-navigation-item js-navigation-open " role="menuitem">
+                                 <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                    <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                 </svg>
+                                 <div class="select-menu-item-text">Awaiting review from you</div>
+                              </a>
+                           </div>
                         </div>
                      </div>
                   </div>
@@ -1383,11 +194,8 @@
             </div>
          </div>
       </div>
-   </div>
-</div>
-   <!-- /Table header -->
-
-   <div ng-include="'src/admin/pages/orders/list/widgets/table.html'"></div>
+      <!-- /Table header -->
+      <div ng-include="'src/admin/pages/orders/list/widgets/table.html'"></div>
    </div>
    <!-- /Table -->
 </div>

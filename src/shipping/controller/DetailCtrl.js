@@ -1,7 +1,8 @@
 mShipping.controller('DetailCtrl',
     function($rootScope, $scope, $http, $window, $state, $stateParams, $document, $filter, $timeout, cfpLoadingBar,
         cfpLoadingBar, Facebook, toastr, toastrConfig, moment, ProductPackService, 
-        firebaseService, GiaoHangNhanhService, activeItem, ghn_hubs, MFacebookService, MUtilitiesService, current_hub) {
+        firebaseService, GiaoHangNhanhService, activeItem, ghn_hubs, MFacebookService, 
+        MUtilitiesService, current_hub, fanpages) {
 
         // console.log(firebase.utils);
         // alert($stateParams.cv_id);
@@ -52,16 +53,11 @@ mShipping.controller('DetailCtrl',
             AlertError('Không tìm thấy hub. Có thể bạn chưa khai báo HubID cho page này', 'Thông báo');
         }
 
-        var getCurrentPageAccessToken = function(){
-            if(!$rootScope.access_token_arr) {
-                AlertError('Access token array is null', 'Error');
-                return;
-            }
-            var token = $scope.filterById($rootScope.access_token_arr, $stateParams.page_id);
-            if(token){
-                $scope.currentAccessToken = token.acess_token;
-            }
-        }.call(this);
+        var page = $filter("filter")(fanpages, {id: $stateParams.page_id});
+        $scope.currentAccessToken = page ? page[0].access_token : null;
+        if(!$scope.currentAccessToken){
+            MUtilitiesService.AlertError('Chưa khai báo Fanpage', 'Lỗi');
+        }
 
         // GRAPH FACEBOOK
         var getToken = function(pageId){
@@ -92,7 +88,7 @@ mShipping.controller('DetailCtrl',
             // alert($stateParams.cv_id);
             MFacebookService.graphMessages($stateParams.cv_id, $scope.currentAccessToken).then(function(response){
                 $scope.$apply(function(){
-                    console.log(response);
+                    // console.log(response);
                     $scope.messageData = response;
                 })
             })
@@ -116,7 +112,7 @@ mShipping.controller('DetailCtrl',
             // alert($stateParams.cv_id);
             MFacebookService.graphComments($stateParams.cv_id, $scope.currentAccessToken).then(function(response){
                 $scope.$apply(function(){
-                    console.log(response);
+                    // console.log(response);
                     $scope.commentData = response;
                 })
             })

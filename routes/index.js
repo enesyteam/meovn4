@@ -27,3 +27,11 @@ exports.printing = function (req, res) {
 exports.orderManager = function (req, res) {
 	res.render('orderManager');
 };
+
+exports.permissions = function (req, res) {
+	res.render('permissions');
+};
+
+exports.navigation = function (req, res) {
+	res.render('navigation');
+};

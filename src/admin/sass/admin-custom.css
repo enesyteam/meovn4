@@ -170,19 +170,104 @@ code {
     height: 50px;
 }
 .users-report .report-row{
-    display: block;
+    display: table;
     width: 100%;
     height: 80px;
     list-style: none;
+}
+.users-report .report-row .success{
+    color: #28a745;
+    font-weight: 500;
 }
 .users-report .report-row:last-child{
     border-bottom: none !important;
 }
 .users-report .header .details-column,
 .users-report .report-row .details-column{
-    display: flex;
+    display: table;
+    height: 100%;
 }
 .users-report .header .details-column .detail,
 .users-report .report-row .details-column .detail{
-    flex: 1
+    display: table-cell;
+    vertical-align: middle;
+    width: 10%;
+}
+.users-report .header h5{
+    margin-bottom: 0 !important;
+}
+.details-column .detail .btn-actions{
+    padding: 2px 5px;
+    display: inline-block;
+}
+.details-column .detail .btn-actions .octicon{
+    margin-top: 2px;
+}
+
+.users-report .report-row .details-column.no-data .detail,
+.users-report .report-row .details-column.no-data .success{
+    color: #e3e3e3 !important;
+}
+.markdown-body span.float-left{
+    margin-right: 0 !important;
+}
+.numbers-summary a, .numbers-summary .nolink{
+    font-size: 13px;
+}
+.pages-report .page-avatar{
+    float: left;
+    display: inline-block;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+}
+.pages-report .page-name{
+    font-size: 14px;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    /* float: left; */
+    max-width: calc(100% - 60px);
+    display: inline-block;
+}
+.pages-report .detail{
+    padding-left: 50px;
+}
+
+.upload-page .photos-list.deleted{
+    opacity: 0.4
+}
+
+.upload-page .photos-list  .photo-holder{
+    width: 100px;
+    height: 100px;
+    max-height: 100%;
+    overflow: hidden;
+}
+.upload-page .photos-list  .photo-holder .photo-item{
+    width: 100px;
+    border: 2px solid #fff;
+    vertical-align: middle;
+}
+.upload-page .photos-list .tags-list{
+    margin-right: 25px;
+    display: inline-block;
+}
+.upload-page .photos-list .tag-item{
+    display: inline-block;
+    margin-right: 10px;
+}
+.upload-page .photos-list .opened-by{
+    margin-top: 5px;
+    margin-bottom: 5px
+}
+.upload-image-box .preview{
+    height: 100px;
+    border: 1px solid #f9f9f9;
+    margin-top: 15px;
+    text-align: center;
+}
+.upload-image-box .preview img{
+    height: 100px
 }

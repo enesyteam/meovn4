@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  angular.module('m_admin')
+  angular.module('mShipping')
   .service('firebaseStorageService', ["$q", function ($q) { 
   	var root = firebase.database().ref();
    	var storageRef = firebase.storage().ref();

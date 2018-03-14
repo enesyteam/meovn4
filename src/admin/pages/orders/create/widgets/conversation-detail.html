@@ -1,133 +1,114 @@
 <div class="blankslate  blankslate-clean-background" ng-if="!originalMessage">
-		  <h3>Nội dung hội thoại</h3>
-		  <p>After input conversation link and press Enter, conversation detail will show here.</p>
-		</div>
-		<div>
-			<div class="p6n-ls-wrapper" aria-hidden="true" style="text-align: center;" ng-if="!finishedGraph">
-	         <pan-loader offline="offline" pan-buttertip-message="" pan-show-tip-if="offline" style="
-	            display: block;
-	            ">
-	            <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
-	         </pan-loader>
-	      </div>
-	      <div ng-if="pageInfo">
-			<a href="https://facebook.com/{{pageInfo.id}}" target="_blank">
-		      <img alt="@VadimDez" class="avatar rounded-1" height="44" ng-src="{{'//graph.facebook.com/' + pageInfo.id  + '/picture?width=200&amp;height=200'}}" width="44">
-		      </a>
-		      <span>{{pageInfo.name}}</span>
-		</div>
-	      <div  ng-if="finishedGraph">
-	      	<div ng-if="originalMessage">
-				
-				<div>
-					<span style="white-space: pre-line;display: block; text-align: left;max-height: 150px;overflow-y: hidden;font-size: 12px;">
-						<img alt="@VadimDez" class="avatar rounded-1" ng-src="{{post_data.picture}}">
-						{{post_data.message}}
-					</span>
-				</div>
-		        <div class="timeline-comment-wrapper js-comment-container">
-				   
-				   <div id="issuecomment-355784602" class="comment previewable-edit js-comment js-task-list-container timeline-comment js-reorderable-task-lists reorderable-task-lists " data-body-version="bd4dbdbe1cce54572aadb81f0c9b91ce">
-				      <div class="timeline-comment-header clearfix">
-				      	<div class="avatar-parent-child timeline-comment-avatar">
-				      <a href="https://facebook.com/{{originalMessage.from.id}}" target="_blank">
-				      <img alt="@VadimDez" class="avatar rounded-1" height="44" ng-src="{{'//graph.facebook.com/' + originalMessage.from.id  + '/picture?width=200&amp;height=200'}}" width="44">
-				      </a>
-				   </div>
-				         <h3 class="timeline-comment-header-text f5 text-normal">
-				            <strong>
-				            <a href="https://facebook.com/{{originalMessage.from.id}}" target="_blank" class="author text-inherit">{{originalMessage.from.name}}</a>
-				            </strong>
-				            <span class="status">
-							   <div class="commit-build-statuses">
-							      <a class="text-green tooltipped tooltipped-e" aria-label="Set this as buyer name" href="https://ci.appveyor.com/project/mrexodia/x64dbg/build/1.0.375">
-							         <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-							            <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-							         </svg>
-							      </a>
-							   </div>
-							</span>
-				            <div class="f6 mb-2 mb-md-0 text-gray-light">
-					          <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path></svg> <relative-time datetime="{{originalMessage.created_time}}" title="{{originalMessage.created_time}}"></relative-time>
-					        </div>
-				         </h3>
-				      </div>
-				      <div class="edit-comment-hide">
-				         <table class="d-block">
-				            <tbody class="d-block">
-				               <tr class="d-block">
-				                  <td class="d-block comment-body markdown-body  js-comment-body">
-				                     <p>{{originalMessage.message}}</p>
-				                     
-				                  </td>
-				               </tr>
-				            </tbody>
-				         </table>
-				         <div class="comment-reactions  js-reactions-container js-socket-channel js-updatable-content"></div>
-				      </div>
-				   </div>
-				</div>
-			</div>
-		   <div ng-if="subMessages.length>0">
-		   		<!-- <div ng-repeat="cm in subMessages" style="border-top: 1px solid #999; padding: 10px 0">
-		   			<div>
-			            Created at: {{cm.created_time}}
-		          	</div>
-		          	<div>
-			            From: {{cm.from.name}}
-			            ID: {{cm.from.id}}
-		          	</div>
-		          	<div>
-			            Content: {{cm.message}}
-		          	</div>
-		   		</div> -->
-		   		<div class="mb-2" ng-repeat="cm in subMessages | orderBy: 'created_time'">
-		   			<!-- <div class="commit-avatar no-wrap text-right p-0 mr-2">
-					   <a href="/VadimDez" class="d-inline-block">
-					   <img ng-src="{{cm.avar}}" width="20" height="20" class="avatar avatar-small" alt="@VadimDez">
-					   </a>
-					   <div>
-							sdfsdfsdf
-						</div>
-					</div> -->
-					<div class="timeline-comment-wrapper js-comment-container">
-				   
-					   <div id="issuecomment-355784602" class="comment previewable-edit js-comment js-task-list-container timeline-comment js-reorderable-task-lists reorderable-task-lists " data-body-version="bd4dbdbe1cce54572aadb81f0c9b91ce">
-					      <div class="timeline-comment-header clearfix">
-					      	<div class="avatar-parent-child timeline-comment-avatar">
-					      <a href="https://facebook.com/{{originalMessage.from.id}}" target="_blank">
-					      <img alt="@VadimDez" class="avatar rounded-1" height="44" ng-src="{{cm.avar}}" width="44">
-					      </a>
-					   </div>
-					         <h3 class="timeline-comment-header-text f5 text-normal">
-					            <strong>
-					            <a href="https://facebook.com/{{cm.id}}" target="_blank" class="author text-inherit">{{cm.name}}</a>
-					            </strong>
-					            <div class="f6 mb-2 mb-md-0 text-gray-light">
-						          <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path></svg> <relative-time datetime="{{cm.created_time}}" title="{{cm.created_time}}"></relative-time>
-						        </div>
-					         </h3>
-					      </div>
-					      <div class="edit-comment-hide">
-					         <table class="d-block">
-					            <tbody class="d-block">
-					               <tr class="d-block">
-					                  <td class="d-block comment-body markdown-body  js-comment-body">
-					                     <p>{{cm.content}}</p>
-					                  </td>
-					               </tr>
-					            </tbody>
-					         </table>
-					         <div class="comment-reactions  js-reactions-container js-socket-channel js-updatable-content"></div>
-					      </div>
-					   </div>
-					</div>
-		   		</div>
-		   		
-		   </div>
-	      </div>
-	      {{messsageLog.snippet}}
-	      <div ng-repeat="m in messsageLog.messages.data  | reverse">
-	      	{{m}}
-	      </div>
-		</div>
+   <h3>Nội dung hội thoại</h3>
+   <p>After input conversation link and press Enter, conversation detail will show here.</p>
+</div>
+<div>
+   <div class="p6n-ls-wrapper" aria-hidden="true" style="text-align: center;" ng-if="!finishedGraph">
+      <pan-loader offline="offline" pan-buttertip-message="" pan-show-tip-if="offline" style="
+         display: block;
+         ">
+         <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
+      </pan-loader>
+   </div>
+   <div ng-if="pageInfo">
+      <a href="https://facebook.com/{{pageInfo.id}}" target="_blank">
+      <img alt="@VadimDez" class="avatar rounded-1" height="44" ng-src="{{'//graph.facebook.com/' + pageInfo.id  + '/picture?width=200&amp;height=200'}}" width="44">
+      </a>
+      <span>{{pageInfo.name}}</span>
+   </div>
+   <div  ng-if="finishedGraph">
+      <div ng-if="originalMessage">
+         <div>
+            <span style="white-space: pre-line;display: block; text-align: left;max-height: 150px;overflow-y: hidden;font-size: 12px;">
+            <img alt="@VadimDez" class="avatar rounded-1" ng-src="{{post_data.picture}}">
+            {{post_data.message}}
+            </span>
+         </div>
+         <div class="timeline-comment-wrapper js-comment-container">
+            <div id="issuecomment-355784602" class="comment previewable-edit js-comment js-task-list-container timeline-comment js-reorderable-task-lists reorderable-task-lists " data-body-version="bd4dbdbe1cce54572aadb81f0c9b91ce">
+               <div class="timeline-comment-header clearfix">
+                  <div class="avatar-parent-child timeline-comment-avatar">
+                     <a href="https://facebook.com/{{originalMessage.from.id}}" target="_blank">
+                     <img alt="@congnvc" class="avatar rounded-1" height="44" ng-src="{{'//graph.facebook.com/' + originalMessage.from.id  + '/picture?width=200&amp;height=200'}}" width="44">
+                     </a>
+                  </div>
+                  <h3 class="timeline-comment-header-text f5 text-normal">
+                     <strong>
+                     <a href="https://facebook.com/{{originalMessage.from.id}}" target="_blank" class="author text-inherit">{{originalMessage.from.name}}</a>
+                     </strong>
+                     <span class="status">
+                        <div class="commit-build-statuses">
+                           <a class="text-green tooltipped tooltipped-e" aria-label="Set this as buyer name" href="https://ci.appveyor.com/project/mrexodia/x64dbg/build/1.0.375">
+                              <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                              </svg>
+                           </a>
+                        </div>
+                     </span>
+                     <div class="f6 mb-2 mb-md-0 text-gray-light">
+                        <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                           <path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                        </svg>
+                        <relative-time datetime="{{originalMessage.created_time}}" title="{{originalMessage.created_time}}"></relative-time>
+                     </div>
+                  </h3>
+               </div>
+               <div class="edit-comment-hide">
+                  <table class="d-block">
+                     <tbody class="d-block">
+                        <tr class="d-block">
+                           <td class="d-block comment-body markdown-body  js-comment-body">
+                              <p>{{originalMessage.message}}</p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <div class="comment-reactions  js-reactions-container js-socket-channel js-updatable-content"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div ng-if="subMessages.length>0">
+         <div class="mb-2" ng-repeat="cm in subMessages | orderBy: 'created_time'">
+            <div class="timeline-comment-wrapper js-comment-container">
+               <div id="issuecomment-355784602" class="comment previewable-edit js-comment js-task-list-container timeline-comment js-reorderable-task-lists reorderable-task-lists " data-body-version="bd4dbdbe1cce54572aadb81f0c9b91ce">
+                  <div class="timeline-comment-header clearfix">
+                     <div class="avatar-parent-child timeline-comment-avatar">
+                        <a href="https://facebook.com/{{originalMessage.from.id}}" target="_blank">
+                        <img alt="@VadimDez" class="avatar rounded-1" height="44" ng-src="{{cm.avar}}" width="44">
+                        </a>
+                     </div>
+                     <h3 class="timeline-comment-header-text f5 text-normal">
+                        <strong>
+                        <a href="https://facebook.com/{{cm.id}}" target="_blank" class="author text-inherit">{{cm.name}}</a>
+                        </strong>
+                        <div class="f6 mb-2 mb-md-0 text-gray-light">
+                           <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                              <path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                           </svg>
+                           <relative-time datetime="{{cm.created_time}}" title="{{cm.created_time}}"></relative-time>
+                        </div>
+                     </h3>
+                  </div>
+                  <div class="edit-comment-hide">
+                     <table class="d-block">
+                        <tbody class="d-block">
+                           <tr class="d-block">
+                              <td class="d-block comment-body markdown-body  js-comment-body">
+                                 <p>{{cm.content}}</p>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     <div class="comment-reactions  js-reactions-container js-socket-channel js-updatable-content"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   {{messsageLog.snippet}}
+   <div ng-repeat="m in messsageLog.messages.data  | reverse">
+      {{m}}
+   </div>
+</div>

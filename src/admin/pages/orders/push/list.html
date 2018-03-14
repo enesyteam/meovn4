@@ -82,12 +82,24 @@
       </div>
    </div>
    <!-- /Filter -->
-   <div class="blankslate blankslate-spacious blankslate-large" ng-if="availableOrders.length == 0">
+   <div class="graph-canvas is-graph-loading" ng-if="isLoaddingOrder">
+      <div class="activity">
+         <img class="graph-loading dots" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-128.gif" width="64" alt="">
+         <div class="graph-loading msg">
+            <p>Đang tải dữ liệu Orders…</p>
+         </div>
+         <div ng-if="canAsignOrders.length == 0" class="graph-empty msg mt-6">
+            <h4>We don’t have enough data to show anything useful.</h4>
+            <p>It usually takes about a week to populate this graph.</p>
+         </div>
+      </div>
+   </div>
+   <div class="blankslate blankslate-spacious blankslate-large" ng-if="canAsignOrders.length == 0 && !isLoaddingOrder">
       <svg aria-hidden="true" class="octicon octicon-issue-opened blankslate-icon" height="40" version="1.1" viewBox="0 0 14 16" width="35">
          <path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
       </svg>
-      <h3>No data to display!</h3>
-      <p>Issues are used to track todos, bugs, feature requests, and more. As issues are created, they’ll appear here in a searchable and filterable list. To get started, you should <a href="/enesyteam/meovn/issues/new">create an issue</a>.</p>
+      <h3>Không có Order nào khả dụng để phân bổ!</h3>
+      <!-- <p>Issues are used to track todos, bugs, feature requests, and more. As issues are created, they’ll appear here in a searchable and filterable list. To get started, you should</p> -->
    </div>
    <div class="js-notice push-order-users-pane" ng-class="showUserPane ? '' : 'd-none'">
       <div class="px-3 py-2 border-bottom bg-gray">
@@ -142,7 +154,7 @@
       </div>
    </div>
    <!-- Table -->
-   <div ng-if="availableOrders.length > 0">
+   <div ng-if="!isLoaddingOrder && canAsignOrders.length > 0">
       <!-- Table header -->
       <div class="table-list-header" id="js-issues-toolbar">
          <div class="table-list-filters">

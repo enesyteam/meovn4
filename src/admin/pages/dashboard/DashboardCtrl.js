@@ -1,7 +1,8 @@
 m_admin.controller('DashboardCtrl',
     function($rootScope, $scope, $http, $filter, $timeout, cfpLoadingBar, firebaseService, Facebook,
-        MFirebaseService, MFacebookService, MUtilitiesService) {
+        MFirebaseService, MFacebookService, MUtilitiesService, fanpages) {
         // get access token
+        console.log(fanpages);
         var getAccessToken = function(){
             $http.get('../assets/access_token.json').
               then(function onSuccess(response) {
@@ -12,6 +13,12 @@ m_admin.controller('DashboardCtrl',
               });
         }
         getAccessToken();
+
+        $scope.findPageById = function(id) {
+            return $filter("filter")(fanpages, {
+                id: id
+            })[0];
+        }
 
 
         
@@ -38,16 +45,41 @@ m_admin.controller('DashboardCtrl',
                 $rootScope.todayUsersReport = snapshot.val();
             });
         })
+        MFirebaseService.getPagesReportForDate(date).then(function(snapshot){
+            $rootScope.todayPagesReport = [];
+            $scope.$apply(function(){
+                $rootScope.finishLoading = true;
+                angular.forEach(snapshot.val(), function(value, key){
+                    var page = {
+                        id: key,
+                        totalCustomers : value.totalCustomers,
+                        totalsuccess : value.totalsuccess
+                    }
+                    $rootScope.todayPagesReport.push(page);
+                })
+                console.log($rootScope.todayPagesReport);
+            });
+        })
     }
     getReport(dateToDisplay);
 
-    $rootScope.selectedDate = null;
+    $rootScope.selectedDate = dateToDisplay;
 
     $scope.getReportForSelectedDate = function(date){
+        if(!date){
+            getReport(dateToDisplay);
+            return;
+        }
         var d = new Date(date);
         var dd = d.getFullYear() + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + ("0" + d.getDate()).slice(-2);
         getReport(dd);
     }
-       
+
+    $scope.onAssignMoreForUser = function(userId){
+        MUtilitiesService.AlertError('Chức năng này sẽ được bổ sung trong phiển bản release tiếp theo', 'Thông báo');
+    }
+    $scope.onReleaseMoreForUser = function(userId){
+        MUtilitiesService.AlertError('Chức năng này sẽ được bổ sung trong phiển bản release tiếp theo', 'Thông báo');
+    }  
 
 });

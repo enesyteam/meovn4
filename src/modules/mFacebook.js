@@ -237,21 +237,67 @@
                 });
             }
 
+        var replyComment = function(conversation_id, access_token, attachment_url, comment_text){
+            // $scope.startReplying = true;
+            return new Promise(function(resolve, reject){
+                FB.api(
+                    "/" + conversation_id + "/comments",
+                    "POST",
+                    {
+                        "message": comment_text,
+                        "attachment_url" : attachment_url,
+                        "access_token" : access_token
+                    },
+                    function (response) {
+                      if (response && !response.error) {
+                        /* handle the result */
+                        resolve('Gửi bình luận tới khách hàng thành công');
+                      }
+                      else{
+                        reject('Không thể gửi bình luận tới khách hàng. Lỗi: ' + err);
+                      }
+                    }
+                );
+            })
+        }
+        var replyMessage = function(conversation_id, access_token, attachment_url, comment_text){
+            return new Promise(function(resolve, reject){
+                FB.api(
+                    "/" + conversation_id + "/messages",
+                    "POST",
+                    {
+                        "message": comment_text,
+                        "attachment_url" : attachment_url,
+                        "access_token" : access_token
+                    },
+                    function (response) {
+                      if (response && !response.error) {
+                        /* handle the result */
+                        resolve('Gửi tin nhắn tới khách hàng thành công');
+                      }
+                      else{
+                            reject('Không thể gửi tin nhắn tới khách hàng. Lỗi: ' + err);
+                          }
+                    }
+                );
+            })
+        }
+
             
+        return {
+            MFacebookServiceSetApp : MFacebookServiceSetApp,
+            graphUser : graphUser,
+            graphPage : graphPage,
+            graphMessages : graphMessages,
+            graphComments : graphComments,
+            graphPost : graphPost,
+            graphPermalink : graphPermalink,
+            findThreadInPageId : findThreadInPageId,
+            graphPhoto : graphPhoto,
+            graphPostAttachments : graphPostAttachments,
+            replyComment : replyComment,
+            replyMessage : replyMessage,
+        }
 
-
-            return {
-                MFacebookServiceSetApp : MFacebookServiceSetApp,
-                graphUser : graphUser,
-                graphPage : graphPage,
-                graphMessages : graphMessages,
-                graphComments : graphComments,
-                graphPost : graphPost,
-                graphPermalink : graphPermalink,
-                findThreadInPageId : findThreadInPageId,
-                graphPhoto : graphPhoto,
-                graphPostAttachments : graphPostAttachments,
-            }
-
-        }]);
+    }]);
 }());

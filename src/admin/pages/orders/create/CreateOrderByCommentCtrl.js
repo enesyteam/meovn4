@@ -72,7 +72,9 @@ m_admin.controller('CreateOrderByCommentCtrl',
                         $scope.pageData = response;
                     })
                     getToken(response.id).then(function(token){
-                        $scope.current_token = token;
+                        $scope.$apply(function(){
+                                $scope.current_token = token;
+                            })
                         // console.log(token);
                         // tìm kiếm trong 100 tin nhắn mới nhất
                         var t_id = null;
@@ -182,6 +184,9 @@ m_admin.controller('CreateOrderByCommentCtrl',
                             $scope.pageData = response;
                         })
                         getToken(response.id).then(function(token){
+                            $scope.$apply(function(){
+                                $scope.current_token = token;
+                            })
                             // console.log(token);
                             // graph post
                             var p = conversationId.split('_');
@@ -346,10 +351,30 @@ m_admin.controller('CreateOrderByCommentCtrl',
             $scope.orderData.status_id = 1;
             $scope.orderData.publish_date = Date.now();
 
-            MFirebaseService.onAddNewOrder($rootScope.currentMember, $scope.orderData).then(function(response) {
+            MFirebaseService.onAddNewOrder($rootScope.currentMember, $scope.orderData, $rootScope.sellers).then(function(response) {
                 MUtilitiesService.AlertSuccessful(response, 'Thông báo');
                 if($scope.sendThanks){
-                    MUtilitiesService.AlertSuccessful('Gửi tin nhắn cảm ơn khách hàng', 'Thông báo');
+                    // $scope.current_token
+                    if($scope.orderData.type == 1){
+                        // reply message
+                        MFacebookService.replyMessage($scope.orderData.conversation_id,
+                            $scope.current_token, null, 'Cảm ơn anh/chị đã để lại số điện thoại. Nhân viên CSKH sẽ liên hệ với anh/chị trong thời gian sớm nhất. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
+                            MUtilitiesService.AlertSuccessful(response)
+                        })
+                        .catch(function(err){
+                            MUtilitiesService.AlertError(err, 'Lỗi')
+                        })
+                    }
+                    else{
+                        // reply comment
+                        MFacebookService.replyComment($scope.orderData.conversation_id,
+                            $scope.current_token, null, 'Cảm ơn anh/chị đã để lại số điện thoại. Nhân viên CSKH sẽ liên hệ với anh/chị trong thời gian sớm nhất. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
+                            MUtilitiesService.AlertSuccessful(response)
+                        })
+                        .catch(function(err){
+                            MUtilitiesService.AlertError(err, 'Lỗi')
+                        })
+                    }
                 }
 
                 // reset order

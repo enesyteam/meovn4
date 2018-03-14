@@ -27,12 +27,14 @@ app.use(bodyParser.urlencoded({
 var server = http.createServer(app);
 
 
-app.get('/',  routes.index);
-app.get('/realtime',  routes.realtime);
+app.get('/',  routes.navigation);
+app.get('/admin',  routes.index);
+app.get('/sale',  routes.realtime);
 app.get('/login',  routes.login);
 app.get('/shipping',  routes.shipping);
 app.get('/printing',  routes.printing);
-app.get('/orderManager',  routes.orderManager);
+app.get('/tracking',  routes.orderManager);
+app.get('/permissions',  routes.permissions);
 
 // var env = process.env.NODE_ENV || 'development';
 

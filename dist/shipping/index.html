@@ -6,7 +6,8 @@
     <meta name="description" content="Introducing Lollipop, a sweet new take on Android.">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
     <link class="next-head" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&amp;subset=vietnamese" rel="stylesheet">
-    <title>Shipping - Meovn 4</title>
+    <title>Tạo đơn - Meovn 4</title>
+    <base href="/">
     <!-- Page styles-->
     <!--
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
@@ -64,22 +65,22 @@
                 </div>
               </div>
               <ul class="d-flex pl-2 flex-items-center list-style-none" role="navigation">
-                <li><a class="js-selected-navigation-item HeaderNavlink px-2" href="/pulls" aria-label="Pull requests you created" data-ga-click="Header, click, Nav menu - item:pulls context:user" data-hotkey="g p" data-selected-links="/pulls /pulls/assigned /pulls/mentioned /pulls">
+                <li><a class="js-selected-navigation-item HeaderNavlink px-2" href="/sale" aria-label="Pull requests you created" data-hotkey="g p">
                     <svg class="octicon octicon-eye" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16">
                       <path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path>
-                    </svg>                              Conversation</a></li>
-                <li><a class="js-selected-navigation-item HeaderNavlink px-2" href="/issues" aria-label="Issues you created" data-ga-click="Header, click, Nav menu - item:issues context:user" data-hotkey="g i" data-selected-links="/issues /issues/assigned /issues/mentioned /issues">
+                    </svg>                              Trang bán hàng</a></li>
+                <li><a class="js-selected-navigation-item HeaderNavlink px-2" href="/shipping" aria-label="Issues you created" data-hotkey="g i">
                     <svg class="octicon octicon-project" aria-hidden="true" height="16" version="1.1" viewbox="0 0 15 16" width="15">
                       <path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path>
-                    </svg>                              Posts Manager</a></li>
-                <li><a class="js-selected-navigation-item HeaderNavlink px-2" href="/marketplace" data-ga-click="Header, click, Nav menu - item:marketplace context:user" data-selected-links=" /marketplace">
+                    </svg>                              Tạo đơn</a></li>
+                <li><a class="js-selected-navigation-item HeaderNavlink px-2" href="/printing" data-ga-click="Header, click, Nav menu - item:marketplace context:user" data-selected-links=" /marketplace">
                     <svg class="octicon octicon-graph" aria-hidden="true" height="16" version="1.1" viewbox="0 0 16 16" width="16">
                       <path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"></path>
-                    </svg>                              Report</a></li>
-                <li><a class="js-selected-navigation-item HeaderNavlink px-2" href="/explore" data-ga-click="Header, click, Nav menu - item:explore" data-selected-links="/explore /trending /trending/developers /integrations /integrations/feature/code /integrations/feature/collaborate /integrations/feature/ship showcases showcases_search showcases_landing /explore">
+                    </svg>                              In ấn</a></li>
+                <li><a class="js-selected-navigation-item HeaderNavlink px-2" href="/tracking" data-ga-click="Header, click, Nav menu - item:explore">
                     <svg class="octicon octicon-gear" aria-hidden="true" height="16" version="1.1" viewbox="0 0 14 16" width="14">
                       <path fill-rule="evenodd" d="M14 8.77v-1.6l-1.94-.64-.45-1.09.88-1.84-1.13-1.13-1.81.91-1.09-.45-.69-1.92h-1.6l-.63 1.94-1.11.45-1.84-.88-1.13 1.13.91 1.81-.45 1.09L0 7.23v1.59l1.94.64.45 1.09-.88 1.84 1.13 1.13 1.81-.91 1.09.45.69 1.92h1.59l.63-1.94 1.11-.45 1.84.88 1.13-1.13-.92-1.81.47-1.09L14 8.75v.02zM7 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"></path>
-                    </svg>                              Setting</a></li>
+                    </svg>                              Tracking</a></li>
               </ul>
             </div>
             <div class="d-flex">
@@ -197,6 +198,7 @@
     <script src="/node_modules/angular-moment/angular-moment.min.js"></script>
     <script src="/src/shipping/app/app.js"></script>
     <script src="/src/shipping/service/firebase.service.js"></script>
+    <script src="/src/shipping/service/firebase.storage.service.js"></script>
     <script src="/src/shipping/service/access_token.service.js"></script>
     <script src="/src/shipping/service/product-pack.service.js"></script>
     <script src="/src/shipping/service/GiaoHangNhanh.service.js"></script>

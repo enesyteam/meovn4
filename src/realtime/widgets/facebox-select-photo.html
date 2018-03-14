@@ -13,32 +13,32 @@
                   <div class="select-menu-modal-holder js-menu-content js-navigation-container" aria-expanded="false">
                      <div class="select-menu-modal">
                         <div class="select-menu-list">
-                           <a href="/angular/angular/issues?q=is%3Aopen" class="select-menu-item js-navigation-item">
+                           <a class="select-menu-item js-navigation-item">
                               <div class="select-menu-item-text">
                                  Page: Đá Quý Phong Thủy Tràng An
                               </div>
                            </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Aissue+author%3Aenesyteam" class="select-menu-item js-navigation-item">
+                           <a class="select-menu-item js-navigation-item">
                               <div class="select-menu-item-text">
                                  Page: Trang Sức Phong Thủy Tràng An
                               </div>
                            </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+is%3Apr+author%3Aenesyteam" class="select-menu-item js-navigation-item">
+                           <a class="select-menu-item js-navigation-item">
                               <div class="select-menu-item-text">
                                  Page: HT Shop - Trang Sức Phong Thủy Sinh Mệnh
                               </div>
                            </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+assignee%3Aenesyteam" class="select-menu-item js-navigation-item">
+                           <a class="select-menu-item js-navigation-item">
                               <div class="select-menu-item-text">
                                  Page: Trang Sức Phong Thủy Vici
                               </div>
                            </a>
-                           <a href="/angular/angular/issues?q=is%3Aopen+mentions%3Aenesyteam" class="select-menu-item js-navigation-item">
+                           <a class="select-menu-item js-navigation-item">
                               <div class="select-menu-item-text">
                                  Page: Phong Thủy Hồng Trang
                               </div>
                            </a>
-                           <a href="https://help.github.com/articles/searching-issues" class="select-menu-item js-navigation-item" target="_blank">
+                           <a class="select-menu-item js-navigation-item" target="_blank">
                               <svg aria-hidden="true" class="octicon octicon-link-external select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
                                  <path fill-rule="evenodd" d="M11 10h1v3c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h3v1H1v10h10v-3zM6 2l2.25 2.25L5 7.5 6.5 9l3.25-3.25L12 8V2H6z"></path>
                               </svg>
@@ -51,8 +51,7 @@
                   </div>
                </div>
                <!-- '"` --><!-- </textarea></xmp> -->
-               <form accept-charset="UTF-8" action="/angular/angular/pulls" class="subnav-search float-left ng-pristine ng-valid" data-pjax="true" method="get">
-                  <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓" autocomplete="off"></div>
+               <form accept-charset="UTF-8" class="subnav-search float-left ng-pristine ng-valid" data-pjax="true" method="get">
                   <input aria-label="Tìm kiếm" class="form-control form-control subnav-search-input input-contrast ng-pristine ng-untouched ng-valid ng-empty" data-hotkey="/" id="js-issues-search" name="q" placeholder="Tìm theo tên ảnh" type="text" style="width: 200px" ng-model="filterName">
                   <svg aria-hidden="true" class="octicon octicon-search subnav-search-icon" height="16" version="1.1" viewBox="0 0 16 16" width="16">
                      <path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path>
@@ -60,19 +59,14 @@
                </form>
             </div>
             <div class="subnav-links float-left" role="navigation">
-               <a ng-click="toggleFilterGender(1)" class="js-selected-navigation-item subnav-item {{filterGender==1 ? 'selected' : ''}}">Nam</a>
-               <a ng-click="toggleFilterGender(2)" class="js-selected-navigation-item subnav-item {{filterGender==2 ? 'selected' : ''}}">Nữ</a>
+               <a ng-click="toggleFilterGender(gender.id)" class="js-selected-navigation-item subnav-item {{gender.selected==true ? 'selected' : ''}}" ng-repeat="gender in genders  track by $index">{{gender.name}}</a>
             </div>
             <div class="subnav-links float-right" role="navigation">
-               <a ng-click="toggleFilterDestiny(1)" class="js-selected-navigation-item subnav-item {{filterDestiny==1 ? 'selected' : ''}}">Kim</a>
-               <a ng-click="toggleFilterDestiny(2)" class="js-selected-navigation-item subnav-item {{filterDestiny==2 ? 'selected' : ''}}">Thủy</a>
-               <a ng-click="toggleFilterDestiny(3)" class="js-selected-navigation-item subnav-item {{filterDestiny==3 ? 'selected' : ''}}">Hỏa</a>
-               <a ng-click="toggleFilterDestiny(4)" class="js-selected-navigation-item subnav-item {{filterDestiny==4 ? 'selected' : ''}}">Thổ</a>
-               <a ng-click="toggleFilterDestiny(5)" class="js-selected-navigation-item subnav-item {{filterDestiny==5 ? 'selected' : ''}}">Mộc</a>
+               <a ng-click="toggleFilterDestiny(destiny.id)" class="js-selected-navigation-item subnav-item {{destiny.selected==true ? 'selected' : ''}}" ng-repeat="destiny in destinies track by $index">{{destiny.name}}</a>
             </div>
          </div>
          <div class="photos">
-            <div ng-repeat="photo in (imageFiles | photosFilter:filterPageId:filterGender:filterDestiny) | reverse" class="photo" ng-click="selectedPhoto(photo)">
+            <div ng-repeat="photo in (imageFiles | photosFilter:filterPageId:genders:destinies) | reverse" class="photo" ng-click="selectedPhoto(photo)">
                <div class="pinned"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="2em" width="2em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m19.8 29.1l-9.8 5.9 2.6-11.1-8.6-7.5 11.3-0.9 4.5-10.5 4.4 10.5 11.4 0.9-8.6 7.5 2.5 11.1z"></path></g></svg></div>
                <img width="100" height="100" ng-src="{{photo.fileName}}">
                <span class="text">
@@ -84,10 +78,10 @@
                         Bởi: {{photo.uploadBy || 'Admin'}}
                      </li>
                      <li>
-                        Giới tính: {{photo.gender || 'Không rõ'}}
+                        Giới tính: <span ng-repeat="gender in photo.genders" ng-if="gender.selected == true">[{{gender.name}}] </span>
                      </li>
                      <li>
-                        Mệnh: {{photo.destiny || 'Không rõ'}}
+                        Mệnh: <span ng-repeat="destiny in photo.destinies" ng-if="destiny.selected == true">[{{destiny.name}}] </span>
                      </li>
                   </ul>
                   <button class="btn-link settings-remove-email settings-disabled-remove-email tooltipped tooltipped-nw" type="submit" aria-label="Xóa ảnh này">

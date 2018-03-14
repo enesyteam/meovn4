@@ -4,8 +4,9 @@
     angular.module('mUtilities', ['ngDialog']);
 
     angular.module('mUtilities')
-        .service('MUtilitiesService', ['$document', '$timeout', 'toastr', 'toastrConfig', 'ngDialog',
-            function($document, $timeout, toastr, toastrConfig, ngDialog) {
+        .service('MUtilitiesService', ['$document', '$timeout', 'toastr', 'toastrConfig', 'ngDialog', 'firebaseStorageService',
+            function($document, $timeout, toastr, toastrConfig, ngDialog, firebaseStorageService) {
+                // console.log(firebaseStorageService);
                 // TOASTR
                 var configToastr = function() {
                     toastrConfig.closeButton = true;
@@ -58,7 +59,7 @@
 
                         '<div class="Box-footer">' +
                         '<button type="button" class="btn btn-sm btn-primary" ng-click="confirm(confirmValue)">' + confirmButtonText + '</button>' +
-                        '<button type="button" class="btn btn-sm" ng-click="closeThisDialog()">' + rejectButtonText + '</button>' +
+                        '<button type="button" class="btn btn-sm ml-2" ng-click="closeThisDialog()">' + rejectButtonText + '</button>' +
                         '</div>';
 
                     return new Promise(function(resolve, reject) {
@@ -101,8 +102,8 @@
                         '</dd>' +
                         '</div>' +
                         '<dl class="form-group width-full">' +
-                        '<dt><label>Post Id</label></dt>' +
-                        '<dd><input ng-model="orderData.post_id" class="form-control" type="number" placeholder="Nhập ID bài viết" >' +
+                        '<dt><label>ID bài viết</label></dt>' +
+                        '<dd><input ng-model="orderData.post_id" class="form-control" type="number" placeholder="Nhập ID bài viết e.g: 291032108095856" >' +
                         '</dd>' +
                         '</dl>' +
                         '</div>' +
@@ -155,6 +156,149 @@
                             plain: true,
                             onOpenCallback: onOpenCallback,
                         });
+                    })
+                }
+
+                var showUploadImage = function(onOpenCallback) {
+                    var template = '<div class="Box-header">' +
+                        '<h3 class="Box-title">Upload ảnh vào cơ sở dữ liệu</h3>' +
+                        '</div>' +
+                        '<div class="Box-body">' +
+
+                                '<div class="mt-2 mb-2 upload-image-box">'+
+                                      '<label class="position-relative btn button-change-avatar text-center">'+
+                                        'Chọn ảnh...'+
+                                       '<input id="upload-profile-picture" type="file" class="manual-file-chooser height-full ml-0 js-manual-file-chooser" ngf-select="onFileSelect($files)" multiple="" style="display:none;">'+
+                                       '</label>'+
+                                       '<div class="preview">'+
+                                        '<img ng-src="{{imageData.fileName}}">'+
+                                       '</div>'+
+                                   '</div>'+
+                                   '<hr />'+
+                                   '<dl class="form-group">'+
+                                      '<dt><label for="user_profile_email">Đặt tên cho ảnh</label></dt>'+
+                                      '<dd>'+
+                                         '<input type="text" class="form-control" ng-model="imageData.name">'+
+                                      '</dd>'+
+                                   '</dl>'+
+                                   '<dl class="form-group">'+
+                                      '<dt><label for="user_profile_email">Áp dụng cho giới tính</label></dt>'+
+                                      '<dd class="ml-2">'+
+                                         '<div class="d-inline-block mr-3" ng-repeat="gender in genders track by $index">'+
+                                            '<label>'+
+                                               '<input class="js-email-global-unsubscribe mr-2" id="gender-name-{{gender.id}}" name="gender" type="checkbox" value="marketing" ng-value="gender.id" ng-model="gender.selected">'+
+                                            '{{gender.name}}'+
+                                            '</label>'+
+                                         '</div>'+
+                                      '</dd>'+
+                                   '</dl>'+
+                                   '<dl class="form-group">'+
+                                      '<dt><label for="user_profile_email">Áp dụng cho mệnh</label></dt>'+
+                                      '<dd class="ml-2">'+
+                                         '<div class="d-inline-block mr-3" ng-repeat="destiny in destinies track by $index">'+
+                                            '<label>'+
+                                               '<input class="js-email-global-unsubscribe mr-2" id="destiny-name-{{destiny.id}}" name="destiny" type="checkbox" value="marketing" ng-value="destiny.id" ng-model="destiny.selected">'+
+                                            '{{destiny.name}}'+
+                                            '</label>'+
+                                         '</div>'+
+                                      '</dd>'+
+                                   '</dl>'+
+                            '</div>' +
+                            '<div class="Box-footer">' +
+                            '<a ng-click="submit()" class="btn btn-primary">' +
+                            'Thêm ảnh' +
+                            '</a>' +
+                            '</div>';
+
+                    return new Promise(function(resolve, reject) {
+                        var dlg = ngDialog.open({
+                            template: template,
+                            controller: ['$scope', function($scope) {
+                                $scope.genders = [
+                                    {
+                                        id : 1,
+                                        name : 'Nam',
+                                        selected: false,
+                                    },
+                                    {
+                                        id : 2,
+                                        name : 'Nữ',
+                                        selected: false,
+                                    }
+                                ]
+
+                                $scope.destinies = [
+                                    {
+                                        id : 1,
+                                        name : 'Kim',
+                                        selected: false,
+                                    },
+                                    {
+                                        id : 2,
+                                        name : 'Thủy',
+                                        selected: false,
+                                    },
+                                    {
+                                        id : 3,
+                                        name : 'Hỏa',
+                                        selected: false,
+                                    },
+                                    {
+                                        id : 4,
+                                        name : 'Thổ',
+                                        selected: false,
+                                    },
+                                    {
+                                        id : 5,
+                                        name : 'Mộc',
+                                        selected: false,
+                                    }
+                                ]
+
+                                $scope.imageData = {
+                                    name: null,
+                                    genders: $scope.genders,
+                                    destinies: $scope.destinies,
+                                    fileName: null
+                                }
+
+                                $scope.onFileSelect = function($files) {
+                                    // console.log($files);
+                                    angular.forEach($files, function(file) {
+                                        // make file name
+                                        var d = Date.now();
+                                        var file_name = 'image_' + d;
+                                        // console.log(file_name);
+                                        firebaseStorageService.upload(file, 1, file_name).then(function(response) {
+                                            // response = file link
+                                            $scope.imageData.fileName = response;
+                                            // console.log(response);
+                                            // create image item on firebase
+                                        })
+                                        .catch(function(err){
+                                            console.log(err);
+                                        });
+                                    });
+                                    // $files = null;
+                                };
+
+                                $scope.submit = function() {
+                                    if(!$scope.imageData.name || $scope.imageData.name.length == 0){
+                                        AlertError('Vui lòng nhập tên ảnh', 'Lỗi');
+                                        return;
+                                    }
+                                    onOpenCallback().submitImage($scope.imageData).then(function(response) {
+                                        if (response == true) {
+                                            dlg.close();
+                                        }
+
+                                    })
+                                }
+                            }],
+                            plain: true,
+                            onOpenCallback: onOpenCallback,
+                        })
+
                     })
                 }
 
@@ -253,6 +397,7 @@
                     showManualOrderAdd: showManualOrderAdd,
                     getPageNameOrIdFromConversationLink: getPageNameOrIdFromConversationLink,
                     detectMessageSharesLink: detectMessageSharesLink,
+                    showUploadImage : showUploadImage,
                 }
             }
         ]);

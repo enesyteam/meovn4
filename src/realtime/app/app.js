@@ -30,10 +30,13 @@ var mRealtime = angular.module('mRealtime', [
         FacebookProvider.init(myAppId);
 
         cfpLoadingBarProvider.includeSpinner = false;
-        // $locationProvider.hashPrefix('');
+        $locationProvider.hashPrefix('');
+        // $locationProvider.html5Mode(true);
 
-        // $urlRouterProvider.otherwise("/");
-        // $urlRouterProvider.when('/','realtime');
+        $urlRouterProvider.otherwise("/");
+        // $urlRouterProvider.when('/sale','/admin/dashboard/general');
+        // $urlRouterProvider.when('/','sale');
+
         $stateProvider
             .state('home', {
                 url: '/',
@@ -49,7 +52,7 @@ var mRealtime = angular.module('mRealtime', [
                 },
             });
             
-        $urlRouterProvider.otherwise('/');
+        // $urlRouterProvider.otherwise('/');
     })
     .run(themeRun);
 
@@ -181,25 +184,51 @@ mRealtime.filter("photosFilter", function() { // register new filter
   * gender : photo of gender
   * destiny : photo of destiny (Mệnh)
   */
-  return function(photos, pageId, gender, destiny) { // filter arguments
+  return function(photos, pageId, genders, destinies) { // filter arguments
+
     if(!photos) return null;
-    // console.log(photos);
-    // console.log(scope.filterGender);
-    // return input.replace(RegExp(searchRegex), replaceRegex); // implementation
+
     return photos.filter(function (item) {
-      if(!gender && !destiny){
-        return item;
+      return item;
+      ////
+      if(item.genders){
+        for (var i = 0; i < genders.length; i++) {
+          if(item.genders[i].selected == true && genders[i].selected == true){
+            return item;
+          }
+        }
       }
-      else if(!gender){
-        return item.destiny == destiny;
-      }
-      else if(!destiny){
-        return item.gender == gender;
-      }
-      return item.pageId == (pageId || null) && item.gender == (gender || null) && item.destiny == (destiny || null);
-    });
+
+    })
   };
 });
+
+function checkIfOneItemSelected(arr){
+  return new Promise(function(resolve, reject){
+    angular.forEach(arr, function(item){
+      console.log('s')
+        if(item.selected == true){
+          resolve(true);
+          return;
+        }
+      })
+    resolve(false);
+  })
+  // return false;
+}
+
+var genders = [
+        {
+            id : 1,
+            name : 'Nam',
+            selected: false,
+        },
+        {
+            id : 2,
+            name : 'Nữ',
+            selected: true,
+        }
+    ]
 
 mRealtime.directive('searchEnter', function () {
     return function (scope, element, attrs) {

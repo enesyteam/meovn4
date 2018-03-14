@@ -14,135 +14,122 @@
          </div>
       </div>
    </div>
-   <div class="flash flash-warn mb-2" ng-if="finishLoading">
-	  <svg aria-hidden="true" class="octicon octicon-issue-opened" height="16" version="1.1" viewBox="0 0 14 16" width="14">
-	   <path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
-	</svg>
-	  Có <strong>{{notAssignedArr.length}}</strong> số chưa được phân bổ. 
-      <span ng-repeat="(key, value) in notAssignedArr | countBy: 'status_id'">
-         &nbsp;Status Id: {{ key}}, số lượng: {{ value }}&nbsp;
-      </span>
-      Click <a href="#" rel="nofollow">vào đây</a> để tiến hành phân bổ.
-	</div>
-   <!-- <span ng-if="!finishLoading">Loading data, please wait...</span> -->
-   <div class="blankslate blankslate-spacious blankslate-large" ng-if="finishLoading && !todayReport.today">
-      <svg aria-hidden="true" class="octicon octicon-issue-opened blankslate-icon" height="40" version="1.1" viewBox="0 0 14 16" width="35">
-         <path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
-      </svg>
-      <h3>Không có dữ liệu để hiển thị</h3>
-      <p>Không tim thấy dữ liệu báo cáo của ngày {{selectedDate}} trong cơ sở dữ liệu.</p>
-   </div>
-   <!-- Chart data -->
    <div>
       <!-- General -->
-      <div class="readme boxed-group clearfix announce instapaper_body md" ng-if="finishLoading">
+      <div class="readme boxed-group clearfix announce instapaper_body md mt-3" ng-if="finishLoading">
          <h3>
             <svg aria-hidden="true" class="octicon octicon-book" height="16" version="1.1" viewBox="0 0 20 20" width="16">
                <path d="M3,5 L4.33333333,9 L4,9 C2.34314575,9 1,10.3431458 1,12 C1,13.6568542 2.34314575,15 4,15 L17,15 L17,13 L4.00684547,13 C3.45078007,13 3,12.5561352 3,12 C3,11.4477153 3.44748943,11 3.99850233,11 L10.5,11 L17,11 L20,2 L4,2 L4,0.997030139 C4,0.453036308 3.54809015,0 2.9906311,0 L0,0 L0,2 L2,2 L3,5 Z M5,20 C6.1045695,20 7,19.1045695 7,18 C7,16.8954305 6.1045695,16 5,16 C3.8954305,16 3,16.8954305 3,18 C3,19.1045695 3.8954305,20 5,20 Z M15,20 C16.1045695,20 17,19.1045695 17,18 C17,16.8954305 16.1045695,16 15,16 C13.8954305,16 13,16.8954305 13,18 C13,19.1045695 13.8954305,20 15,20 Z" id="Combined-Shape"></path>
             </svg>
             Bán hàng
-          </h3>
+         </h3>
          <article class="markdown-body entry-content p-3 pt-4">
-            <div class="report">
-               <div class="text-center rounded-1 report-item">
-               <h2 class="total">{{todayReport.today || 0}}</h2>
-               <h3 class="h5 lh-condensed mb-1">Số mới hôm nay</h3>
-               <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
-               <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
-            </div>
-            <div class="text-center rounded-1 report-item">
-               <h2 class="total">{{todayReport.calledCount || 0}}</h2>
-               <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
-               <h3 class="h5 lh-condensed mb-1">Tổng số cuộc gọi</h3>
-               <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
-               <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
-            </div>
-            <div class="text-center rounded-1 report-item">
-               <h2 class="total danger">{{todayReport.notCalledCount || 0}}</h2>
-               <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
-               <h3 class="h5 lh-condensed mb-1">Số chưa gọi</h3>
-               <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
-               <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
-            </div>
-            <div class="text-center rounded-1 report-item">
-               <h2 class="total success">
-               {{todayReport.successCount || 0}}</h2>
-               <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
-               <h3 class="h5 lh-condensed mb-1">Đã chốt</h3>
-               <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
-               <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
-            </div>
-            <div class="text-center rounded-1 report-item">
-               <h2 class="total">{{(todayReport.calledCount > 0 ? todayReport.successCount/todayReport.calledCount : 0)*100 | number : 2}}%</h2>
-               <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
-               <h3 class="h5 lh-condensed mb-1">Tỷ lệ chốt</h3>
-               <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
-               <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
-            </div>
-            </div>
-            <div>
-               <div class="overall-summary overall-summary-bottomless">
-                  <div class="stats-switcher-viewport js-stats-switcher-viewport">
-                     <div class="stats-switcher-wrapper">
-                        <ul class="numbers-summary"  style="opacity: {{finishLoading ? 1 : 0}}">
-                           <li>
-                              <a data-pjax="">
+            <div ng-if="todayReport">
+               <div class="report">
+                  <div class="text-center rounded-1 report-item">
+                     <h2 class="total">{{todayReport.today || 0}}</h2>
+                     <h3 class="h5 lh-condensed mb-1">Số mới hôm nay</h3>
+                     <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
+                     <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
+                  </div>
+                  <div class="text-center rounded-1 report-item">
+                     <h2 class="total">{{todayReport.calledCount || 0}}</h2>
+                     <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
+                     <h3 class="h5 lh-condensed mb-1">Tổng số cuộc gọi</h3>
+                     <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
+                     <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
+                  </div>
+                  <div class="text-center rounded-1 report-item">
+                     <h2 class="total danger">{{todayReport.notCalledCount || 0}}</h2>
+                     <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
+                     <h3 class="h5 lh-condensed mb-1">Số chưa gọi</h3>
+                     <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
+                     <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
+                  </div>
+                  <div class="text-center rounded-1 report-item">
+                     <h2 class="total success">
+                        {{todayReport.successCount || 0}}
+                     </h2>
+                     <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
+                     <h3 class="h5 lh-condensed mb-1">Đã chốt</h3>
+                     <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
+                     <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
+                  </div>
+                  <div class="text-center rounded-1 report-item">
+                     <h2 class="total">{{(todayReport.calledCount > 0 ? todayReport.successCount/todayReport.calledCount : 0)*100 | number : 2}}%</h2>
+                     <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
+                     <h3 class="h5 lh-condensed mb-1">Tỷ lệ chốt</h3>
+                     <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
+                     <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
+                  </div>
+               </div>
+               <div>
+                  <div class="overall-summary overall-summary-bottomless">
+                     <div class="stats-switcher-viewport js-stats-switcher-viewport">
+                        <div class="stats-switcher-wrapper">
+                           <ul class="numbers-summary"  style="opacity: {{finishLoading ? 1 : 0}}">
+                              <li>
+                                 <a data-pjax="">
                                  <span class="repo-language-color ml-0" style="background-color:{{getStatusById(9).color}};"></span>
                                  <span class="num text-emphasized">
                                  {{todayReport.missedCount || 0}}
                                  </span>
                                  Chưa nghe máy
-                              </a>
-                           </li>
-                           <li>
-                              <a>
+                                 </a>
+                              </li>
+                              <li>
+                                 <a>
                                  <span class="repo-language-color ml-0" style="background-color:{{getStatusById(5).color}}"></span>
                                  <span class="num text-emphasized">
                                  {{todayReport.callLaterCount || 0}}
                                  </span>
                                  Gọi lại sau
-                              </a>
-                           </li>
-                           <li>
-                              <a>
+                                 </a>
+                              </li>
+                              <li>
+                                 <a>
                                  <span class="repo-language-color ml-0" style="background-color:{{getStatusById(3).color}}"></span>
                                  <span class="num text-emphasized">
                                  {{todayReport.penddingCount || 0}}
                                  </span>
                                  Pendding
-                              </a>
-                           </li>
-                           <li>
-                              <a>
+                                 </a>
+                              </li>
+                              <li>
+                                 <a>
                                  <span class="repo-language-color ml-0" style="background-color:{{getStatusById(7).color}}"></span>
                                  <span class="num text-emphasized">
                                  {{todayReport.cancelCount || 0}}
                                  </span>
                                  Từ chối
-                              </a>
-                           </li>
-                           <li>
-                              <a>
+                                 </a>
+                              </li>
+                              <li>
+                                 <a>
                                  <span class="repo-language-color ml-0" style="background-color:{{getStatusById(8).color}}"></span>
                                  <span class="num text-emphasized">
                                  {{todayReport.blockedCount || 0}}
                                  </span>
                                  Báo xấu
-                              </a>
-                           </li>
-                        </ul>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
                      </div>
                   </div>
+                  <!-- <div class="repository-lang-stats-graph js-toggle-lang-stats" title="Click for language details" data-ga-click="Repository, language bar stats toggle, location:repo overview">
+                     <span class="language-color" aria-label="TypeScript 72.3%" style="width:72.3%; background-color:#2b7489;" itemprop="keywords">&nbsp;</span>
+                     <span class="language-color" aria-label="JavaScript 16.3%" style="width:16.3%; background-color:#f1e05a;" itemprop="keywords">&nbsp;</span>
+                     <span class="language-color" aria-label="HTML 10.6%" style="width:10.6%; background-color:#e34c26;" itemprop="keywords">&nbsp;</span>
+                     <span class="language-color" aria-label="CSS 0.8%" style="width:0.8%; background-color:#563d7c;" itemprop="keywords">&nbsp;</span>
+                     </div> -->
                </div>
-               <!-- <div class="repository-lang-stats-graph js-toggle-lang-stats" title="Click for language details" data-ga-click="Repository, language bar stats toggle, location:repo overview">
-                  <span class="language-color" aria-label="TypeScript 72.3%" style="width:72.3%; background-color:#2b7489;" itemprop="keywords">&nbsp;</span>
-                  <span class="language-color" aria-label="JavaScript 16.3%" style="width:16.3%; background-color:#f1e05a;" itemprop="keywords">&nbsp;</span>
-                  <span class="language-color" aria-label="HTML 10.6%" style="width:10.6%; background-color:#e34c26;" itemprop="keywords">&nbsp;</span>
-                  <span class="language-color" aria-label="CSS 0.8%" style="width:0.8%; background-color:#563d7c;" itemprop="keywords">&nbsp;</span>
-               </div> -->
+            </div>
+            <div class="blankslate blankslate-clean-background" ng-if="!todayReport">
+               <h3>Không tìm thấy báo cáo ngày</h3>
+               <p>Chưa có bất kỳ hoạt động nào được ghi nhận.</p>
             </div>
          </article>
-
       </div>
       <!-- Bán Telesales -->
       <div class="readme boxed-group clearfix announce instapaper_body md" ng-if="finishLoading">
@@ -151,13 +138,13 @@
                <path d="M3,5 L4.33333333,9 L4,9 C2.34314575,9 1,10.3431458 1,12 C1,13.6568542 2.34314575,15 4,15 L17,15 L17,13 L4.00684547,13 C3.45078007,13 3,12.5561352 3,12 C3,11.4477153 3.44748943,11 3.99850233,11 L10.5,11 L17,11 L20,2 L4,2 L4,0.997030139 C4,0.453036308 3.54809015,0 2.9906311,0 L0,0 L0,2 L2,2 L3,5 Z M5,20 C6.1045695,20 7,19.1045695 7,18 C7,16.8954305 6.1045695,16 5,16 C3.8954305,16 3,16.8954305 3,18 C3,19.1045695 3.8954305,20 5,20 Z M15,20 C16.1045695,20 17,19.1045695 17,18 C17,16.8954305 16.1045695,16 15,16 C13.8954305,16 13,16.8954305 13,18 C13,19.1045695 13.8954305,20 15,20 Z" id="Combined-Shape"></path>
             </svg>
             Telesales
-          </h3>
+         </h3>
          <article class="markdown-body entry-content p-3 pt-4 users-report">
-            <div id="projects-results">
+            <div id="projects-results" ng-if="todayUsersReport">
                <!-- Header -->
                <div class="header border-bottom border-gray-light">
                   <div class="col-3 col-md-3 pr-2 float-left">
-                    <h5 class="strong">Telesale</h5>
+                     <h5 class="strong">Telesale</h5>
                   </div>
                   <div class="col-9 col-md-9 float-left details-column">
                      <div class="detail">
@@ -187,31 +174,36 @@
                      <div class="detail">
                         <h5 class="strong">Tỷ lệ chốt</h5>
                      </div>
+                     <div class="detail">
+                        <h5 class="strong">Actions</h5>
+                     </div>
                   </div>
                </div>
+               <!-- {{todayUsersReport | max: 'successCount'}} -->
                <ul class="report-row border-bottom border-gray-light m-0 p-0" ng-repeat="sellerData in todayUsersReport">
                   <div class="col-3 col-md-3 pr-2 float-left">
                      <span class="d-inline-block">
                         <h4 class="mb-1 mt-0">
                            <!-- <div class="spinner" style="display: inline-block;" ng-if="orderChanging"></div> -->
-                         <a href="#" class="link-gray-dark">
+                           <a href="#" class="link-gray-dark">
                            {{ sellerData.userName }}
-                         </a>
-                         <!-- <span class="session-state-indicator recent"></span> -->
-                       </h4>
-                       
+                           </a>
+                           <!-- <span class="session-state-indicator recent"></span> -->
+                        </h4>
                      </span>
-                    <div class="mt-1 pr-5 mb-2 mb-md-0" style="{{w > 50 ? w  : 50}}%;">
-
-                        <div class="d-table width-full bg-gray" ng-init="cw = sellerData.successCount/sellerData.calledCount*100">
-                           <a class="d-table-cell bg-green pt-2" style="width: {{cw > 0 ? cw : 0;}}%;" aria-label="View all merged pull requests"></a>
-                           <a class="d-table-cell pt-2" style="width:{{100 - cw}}%;background-color:#e34c26;" aria-label="View all open pull requests"></a>
+                     <div class="mt-1 pr-5 mb-2 mb-md-0">
+                        <div class="tooltipped tooltipped-s" aria-label="{{'Chốt ' + sellerData.successCount + '/ ' + 'thất bại ' + (sellerData.calledCount - sellerData.successCount)}}">
+                           <span class="progress-bar progress-bar-small" ng-init="cw = sellerData.calledCount > 0 ? sellerData.successCount/sellerData.calledCount*100 : 0">
+                           <span class="progress d-inline-block bg-green float-left" style="width: {{cw && cw > 0 ? cw : 0}}%">&nbsp;</span>
+                           <span ng-if="sellerData.calledCount > 0" class="progress d-inline-block bg-red" style="width: {{100-cw}}%">&nbsp;</span>
+                           </span>
                         </div>
-
                      </div>
                      <div class="f6 pr-sm-5 mb-2 mt-2 mb-md-0 text-gray-light">
                         <span ng-if="w<50" class="tooltipped tooltipped-s" aria-label="Đồ thị đã được tăng lên nhằm mục đích hiển thị.">
-                           <svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path></svg>
+                           <svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                              <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                           </svg>
                         </span>
                         <span ng-if="sellerData.lastSuccessAt">
                            <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14">
@@ -222,50 +214,91 @@
                         </span>
                      </div>
                   </div>
-                  <div class="col-9 col-md-9 float-left details-column">
+                  <div class="col-9 col-md-9 float-left details-column" ng-class="sellerData.calledCount > 0 ? '' : 'no-data'">
                      <li class="detail">
-                        <span style="font-size:18px">{{sellerData.calledCount }}</span>
+                        <span style="font-size:18px;">{{sellerData.calledCount }}</span>
                      </li>
                      <li class="detail">
-                        <span style="font-size:18px">{{sellerData.successCount }}</span>
+                        <span class="success" style="font-size:18px;">{{sellerData.successCount }}</span>
                      </li>
                      <li class="detail">
-                        <span style="font-size:18px">{{sellerData.notCalledCount}}</span>
+                        <span style="font-size:18px;">{{sellerData.notCalledCount}}</span>
                      </li>
                      <li class="detail">
-                        <span style="font-size:18px">{{ sellerData.missedCount || 0 }}</span>
+                        <span style="font-size:18px;">{{ sellerData.missedCount || 0 }}</span>
                      </li>
                      <li class="detail">
-                        <span style="font-size:18px">{{ sellerData.callLaterCount || 0 }}</span>
+                        <span style="font-size:18px;">{{ sellerData.callLaterCount || 0 }}</span>
                      </li>
                      <li class="detail">
-                        <span style="font-size:18px">{{ sellerData.penddingCount || 0 }}</span>
+                        <span style="font-size:18px;">{{ sellerData.penddingCount || 0 }}</span>
                      </li>
                      <li class="detail">
-                        <span style="font-size:18px">{{ sellerData.cancelCount || 0 }}</span>
+                        <span style="font-size:18px;">{{ sellerData.cancelCount || 0 }}</span>
                      </li>
                      <li class="detail">
-                        <span style="font-size:18px">{{ sellerData.blockedCount || 0 }}</span>
+                        <span style="font-size:18px;">{{ sellerData.blockedCount || 0 }}</span>
                      </li>
                      <li class="detail">
-                        <span style="font-size:18px">{{(sellerData.calledCount > 0 ? sellerData.successCount/sellerData.calledCount : 0)*100 | number : 2}}%</span>
-                     </li>        
+                        <span style="font-size:18px;">{{(sellerData.calledCount > 0 ? sellerData.successCount/sellerData.calledCount : 0)*100 | number : 2}}%</span>
+                     </li>
+                     <li class="detail">
+                        <button class="btn btn-primary btn-sm btn-actions tooltipped tooltipped-n" aria-label="Phân bổ thêm số cho {{ sellerData.userName }}" ng-click="onAssignMoreForUser(sellerData.id)">
+                           <svg height="12" class="octicon octicon-plus" viewBox="0 0 12 16" version="1.1" width="12" aria-hidden="true">
+                              <path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5z"></path>
+                           </svg>
+                        </button>
+                        <button class="btn btn-danger btn-sm btn-actions  tooltipped tooltipped-n" aria-label="Hủy bớt số của {{ sellerData.userName }}" ng-click="onReleaseMoreForUser(sellerData.id)">
+                           <svg height="12" class="octicon octicon-dash" viewBox="0 0 8 16" version="1.1" width="12" aria-hidden="true">
+                              <path fill-rule="evenodd" d="M0 7v2h8V7z"></path>
+                           </svg>
+                        </button>
+                     </li>
                   </div>
                </ul>
-               
+            </div>
+            <div class="blankslate blankslate-clean-background" ng-if="!todayUsersReport">
+               <h3>Không tìm thấy báo cáo cho users</h3>
+               <p>Chưa có bất kỳ hoạt động nào của users được ghi nhận.</p>
+            </div>
+         </article>
+      </div>
+      <!-- Page report -->
+      <div class="readme boxed-group clearfix announce instapaper_body md" ng-if="finishLoading">
+         <h3>
+            <svg aria-hidden="true" class="octicon octicon-book" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+               <path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path>
+            </svg>
+            Báo cáo hiệu suất pages
+         </h3>
+         <article class="markdown-body entry-content p-3 pt-4 pages-report">
+            <div class="d-sm-flex flex-wrap flex-items-stretch flex-justify-start gutter-sm-condensed">
+               <div ng-repeat="page in todayPagesReport track by $index" class="col-sm-6 col-md-4 py-2">
+                  <div class="casestudy-link d-block position-relative height-full border border-gray-light rounded-1 p-3">
+                     <img ng-src="{{'//graph.facebook.com/' + page.id + '/picture?width=50&amp;height=50'}}" class="mb-2 page-avatar">
+                     <span class="page-name ml-2">{{findPageById(page.id).name}}</span>
+                     <div class="detail" style="font-size:14px">
+                        Số mới: <span class="Counter">{{page.totalCustomers}}</span> | Đã chốt: <span class="Counter Counter--green">{{page.totalsuccess}}</span> ({{(page.totalsuccess/page.totalCustomers)*100 | number: 2}}%)
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="blankslate blankslate-clean-background" ng-if="todayPagesReport.length==0">
+               <h3>Không tìm thấy báo cáo page</h3>
+               <p>Có thể chưa vào số.</p>
             </div>
          </article>
       </div>
       <!-- Tạo đơn -->
       <div class="readme boxed-group clearfix announce instapaper_body md" ng-if="finishLoading">
          <h3>
-            <svg aria-hidden="true" class="octicon octicon-book" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+            <svg aria-hidden="true" class="octicon octicon-book" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+               <path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path>
+            </svg>
             Tạo đơn
-          </h3>
-         <article class="markdown-body entry-content">
-            <h3><a href="#material-design-icons" aria-hidden="true" class="anchor" id="user-content-material-design-icons"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>
-               Báo cáo tạo đơn hàng
-            </h3>
+         </h3>
+         <article class="markdown-body entry-content p-3 pt-4 pages-report">
+            <span class="note">Báo cáo tạo đơn sẽ bổ sung trong bản release tiếp theo vào ngày 20/3/2018</span>
          </article>
       </div>
    </div>

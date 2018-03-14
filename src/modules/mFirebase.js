@@ -6,6 +6,44 @@
     angular.module('mFirebase')
         .service('MFirebaseService', ["$http", "$timeout", 'MUtilitiesService', 'firebase', 
             function($http, $timeout, MUtilitiesService, firebase) {
+
+        // function upload(file, uid, fileName) {
+        //     var deferred = $q.defer();
+        //     var fileRef = storageRef.child('uploads').child('products').child(fileName);
+        //     // var storageRef = firebase.storage().ref('avatars/' + file.name);
+        //     var uploadTask = fileRef.put(file);
+
+        //     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+        //       function(snapshot) {
+        //          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //          console.log('Upload is ' + progress + '% done');
+        //          switch (snapshot.state) {
+        //             case firebase.storage.TaskState.PAUSED:
+        //               console.log('Upload is paused');
+        //               break;
+        //             case firebase.storage.TaskState.RUNNING:
+        //               console.log('Upload is running');
+        //               break;
+        //          }
+        //      }, 
+        //      function(error) {
+        //         switch (error.code) {
+        //            case 'storage/unauthorized':
+        //                deferred.reject('User does not have permission to access the object.');
+        //                break;
+        //            case 'storage/canceled':
+        //                deferred.reject('User canceled the upload.');
+        //                break;
+        //            case 'storage/unknown':
+        //                deferred.reject(' Unknown error occurred, Please try later.');
+        //                break;
+        //          }
+        //       }, function() {
+        //             deferred.resolve(uploadTask.snapshot.downloadURL);
+        //       });
+
+        //     return deferred.promise;
+        // }
             /*
              * firebase object
              */
@@ -25,23 +63,9 @@
             * Mảng chứa các status id cho phép hủy order nếu trạng thái của order == id trong mảng này
             */
             var getCanReleaseStatusIds = function() {
-                // return firebase.database().ref().child('statuses').orderByChild('canRelease').equalTo(true).once('value', function(snapshot) {
-                // });
-
-                // return new Promise(function(resolve, reject){
-                //     var res = [];
-                //     firebase.database().ref().child('statuses').on('child_added', snapshot => {
-                //         if(snapshot.val().canRelease){
-                //             res.push(snapshot.val().id);
-                //         }
-                //     })
-                //     resolve(res);
-                // })
-
                 return new Promise(function(resolve, reject) {
                     var result = [];
                     firebase.database().ref().child('statuses').on('child_added', snapshot => {
-                        // console.log(snapshot.val());
                         if(snapshot.val().canRelease){
                             result.push(
                                 snapshot.val().id
@@ -213,8 +237,7 @@
                             }
                         })
 
-                        // Khởi tạo mảng báo cáo nếu cần
-                        preparingEmptyReport(currentUser, orderOwner);
+                        
 
                         // if (snapshot.val().status_id == statusId) reject('Trạng thái không thay đổi!');
                         if (snapshot.val().status_id == 6) {
@@ -231,7 +254,31 @@
                                             'Order này đã được chốt bởi user có ID: ' + orderOwnerId + ', bạn có muốn hủy không?', 'Hủy', 'Bỏ qua')
                                         .then(function(response) {
                                             if (response) {
-                                                resolve('Admin hoặc Mod bắt đầu thao tác hủy đơn của user...');
+                                                // Khởi tạo mảng báo cáo nếu cần
+                                                preparingEmptyReport(currentUser, orderOwner, snapshot.val().page_id);
+                                                onUpdateOrderStatus(orderId, currentUser, statusId).then(function(response) {
+                                                    updateReport(currentUser, snapshot.val().status_id, statusId, 
+                                                        orderOwner, snapshot.val().page_id)
+                                                        .then(function() {
+                                                            // tìm và hủy shipping
+                                                            // tìm và hủy đơn trên GHN
+                                                            // report cho admin nếu thao tác hủy là của MOD
+                                                            // update_at: new Date();
+                                                            updateOrderItem(orderId, Date.now()
+                                                            ).then(function(response){
+                                                                console.log(response);
+                                                            })
+                                                            console.log('Bắt đầu hủy shipping item, hủy đơn trên GHN...');
+
+                                                            resolve('Admin hoặc Mod đã thay đổi trạng thái một Order chưa được gán và cập nhật báo cáo thành công.');
+                                                        }).catch(function(err) {
+                                                            reject(err);
+                                                        })
+                                                })
+                                                .catch(function(err) {
+                                                    reject(err);
+                                                });
+                                                // resolve('Admin hoặc Mod bắt đầu thao tác hủy đơn của user...');
                                                 // code hủy ở đây
                                             } else {
                                                 reject('Admin hoặc Mod bỏ qua thao tác hủy đơn');
@@ -242,7 +289,30 @@
                                             'Order này đã được chốt bởi không rõ ai cả, bạn có muốn hủy không?', 'Hủy', 'Bỏ qua')
                                         .then(function(response) {
                                             if (response) {
-                                                resolve('Admin hoặc Mod bắt đầu thao tác hủy đơn không rõ sở hữu của ai...');
+                                                preparingEmptyReport(currentUser, orderOwner, snapshot.val().page_id);
+                                                // resolve('Admin hoặc Mod bắt đầu thao tác hủy đơn không rõ sở hữu của ai...');
+                                                onUpdateOrderStatus(orderId, currentUser, statusId).then(function(response) {
+                                                    updateReport(currentUser, snapshot.val().status_id, statusId, 
+                                                        orderOwner, snapshot.val().page_id)
+                                                        .then(function() {
+                                                            // tìm và hủy shipping
+                                                            // tìm và hủy đơn trên GHN
+                                                            // report cho admin nếu thao tác hủy là của MOD
+                                                            // update_at: new Date();
+                                                            updateOrderItem(orderId, Date.now()
+                                                            ).then(function(response){
+                                                                console.log(response);
+                                                            })
+                                                            console.log('Admin hoặc Mod đã hủy đơn không rõ sở hữu của ai...');
+
+                                                            resolve('Admin hoặc Mod đã hủy đơn không rõ sở hữu của ai');
+                                                        }).catch(function(err) {
+                                                            reject(err);
+                                                        })
+                                                })
+                                                .catch(function(err) {
+                                                    reject(err);
+                                                });
                                                 // code hủy ở đây
                                             } else {
                                                 reject('Admin hoặc Mod bỏ qua thao tác hủy đơn');
@@ -262,11 +332,34 @@
                                 // 3. hủy shipping item tương ứng
 
                                 // 4. tìm xem đơn hàng trên ghn đã tạo chưa để hủy
-                                MUtilitiesService.showConfirmDialg('Thông báo',
-                                        'Bạn đã chốt Order này vào lúc: 00:00:00. Bạn có muốn hủy không?', 'Hủy', 'Bỏ qua')
+                                MUtilitiesService.showConfirmDialg('Thay đổi trạng thái Order đã chốt?',
+                                        'Bạn đã chốt Order này vào lúc: ' + new Date(snapshot.val().updated_at) + '.', 'Thay đổi', 'Bỏ qua')
                                     .then(function(response) {
                                         if (response) {
-                                            resolve('Bắt đầu thao tác hủy đơn của user...');
+                                            preparingEmptyReport(currentUser, orderOwner, snapshot.val().page_id);
+                                            // resolve('Bắt đầu thao tác hủy đơn của user...');
+                                            onUpdateOrderStatus(orderId, currentUser, statusId).then(function(response) {
+                                                updateReport(currentUser, snapshot.val().status_id, statusId, 
+                                                    orderOwner, snapshot.val().page_id)
+                                                    .then(function() {
+                                                        // tìm và hủy shipping
+                                                        // tìm và hủy đơn trên GHN
+                                                        // report cho admin nếu thao tác hủy là của MOD
+                                                        // update_at: new Date();
+                                                        updateOrderItem(orderId, Date.now()
+                                                        ).then(function(response){
+                                                            console.log(response);
+                                                        })
+                                                        console.log(currentUser.last_name + 'đã hủy đơn thành công...');
+
+                                                        resolve(currentUser.last_name + 'đã hủy đơn thành công...');
+                                                    }).catch(function(err) {
+                                                        reject(err);
+                                                    })
+                                            })
+                                            .catch(function(err) {
+                                                reject(err);
+                                            });
                                         } else {
                                             reject('User bỏ qua thao tác hủy Order');
                                         }
@@ -280,15 +373,21 @@
                             if (currentUser.is_admin == 1 || currentUser.is_mod == 1) {
                                 // ADMIN HOẶC MOD THAY ĐỔI TRẠNG THÁI ORDER
                                 if (!orderOwnerId) {
-                                    console.log('Order chưa được gán cho user');
+                                    // console.log('Order chưa được gán cho user');
                                     MUtilitiesService.showConfirmDialg('Thông báo',
                                             'Bạn có muốn thay đổi trạng thái Order chưa được gán cho user không?', 'Thay đổi', 'Bỏ qua')
                                         .then(function(response) {
                                             if (response) {
+                                                preparingEmptyReport(currentUser, orderOwner, snapshot.val().page_id);
                                                 onUpdateOrderStatus(orderId, currentUser, statusId).then(function(response) {
                                                         updateReport(currentUser, snapshot.val().status_id, statusId, 
-                                                            orderOwner)
+                                                            orderOwner, snapshot.val().page_id)
                                                             .then(function() {
+                                                                // update_at: new Date();
+                                                                updateOrderItem(orderId, Date.now()
+                                                                ).then(function(response){
+                                                                    console.log(response);
+                                                                })
                                                                 resolve('Admin hoặc Mod đã thay đổi trạng thái một Order chưa được gán và cập nhật báo cáo thành công.');
                                                             }).catch(function(err) {
                                                                 reject(err);
@@ -302,14 +401,21 @@
                                             }
                                         })
                                 } else {
-                                    console.log('Order đã được gán cho user');
+                                    // console.log('Order đã được gán cho user');
                                     MUtilitiesService.showConfirmDialg('Thông báo',
                                             'Bạn có muốn thay đổi trạng thái Order này của user: ' + orderOwnerId + ' không?', 'Thay đổi', 'Bỏ qua')
                                         .then(function(response) {
                                             if (response) {
+                                                preparingEmptyReport(currentUser, orderOwner, snapshot.val().page_id);
                                                 onUpdateOrderStatus(orderId, currentUser, statusId).then(function(response) {
-                                                        updateReport(currentUser, snapshot.val().status_id, statusId, orderOwner)
+                                                        updateReport(currentUser, snapshot.val().status_id, 
+                                                            statusId, orderOwner, snapshot.val().page_id)
                                                             .then(function() {
+                                                                // update_at: new Date();
+                                                                updateOrderItem(orderId, Date.now()
+                                                                ).then(function(response){
+                                                                    console.log(response);
+                                                                })
                                                                 resolve('Admin hoặc Mod đã thay đổi trạng thái và cập nhật báo cáo thành công.');
                                                             }).catch(function(err) {
                                                                 reject(err);
@@ -331,9 +437,16 @@
                                         'Bạn có muốn thay đổi trạng thái Order này không?', 'Thay đổi', 'Bỏ qua')
                                     .then(function(response) {
                                         if (response) {
+                                            preparingEmptyReport(currentUser, orderOwner, snapshot.val().page_id);
                                             onUpdateOrderStatus(orderId, currentUser, statusId).then(function(response) {
-                                                    updateReport(currentUser, snapshot.val().status_id, statusId, orderOwner)
+                                                    updateReport(currentUser, snapshot.val().status_id, 
+                                                        statusId, orderOwner, snapshot.val().page_id)
                                                         .then(function() {
+                                                            // update_at: new Date();
+                                                            updateOrderItem(orderId, Date.now()
+                                                            ).then(function(response){
+                                                                console.log(response);
+                                                            })
                                                             resolve('User đã thay đổi trạng thái và cập nhật báo cáo thành công.');
                                                         }).catch(function(err) {
                                                             reject(err);
@@ -348,11 +461,24 @@
                                         }
                                     })
                             }
-
+                            
                         }
                     })
                     .catch(function(err) {
                         reject(err);
+                    })
+                })
+            }
+
+            var updateOrderItem = function(orderId, dataToUpdate){
+                return new Promise(function(resolve, reject){
+                    var updates = {};
+                    updates['/newOrders/' + orderId + '/updated_at'] = dataToUpdate;
+                    return firebase.database().ref().update(updates).then(function() {
+                        resolve('Cập nhật dữ liệu Order ' + orderId + ' thành công.');
+                    })
+                    .catch(function(err){
+                        reject('Không thể cập nhật, lỗi: ' + err)
                     })
                 })
             }
@@ -411,7 +537,7 @@
              * @param  {statusIdAfter}  status change to
              * @return
              */
-            var changeReportByStatus = function(date, statusIdBefor, statusIdAfter, user, orderOwnerId) {
+            var changeReportByStatus = function(date, statusIdBefor, statusIdAfter, user, orderOwnerId, pageId) {
                 // nếu user thay đổi trạng thái 2 lần liên tiếp trong khoảng thời gian giới hạn < 5 phút
                 // thì không cần phải tính là 1 cuộc gọi
                 // nếu admin hoặc mod thay đổi trạng thái 1 order cũng không tính là 1 cuộc gọi
@@ -422,6 +548,8 @@
                 // bắt đầu tìm tên của field trong báo cáo theo id của trạng thái
                 var nodeNameBefore = findNodeName(parseInt(statusIdBefor)),
                     nodeNameAfter = findNodeName(parseInt(statusIdAfter));
+
+
 
                 // phần cập nhật chung cho cả Admin, Mod và User
                 // A - BÁO CÁO NGÀY
@@ -441,33 +569,21 @@
                 // PHÒNG TRƯỜNG HỢP ORDER CHƯA ĐƯỢC GÁN
                 // 1 - Tăng 1 đơn vị trong báo cáo USER của nodeNameAfter
 
-                // phần cập nhật riêng cho Admin hoặc Mod
-                if (user.is_admin == 1 || user.is_mod == 1) {
-                    if (orderOwnerId) {
-                        // order đã được gán
-                        firebase.database().ref().child('report').child(date).child('userReport')
-                            .child(orderOwnerId).child(nodeNameAfter).transaction(function(oldValue) {
-                                return oldValue + 1;
-                            });
-                        // 2 - Giảm 1 đơn vị trong báo cáo USER của nodeNameBefore
-                        firebase.database().ref().child('report').child(date).child('userReport')
-                            .child(orderOwnerId).child(nodeNameBefore).transaction(function(oldValue) {
-                                return oldValue - 1;
-                            });
-                    } else {
-                        // order chưa được gán
-                        MUtilitiesService.AlertError('Order này chưa được gán cho User, bỏ qua cập nhật báo cáo của User');
-                    }
-                } else {
+                if(orderOwnerId){ // order đã được gán
                     firebase.database().ref().child('report').child(date).child('userReport')
-                        .child(user.id).child(nodeNameAfter).transaction(function(oldValue) {
+                        .child(orderOwnerId).child(nodeNameAfter).transaction(function(oldValue) {
                             return oldValue + 1;
                         });
                     // 2 - Giảm 1 đơn vị trong báo cáo USER của nodeNameBefore
                     firebase.database().ref().child('report').child(date).child('userReport')
-                        .child(user.id).child(nodeNameBefore).transaction(function(oldValue) {
+                        .child(orderOwnerId).child(nodeNameBefore).transaction(function(oldValue) {
                             return oldValue - 1;
                         });
+                }
+                else{
+                    // order chưa được gán
+                    // bỏ qua cập nhật báo cáo của user
+                    console.log('Order này chưa được gán cho user, bỏ qua cập nhật báo cáo của user');
                 }
 
                 // nếu statusIdAfter == 6 (chốt) => cập nhật field lastSuccessAt trong báo cáo
@@ -491,12 +607,19 @@
                             });
                     }
 
+                    // báo cáo của page
+                    firebase.database().ref().child('report').child(date).child('pageReport')
+                        .child(pageId).child('totalsuccess').transaction(function(oldValue) {
+                            return oldValue + 1;
+                            });
+
                 }
 
                 // thay đổi báo cáo số cuộc gọi trong ngày và báo cáo cuộc gọi của user
-                if (statusIdAfter !== 1) {
+                // HỦY ĐƠN HÀNG HOẶC CHUYỂN SANG TRẠNG THÁI CHƯA GỌI => KHÔNG CẦN THAY ĐỐI SỐ CUỘC GỌI
+                if (statusIdBefor !== 6 && statusIdAfter !== 1) {
                     if (user.is_admin == 1 || user.is_mod == 1) {
-                        MUtilitiesService.AlertError('Admin hoặc Mod đã thay đổi trạng thái, bỏ qua cập nhật báo cáo về số cuộc gọi');
+                        console.log('Admin hoặc Mod đã thay đổi trạng thái, bỏ qua cập nhật báo cáo về số cuộc gọi');
                     } else {
                         firebase.database().ref().child('report').child(date).child('calledCount').transaction(function(oldValue) {
                             return oldValue + 1;
@@ -504,8 +627,16 @@
                         firebase.database().ref().child('report').child(date).child('userReport').child(user.id).child('calledCount')
                             .transaction(function(oldValue) {
                                 return oldValue + 1;
-                            });
+                        });
                     }
+                }
+
+                // hủy order => cập nhật báo cáo page
+                if(statusIdBefor == 6){
+                    firebase.database().ref().child('report').child(date).child('pageReport')
+                        .child(pageId).child('totalsuccess').transaction(function(oldValue) {
+                            return oldValue - 1;
+                            });
                 }
 
                 return new Promise(function(resolve, reject){
@@ -524,7 +655,7 @@
              * @param  {statusIdAfter} Status Id after changing
              * @return {response data} response data
              */
-            var updateReport = function(user, statusIdBefor, statusIdAfter, orderOwner) {
+            var updateReport = function(user, statusIdBefor, statusIdAfter, orderOwner, pageId) {
                 return new Promise(function(resolve, reject) {
                     // console.log(orderOwner);
                     // console.log(orderOwner);
@@ -534,7 +665,7 @@
                     var reportDateString = convertDate(today);
 
                     // finally update new data
-                    changeReportByStatus(reportDateString, statusIdBefor, statusIdAfter, user, orderOwner.id)
+                    changeReportByStatus(reportDateString, statusIdBefor, statusIdAfter, user, orderOwner.id, pageId)
                     .then(function(response){
                         resolve(response);
                     })
@@ -548,64 +679,39 @@
              * Khởi tạo báo cáo ngày của toàn hệ thống và báo cáo ngày của user
              * @param  {user}  người thực hiện thao tác khởi tạo
              * @param  {orderOwnerId}  ID của user sẽ tạo báo cáo
+             * @param  {pageId}  page ID
              */
-            var preparingEmptyReport = function(user, orderOwner) {
+            var preparingEmptyReport = function(user, orderOwner, pageId) {
                 return new Promise(function(resolve, reject){
-                    // console.log(user);
-                    // first weneed to check what day to update report
                     var today = new Date();
                     var reportDateString = convertDate(today);
-                    // console.log(orderOwner);
+                    prepareEmptyDayReport(reportDateString).then(function(response){
+                        console.log(response);
+                        prepareEmptyUserReport(user, orderOwner, reportDateString).then(function(response){
+                            console.log(response);
+                            prepareEmptyPageReport(pageId, reportDateString).then(function(response){
+                                console.log(response);
+                                resolve('Đã khởi tạo thành công tất cả báo cáo');
+                            })
+                        })
+                    })
+                    
+                })
+            }
 
-                    // khởi tạo báo cáo ngày nếu chưa có
-                    // check if exist today report record
-                    firebase.database().ref().child('report').orderByChild('date').equalTo(reportDateString).once('value', function(snapshot) {
+            function prepareEmptyDayReport(date){
+                return new Promise(function(resolve, reject){
+                    // kiểm tra báo cáo đã có chưa
+                    firebase.database().ref().child('report').orderByChild('date').equalTo(date)
+                    .once('value', function(snapshot) {
                         if (snapshot.val() !== null) {
-                            console.log('Report cho ngày đã tồn tại, không cần khởi tạo');
-                            // khởi tạo báo cáo cho user
-                            if (orderOwner) {
-                                console.log('bắt đầu khởi tạo báo cáo ngày cho user' + orderOwner)
-                                firebase.database().ref().child('report').child(reportDateString).child('userReport')
-                                        .child(orderOwner.id).once('value', function(snapshot) {
-                                            if (snapshot.val() !== null) {
-                                                // exist => update data
-                                                console.log('Report cho User đã tồn tại, không cần khởi tạo');
-                                                
-                                            } else {
-                                                console.log('Report cho User chưa có => khởi tạo');
-                                                // not exist => create 
-                                                firebase.database().ref().child('report').child(reportDateString).child('userReport')
-                                                    .child(orderOwner.id).transaction(function() {
-                                                        return {
-                                                            calledCount: 0,
-                                                            blockedCount: 0, //8
-                                                            callLaterCount: 0, //5
-                                                            cancelCount: 0, // 7
-                                                            penddingCount: 0, //3
-                                                            missedCount: 0, //9
-                                                            notCalledCount: 0, //1 <====== neet to init value here
-                                                            successCount: 0, //6
-                                                            id: (user.is_admin == 1 || user.is_mod == 1) ? orderOwner.id : user.id,
-                                                            userName: (user.is_admin == 1 || user.is_mod == 1) ? orderOwner.last_name : user.last_name,
-                                                            lastSuccessAt: 0
-                                                        }
-                                                    }).then(function(r){
-                                                        resolve(r);
-                                                    });
-                                            }
-                                        }).then(function(){
-                                            resolve('Khởi tạo báo cáo thành công');
-                                        });
-                                }
-                                else{
-                                    resolve('Khởi tạo báo cáo thành công');
-                                }
-                        } else {
-                            // not exist => create 
-                            firebase.database().ref().child('report').child(reportDateString).transaction(function() {
+                            resolve('Báo cáo ngày ' + date + ' đã có => không cần khởi tạo')
+                        }
+                        else{
+                            firebase.database().ref().child('report').child(date).transaction(function() {
                                 return {
                                     calledCount: 0,
-                                    date: reportDateString,
+                                    date: date,
                                     blockedCount: 0, //8
                                     callLaterCount: 0, //5
                                     cancelCount: 0, // 7
@@ -618,45 +724,78 @@
                                 }
                             })
                             .then(function(response){
-                                // khởi tạo báo cáo trống cho user nếu cần
-                            // Nếu Order này chưa được gán => không cần khởi tạo báo cáo
-                            if (orderOwner && orderOwner.id) {
-                                firebase.database().ref().child('report').child(reportDateString).child('userReport')
-                                        .child(orderOwner.id).once('value', function(snapshot) {
-                                            if (snapshot.val() !== null) {
-                                                // exist => update data
-                                                console.log('Report cho User đã tồn tại, không cần khởi tạo');
-                                                
-                                            } else {
-                                                console.log('Report cho User chưa có => khởi tạo');
-                                                // not exist => create 
-                                                firebase.database().ref().child('report').child(reportDateString).child('userReport')
-                                                    .child(orderOwner.id).transaction(function() {
-                                                        return {
-                                                            calledCount: 0,
-                                                            blockedCount: 0, //8
-                                                            callLaterCount: 0, //5
-                                                            cancelCount: 0, // 7
-                                                            penddingCount: 0, //3
-                                                            missedCount: 0, //9
-                                                            notCalledCount: 0, //1 <====== neet to init value here
-                                                            successCount: 0, //6
-                                                            id: (user.is_admin == 1 || user.is_mod == 1) ? orderOwner.id : user.id,
-                                                            userName: (user.is_admin == 1 || user.is_mod == 1) ? orderOwner.last_name : user.last_name,
-                                                            lastSuccessAt: 0
-                                                        }
-                                                    });
-                                            }
-                                        }).then(function(){
-                                            resolve('Khởi tạo báo cáo thành công');
-                                        });
-                                }
-                                else{
-                                    resolve('Khởi tạo báo cáo thành công');
-                                }
-                            });
+                                resolve('Khởi tạo báo cáo ngày ' + date + ' thành công');
+                            })
+                            .catch(function(err){
+                                reject(err);
+                            })
                         }
-                    });
+                    })
+                    
+                })
+            }
+
+            function prepareEmptyUserReport(user, owner, date){
+                return new Promise(function(resolve, reject){
+                    if(owner){
+                        firebase.database().ref().child('report').child(date).child('userReport')
+                        .child(owner.id).once('value', function(snapshot) {
+                            if (snapshot.val() !== null) {
+                                resolve('Báo cáo ngày của user ' + user.last_name + ' đã có => không cần khởi tạo')
+                            } 
+                            else {
+                                firebase.database().ref().child('report').child(date).child('userReport')
+                                .child(owner.id).transaction(function() {
+                                    return {
+                                        calledCount: 0,
+                                        blockedCount: 0, //8
+                                        callLaterCount: 0, //5
+                                        cancelCount: 0, // 7
+                                        penddingCount: 0, //3
+                                        missedCount: 0, //9
+                                        notCalledCount: 0, //1 <====== neet to init value here
+                                        successCount: 0, //6
+                                        id: (user.is_admin == 1 || user.is_mod == 1) ? owner.id : user.id,
+                                        userName: (user.is_admin == 1 || user.is_mod == 1) ? owner.last_name : user.last_name,
+                                        lastSuccessAt: 0
+                                    }
+                                })
+                                .then(function(){
+                                    resolve('Khởi tạo báo cáo ngày của user ' + owner.last_name + ' thành công');
+                                });
+                            }
+                        })
+                    }
+                    else{
+                        resolve('Không cần khởi tạo báo cáo ngày cho user == null')
+                    }
+                })
+            }
+
+            function prepareEmptyPageReport(pageId, date){
+                return new Promise(function(resolve, reject){
+                    if(pageId){
+                        firebase.database().ref().child('report').child(date).child('pageReport')
+                        .child(pageId).once('value', function(snapshot) {
+                            if (snapshot.val() !== null) {
+                                resolve('Report cho Page' + pageId + ' đã tồn tại, không cần khởi tạo');
+                            } 
+                            else {
+                                firebase.database().ref().child('report').child(date).child('pageReport')
+                                .child(pageId).transaction(function() {
+                                    return {
+                                        totalCustomers: 0,
+                                        totalsuccess: 0, //
+                                    }
+                                }).then(function(r){
+                                    resolve('Khởi tạo báo cáo ngày của page ' + pageId + ' thành công');
+                                });
+                            }
+                        })
+                    }
+                    else{
+                        resolve('Không cần khởi tạo báo cáo cho page id == null');
+                    }
                 })
             }
 
@@ -666,7 +805,7 @@
              * @param  {orderData}  order data as json object
              * @return {object} response
              */
-            var onAddNewOrder = function(user, orderData) {
+            var onAddNewOrder = function(user, orderData, sellers) {
                 var today = new Date();
                 var reportDateString = convertDate(today);
                 var nodeNameToUpdate = findNodeName(parseInt(orderData.status_id));
@@ -681,7 +820,22 @@
                         // cập nhật report
                         // orderData.seller_will_call_id
                         // cần tìm seller và truyền vào phuuwong thức sau nếu ki tạo order gán cho serler
-                        preparingEmptyReport(user, null).then(function(response){
+                        var owner = null;
+                        if(orderData.seller_will_call_id){
+                            angular.forEach(sellers, function(seller){
+                                if(seller.id == orderData.seller_will_call_id){
+                                    owner = seller;
+                                }
+                            })
+                        }
+                        preparingEmptyReport(user, owner, orderData.page_id).then(function(response){
+                            // cập nhật báo cáo cho page
+                            firebase.database().ref().child('report').child(reportDateString).child('pageReport')
+                            .child(orderData.page_id).child('totalCustomers').transaction(function(oldValue) {
+                                return oldValue + 1;
+                                });
+
+                            //
                             firebase.database().ref().child('report').child(reportDateString).child(nodeNameToUpdate)
                             .transaction(function(oldValue) {
                                 return oldValue + 1;
@@ -765,6 +919,12 @@
              * @param  {userId}  user id sẽ được phân bổ
              */
             var onUpdateOrdersOwner = function(orders, user) {
+                ////////////////////////////////////////////////////////////////////
+                //////??????????????????????????????????????????????????????????????
+                //////??????????????????????????????????????????????????????????????
+                //////??????????????????????????????????????????????????????????????
+                // KHI PHÂN SỐ CŨ CỦA NGÀY TRƯỚC XỬ LÝ BÁO CÁO NHƯ THẾ NÀO????????
+
                 // console.log(orders);
                 return new Promise(function(resolve, reject) {
                     if (orders.length == 0) {
@@ -794,7 +954,7 @@
                             var nodeName = findNodeName(parseInt(key));
 
                             // Cập nhật báo cáo cho user
-                            preparingEmptyReport(user, user).then(function(response){
+                            preparingEmptyReport(user, user, null).then(function(response){
                                 firebase.database().ref().child('report').child(reportDateString).child('userReport')
                                     .child(user.id).child(nodeName).transaction(function(oldValue) {
                                         return oldValue + orders.length;
@@ -909,7 +1069,7 @@
                                 // tạo mảng báo cáo cho user nếu cần
                                 // CẨN THẬN: NẾU HỦY CÁC ORDERS CỦA NGÀY CŨ SẼ PHÁT SINH BÁO CÁO TRONG NGÀY MỚI
                                 // CẦN XỬ LÝ
-                                preparingEmptyReport(user, user).then(function(response){
+                                preparingEmptyReport(user, user, null).then(function(response){
                                     firebase.database().ref().child('report').child(reportDateString).child('userReport')
                                         .child(user.id).child(nodeName).transaction(function(oldValue) {
                                             if(oldValue <= 0){
@@ -1078,6 +1238,46 @@
                 })
             }
 
+            ////// get images
+            var getPhotos = function(pageSize){
+                return new Promise(function(resolve, reject){
+                    var result = [];
+                    firebase.database().ref().child('uploads').child('products').child('images')
+                        .orderByKey()
+                        .limitToLast(pageSize)
+                        .on('child_added', snapshot => {
+                            // console.log(snapshot.val());
+                            if(snapshot.val().status_id !== 0)
+                            result.push({
+                                key : snapshot.key,
+                                data : snapshot.val()
+                            });
+                            resolve(result);
+                        })
+                })
+            }
+
+            var getNextPhotos = function(fromKey, pageSize){
+                return new Promise(function(resolve, reject){
+                    var result = [];
+                    firebase.database().ref().child('uploads').child('products').child('images')
+                        .orderByKey()
+                        .limitToLast(pageSize)
+                        .endAt(fromKey)
+                        // .limitToLast(pageSize)
+                        .on('child_added', snapshot => {
+                            if(snapshot.val().status_id !== 0)
+                            result.push({
+                                key : snapshot.key,
+                                data : snapshot.val()
+                            });
+                            // console.log(snapshot.val());
+                            // console.log(snapshot.key);
+                            resolve(result);
+                        })
+                })
+            }
+
             /////////////////////////////////////////////////////////////////////////////////////
             // TRANG SHIPPING
             var getShippingItems = function(pageSize){
@@ -1167,6 +1367,41 @@
                 });
             }
 
+            var getPagesReportForDate = function(date){
+                // date = 2018-07-03
+                var reportDateString = convertDate2(date);
+                return firebase.database().ref().child('report').child(reportDateString)
+                .child('pageReport').once('value', function(snapshot) {
+                });
+            }
+
+            /**
+            * Create file item formanager
+            * @param  {fileName}  user who changing status
+            * @return {response data} response data
+            */
+            var submitFileItem = function(fileData){
+                return new Promise(function(resolve, reject){
+                    firebase.database().ref().child('uploads').child('products').child('images').push(fileData)
+                    .then(function(){
+                        resolve('Tạo node thành công');
+                    });
+                })
+            }
+
+            var deleteFileItem = function(id){
+                return new Promise(function(resolve, reject){
+                    var updates = {};
+                    updates['/uploads/products/images/' + id] = null;
+                    return firebase.database().ref().update(updates).then(function() {
+                        resolve('Đã xóa ' + id + ' thành công.');
+                    })
+                    .catch(function(err){
+                        reject('Không thể xóa, lỗi: ' + err)
+                    })
+                })
+            }
+
             return {
                 getCanReleaseStatusIds : getCanReleaseStatusIds,
                 getOrders : getOrders,
@@ -1197,6 +1432,13 @@
                 // REPORT
                 getReportForDate : getReportForDate,
                 getUsersReportForDate : getUsersReportForDate,
+                getPagesReportForDate : getPagesReportForDate,
+
+                // photos
+                getPhotos : getPhotos,
+                getNextPhotos : getNextPhotos,
+                submitFileItem : submitFileItem,
+                deleteFileItem: deleteFileItem,
             }
 
         }]);

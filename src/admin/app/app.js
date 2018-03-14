@@ -9,6 +9,7 @@ var m_admin = angular.module('m_admin', [
   'toastr',
   '720kb.datepicker',
   'ngDialog',
+  'ngFileUpload',
   
   'mGHN',
   'mFacebook',
@@ -31,6 +32,7 @@ var m_admin = angular.module('m_admin', [
       cfpLoadingBarProvider.includeSpinner = false;
         $locationProvider.hashPrefix('');
         // use the HTML5 History API
+        // $locationProvider.html5Mode(true);
 
         $urlRouterProvider.otherwise("/admin");
         $urlRouterProvider.when('/admin','/admin/dashboard/general');
@@ -48,6 +50,11 @@ var m_admin = angular.module('m_admin', [
                         return response;
                       });
                     },
+                    fanpages: function(MFirebaseService){
+                      return MFirebaseService.get_fanpages().then(function(response){
+                        return response;
+                      });
+                    }
                 }
               });
 

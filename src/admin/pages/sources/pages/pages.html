@@ -1,181 +1,181 @@
 <div id="options_bucket">
-               <div class="Subhead">
-                  <h2 class="Subhead-heading">Facebook Pages</h2>
-                  <div class="">
-                     <div class="BtnGroup float-right">
-                        <button class="btn btn-primary btn-sm" data-box-overlay-id="add-new-product-to-list">
-                           Thêm Page
+   <div class="Subhead">
+      <h2 class="Subhead-heading">Facebook Pages</h2>
+      <div class="">
+         <div class="BtnGroup float-right">
+            <button class="btn btn-primary btn-sm" data-box-overlay-id="add-new-product-to-list">
+            Thêm Page
+            </button>
+         </div>
+         <div class="Overlay js-box-overlay-container transition-in-out" id="add-new-product-to-list" hidden="" aria-modal="true" role="dialog" aria-label="Thêm sản phẩm mới vào danh mục?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
+            <div class="Overlay-table-full bg-transparent-dark">
+               <div class="Overlay-cell-middle">
+                  <div class="Box Box--overlay js-box-overlay-content">
+                     <div class="Box-header">
+                        <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
+                           <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                              <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                           </svg>
+                        </button>
+                        <h3 class="Box-title">
+                           Thêm một Fanpage vào cơ sở dữ liệu
+                        </h3>
+                     </div>
+                     <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
+                        <div class="one-half column pl-0">
+                           <dl class="form-group">
+                              <dt><label for="user_profile_email">Page ID <span class="Label Label--outline Label--outline-green">number</span></label></dt>
+                              <dd>
+                                 <input type="number" class="form-control" ng-model="page_data.id" ng-blur="graph_add_page()">
+                              </dd>
+                           </dl>
+                        </div>
+                        <div class="one-half column pr-0">
+                           <dl class="form-group">
+                              <dt><label for="user_profile_email">Page's name</label></dt>
+                              <dd>
+                                 <input type="text" class="form-control" ng-model="page_data.name">
+                              </dd>
+                           </dl>
+                        </div>
+                        <dl class="form-group">
+                           <dt><label for="user_profile_email">Access token</label></dt>
+                           <dd>
+                              <input type="text" class="form-control" ng-model="page_data.access_token" placeholder="Token của ứng dụng đối với trang này">
+                           </dd>
+                        </dl>
+                        <!-- <h3>Tạo Hub trên Giao hàng nhanh</h3> -->
+                        <div class="form-group">
+                           <dt><label>Chọn hub tương ứng trên GHN</label></dt>
+                           <p class="note">Hoặc bấm <a href="" ng-click="goToAddHub()">vào đây</a> để thêm mới một Hub trên GHN</p>
+                           <dd>
+                              <select class="form-control" chosen ng-model="page_data.HubID" ng-options="s.HubID as (s.Address + ' - ' + s.ContactName + ' - ' + s.ContactPhone) for s in ghn_hubs">
+                                 <option value=""></option>
+                              </select>
+                           </dd>
+                        </div>
+                     </div>
+                     <div class="Box-footer">
+                        <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" ng-click="onAddNewPage()">
+                        Thêm Fanpage
                         </button>
                      </div>
-                     <div class="Overlay js-box-overlay-container transition-in-out" id="add-new-product-to-list" hidden="" aria-modal="true" role="dialog" aria-label="Thêm sản phẩm mới vào danh mục?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
-                          <div class="Overlay-table-full bg-transparent-dark">
-                             <div class="Overlay-cell-middle">
-                                <div class="Box Box--overlay js-box-overlay-content">
-                                   <div class="Box-header">
-                                      <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
-                                         <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                                            <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                                         </svg>
-                                      </button>
-                                      <h3 class="Box-title">
-                                         Thêm một Fanpage vào cơ sở dữ liệu
-                                      </h3>
-                                   </div>
-                                   <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
-                                      <div class="one-half column pl-0">
-                                         <dl class="form-group">
-                                           <dt><label for="user_profile_email">Page ID <span class="Label Label--outline Label--outline-green">number</span></label></dt>
-                                           <dd>
-                                               <input type="number" class="form-control" ng-model="page_data.id" ng-blur="graph_add_page()">
-                                            </dd>
-                                         </dl>
-                                      </div>
-                                      <div class="one-half column pr-0">
-                                          <dl class="form-group">
-                                           <dt><label for="user_profile_email">Page's name</label></dt>
-                                           <dd>
-                                               <input type="text" class="form-control" ng-model="page_data.name">
-                                            </dd>
-                                         </dl>
-                                      </div>
-                                      <dl class="form-group">
-                                        <dt><label for="user_profile_email">Access token</label></dt>
-                                        <dd>
-                                            <input type="text" class="form-control" ng-model="page_data.access_token" placeholder="Token của ứng dụng đối với trang này">
-                                         </dd>
-                                      </dl>
-                                      <!-- <h3>Tạo Hub trên Giao hàng nhanh</h3> -->
-                                      <div class="form-group">
-                                          <dt><label>Chọn hub tương ứng trên GHN</label></dt>
-                                          <p class="note">Hoặc bấm <a href="" ng-click="goToAddHub()">vào đây</a> để thêm mới một Hub trên GHN</p>
-                                          <dd>
-                                             <select class="form-control" chosen ng-model="page_data.HubID" ng-options="s.HubID as (s.Address + ' - ' + s.ContactName + ' - ' + s.ContactPhone) for s in ghn_hubs">
-                                                <option value=""></option>
-                                             </select>
-                                          </dd>
-                                    </div>
-                                      
-                                   </div>
-                                   <div class="Box-footer">
-                                      <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" ng-click="onAddNewPage()">
-                                            Thêm Fanpage
-                                      </button>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                     
-                     <div class="breadcrumb">
-                     </div>
                   </div>
-               </div>
-               <p class="border border-dashed p-2 f6">
-                Mỗi Fanpage được quản lý với các thông số: ID - Fanpage ID; Tên - Tên Fanpage; Access token - access token được cấp bởi facebook cho ứng dụng để thực hiện các quyền trên page; HubID - ID cửa hàng tương ứng trên Giao hàng nhanh.
-              </p>
-               <div class="border-bottom">
-                  <div class="table-list-header">
-                     <div class="p-2">Danh sách các Pages đang quản lý</div>
-                  </div>
-                  <div class="border-right border-bottom border-left">
-                        <ul class="js-navigation-container js-active-navigation-container">
-                           <li class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read" ng-repeat="page in fanpages | reverse track by $index">
-                              <div class="d-table table-fixed width-full Box-row--drag-hide position-relative">
-                                 <div class="float-left pt-2 pl-1">
-                                     <span>
-                                       <img ng-src="{{page.id ? '//graph.facebook.com/' + page.id + '/picture?width=50&amp;height=50' : '';}}" draggable="false" style="width: 48px;height: 48px;    float: left;border-radius: 50%;    border: 2px solid #fff;    vertical-align: middle;" />
-                                     </span>
-                                   </div>
-                                   <div class="float-left col-9 lh-condensed p-2">
-                                    <a href="//facebook.com/{{page.id}}" target="_blank" class="link-gray-dark v-align-middle no-underline h4 js-navigation-open">
-                                    [{{page.id}}]
-                                    </a>
-                                    <span class="d-inline-block mr-1">
-                                       <span>
-                                          - {{page.name}}
-                                       </span>
-                                    </span>
-                                    <div class="mt-1 text-small text-gray">
-                                       <div class="opened-by" ng-if="page.access_token">
-                                           [ Đã khai báo token ] 
-                                       </div>
-                                       <div class="opened-by" ng-if="page.access_token">
-                                           [ HubID: {{page.HubID}} ]
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="float-right col-1">
-                                    <div class="float-left col-7 pt-2 pr-3 text-right">
-                                       <div class="AvatarStack AvatarStack--right ">
-                                             <button class="btn-link btn-sm" data-box-overlay-id="edit-fanpage" ng-click="onEditPage(page)">
-                                                <svg aria-hidden="true" class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg>
-                                             </button>
-                                       </div>
-                                    </div>
-                                    <div class="float-right col-5 no-wrap pt-2 pr-3 text-right">
-                                       <a class="muted-link" aria-label="2 comments">
-                                          <svg height="16" class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path></svg>
-                                       </a>
-                                    </div>
-                                 </div>
-                              </div>
-                           </li>
-                        </ul>
-                     </div>
-                  
                </div>
             </div>
-            <!-- /#options_bucket -->
-
-            <div class="Overlay js-box-overlay-container transition-in-out" id="edit-fanpage" hidden="" aria-modal="true" role="dialog" aria-label="Chỉnh sửa thông tin Page?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
-                          <div class="Overlay-table-full bg-transparent-dark">
-                             <div class="Overlay-cell-middle">
-                                <div class="Box Box--overlay js-box-overlay-content">
-                                   <div class="Box-header">
-                                      <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
-                                         <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                                            <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                                         </svg>
-                                      </button>
-                                      <h3 class="Box-title">
-                                         Chỉnh sửa thông tin Fanpage
-                                      </h3>
-                                   </div>
-                                   <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
-                                      <dl class="form-group">
-                                        <dt><label for="user_profile_email">Page ID <span class="Label Label--outline Label--outline-green">number</span></label></dt>
-                                        <dd>
-                                            <input type="number" class="form-control" ng-model="page_data_to_edit.id" ng-blur="graph_page()">
-                                         </dd>
-                                      </dl>
-                                      <dl class="form-group">
-                                        <dt><label for="user_profile_email">Page's name</label></dt>
-                                        <dd>
-                                            <input type="text" class="form-control" ng-model="page_data_to_edit.name">
-                                         </dd>
-                                      </dl>
-                                      <dl class="form-group">
-                                        <dt><label for="user_profile_email">Access token</label></dt>
-                                        <dd>
-                                            <input type="text" class="form-control" ng-model="page_data_to_edit.access_token">
-                                         </dd>
-                                      </dl>
-                                      <div class="form-group">
-                                          <dt><label>Chọn hub tương ứng trên GHN</label></dt>
-                                          <p class="note">Hoặc bấm <a href="" ng-click="goToAddHub()">vào đây</a> để thêm mới một Hub trên GHN</p>
-                                          <dd>
-                                             <select class="form-control" chosen ng-model="page_data_to_edit.HubID" ng-options="s.HubID as (s.Address + ' - ' + s.ContactName + ' - ' + s.ContactPhone) for s in ghn_hubs">
-                                                <option value=""></option>
-                                             </select>
-                                          </dd>
-                                    </div>
-                                   </div>
-                                   <div class="Box-footer">
-                                      <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" ng-click="onSubmitEditPage()">
-                                            Cập nhật thông tin
-                                      </button>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
+         </div>
+         <div class="breadcrumb">
+         </div>
+      </div>
+   </div>
+   <p class="border border-dashed p-2 f6">
+      Mỗi Fanpage được quản lý với các thông số: ID - Fanpage ID; Tên - Tên Fanpage; Access token - access token được cấp bởi facebook cho ứng dụng để thực hiện các quyền trên page; HubID - ID cửa hàng tương ứng trên Giao hàng nhanh.
+   </p>
+   <div class="border-bottom">
+      <div class="table-list-header">
+         <div class="p-2">Danh sách các Pages đang quản lý</div>
+      </div>
+      <div class="border-right border-bottom border-left">
+         <ul class="js-navigation-container js-active-navigation-container">
+            <li class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read" ng-repeat="page in fanpages | reverse track by $index">
+               <div class="d-table table-fixed width-full Box-row--drag-hide position-relative">
+                  <div class="float-left pt-2 pl-1">
+                     <span>
+                     <img ng-src="{{page.id ? '//graph.facebook.com/' + page.id + '/picture?width=50&amp;height=50' : '';}}" draggable="false" style="width: 48px;height: 48px;    float: left;border-radius: 50%;    border: 2px solid #fff;    vertical-align: middle;" />
+                     </span>
+                  </div>
+                  <div class="float-left col-9 lh-condensed p-2">
+                     <a href="//facebook.com/{{page.id}}" target="_blank" class="link-gray-dark v-align-middle no-underline h4 js-navigation-open">
+                     [{{page.id}}]
+                     </a>
+                     <span class="d-inline-block mr-1">
+                     <span>
+                     - {{page.name}}
+                     </span>
+                     </span>
+                     <div class="mt-1 text-small text-gray">
+                        <div class="opened-by" ng-if="page.access_token">
+                           [ Đã khai báo token ] 
+                        </div>
+                        <div class="opened-by" ng-if="page.access_token">
+                           [ HubID: {{page.HubID}} ]
+                        </div>
+                     </div>
+                  </div>
+                  <div class="float-right col-1">
+                     <div class="float-left col-7 pt-2 pr-3 text-right">
+                        <div class="AvatarStack AvatarStack--right ">
+                           <button class="btn-link btn-sm" data-box-overlay-id="edit-fanpage" ng-click="onEditPage(page)">
+                              <svg aria-hidden="true" class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                                 <path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path>
+                              </svg>
+                           </button>
+                        </div>
+                     </div>
+                     <div class="float-right col-5 no-wrap pt-2 pr-3 text-right">
+                        <a class="muted-link" aria-label="2 comments">
+                           <svg height="16" class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="16" aria-hidden="true">
+                              <path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path>
+                           </svg>
+                        </a>
+                     </div>
+                  </div>
+               </div>
+            </li>
+         </ul>
+      </div>
+   </div>
+</div>
+<!-- /#options_bucket -->
+<div class="Overlay js-box-overlay-container transition-in-out" id="edit-fanpage" hidden="" aria-modal="true" role="dialog" aria-label="Chỉnh sửa thông tin Page?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
+   <div class="Overlay-table-full bg-transparent-dark">
+      <div class="Overlay-cell-middle">
+         <div class="Box Box--overlay js-box-overlay-content">
+            <div class="Box-header">
+               <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
+                  <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                     <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                  </svg>
+               </button>
+               <h3 class="Box-title">
+                  Chỉnh sửa thông tin Fanpage
+               </h3>
+            </div>
+            <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
+               <dl class="form-group">
+                  <dt><label for="user_profile_email">Page ID <span class="Label Label--outline Label--outline-green">number</span></label></dt>
+                  <dd>
+                     <input type="number" class="form-control" ng-model="page_data_to_edit.id" ng-blur="graph_page()">
+                  </dd>
+               </dl>
+               <dl class="form-group">
+                  <dt><label for="user_profile_email">Page's name</label></dt>
+                  <dd>
+                     <input type="text" class="form-control" ng-model="page_data_to_edit.name">
+                  </dd>
+               </dl>
+               <dl class="form-group">
+                  <dt><label for="user_profile_email">Access token</label></dt>
+                  <dd>
+                     <input type="text" class="form-control" ng-model="page_data_to_edit.access_token">
+                  </dd>
+               </dl>
+               <div class="form-group">
+                  <dt><label>Chọn hub tương ứng trên GHN</label></dt>
+                  <p class="note">Hoặc bấm <a href="" ng-click="goToAddHub()">vào đây</a> để thêm mới một Hub trên GHN</p>
+                  <dd>
+                     <select class="form-control" chosen ng-model="page_data_to_edit.HubID" ng-options="s.HubID as (s.Address + ' - ' + s.ContactName + ' - ' + s.ContactPhone) for s in ghn_hubs">
+                        <option value=""></option>
+                     </select>
+                  </dd>
+               </div>
+            </div>
+            <div class="Box-footer">
+               <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" ng-click="onSubmitEditPage()">
+               Cập nhật thông tin
+               </button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

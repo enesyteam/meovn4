@@ -42,14 +42,8 @@
           .state('home.orders.create.byComment',{
                 url: '/byComment',
                 controller : 'CreateOrderByCommentCtrl',
-                templateUrl: "src/admin/pages/orders/create/create-order-by-comment.html",
-                resolve : {
-                  fanpages: function(MFirebaseService){
-                      return MFirebaseService.get_fanpages().then(function(response){
-                        return response;
-                      });
-                    }
-                }
+                templateUrl: "src/admin/pages/orders/create/create-order-by-comment.html"
+                
             });
       });
 

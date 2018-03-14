@@ -1,32 +1,30 @@
 <div class="columns">
-	<div class="one-half column">
-		<div class="row" style="display: block">
-			<form>
-			<dl class="form-group">
-			   <dt><label>Nhập link cuộc hội thoại và Enter</label></dt>
-			   <!-- <p class="note">sdfsdfdsfdsf</p> -->
-			   <dd><input ng-model="conversationLink" class="form-control" type="text" placeholder="e.g: https://facebook.com/326410367763204_326415471096027" graph-enter="">
-			   </dd>
-			</dl>
-			
-			</form>
-	      <div class="one-half column pl-0">
-	      	<dl class="form-group width-full">
-			   <dt><label>Số điện thoại khách hàng</label></dt>
-			   <dd><input ng-model="orderData.customer_mobile" class="form-control" type="text" placeholder="e.g: 0943312354" >
-			   </dd>
-			</dl>
-	      </div>
-	      <div class="one-half column pr-0">
-	      	<dl class="form-group width-full">
-			   <dt><label>Tên khách hàng</label></dt>
-			   <dd><input ng-model="orderData.customer_name" class="form-control" type="text" placeholder="Tên khách hàng" >
-			   </dd>
-			</dl>
-	      </div>
-		   <div>
-		   	<dl class="form-group">
-		   		<dt><label>Ghi chú của Admin</label></dt>
+   <div class="one-half column">
+      <div class="row" style="display: block">
+         <form>
+            <dl class="form-group">
+               <dt><label>Nhập link cuộc hội thoại và Enter</label></dt>
+               <dd><input ng-model="conversationLink" class="form-control" type="text" placeholder="e.g: https://facebook.com/326410367763204_326415471096027" graph-enter="">
+               </dd>
+            </dl>
+         </form>
+         <div class="one-half column pl-0">
+            <dl class="form-group width-full">
+               <dt><label>Số điện thoại khách hàng</label></dt>
+               <dd><input ng-model="orderData.customer_mobile" class="form-control" type="text" placeholder="e.g: 0943312354" >
+               </dd>
+            </dl>
+         </div>
+         <div class="one-half column pr-0">
+            <dl class="form-group width-full">
+               <dt><label>Tên khách hàng</label></dt>
+               <dd><input ng-model="orderData.customer_name" class="form-control" type="text" placeholder="Tên khách hàng" >
+               </dd>
+            </dl>
+         </div>
+         <div>
+            <dl class="form-group">
+               <dt><label>Ghi chú của Admin</label></dt>
                <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
                   <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="order-note" rows="20" style="margin: 0px 5px 0px 0px; width: 442px; height: 69px;" ng-model="orderData.admin_note"></textarea>
                   <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
@@ -36,52 +34,45 @@
                   </div>
                </dd>
             </dl>
-		   </div>
-			<dl class="form-group" style="display: flex">
-				<div class="one-half column pl-0 chosen-sm">
-                    <dt>
-                       <label>Gán cho Telesale {{selectedSeller}}</label>
-                    </dt>
-                    <select class="form-control input-sm " chosen ng-model="orderData.seller_will_call_id" ng-options="s.id as s.last_name for s in sellers" data-placeholder-text-single="'Chọn telesale'" style="width: 100%">
-                       <option value=""></option>
-                    </select>
-                    
-                 </div>
-                 <div class="one-half column pl-0">
-                 	<dt>
-                       <label>Click để reset</label>
-                    </dt>
-                    <dd>
-                    	<a ng-click="resetSelectedSeller()" class="btn btn-sm mt-1">
-				        	Reset telesale
-				        </a>
-                    </dd>
-                 </div>
-			</dl>
-			<dl class="form-checkbox">
-	           	<dt>
-	               <label>
-	               <input id="toggle_visibility" name="toggle_visibility" type="checkbox" value="true" ng-model="sendThanks" ng-checked="sendThanks">
-	               	Gửi tin nhắn cảm ơn khách hàng
-	               </label>
-	            </dt>
-	         </dl>
-			<dl class="form-group">
-				<a ng-click="submitOrder()" class="btn btn-primary float-right">
-		        	Tạo Order
-		        </a>
-			</dl>
-		</div>
-		<!-- {{sources}} -->
-		
-		
-	</div>
-	<div class="one-half column">
-		<div class="newsfeed-placeholder p-0 mb-3 mt-5">
-			<div ng-include="'/src/admin/widgets/chat-box.html'"></div>
-		</div>
-	</div>
+         </div>
+         <dl class="form-group" style="display: flex">
+            <div class="one-half column pl-0 chosen-sm">
+               <dt>
+                  <label>Gán cho Telesale {{selectedSeller}}</label>
+               </dt>
+               <select class="form-control input-sm " chosen ng-model="orderData.seller_will_call_id" ng-options="s.id as s.last_name for s in sellers" data-placeholder-text-single="'Chọn telesale'" style="width: 100%">
+                  <option value=""></option>
+               </select>
+            </div>
+            <div class="one-half column pl-0">
+               <dt>
+                  <label>-</label>
+               </dt>
+               <dd>
+                  <a ng-click="resetSelectedSeller()" class="btn btn-sm mt-1">
+                  Reset telesale
+                  </a>
+               </dd>
+            </div>
+         </dl>
+         <dl class="form-checkbox">
+            <dt>
+               <label>
+               <input id="toggle_visibility" name="toggle_visibility" type="checkbox" value="true" ng-model="sendThanks" ng-checked="sendThanks">
+               Gửi tin nhắn cảm ơn khách hàng
+               </label>
+            </dt>
+         </dl>
+         <dl class="form-group">
+            <a ng-click="submitOrder()" class="btn btn-primary float-right">
+            Tạo Order
+            </a>
+         </dl>
+      </div>
+   </div>
+   <div class="one-half column">
+      <div class="newsfeed-placeholder p-0 mb-3 mt-5">
+         <div ng-include="'/src/admin/widgets/chat-box.html'"></div>
+      </div>
+   </div>
 </div>
-<!-- <div class="row" style="display: block">
-	<pre>{{orderData | json}}</pre> 
-</div> -->

@@ -29,8 +29,8 @@ var mShipping = angular.module('mShipping', [
 
         cfpLoadingBarProvider.includeSpinner = false;
         cfpLoadingBarProvider.parentSelector = '#loading-bar';
-        // $locationProvider.hashPrefix('');
-
+        $locationProvider.hashPrefix('');
+        // $locationProvider.html5Mode(true);
         // $urlRouterProvider.otherwise("/");
         // $urlRouterProvider.when( '/','realtime');
         $stateProvider

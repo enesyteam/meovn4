@@ -48,7 +48,7 @@ function($scope, $http, $window, $timeout, $filter, $firebaseArray) {
               // console.log('Bạn chưa đăng nhập!');
           } else {
           	$scope.firebaseUser = user;
-          	$window.location = '/realtime';
+          	$window.location = '/';
           }
       });
 

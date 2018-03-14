@@ -339,17 +339,70 @@ mRealtime.controller('MainCtrl',
             $rootScope.filterPageId = 137428680255822;
         }
     }
+    // filter
+    $rootScope.genders = [
+        {
+            id : 1,
+            name : 'Nam',
+            selected: false,
+        },
+        {
+            id : 2,
+            name : 'Nữ',
+            selected: false,
+        }
+    ]
+
+    $rootScope.destinies = [
+        {
+            id : 1,
+            name : 'Kim',
+            selected: false,
+        },
+        {
+            id : 2,
+            name : 'Thủy',
+            selected: false,
+        },
+        {
+            id : 3,
+            name : 'Hỏa',
+            selected: false,
+        },
+        {
+            id : 4,
+            name : 'Thổ',
+            selected: false,
+        },
+        {
+            id : 5,
+            name : 'Mộc',
+            selected: false,
+        }
+    ]
+
     $rootScope.toggleFilterGender = function(genderId) {
-        if ($rootScope.filterGender !== genderId)
-            $rootScope.filterGender = genderId;
-        else
-            $rootScope.filterGender = null;
+        angular.forEach($rootScope.genders, function(gender){
+            if (gender.id == genderId){
+                if(gender.selected == true){
+                    gender.selected = false;
+                }
+                else{
+                    gender.selected = true;
+                }
+            }
+        })
     }
     $rootScope.toggleFilterDestiny = function(destinyId) {
-        if ($rootScope.filterDestiny !== destinyId)
-            $rootScope.filterDestiny = destinyId;
-        else
-            $rootScope.filterDestiny = null;
-        // $rootScope.filterDestiny = !$rootScope.filterDestiny ? 1 : null;
+        angular.forEach($rootScope.destinies, function(destiny){
+            if (destiny.id == destinyId){
+                if(destiny.selected == true){
+                    destiny.selected = false;
+                }
+                else{
+                    destiny.selected = true;
+                }
+            }
+        })
     }
 });

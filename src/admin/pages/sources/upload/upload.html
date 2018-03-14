@@ -1,63 +1,134 @@
 <div id="options_bucket">
    <div class="Subhead">
-      <h2 class="Subhead-heading">Quản lý files</h2>
+      <h2 class="Subhead-heading">Quản lý ảnh</h2>
+      <div class="">
+         <div class="BtnGroup float-right">
+            <button class="btn btn-primary btn-sm" ng-click="addImage()">
+               Upload ảnh
+            </button>
+         </div>
+         <div class="breadcrumb">
+         </div>
+      </div>
    </div>
-   <div class="col-md-6 float-md-left mb-4 mb-md-0">
-      <ul class="filter-list">
-         <li ng-repeat="photo in imageFiles">
-            <a class="filter-item ws-normal d-flex flex-justify-between p-2 p-md-3 mb-0 " data-pjax="" data-pjax-preserve-scroll="">
+<!--    <p class="border border-dashed p-2 f6">
+      Mỗi Fanpage được quản lý với các thông số: ID - Fanpage ID; Tên - Tên Fanpage; Access token - access token được cấp bởi facebook cho ứng dụng để thực hiện các quyền trên page; HubID - ID cửa hàng tương ứng trên Giao hàng nhanh.
+   </p> -->
+   <div class="border-bottom">
+      <div class="table-list-header">
+         <div class="p-2">Danh sách ảnh đã tải lên</div>
+      </div>
+      <div class="border-right border-bottom border-left upload-page">
+         <ul class="js-navigation-container js-active-navigation-container">
+            <li class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read photos-list" ng-repeat="photo in imageFiles track by $index" ng-class="photo.deleted ? 'deleted' : ''">
                <div class="d-table table-fixed width-full Box-row--drag-hide position-relative">
-                  <div class="float-left pt-2 pl-3">
-                     <img width="100" height="100" ng-src="{{photo.fileName}}">
+                  <div class="float-left pt-2 pb-2 pl-1">
+                     <div class="photo-holder">
+                     <img class="photo-item" ng-src="{{photo.data.fileName}}" draggable="false"/>
+                     </div>
                   </div>
                   <div class="float-left col-9 lh-condensed p-2">
-                     chi tiết
+                     <a href="{{photo.data.fileName}}" target="_blank" class="link-gray-dark v-align-middle no-underline h4 js-navigation-open">
+                     {{photo.data.name  || 'Ảnh chưa đặt tên'}}
+                     </a>
+                     <div class="mt-1 text-small text-gray">
+                        <div class="opened-by">
+                           Tải lên lúc {{photo.data.date  | date:'HH:mm dd/MM'}}
+                        </div>
+                        <div class="opened-by">
+                           bởi user: {{photo.data.uploadBy || 'không rõ'}}
+                        </div>
+                        <div class="opened-by">
+                           <div class="tags-list">
+                              <div ng-repeat="gender in photo.data.genders" class="tag-item">
+                                 <span class="text-green" ng-if="gender.selected == true">
+                                  <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path></svg>
+                                </span>
+                                <span class="text-red" ng-if="gender.selected == false">
+                                  <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path></svg>
+                                </span>
+                                {{gender.name}}
+                              </div>
+                           </div>
+                           <div class="tags-list">
+                              <div ng-repeat="destiny in photo.data.destinies" class="tag-item">
+                                 <span class="text-green" ng-if="destiny.selected == true">
+                                  <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path></svg>
+                                </span>
+                                <span class="text-red" ng-if="destiny.selected == false">
+                                  <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path></svg>
+                                </span>
+                                {{destiny.name}}
+                              </div>
+                           </div>
+                        </div>
+                     </div>
                   </div>
-                  <div class="float-right col-2">
-                     actions
+                  <div class="float-right col-1">
+                     <div class="float-left col-7 pt-2 pr-3 text-right">
+                        <div class="AvatarStack AvatarStack--right ">
+                           <button class="btn-link btn-sm" data-box-overlay-id="edit-fanpage" ng-click="onEditPage(page)">
+                              <svg aria-hidden="true" class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                                 <path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path>
+                              </svg>
+                           </button>
+                        </div>
+                     </div>
+                     <div class="float-right col-5 no-wrap pt-2 pr-3 text-right">
+                        <a class="muted-link" aria-label="2 comments" ng-click="deleteImage(photo)">
+                           <svg aria-hidden="true" class="octicon octicon-trashcan" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                           <path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"></path>
+                        </svg>
+                        </a>
+                     </div>
                   </div>
                </div>
-            </a>
-         </li>
-         <!-- <li>
-            <a href="/marketplace/cloud-66-skycap/plan/MDIyOk1hcmtldHBsYWNlTGlzdGluZ1BsYW41MzA=#pricing-and-setup" class="filter-item ws-normal d-flex flex-justify-between p-2 p-md-3 mb-0 selected" data-pjax="" data-pjax-preserve-scroll="">
-               <div class="flex-auto flex-self-center">
-                  <h4 class="f3 d-inline-block marketplace-plan-emphasis">Skycap Growth Plan
-                  </h4>
-                  <p class="text-small mb-0 pr-2">This plan includes:</p>
-               </div>
-               <div class="text-small text-right lh-condensed flex-self-center">
-                  <span class="f3 marketplace-plan-emphasis">$299</span>
-                  <span class="marketplace-plan-per-time d-block">/&nbsp;month</span>
-               </div>
-               <div class="text-small text-right lh-condensed d-none flex-self-center">
-                  <span class="f3 marketplace-plan-emphasis">$2,868</span>
-                  <span class="marketplace-plan-per-time d-block">/&nbsp;year</span>
-               </div>
-            </a>
-         </li>
-         <li>
-            <a href="/marketplace/cloud-66-skycap/plan/MDIyOk1hcmtldHBsYWNlTGlzdGluZ1BsYW41MzI=#pricing-and-setup" class="filter-item ws-normal d-flex flex-justify-between p-2 p-md-3 mb-0 " data-pjax="" data-pjax-preserve-scroll="">
-               <div class="flex-auto flex-self-center">
-                  <h4 class="f3 d-inline-block marketplace-plan-emphasis">Skycap Pro Plan
-                  </h4>
-                  <p class="text-small mb-0 pr-2">This plan includes:</p>
-               </div>
-               <div class="text-small text-right lh-condensed flex-self-center">
-                  <span class="f3 marketplace-plan-emphasis">$499</span>
-                  <span class="marketplace-plan-per-time d-block">/&nbsp;month</span>
-               </div>
-               <div class="text-small text-right lh-condensed d-none flex-self-center">
-                  <span class="f3 marketplace-plan-emphasis">$4,788</span>
-                  <span class="marketplace-plan-per-time d-block">/&nbsp;year</span>
-               </div>
-            </a>
-         </li> -->
-      </ul>
+            </li>
+         </ul>
+      </div>
    </div>
-   <div class="col-md-6 float-md-left pl-md-6">
-      <div class="newsfeed-placeholder p-3">
-         sdfds
+</div>
+<!-- Pagination -->
+<div class="paginate-container">
+   <div class="pagination">
+      <a class="next_page" ng-class="canLoadMore==false ? 'disabled' : ''" style="padding:0" rel="next" ng-click="getNextPhotos()">
+      <span ng-if="isLoaddingImages" style="border:none">
+         Đang tải ảnh...
+      </span>
+      <span ng-if="canLoadMore && !isLoaddingImages" style="border:none">
+         Tải thêm ảnh
+      </span>
+      <span ng-if="canLoadMore==false" style="border:none">
+         Đã tải tất cả ảnh
+      </span>
+   </a>
+   </div>
+</div>
+<!-- /Pagination -->
+<!-- /#options_bucket -->
+<div class="Overlay js-box-overlay-container transition-in-out" id="edit-fanpage" hidden="" aria-modal="true" role="dialog" aria-label="Chỉnh sửa thông tin Page?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
+   <div class="Overlay-table-full bg-transparent-dark">
+      <div class="Overlay-cell-middle">
+         <div class="Box Box--overlay js-box-overlay-content">
+            <div class="Box-header">
+               <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
+                  <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                     <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                  </svg>
+               </button>
+               <h3 class="Box-title">
+                  Chỉnh sửa thông tin ảnh
+               </h3>
+            </div>
+            <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
+               <p class="note">Phần chỉnh sửa ảnh sẽ được bổ sung trong lần release tiếp theo</p>
+            </div>
+            <div class="Box-footer">
+               <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" ng-click="onSubmitEditPage()">
+               Cập nhật thông tin
+               </button>
+            </div>
+         </div>
       </div>
    </div>
 </div>

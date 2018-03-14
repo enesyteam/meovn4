@@ -11,12 +11,13 @@ var mOrderManager = angular.module('mOrderManager', [
     	$locationProvider.hashPrefix('');
 
         // $locationProvider.hashPrefix('');
+        $locationProvider.html5Mode(true);
 
         // $urlRouterProvider.otherwise("/");
-        $urlRouterProvider.when('/','orders');
+        // $urlRouterProvider.when('/','/sale');
         $stateProvider
             .state('home', {
-                url: '/',
+                url: '/sale',
                 controller: 'MainCtrl',
                 templateUrl: "/src/orderManager/home.html",
             })
@@ -26,7 +27,7 @@ var mOrderManager = angular.module('mOrderManager', [
                 templateUrl: "/src/orderManager/pages/orders/orders.html",
             });
             
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/sale');
     })
     .run(themeRun);
 

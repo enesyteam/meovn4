@@ -96,7 +96,7 @@ mRealtime.controller('OdersCtrl',
             // messages
             MFacebookService.graphMessages($stateParams.conversation_id, $scope.currentAccessToken).then(function(response){
                 $scope.$apply(function(){
-                    console.log(response);
+                    // console.log(response);
                     $scope.messageData = response;
                 })
             })
@@ -108,7 +108,7 @@ mRealtime.controller('OdersCtrl',
             // graph post
             MFacebookService.graphPost($stateParams.post_id, $scope.currentAccessToken).then(function(response){
                 $scope.$apply(function(){
-                    console.log(response);
+                    // console.log(response);
                     $scope.postData = response;
                 })
             })
@@ -119,7 +119,7 @@ mRealtime.controller('OdersCtrl',
             // also graph comments
             MFacebookService.graphComments($stateParams.conversation_id, $scope.currentAccessToken).then(function(response){
                 $scope.$apply(function(){
-                    console.log(response);
+                    // console.log(response);
                     $scope.commentData = response;
                 })
             })

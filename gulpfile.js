@@ -179,6 +179,7 @@ var adminSources = gulp.src([
         'node_modules/angular-filter/dist/angular-filter.min.js', // angular filter
         'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
         'node_modules/angularjs-datepicker/dist/angular-datepicker.min.js', // date picker
+        'node_modules/ng-file-upload/dist/ng-file-upload.min.js',
 
         'node_modules/angular-facebook/angular-facebook.js',
 
@@ -190,6 +191,7 @@ var adminSources = gulp.src([
         // services
         'src/admin/service/firebase.service.js',
         'src/admin/service/facebook.service.js',
+        'src/admin/service/firebase.storage.service.js',
 
         // directives
 
@@ -307,7 +309,7 @@ var shippingSources = gulp.src([
     // 'src/realtime/app/directive.js',
     // // services
     'src/shipping/service/firebase.service.js',
-    // 'src/realtime/service/firebase.storage.service.js',
+    'src/shipping/service/firebase.storage.service.js',
     'src/shipping/service/access_token.service.js',
     'src/shipping/service/product-pack.service.js',
     'src/shipping/service/GiaoHangNhanh.service.js',
@@ -440,4 +442,9 @@ gulp.task('make-jade', function(){
     gulp.src('./dist/printing/index.html')
     .pipe(html2jade(jadeOptions))
     .pipe(gulp.dest('views/printing'));
+
+    // navigation page
+    gulp.src('./src/navigation/index.html')
+    .pipe(html2jade(jadeOptions))
+    .pipe(gulp.dest('views/navigation'));
 });

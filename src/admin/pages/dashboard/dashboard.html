@@ -1,7 +1,6 @@
 <!-- Content -->
 <div class="container new-discussion-timeline experiment-repo-nav">
    <div class="repository-content">
-      
       <div class="file-navigation in-mid-page">
          <div class="BtnGroup float-right">
             <!-- '"` --><!-- </textarea></xmp> -->
@@ -19,30 +18,23 @@
          </div>
          <div class="select-menu branch-select-menu js-menu-container js-select-menu float-left">
             <datepicker date-format="yyyy-MM-dd" selector="form-control">
-                <div class="input-group">
-                    <input class="form-control input-sm" placeholder="Chọn ngày hiển thị" ng-model="selectedDate"/>
-                    <span class="input-group-addon" style="cursor: pointer">
-                    <i class="fa fa-lg fa-calendar"></i>
-                    </span>
-                </div>
+               <div class="input-group">
+                  <input class="form-control input-sm" placeholder="Chọn ngày hiển thị" ng-model="selectedDate"/>
+                  <span class="input-group-addon" style="cursor: pointer">
+                  <i class="fa fa-lg fa-calendar"></i>
+                  </span>
+               </div>
             </datepicker>
          </div>
-         <a class="btn btn-sm new-pull-request-btn" data-pjax="" data-ga-click="Repository, new pull request, location:repo overview" ng-click="getReportForSelectedDate(selectedDate)">
-         Lấy dữ liệu
+         <a class="btn btn-sm new-pull-request-btn" data-pjax="" ng-click="getReportForSelectedDate(selectedDate)">
+         Cập nhật
          </a>
          <div class="breadcrumb">
          </div>
       </div>
       <div class="columns m-0">
-         <!-- <div class="column one-fourth">
-            <nav class="menu" data-pjax="">
-               <a ui-sref="home.dashboard.general" ui-sref-active="selected" class="js-selected-navigation-item menu-item" role="tab">Tổng quát</a>
-               <a ui-sref="home.dashboard.realtime" ui-sref-active="selected"  class="js-selected-navigation-item menu-item" role="tab">Thời gian thực</a>
-            </nav>
-         </div> -->
          <div ui-view></div>
       </div>
    </div>
    <div class="modal-backdrop js-touch-events"></div>
 </div>
-<!-- /Content -->
