@@ -20,27 +20,33 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
     //     console.log(response);
     // })
 
-    MFirebaseService.getOrders(pageSize).then(function(response) {
-        response.reverse().map(function(order) {
-          var item = {
-                  customer_name : order.data.customer_name,
-                  customer_mobile : order.data.customer_mobile,
-                  id : order.data.id,
-                  selected : false,
-                  seller_will_call_id : order.data.seller_will_call_id,
-                  status_id : order.data.status_id,
-                  is_bad_number : order.data.is_bad_number
-                }
-            $scope.$apply(function() {
-                $scope.canAsignOrders.push(item);
-            })
-        })
-        $scope.$apply(function() {
-            $scope.newlyOrderKey = response[0].key;
-            $scope.lastOrderKey = response[response.length - 1].key;
-            $scope.isLoaddingOrder = false;
-        })
-    })
+    function getOrders(){
+    	$scope.canAsignOrders = [];
+    	MFirebaseService.getOrders(pageSize).then(function(response) {
+	        response.reverse().map(function(order) {
+	          var item = {
+	                  customer_name : order.data.customer_name,
+	                  customer_mobile : order.data.customer_mobile,
+	                  id : order.data.id,
+	                  selected : false,
+	                  seller_will_call_id : order.data.seller_will_call_id,
+	                  status_id : order.data.status_id,
+	                  publish_date : order.data.publish_date,
+	                  is_bad_number : order.data.is_bad_number
+	                }
+	            $scope.$apply(function() {
+	                $scope.canAsignOrders.push(item);
+	            })
+	        })
+	        $scope.$apply(function() {
+	            $scope.newlyOrderKey = response[0].key;
+	            $scope.lastOrderKey = response[response.length - 1].key;
+	            $scope.isLoaddingOrder = false;
+	        })
+	    })
+    }
+
+    getOrders();
 
     // trigger when new order added
     let newOrdersRef = firebase.database().ref().child('newOrders').orderByChild('publish_date').limitToLast(1);
@@ -53,6 +59,7 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
             selected : false,
             seller_will_call_id : snapshot.val().seller_will_call_id,
             status_id : snapshot.val().status_id,
+            publish_date : snapshot.val().publish_date,
             is_bad_number : snapshot.val().is_bad_number
           }
         $timeout(function() {
@@ -64,21 +71,33 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
       }
     });
 
+
     firebase.database().ref().child('newOrders').on('child_changed', snapshot => {
-      // find item in array
-      var itemChanged = $filter('filter')($scope.canAsignOrders, {'id':snapshot.val().id});
-	      if(itemChanged[0]){
-	            if (itemChanged[0].status_id !== snapshot.val().status_id) {
-	                itemChanged[0].status_id = snapshot.val().status_id;
-	            }
-	            if (itemChanged[0].seller_will_call_id !== snapshot.val().seller_will_call_id) {
-	                itemChanged[0].seller_will_call_id = snapshot.val().seller_will_call_id;
-	            }
-	        }
-	        else{
-	            console.log('order ' + snapshot.val().id + ' đã thay đổi trạng thái nhưng không được hiển thị ở đây nên không cần cập nhật view...');
-	        }
-      
+        // console.log(snapshot.val());
+        // find item in array
+        $timeout(function() {
+            $scope.$apply(function() {
+                var itemChanged = $filter('filter')($scope.canAsignOrders, {
+                    'id': snapshot.val().id
+                });
+                if(itemChanged[0]){
+                    if (itemChanged[0].status_id !== snapshot.val().status_id) {
+                        itemChanged[0].status_id = snapshot.val().status_id;
+                    }
+                    if (itemChanged[0].seller_will_call_id !== snapshot.val().seller_will_call_id) {
+                        itemChanged[0].seller_will_call_id = snapshot.val().seller_will_call_id;
+                    }
+                    if(snapshot.val().is_bad_number == 1){
+                        itemChanged[0].is_bad_number = 1;
+                    }
+                }
+                else{
+                    console.log('order ' + snapshot.val().id + ' đã thay đổi trạng thái nhưng không được hiển thị ở đây nên không cần cập nhật view...');
+                }
+                
+            })
+        }, 10);
+
     });
 
     
@@ -93,6 +112,7 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
                     selected : false,
                     seller_will_call_id : order.data.seller_will_call_id,
                     status_id : order.data.status_id,
+                    publish_date : order.data.publish_date,
                     is_bad_number : order.data.is_bad_number
                   }
                 $scope.$apply(function() {
@@ -134,7 +154,9 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
 
     $scope.searchOrder = function(){
       if(!$scope.searchQuery.text || $scope.searchQuery.text == ''){
-        MUtilitiesService.AlertError('Vui lòng nhập từ khóa tìm kiếm', 'Lỗi');
+        // reset kết quả về mặc định
+        getOrders();
+        // MUtilitiesService.AlertError('Vui lòng nhập từ khóa tìm kiếm', 'Lỗi');
         return;
       }
       if($scope.searchQuery.text.length < 2){
@@ -142,7 +164,7 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
         return;
       }
       if($scope.searchQuery.text.match(/^\d/)){
-        alert($scope.searchQuery.text);
+        // alert($scope.searchQuery.text);
         if($scope.searchQuery.text.length < 4){
           MUtilitiesService.AlertError('Chuỗi tìm kiếm quá ngắn', 'Lỗi');
           return;
@@ -206,7 +228,7 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
 		// get demo user ID for test
 		var uid = null;
 		var selectedUser = [];
-		angular.forEach($rootScope.sellers, function(s){
+		angular.forEach($scope.telesales_arr, function(s){
 			if(s.selected == true){
 				selectedUser.push(s);
 			}
@@ -216,14 +238,28 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
 		var selectedUsers = [];
 
 		// lấy danh sách orders để phân bổ
+		var count = 0;
 		angular.forEach($scope.canAsignOrders, function(order){
-			if(order.selected){
-				selectedOrders.push(order);
+			if(order.seller_will_call_id){
+				if(order.selected == true){
+					order.notAllowPush = true;
+					order.selected = false;
+					count ++;
+				}
+			}
+			else{
+				if(order.selected == true){
+					selectedOrders.push(order);
+				}
 			}
 		})
 
+		if(count > 0){
+			MUtilitiesService.AlertError(count + ' orders được chọn không cho phép phân bổ vì đã được phân bổ trước đó.');
+		}
+
 		// lấy danh sách user id để phân bổ
-		angular.forEach($rootScope.sellers, function(s){
+		angular.forEach($scope.telesales_arr, function(s){
 			if(s.selected){
 				selectedUsers.push(s);
 			}
@@ -303,7 +339,7 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
 	*/
 	function getUsersArrayToRelease(){
 		var result = [];
-		angular.forEach($rootScope.sellers, function(s){
+		angular.forEach($scope.telesales_arr, function(s){
 			if(s.selected){
 				result.push(s);
 			}

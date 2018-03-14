@@ -10,7 +10,7 @@
           {{order.OrderInfo.CustomerName}} / {{order.OrderInfo.CustomerPhone}}
          </h5>
          <p class="text-gray mb-0">
-          CODE: {{order.OrderInfo.CoDAmount}} VNĐ
+          CODE: {{order.OrderInfo.CoDAmount | number}} VNĐ
          </p>
          <p class="text-gray mb-0">
           Đang ở: {{order.OrderInfo.CurrentWarehouseName}}
@@ -19,7 +19,7 @@
           Ghi chú: {{order.OrderInfo.Note}}
          </p>
          <p class="text-gray mb-0">
-          Ngày tạo: {{formatDate(order.CreateTime)}}
+          Ngày tạo: {{order.CreateTime | date: 'HH:mm dd/MM/yyyy'}}
          </p>
       </a>
    </article>

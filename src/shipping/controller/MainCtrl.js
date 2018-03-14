@@ -1,7 +1,8 @@
 mShipping.controller('MainCtrl',
     function($rootScope, $scope, $http, $window, $document, $filter, $timeout, cfpLoadingBar,
         cfpLoadingBar, Facebook, firebaseService, MFirebaseService, MUtilitiesService,
-        fanpages, ghn_hubs, ghn_token) {
+        fanpages, ghn_hubs, ghn_token, ghn_districs) {
+
 
         var ref = firebase.database().ref();
 
@@ -228,16 +229,16 @@ mShipping.controller('MainCtrl',
         // }, 0);
 
 
-        let shippingRef = ref.child('shippingItems').limitToLast(100);
-        shippingRef.on('child_added', snapshot => {
-            $scope.$apply(function() {
-                $rootScope.availableShippingItems.push({
-                    id: snapshot.val().id,
-                    data: snapshot.val().data,
-                    orderCode: snapshot.val().orderCode
-                });
-            })
-        });
+        // let shippingRef = ref.child('shippingItems').limitToLast(100);
+        // shippingRef.on('child_added', snapshot => {
+        //     $scope.$apply(function() {
+        //         $rootScope.availableShippingItems.push({
+        //             id: snapshot.val().id,
+        //             data: snapshot.val().data,
+        //             orderCode: snapshot.val().orderCode
+        //         });
+        //     })
+        // });
 
         $rootScope.filterById = function(sources, id) {
             return $filter("filter")(sources, {

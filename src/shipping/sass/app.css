@@ -1510,12 +1510,12 @@ body .filterbar li.active svg {
     background: #f6f8fa
 }
 .row_col_right .create-shipping .actions-area .notification{
-    width: 50%;
+    width: 70%;
     float: left;
     display: block;
 }
 .row_col_right .create-shipping .actions-area .actions{
-    width: 50%;
+    width: 30%;
     float: left;
     display: block;
     overflow: hidden;
@@ -2051,3 +2051,4 @@ input.textarea {
 .emojis:active {
     opacity: 0.9;
 }
+

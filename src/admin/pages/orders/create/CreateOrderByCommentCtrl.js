@@ -2,6 +2,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
     function($rootScope, $window, $scope, $http, $filter, $rootScope, $timeout, cfpLoadingBar, Facebook, firebaseService,
         MFirebaseService, MFacebookService, MUtilitiesService, fanpages) {
 
+        var isTestMode = true;
         // console.log(fanpages);
         // get token
         var getToken = function(pageId){
@@ -353,7 +354,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
 
             MFirebaseService.onAddNewOrder($rootScope.currentMember, $scope.orderData, $rootScope.sellers).then(function(response) {
                 MUtilitiesService.AlertSuccessful(response, 'Thông báo');
-                if($scope.sendThanks){
+                if(!isTestMode && $scope.sendThanks){
                     // $scope.current_token
                     if($scope.orderData.type == 1){
                         // reply message
@@ -375,6 +376,9 @@ m_admin.controller('CreateOrderByCommentCtrl',
                             MUtilitiesService.AlertError(err, 'Lỗi')
                         })
                     }
+                }
+                else{
+                    MUtilitiesService.AlertSuccessful('Bạn đang sử dụng ở chế độ Test. Ở chế độ hoạt động hệ thống sẽ gửi một tin nhắn cảm ơn khách hàng!')
                 }
 
                 // reset order

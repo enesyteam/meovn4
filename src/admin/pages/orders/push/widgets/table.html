@@ -32,7 +32,7 @@
                </span>
                <div class="mt-1 text-small text-gray">
                   <span class="opened-by">
-                     {{order.customer_mobile}} {{order.activeLog ? 'Có ' + order.activeLog.length + ' hoạt động được ghi nhận' : 'Chưa có hoạt động nào được ghi nhận'}}
+                     Tạo lúc {{order.publish_date | date:'HH:mm dd/MM'}} | {{order.customer_mobile}} {{order.activeLog ? 'Có ' + order.activeLog.length + ' hoạt động được ghi nhận' : 'Chưa có hoạt động nào được ghi nhận'}}
                   </span>
                   <span class="d-inline-block">
                   </span>
@@ -42,19 +42,16 @@
             </div>
             <div class="float-right col-2">
                <div class="float-left col-8 pt-2 pr-3 text-right">
-                  <div class="AvatarStack AvatarStack--right ">
-                     <div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1" aria-label="Assigned to Dương">
-                        {{filterById(telesales, order.seller_will_call_id).last_name}}
+                  <div class="AvatarStack AvatarStack--right " ng-init="owner = filterById(telesales, order.seller_will_call_id).last_name">
+                     <div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1" aria-label="Đã phân bổ cho {{owner}}">
+                        <span class="Counter p-2" ng-if="owner">{{owner}}</span>
                      </div>
                   </div>
                </div>
                <div class="float-right col-4 no-wrap pt-2 pr-3 text-right">
-                  <a href="#" class="muted-link" aria-label="1 comment">
-                     <!-- <svg aria-hidden="true" class="octicon octicon-comment v-align-middle" height="16" version="1.1" viewBox="0 0 16 16" width="16">
-                        <path fill-rule="evenodd" d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"></path>
-                     </svg>
-                     <span class="text-small text-bold">1</span> -->
-                     <svg aria-hidden="true" class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg>
+                  <a class="muted-link" ng-if="order.notAllowPush">
+                     <svg height="16" class="octicon octicon-circle-slash tooltipped tooltipped-sw" viewBox="0 0 14 16" version="1.1" width="16" aria-label="Đã được phân bổ"><path fill-rule="evenodd" d="M7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 1.3c1.3 0 2.5.44 3.47 1.17l-8 8A5.755 5.755 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zm0 11.41c-1.3 0-2.5-.44-3.47-1.17l8-8c.73.97 1.17 2.17 1.17 3.47 0 3.14-2.56 5.7-5.7 5.7z"></path></svg>
+                     <!-- <svg aria-hidden="true" class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg> -->
                   </a>
                </div>
             </div>

@@ -35,3 +35,7 @@ exports.permissions = function (req, res) {
 exports.navigation = function (req, res) {
 	res.render('navigation');
 };
+
+exports.versions = function (req, res) {
+	res.render('versions');
+};

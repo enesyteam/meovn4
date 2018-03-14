@@ -35,6 +35,7 @@ app.get('/shipping',  routes.shipping);
 app.get('/printing',  routes.printing);
 app.get('/tracking',  routes.orderManager);
 app.get('/permissions',  routes.permissions);
+app.get('/versions',  routes.versions);
 
 // var env = process.env.NODE_ENV || 'development';
 

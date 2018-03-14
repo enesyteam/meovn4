@@ -561,7 +561,13 @@
                 // 2 - Giảm 1 đơn vị trong báo cáo ngày của nodeNameBefore
                 firebase.database().ref().child('report').child(date).child(nodeNameBefore)
                     .transaction(function(oldValue) {
-                        return oldValue - 1;
+                        if(oldValue < 1){
+                            return oldValue;
+                        }
+                        else{
+                            return oldValue - 1;
+                        }
+                        
                     });
 
                 // B - BÁO CÁO CỦA USER
@@ -577,7 +583,12 @@
                     // 2 - Giảm 1 đơn vị trong báo cáo USER của nodeNameBefore
                     firebase.database().ref().child('report').child(date).child('userReport')
                         .child(orderOwnerId).child(nodeNameBefore).transaction(function(oldValue) {
-                            return oldValue - 1;
+                            if(oldValue < 1){
+                                return oldValue;
+                            }
+                            else{
+                                return oldValue - 1;
+                            }
                         });
                 }
                 else{
@@ -631,12 +642,17 @@
                     }
                 }
 
-                // hủy order => cập nhật báo cáo page
+                // hủy order => cập nhật báo cáo page, trừ trường hợp hủy đơn của ngày hôm qua
                 if(statusIdBefor == 6){
                     firebase.database().ref().child('report').child(date).child('pageReport')
-                        .child(pageId).child('totalsuccess').transaction(function(oldValue) {
+                    .child(pageId).child('totalsuccess').transaction(function(oldValue) {
+                        if(oldValue < 1){
+                            return oldValue;
+                        }
+                        else{
                             return oldValue - 1;
-                            });
+                        }
+                    });
                 }
 
                 return new Promise(function(resolve, reject){

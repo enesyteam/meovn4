@@ -5,8 +5,8 @@
             <!-- drag handles -->
             <!-- checkbox and issue open icon -->
             <div class="float-left pt-2 pl-3">
-               <span class="tooltipped tooltipped-n" aria-label="Open pull request">
-               <input type="checkbox" ng-model="order.selected">
+               <span class="">
+                  <input type="checkbox" ng-model="order.selected">
                </span>
             </div>
             <div class="float-left pt-2 pl-2">
@@ -19,12 +19,12 @@
                </a>
                <span class="d-inline-block mr-1">
                   <div class="commit-build-statuses">
-                     <a class="bg-pending tooltipped tooltipped-e" aria-label="3 / 5 checks OK" href="/angular/angular/pull/21406#partial-pull-merging">
+                     <a class=""  style="color:{{filterById(statuses, order.status_id).color}}">
                         <svg aria-hidden="true" class="octicon octicon-primitive-dot" height="16" version="1.1" viewBox="0 0 8 16" width="8">
                            <path fill-rule="evenodd" d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"></path>
                         </svg>
                      </a>
-                     {{order.status_id}}
+                     {{filterById(statuses, order.status_id).name}}
                   </div>
                </span>
                <div class="mt-1 text-small text-gray">
@@ -40,13 +40,13 @@
             <div class="float-right col-2">
                <div class="float-left col-8 pt-2 pr-3 text-right">
                   <div class="AvatarStack AvatarStack--right ">
-                     <div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1" aria-label="Assigned to Dương">
-                        {{filterById(telesales, order.seller_will_call_id).last_name}}
+                     <div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1" aria-label="Đã được phân bổ cho {{filterById(telesales, order.seller_will_call_id).last_name}}">
+                       <span class="Counter">{{filterById(telesales, order.seller_will_call_id).last_name}}</span> 
                      </div>
                   </div>
                </div>
                <div class="float-right col-4 no-wrap pt-2 pr-3 text-right">
-                  <a href="#" class="muted-link" aria-label="1 comment">
+                  <a class="muted-link" aria-label="1 comment">
                      <svg aria-hidden="true" class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14">
                         <path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path>
                      </svg>

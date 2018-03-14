@@ -240,7 +240,7 @@
                           <dl class="form-group">
                             <dt><label for="user_profile_email">Chiều dài <span class="Label Label--outline Label--outline-green">cm</span></label></dt>
                             <dd>
-                                <input type="number" class="form-control" ng-model="packageSize.length">
+                                <input type="number" class="form-control" ng-model="shippingData.Length" ng-blur="FindAvailableServices()">
                              </dd>
                           </dl>
                         </div>
@@ -248,7 +248,7 @@
                           <dl class="form-group">
                             <dt><label for="user_profile_email">Chiều rộng <span class="Label Label--outline Label--outline-green">cm</span></label></dt>
                             <dd>
-                                <input type="number" class="form-control" ng-model="packageSize.width">
+                                <input type="number" class="form-control" ng-model="shippingData.Width" ng-blur="FindAvailableServices()">
                              </dd>
                           </dl>
                         </div>
@@ -256,7 +256,7 @@
                           <dl class="form-group">
                             <dt><label for="user_profile_email">Chiều cao <span class="Label Label--outline Label--outline-green">cm</span> </label></dt>
                             <dd>
-                                <input type="number" class="form-control" ng-model="packageSize.height">
+                                <input type="number" class="form-control" ng-model="shippingData.Height" ng-blur="FindAvailableServices()">
                              </dd>
                           </dl>
                         </div>
@@ -264,7 +264,7 @@
                           <dl class="form-group">
                             <dt><label for="user_profile_email">Trọng lượng <span class="Label Label--outline Label--outline-green">gram</span></label></dt>
                             <dd>
-                                <input type="number" class="form-control" ng-model="packageSize.weight">
+                                <input type="number" class="form-control" ng-model="shippingData.Weight" ng-blur="FindAvailableServices()">
                              </dd>
                           </dl>
                         </div>
@@ -318,12 +318,12 @@
                         <div class="form-checkbox" ng-repeat="service in availableServices">
                            <div class="one-third column block-blue">
                               <label>
-                              <input class="js-email-global-unsubscribe" id="service-name-{{service.ServiceID}}" name="service" type="radio" value="marketing" ng-value="service.ServiceID" ng-model="shippingData.ServiceID">
+                              <input class="js-email-global-unsubscribe" id="service-name-{{service.ServiceID}}" name="service" type="radio" value="marketing" ng-value="service.ServiceID" ng-model="shippingData.ServiceID" ng-change="selectedMainService(service)">
                               {{service.Name}}
                               </label>
                            </div>
                            <div class="one-third column block-blue">
-                              Cước: {{service.ServiceFee}}
+                              Cước: <strong>{{service.ServiceFee | number}}</strong> Đ
                            </div>
                            <div class="one-third column block-blue">
                               Dự kiến giao: {{formatDate(service.ExpectedDeliveryTime)}}
@@ -331,19 +331,20 @@
                         </div>
                      </dl>
                      </div>
+                     
+                     <div class="form-checkbox ml-2" ng-repeat="extraService in extraServices track by $index">
+                         <label>
+                         <input id="toggle_visibility" name="select_extra_service" type="checkbox" ng-model="extraService.selected" ng-click="selectExtraService(extraService)">
+                         {{extraService.Name}}
+                         </label>
+                     </div>
                      <div style="display: flex;">
                        <div class="form-checkbox ml-2" ng-repeat="paymentType in paymentTypes">
                           <label>
-                          <input class="js-email-global-unsubscribe" id="payment-type{{paymentType.id}}" name="paymentType" type="radio" value="marketing" ng-value="paymentType.id" ng-model="shippingData.PaymentTypeID">
+                          <input class="js-email-global-unsubscribe" id="payment-type{{paymentType.id}}" name="paymentType" type="radio" ng-value="paymentType.id" ng-model="shippingData.PaymentTypeID">
                           {{paymentType.text}}
                           </label>
                        </div>
-                     </div>
-                     <div class="form-checkbox ml-2">
-                         <label>
-                         <input id="toggle_visibility" name="toggle_visibility" type="checkbox" value="true" checked="">
-                         Gửi hàng tại điểm giao dịch
-                         </label>
                      </div>
                   </div>
                   <!-- </form> -->
@@ -353,6 +354,19 @@
       </div>
       <div class="actions-area">
          <div class="notification">
+          <div ng-if="feeData">
+            <div class="one-third column">
+              <h3 class="mt-3 ml-5">{{feeData.data.data.CalculatedFee | number}} Đ</h3>
+            </div>
+            <div class="two-thirds column">
+              <div class="mt-3">
+                Phí gửi hàng: {{feeData.data.data.ServiceFee | number}}
+              </div>
+              <div class="mt-1" ng-repeat="service in feeData.data.data.OrderCosts">
+                {{service.Name}} {{service.Cost | number}}
+              </div>
+            </div>
+          </div>
             <!-- <input class="form-control mt-3 ml-3" type="text" name="" ng-model="trackingCode"> -->
          </div>
          <div class="actions float-right">
@@ -361,6 +375,7 @@
                   <button class="btn btn-primary" ng-click="submitGHN()">
                     {{isSubmitingGHN == true ? 'Đang tạo đơn...' : 'Tạo đơn GHN'}}
                   </button>
+                  <!-- <button ng-click="calculateFee()">Get Fee</button> -->
                </li>
             </ul>
          </div>

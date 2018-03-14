@@ -2,6 +2,9 @@ mRealtime.controller('OdersCtrl',
     function($rootScope, $scope, $state, $stateParams, $filter, $timeout, cfpLoadingBar, ngDialog, 
         cfpLoadingBar, Facebook, firebaseService, ProductPackService,
          activeItem, fanpages, MFacebookService, MFirebaseService, MUtilitiesService) {
+
+        var isTestMode = true;
+
         $scope.showImageDialog = function(imageUrl){
             ngDialog.open({
                 disableAnimation : true,
@@ -326,7 +329,7 @@ mRealtime.controller('OdersCtrl',
             updateStatus(status).then(function(response){
                 MUtilitiesService.AlertSuccessful(response,'Thông báo');
                 // gửi tin nhắn đến khách hàng nếu không nghe máy
-                if(status.id == 9){
+                if(!isTestMode && status.id == 9){
                     if($stateParams.type == 1){
                         MFacebookService.replyMessage($stateParams.conversation_id,
                                 $scope.currentAccessToken, null, 'Chào Anh/chị, nhân viên CSKH đã liên hệ với anh/chị nhưng anh/chị chưa nghe máy. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
@@ -346,39 +349,51 @@ mRealtime.controller('OdersCtrl',
                         })
                     }
                 }
+                else{
+                    MUtilitiesService.AlertSuccessful('Bạn đang sử dụng ở chế độ Test. Ở chế độ hoạt động hệ thống sẽ gửi một thông báo nhắc nhở khách hàng nghe máy!')
+                }
             })
             .catch(function(err){
                 MUtilitiesService.AlertError(err, 'Lỗi');
             })
         }
         $scope.reportBadNumber = function(){
-            // cập nhật database
-            MFirebaseService.updateBadNumber(activeItem.id).then(function(response){
-                MUtilitiesService.AlertSuccessful(response, 'Thông báo');
-            })
-            .catch(function(err){
-                MUtilitiesService.AlertError(err, 'Lỗi');
-            })
-
-            // gửi thông báo sai số đến khách hàng
-            if($stateParams.type == 1){
-                MFacebookService.replyMessage($stateParams.conversation_id,
-                        $scope.currentAccessToken, null, 'Chào Anh/chị, anh/chị vui lòng kiểm tra lại số điện thoại giúp em ạ!').then(function(response){
-                        MUtilitiesService.AlertSuccessful(response)
+            MUtilitiesService.showConfirmDialg('Thông báo',
+                'Hệ thống sẽ ghi nhận sai số và gửi một tin nhắn báo sai số đến khách hàng.', 'Tiếp tục', 'Bỏ qua')
+            .then(function(response) {
+                if (response) {
+                    // cập nhật database
+                    MFirebaseService.updateBadNumber(activeItem.id).then(function(response){
+                        MUtilitiesService.AlertSuccessful(response, 'Thông báo');
                     })
                     .catch(function(err){
-                        MUtilitiesService.AlertError(err, 'Lỗi')
+                        MUtilitiesService.AlertError(err, 'Lỗi');
                     })
-            }
-            else{
-                MFacebookService.replyComment($stateParams.conversation_id,
-                    $scope.currentAccessToken, null, 'Chào Anh/chị, anh/chị vui lòng kiểm tra lại số điện thoại giúp em ạ!').then(function(response){
-                    MUtilitiesService.AlertSuccessful(response)
-                })
-                .catch(function(err){
-                    MUtilitiesService.AlertError(err, 'Lỗi')
-                })
-            }
+
+                    // gửi thông báo sai số đến khách hàng
+                    if($stateParams.type == 1){
+                        MFacebookService.replyMessage($stateParams.conversation_id,
+                                $scope.currentAccessToken, null, 'Chào Anh/chị, anh/chị vui lòng kiểm tra lại số điện thoại giúp em ạ!').then(function(response){
+                                MUtilitiesService.AlertSuccessful(response)
+                            })
+                            .catch(function(err){
+                                MUtilitiesService.AlertError(err, 'Lỗi')
+                            })
+                    }
+                    else{
+                        MFacebookService.replyComment($stateParams.conversation_id,
+                            $scope.currentAccessToken, null, 'Chào Anh/chị, anh/chị vui lòng kiểm tra lại số điện thoại giúp em ạ!').then(function(response){
+                            MUtilitiesService.AlertSuccessful(response)
+                        })
+                        .catch(function(err){
+                            MUtilitiesService.AlertError(err, 'Lỗi')
+                        })
+                    }
+                }
+                else{
+
+                }
+            })
         }
         function checkIfUserExists(userId) {
           var usersRef = new Firebase(USERS_LOCATION);

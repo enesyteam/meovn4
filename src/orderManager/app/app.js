@@ -11,23 +11,23 @@ var mOrderManager = angular.module('mOrderManager', [
     	$locationProvider.hashPrefix('');
 
         // $locationProvider.hashPrefix('');
-        $locationProvider.html5Mode(true);
+        // $locationProvider.html5Mode(true);
 
         // $urlRouterProvider.otherwise("/");
-        // $urlRouterProvider.when('/','/sale');
+        // $urlRouterProvider.when('/','/orders');
         $stateProvider
             .state('home', {
-                url: '/sale',
+                url: '/',
                 controller: 'MainCtrl',
                 templateUrl: "/src/orderManager/home.html",
             })
             .state('home.orders', {
-                url: 'orders',
+                url: '/orders',
                 // controller: 'MainCtrl',
                 templateUrl: "/src/orderManager/pages/orders/orders.html",
             });
             
-        $urlRouterProvider.otherwise('/sale');
+        $urlRouterProvider.otherwise('/');
     })
     .run(themeRun);
 

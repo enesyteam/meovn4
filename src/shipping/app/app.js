@@ -23,7 +23,7 @@ var mShipping = angular.module('mShipping', [
     .constant('access_token', 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD')
     .config(function($stateProvider, $locationProvider, $urlRouterProvider, 
       cfpLoadingBarProvider, FacebookProvider) {
-    	$locationProvider.hashPrefix('');
+    	// $locationProvider.hashPrefix('');
         var myAppId = '1085772744867580';
         FacebookProvider.init(myAppId);
 
@@ -45,6 +45,12 @@ var mShipping = angular.module('mShipping', [
                       return MFirebaseService.get_ghn_token().then(function(response){
                         return response;
                       });
+                    },
+                  ghn_districs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getDistricts().then(function(response){
+                          return response.data.data;
+                      })
                     },
                   fanpages: function(MFirebaseService){
                       MFirebaseService.set_firebase(firebase);
