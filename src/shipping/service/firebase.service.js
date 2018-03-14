@@ -18,6 +18,11 @@
       });
   }
 
+  var getAllMembers = function(){
+        return ref.child('members').orderByChild('status').equalTo(1).once('value', function(snapshot) {
+        });
+    }
+
 	//authientication
 	var createFirebaseUser = function(email, password){
 		firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
@@ -229,6 +234,7 @@
     getShippingItems : getShippingItems,
     getShippingItem : getShippingItem,
     onUpdateOrderCode: onUpdateOrderCode,
+    getAllMembers : getAllMembers
 	}
 
 }]);

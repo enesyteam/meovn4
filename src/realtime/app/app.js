@@ -47,7 +47,12 @@ var mRealtime = angular.module('mRealtime', [
                       return MFirebaseService.get_fanpages().then(function(response){
                         return response;
                       });
-                    }
+                    },
+                  telesales: function(MFirebaseService){
+                    return MFirebaseService.getAllSellers().then(function(response){
+                      return response;
+                    })
+                  }
 
                 },
             });

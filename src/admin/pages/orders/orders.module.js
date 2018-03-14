@@ -21,7 +21,7 @@
                       return MFirebaseService.getCanReleaseStatusIds().then(function(response){
                         return response
                       });
-                    },
+                    }
                   }
                 })
           .state('home.orders.list',{

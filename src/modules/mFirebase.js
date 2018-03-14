@@ -68,7 +68,7 @@
                     firebase.database().ref().child('statuses').on('child_added', snapshot => {
                         if(snapshot.val().canRelease){
                             result.push(
-                                snapshot.val().id
+                                snapshot.val()
                             );
                         }
                     });
@@ -1009,16 +1009,22 @@
             * đề phòng trường hợp khi hủy order của user ở ngày cũ lại cập nhật báo cáo sang ngày mới
             */
             var releaseUser = function(allOrders, user, accept_statuses, updateReport = true){
+                var can_release_statuses = [];
+
+                angular.forEach(accept_statuses, function(status){
+                    can_release_statuses.push(status.id);
+                })
+                console.log(can_release_statuses);
                 return new Promise(function(resolve, reject){
                     // tìm các orders khả dụng của 1 user
                     if(!user) reject('Vui lòng chọn User trước khi hủy');
-                    findAvalableUserOrders(allOrders, user, accept_statuses).then(function(orders){
+                    findAvalableUserOrders(allOrders, user, can_release_statuses).then(function(orders){
 
                         if(orders.length == 0){
                             reject('Không có Order nào của ' + user.last_name + ' khả dụng để hủy.');
                         }
                         // hủy
-                        onReleaseUserOrders(orders, user, accept_statuses).then(function(response){
+                        onReleaseUserOrders(orders, user, can_release_statuses).then(function(response){
                             // đã hủy thành công
                             MUtilitiesService.AlertSuccessful('Hủy thành công ' + orders.length + ' của ' + user.last_name, 'Thông báo');
                             resolve(response);
@@ -1098,6 +1104,21 @@
                     })
                     .catch(function(err) {
                         reject('Không thể hủy orders, đã có lỗi xảy ra');
+                    })
+                })
+            }
+
+            var updateBadNumber = function(oerderId){
+                return new Promise(function(resolve, reject){
+                    var updates = {};
+                    updates['/newOrders/' + oerderId + '/is_bad_number'] = 1;
+
+                    // update firebase database
+                    firebase.database().ref().update(updates).then(function(response) {
+                        resolve('Đã thông báo sai số thành công');
+                    })
+                    .catch(function(err){
+                        reject(err)
                     })
                 })
             }
@@ -1215,6 +1236,39 @@
                             angular.forEach(snapshot.val(), function(value, key){
                                 result.push(value);
                             })
+                            resolve(result);
+                        })
+                })
+            }
+
+            // search shipping item
+            var searchShippingByCustomerPhone = function(phone){
+                return new Promise(function(resolve, reject){
+                    var result = [];
+                    firebase.database().ref().child('shippingItems')
+                        .orderByChild('customer_phone')
+                        .startAt(phone)
+                        .endAt(phone + "\uf8ff")
+                        .once('value', snapshot => {
+                            angular.forEach(snapshot.val(), function(value, key){
+                                result.push(value);
+                            })
+                            resolve(result);
+                        })
+                })
+            }
+            var searchShippingByCustomerName = function(query){
+                return new Promise(function(resolve, reject){
+                    var result = [];
+                    firebase.database().ref().child('newOrders')
+                        .orderByChild('customer_name')
+                        .startAt(query)
+                        .endAt(query + "\uf8ff")
+                        .once('value', snapshot => {
+                            angular.forEach(snapshot.val(), function(value, key){
+                                result.push(value);
+                            })
+                            // console.log(snapshot.val());
                             resolve(result);
                         })
                 })
@@ -1402,6 +1456,46 @@
                 })
             }
 
+            var getAllSellers = function(){
+                return new Promise(function(resolve, reject){
+                    var res = [];
+                    firebase.database().ref().child('members').orderByChild('status')
+                    .equalTo(1).once('value', function(snapshot) {
+                        angular.forEach(snapshot.val(), function(member){
+                            if(member.is_seller == 1){
+                               res.push(member); 
+                            }
+                        })
+                    })
+                    .then(function(){
+                        resolve(res);
+                    })
+                    .catch(function(){
+                        resolve(null)
+                    });
+                })
+            }
+            var getStatuses = function() {
+                return new Promise(function(resolve, reject){
+                    var res = [];
+                    firebase.database().ref().child('statuses').orderByChild('allow_change').equalTo(1)
+                    .once('value', function(snapshot) {
+                        angular.forEach(snapshot.val(), function(status){
+                            if(status.active == 1){
+                               res.push(status); 
+                            }
+                        })
+                    })
+                    .then(function(){
+                        resolve(res);
+                    })
+                    .catch(function(){
+                        resolve(null)
+                    });
+                })
+                
+            }
+
             return {
                 getCanReleaseStatusIds : getCanReleaseStatusIds,
                 getOrders : getOrders,
@@ -1413,6 +1507,8 @@
                 // trang shipping
                 getShippingItems : getShippingItems,
                 getNextShippingItems : getNextShippingItems,
+                searchShippingItemsByCustomerPhone : searchShippingItemsByCustomerPhone,
+                searchShippingItemsByCustomerName : searchShippingItemsByCustomerName,
 
 
                 set_firebase: set_firebase,
@@ -1439,6 +1535,10 @@
                 getNextPhotos : getNextPhotos,
                 submitFileItem : submitFileItem,
                 deleteFileItem: deleteFileItem,
+
+                getAllSellers : getAllSellers,
+                getStatuses : getStatuses,
+                updateBadNumber: updateBadNumber,
             }
 
         }]);

@@ -1,6 +1,11 @@
 m_admin.controller('PushOrderCtrl',
 function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseService, MUtilitiesService, $q, 
-	can_release_statuses) {
+	can_release_statuses, telesales) {
+
+	$scope.can_release_statuses = can_release_statuses;
+	// console.log(can_release_statuses);
+
+	$scope.telesales_arr = telesales;
 
 	// MFirebaseService.getOrdersPaginate("-L6zzq3C7ugXdIGN2bJE", 10);
 	var pageSize = 30;
@@ -23,7 +28,8 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
                   id : order.data.id,
                   selected : false,
                   seller_will_call_id : order.data.seller_will_call_id,
-                  status_id : order.data.status_id
+                  status_id : order.data.status_id,
+                  is_bad_number : order.data.is_bad_number
                 }
             $scope.$apply(function() {
                 $scope.canAsignOrders.push(item);
@@ -46,7 +52,8 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
             id : snapshot.val().id,
             selected : false,
             seller_will_call_id : snapshot.val().seller_will_call_id,
-            status_id : snapshot.val().status_id
+            status_id : snapshot.val().status_id,
+            is_bad_number : snapshot.val().is_bad_number
           }
         $timeout(function() {
         	$scope.$apply(function(){
@@ -59,13 +66,18 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
 
     firebase.database().ref().child('newOrders').on('child_changed', snapshot => {
       // find item in array
-      var itemChanged = $filter('filter')($scope.canAsignOrders, {'id':snapshot.val().id})[0];
-      if(itemChanged.status_id !== snapshot.val().status_id){
-        itemChanged.status_id = snapshot.val().status_id; 
-      }
-      if(itemChanged.seller_will_call_id !== snapshot.val().seller_will_call_id){
-        itemChanged.seller_will_call_id = snapshot.val().seller_will_call_id; 
-      }
+      var itemChanged = $filter('filter')($scope.canAsignOrders, {'id':snapshot.val().id});
+	      if(itemChanged[0]){
+	            if (itemChanged[0].status_id !== snapshot.val().status_id) {
+	                itemChanged[0].status_id = snapshot.val().status_id;
+	            }
+	            if (itemChanged[0].seller_will_call_id !== snapshot.val().seller_will_call_id) {
+	                itemChanged[0].seller_will_call_id = snapshot.val().seller_will_call_id;
+	            }
+	        }
+	        else{
+	            console.log('order ' + snapshot.val().id + ' đã thay đổi trạng thái nhưng không được hiển thị ở đây nên không cần cập nhật view...');
+	        }
       
     });
 
@@ -80,7 +92,8 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
                     id : order.data.id,
                     selected : false,
                     seller_will_call_id : order.data.seller_will_call_id,
-                    status_id : order.data.status_id
+                    status_id : order.data.status_id,
+                    is_bad_number : order.data.is_bad_number
                   }
                 $scope.$apply(function() {
 	                $scope.canAsignOrders.push(item);
@@ -96,6 +109,24 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
             })
         })
     }
+
+    var date = new Date();
+
+    var dateToDisplay = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
+
+    MFirebaseService.getUsersReportForDate(dateToDisplay).then(function(snapshot){
+        $scope.$apply(function(){
+            $scope.usersReport = snapshot.val();
+            angular.forEach($scope.telesales_arr, function(seller){
+            	angular.forEach(snapshot.val(), function(report){
+            		if(report.id == seller.id){
+            			// console.log(report);
+            			seller.report = report;
+            		}
+            	})
+            })
+        });
+    })
 
     $scope.searchQuery = {
       text : null
@@ -200,6 +231,14 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
 
 		if(!selectedUsers || selectedUsers.length == 0){
 			$scope.toggleShowUserPane();
+			MUtilitiesService.AlertError('Vui lòng chọn user trước khi phân bổ', 'Lỗi');
+			return;
+		}
+
+		if(!selectedOrders || selectedOrders.length == 0){
+			$scope.toggleShowUserPane();
+			MUtilitiesService.AlertError('Vui lòng chọn orders trước khi phân bổ', 'Lỗi');
+			return;
 		}
 
 		// chú ý: sửa validate orders và users trước khi gọi waiting dialog
@@ -230,32 +269,6 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
 	$scope.toggleHideUserPane = function(){
 		$scope.showUserPane = false;
 	}
-
-
-	/*
-	* Hủy
-	*/
-	// $scope.releaseUserOrders = function(seller, event){
-	// 	event.stopPropagation();
-	// 	MUtilitiesService.showConfirmDialg('Thông báo',
- //                'Bạn có chắc muốn hủy tất cả Orders của : ' + seller.last_name + ' không?', 'Hủy', 'Bỏ qua')
- //            .then(function(response) {
- //                if (response) {
- //                	MUtilitiesService.showWaitingDialog('Đang hủy tất cả Orders của ' + seller.last_name + ', vui lòng chờ...', 
- //                		function(){
- //                			return new Promise(function(resolve, reject){
-	// 							$timeout(function() {
-	// 								resolve(true);
-	// 							}, 2000);
-	// 						})
- //                		});
- //                    console.log('Bắt đầu hủy nhận các orders của seller...');
- //                    // code hủy ở đây
- //                } else {
- //                    console.log('Admin hoặc Mod bỏ qua thao tác hủy đơn');
- //                }
- //            })
-	// }
 
 	/*
 	* Tùy chọn cho phép chỉ hủy trong số các orders được chọn
@@ -298,26 +311,104 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
 		return result;
 	}
 
+	$scope.toggleSelectAnOrder = function(order){
+		order.selected = !order.selected;
+	}
+
+	$scope.selectOrderByStatus = function(status){
+		status.selected = !status.selected;
+		angular.forEach($scope.canAsignOrders, function(order){
+			if(order.status_id == status.id){
+				order.selected = !order.selected;
+			}
+		})
+	}
+
+	$scope.selectOrderBySeller = function(seller){
+		seller.checked = !seller.checked;
+		angular.forEach($scope.canAsignOrders, function(order){
+			if(order.seller_will_call_id == seller.id){
+				order.selected = !order.selected;
+			}
+		})
+	}
+
+	$scope.countSelectedOrders = function(){
+		var count = 0;
+		angular.forEach($scope.canAsignOrders, function(order){
+			if(order.selected == true){
+				count++;
+			}
+		})
+		return count;
+	}
+
 	$scope.releaseSelectedUsers = function(){
 		var orders = getOrdersArrayToRelease();
 		var users = getUsersArrayToRelease();
+		onReleaseOrder(orders, users);
+	}
 
-		// make users list
-		var userNames = users.map(function(user){
-			return user.last_name;
+	// điều gì xảy ra khi hủy số ?????????????????????????
+
+
+
+	$scope.releaseUser = function(user, event){
+		event.stopPropagation();
+		// tìm tất cả orders khả dụng của user này
+		// hàm MFirebaseService.releaseUser sẽ chỉ release các order có trạng thái cho phép hủy
+		var orders = [];
+		angular.forEach($scope.canAsignOrders, function(order){
+			if(order.seller_will_call_id == user.id){
+				orders.push(order);
+			}
 		})
-		.join(", ");
+		var users = [];
+		users.push(user);
+		onReleaseOrder(orders, users);
+	}
 
-		// var canReleaseArr = can_release_statuses.map(function(status){
-		// 	return status.id;
-		// })
-		// console.log(canReleaseArr);
+	function onReleaseOrder(orders, users){
+		// console.log(users);
+		if(!users || users.length == 0){
+			MUtilitiesService.AlertError('Vui lòng chọn user trước khi hủy', 'Lỗi');
+			return;
+		}
+		else{
+			doRelease(orders, users);
+		}
+	}
 
-		MUtilitiesService.showConfirmDialg('Thông báo',
-                'Bạn có chắc muốn hủy tất cả Orders của : ' + userNames + ' không?', 'Hủy', 'Bỏ qua')
+	function doRelease(orders, users){
+		var userNames = null;
+		if(users.length > 1){
+			var userNames = users.map(function(user){
+				return user.last_name;
+			})
+			.join(", ");
+		}
+		else {
+			// console.log(users);
+			userNames = users[0].last_name;
+		}
+
+		var title = '';
+
+		if(!orders || orders.length == 0){
+			// hủy các số của user 
+			title = 'Không có orders nào được chọn. Thao tác này sẽ thực hiện hủy orders của ' + 
+					+ userNames + ' trong số ' + $scope.canAsignOrders.length + ' orders đang hiển thị.';
+			orders = $scope.canAsignOrders;
+		}
+		else {
+			title = 'Hủy orders của ' + 
+					+ userNames + ' trong số ' + orders.length + ' orders được chọn.';
+		}
+
+		MUtilitiesService.showConfirmDialg('Thông báo', title, 'Tiếp tục', 'Bỏ qua')
             .then(function(response) {
                 if (response) {
-                	MUtilitiesService.showWaitingDialog('Đang hủy tất cả Orders của ' + 
+                	MUtilitiesService.showWaitingDialog('Đang hủy các Orders của ' + 
                 		userNames + ', vui lòng chờ...', function(){
                 			var init = function(){
 								return new Promise(function(resolve, reject){
@@ -354,6 +445,11 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
                 } else {
                     console.log('Admin hoặc Mod bỏ qua thao tác hủy đơn');
                 }
+
+                // bỏ chọn tất cả orders
+                angular.forEach($scope.canAsignOrders, function(order){
+                	order.selected = false;
+                })
             })
 	}
 

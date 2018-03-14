@@ -677,7 +677,7 @@ body .filterbar li.active svg {
     padding: 7px 10px;
     cursor: pointer;
     background-color: #fff;
-    overflow: hidden;
+    /*overflow: hidden;*/
     margin: 0;
 }
 .list_content_col_left .people .person.active, .list_content_col_left .people .person:hover {
@@ -1106,7 +1106,7 @@ body .filterbar li.active svg {
     text-align: left;
     display: block;
     margin-left: 10px;
-    max-width: calc(100% - 190px);
+    max-width: calc(100% - 150px);
     justify-content: center;
 }
 .list_content_col_left .people .person .wrap_chat .info span {
@@ -1141,7 +1141,7 @@ body .filterbar li.active svg {
     display: block;
     float: right;
     width: 90px;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 .list_content_col_left .people .person .wrap_chat .time_tag span {
     font-size: 12px;

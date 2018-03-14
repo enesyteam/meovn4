@@ -1,6 +1,7 @@
 mRealtime.controller('MainCtrl',
   function($rootScope, $scope, $http, $window, $document, $filter, $timeout, cfpLoadingBar,
-    cfpLoadingBar, Facebook, firebaseService, firebaseStorageService, MFirebaseService, MUtilitiesService, fanpages) {
+    cfpLoadingBar, Facebook, firebaseService, firebaseStorageService, 
+    MFirebaseService, MUtilitiesService, fanpages, telesales) {
 
     var pageSize = 30;
     $rootScope.availableOrders = [];
@@ -9,23 +10,29 @@ mRealtime.controller('MainCtrl',
     $rootScope.canLoadMore = true;
     $rootScope.isLoaddingOrder = true;
 
+    $scope.telesales = telesales;
+
     // tét
     // MFirebaseService.getOrdersByStatusId(9, 15).then(function(response) {
     //     console.log(response);
     // })
 
-    MFirebaseService.getOrders(pageSize).then(function(response) {
-        response.reverse().map(function(order) {
+    function getOrders(){
+        $rootScope.availableOrders = [];
+        MFirebaseService.getOrders(pageSize).then(function(response) {
+            response.reverse().map(function(order) {
+                $scope.$apply(function() {
+                    $rootScope.availableOrders.push(order.data);
+                })
+            })
             $scope.$apply(function() {
-                $rootScope.availableOrders.push(order.data);
+                $rootScope.newlyOrderKey = response[0].key;
+                $rootScope.lastOrderKey = response[response.length - 1].key;
+                $rootScope.isLoaddingOrder = false;
             })
         })
-        $scope.$apply(function() {
-            $rootScope.newlyOrderKey = response[0].key;
-            $rootScope.lastOrderKey = response[response.length - 1].key;
-            $rootScope.isLoaddingOrder = false;
-        })
-    })
+    }
+    getOrders();
 
     // trigger when new item
     let newOrdersRef = firebase.database().ref().child('newOrders').limitToLast(1);
@@ -56,6 +63,8 @@ mRealtime.controller('MainCtrl',
             })
         })
     }
+
+    $rootScope.chatBoxBackgroundColor = '#ddd';
 
     $rootScope.searchQuery = {
       text : null
@@ -104,6 +113,7 @@ mRealtime.controller('MainCtrl',
     $rootScope.fanpages = fanpages;
 
     $rootScope.filterById = function(sources, id) {
+        if(!id) return null;
         return $filter("filter")(sources, {
             id: id
         })[0];
@@ -159,18 +169,28 @@ mRealtime.controller('MainCtrl',
 
     // listen for order change
     ref.child('newOrders').on('child_changed', snapshot => {
+        console.log(snapshot.val());
         // find item in array
         $timeout(function() {
             $scope.$apply(function() {
                 var itemChanged = $filter('filter')($rootScope.availableOrders, {
                     'id': snapshot.val().id
-                })[0];
-                if (itemChanged.status_id !== snapshot.val().status_id) {
-                    itemChanged.status_id = snapshot.val().status_id;
+                });
+                if(itemChanged[0]){
+                    if (itemChanged[0].status_id !== snapshot.val().status_id) {
+                        itemChanged[0].status_id = snapshot.val().status_id;
+                    }
+                    if (itemChanged[0].seller_will_call_id !== snapshot.val().seller_will_call_id) {
+                        itemChanged[0].seller_will_call_id = snapshot.val().seller_will_call_id;
+                    }
+                    if(snapshot.val().is_bad_number == 1){
+                        itemChanged[0].is_bad_number = 1;
+                    }
                 }
-                if (itemChanged.seller_will_call_id !== snapshot.val().seller_will_call_id) {
-                    itemChanged.seller_will_call_id = snapshot.val().seller_will_call_id;
+                else{
+                    console.log('order ' + snapshot.val().id + ' đã thay đổi trạng thái nhưng không được hiển thị ở đây nên không cần cập nhật view...');
                 }
+                
             })
         }, 10);
 
@@ -210,6 +230,10 @@ mRealtime.controller('MainCtrl',
         }, function(error) {
             // An error happened.
         });
+    }
+
+    $scope.filterOrderByStatusId = function(){
+        MUtilitiesService.AlertError('Bộ lọc theo trạng thái sẽ được bổ sung trong bản release tiếp theo', 'Thông báo');
     }
 
     $rootScope.faceboxWidth = 685;

@@ -1,6 +1,6 @@
 <div class="border-right border-bottom border-left">
    <ul class="js-navigation-container js-active-navigation-container">
-      <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read" ng-repeat="order in canAsignOrders">
+      <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read" ng-repeat="order in canAsignOrders" ng-click="toggleSelectAnOrder(order)" style="cursor:pointer;">
          <div class="d-table table-fixed width-full Box-row--drag-hide position-relative">
             <!-- drag handles -->
             <!-- checkbox and issue open icon -->
@@ -13,26 +13,26 @@
             </div>
             <!-- Issue title column -->
             <div class="float-left col-9 p-2 lh-condensed">
-               <a href="/angular/angular/pull/21406" class="link-gray-dark no-underline h4 js-navigation-open">
+               <a class="link-gray-dark no-underline h4 js-navigation-open customer-name {{order.is_bad_number==1 ? 'bad-number' : ''}}">
                {{order.customer_name}}
                <span ng-if="order.selected">(Đã chọn)</span>
                </a>
                <span class="d-inline-block mr-1">
                   <div class="commit-build-statuses">
-                     <a class="bg-pending tooltipped tooltipped-e" aria-label="3 / 5 checks OK" href="/angular/angular/pull/21406#partial-pull-merging">
+                     <a class="" style="color:{{filterById(statuses, order.status_id).color}}">
                         <svg aria-hidden="true" class="octicon octicon-primitive-dot" height="16" version="1.1" viewBox="0 0 8 16" width="8">
                            <path fill-rule="evenodd" d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"></path>
                         </svg>
                      </a>
-                     Trạng thái: {{order.status_id}}
+                     {{filterById(statuses, order.status_id).name}}
+                     <span class="tag_item tooltipped tooltipped-s" style="color:#cb2431" ng-if="order.is_bad_number==1" aria-label="Sai số">
+                        <svg height="16" class="octicon octicon-stop" viewBox="0 0 14 16" version="1.1" width="16"><path fill-rule="evenodd" d="M10 1H4L0 5v6l4 4h6l4-4V5l-4-4zm3 9.5L9.5 14h-5L1 10.5v-5L4.5 2h5L13 5.5v5zM6 4h2v5H6V4zm0 6h2v2H6v-2z"></path></svg>
+                     </span>
                   </div>
                </span>
                <div class="mt-1 text-small text-gray">
                   <span class="opened-by">
-                     Đã gọi 3 lần, cuộc gọi cuối cùng lúc: 
-                     <relative-time datetime="2018-01-09T10:03:06Z" title="Jan 9, 2018, 5:03 PM GMT+7">an hour ago</relative-time>
-                     by
-                     <a href="#" class="muted-link" title="Open pull requests created by ocombe">Dương</a>
+                     {{order.customer_mobile}} {{order.activeLog ? 'Có ' + order.activeLog.length + ' hoạt động được ghi nhận' : 'Chưa có hoạt động nào được ghi nhận'}}
                   </span>
                   <span class="d-inline-block">
                   </span>
@@ -44,7 +44,7 @@
                <div class="float-left col-8 pt-2 pr-3 text-right">
                   <div class="AvatarStack AvatarStack--right ">
                      <div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1" aria-label="Assigned to Dương">
-                        {{order.seller_will_call_id}}
+                        {{filterById(telesales, order.seller_will_call_id).last_name}}
                      </div>
                   </div>
                </div>

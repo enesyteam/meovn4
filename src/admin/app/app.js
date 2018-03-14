@@ -54,6 +54,16 @@ var m_admin = angular.module('m_admin', [
                       return MFirebaseService.get_fanpages().then(function(response){
                         return response;
                       });
+                    },
+                    telesales: function(MFirebaseService){
+                      return MFirebaseService.getAllSellers().then(function(response){
+                        return response;
+                      })
+                    },
+                    statuses: function(MFirebaseService){
+                      return MFirebaseService.getStatuses().then(function(response){
+                        return response;
+                      })
                     }
                 }
               });

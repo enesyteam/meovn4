@@ -58,7 +58,7 @@ function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
     });
 
     
-    $scope.getNextOrders = function() {
+    $scope.getNextAddedOrders = function() {
         $scope.isLoaddingOrder = true;
         MFirebaseService.getNextOrders($scope.lastOrderKey, pageSize).then(function(response) {
             response.reverse().slice(1).map(function(order) {

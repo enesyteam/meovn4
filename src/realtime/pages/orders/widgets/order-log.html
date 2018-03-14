@@ -4,7 +4,7 @@
          <div class="container p-0">
             <div class="columns">
                <div class="four-fifths column">
-                  <h3 class="f5 mb-2 mt-1">{{activeOrder.customer_name}} <span class="pl-1 text-gray-light text-normal"></span></h3>
+                  <h3 class="f5 mb-2 mt-1">{{activeOrder.customer_name + ' - ' + activeOrder.customer_mobile}} <span class="pl-1 text-gray-light text-normal"></span></h3>
                </div>
                <div class="one-fifth column text-right">
                   <button type="button" class="btn-link link-gray mr-2 js-show-project-triage" aria-label="Add cards">
@@ -12,7 +12,7 @@
                         <path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5z"></path>
                      </svg>
                   </button>
-                  <a href="#edit-project" rel="facebox.project-modal" class="btn-link link-gray" aria-label="Settings">
+                  <a rel="facebox.project-modal" class="btn-link link-gray" aria-label="Settings">
                      <svg aria-hidden="true" class="octicon octicon-gear" height="16" version="1.1" viewBox="0 0 14 16" width="14">
                         <path fill-rule="evenodd" d="M14 8.77v-1.6l-1.94-.64-.45-1.09.88-1.84-1.13-1.13-1.81.91-1.09-.45-.69-1.92h-1.6l-.63 1.94-1.11.45-1.84-.88-1.13 1.13.91 1.81-.45 1.09L0 7.23v1.59l1.94.64.45 1.09-.88 1.84 1.13 1.13 1.81-.91 1.09.45.69 1.92h1.59l.63-1.94 1.11-.45 1.84.88 1.13-1.13-.92-1.81.47-1.09L14 8.75v.02zM7 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"></path>
                      </svg>
@@ -21,7 +21,11 @@
             </div>
          </div>
          <div class="project-body-markdown">
-            <p>{{activeOrder.customer_mobile}}</p>
+            <p>
+               <button type="submit" class="btn btn-danger" name="state" value="closed" ng-click="reportBadNumber()">
+               Thông báo sai số
+               </button>
+            </p>
          </div>
          <textarea ng-model="noteContent.text" class="form-control input-block mt-4" id="fb_info_message" name="input_message" placeholder="Nội dung ghi chú..." autocomplete="on" note-enter="" data-hotkey="f"></textarea>
          <div class="form-actions mt-2 mb-2">
@@ -30,50 +34,9 @@
             </button>
          </div>
       </div>
-      <div id="edit-project" hidden="">
-         <h2 class="facebox-header" data-facebox-id="facebox-header" tabindex="-1" id="facebox-header">Edit project</h2>
-         <form accept-charset="UTF-8" action="/enesyteam/meovn/projects/1" class="js-normalize-submit" method="post">
-            <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="put"><input name="authenticity_token" type="hidden" value="oEisFxvtDDQ5qeyzSa9QVHihYaV3DV8pLntyHznyKBkPVyDcdb3C0iQxW3Zp+XRX6/Z8VRPIjh9TI9KWPaSCEg=="></div>
-            <input type="hidden" name="client_uid" class="js-client-uid-field" value="14a813f82efa9cf34ecbcf93413fc308">
-            <input type="hidden" name="redirect_back" value="true">
-            <dl class="form-group">
-               <dt><label data-facebox-for="edit-project-name">Name</label></dt>
-               <dd>
-                  <input data-facebox-id="edit-project-name" class="form-control js-quick-submit" name="project[name]" value="TEST" maxlength="140" autofocus="" required="">
-               </dd>
-            </dl>
-            <dl class="form-group">
-               <dt><label data-facebox-for="edit-project-body">Description</label></dt>
-               <dd>
-                  <textarea data-facebox-id="edit-project-body" class="form-control js-quick-submit" name="project[body]">NO CONTENT</textarea>
-               </dd>
-            </dl>
-            <div class="form-checkbox">
-               <label>
-               <input type="hidden" name="project[track_progress]" value="0">
-               <input type="checkbox" name="project[track_progress]" value="1" checked="">
-               Track project progress
-               </label>
-               <p class="note">A progress bar will be displayed to help you visualize the overall progress of your project based on your automated To Do, In Progress, and Done columns.</p>
-            </div>
-            <div class="form-actions">
-               <button type="submit" class="btn btn-primary float-left" data-disable-with="Saving project…" data-disable-invalid="">Save project</button>
-            </div>
-         </form>
-         <form accept-charset="UTF-8" action="/enesyteam/meovn/projects" method="post">
-            <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="delete"><input name="authenticity_token" type="hidden" value="NQA24EiKZPKUhYORcwyd8hvd8LTYN17OJBjCkR3IMuy2B5BzYdrw0sXDY7Q3riNoQwq/y2NGcwPRVKm2RbJA9A=="></div>
-            <dl class="form-group border-top mt-4 pt-2">
-               <dt><strong>Delete TEST</strong></dt>
-               <dd>Once you delete a project, there is no going back. Please be certain.</dd>
-            </dl>
-            <input type="hidden" name="global_id" value="MDc6UHJvamVjdDExNzAxNjA=">
-            <input type="hidden" name="client_uid" class="js-client-uid-field" value="14a813f82efa9cf34ecbcf93413fc308">
-            <button type="submit" class="btn btn-danger" data-confirm="Sure you want to delete this project?">Delete project</button>
-         </form>
-      </div>
    </div>
    <div class="js-project-activity-pane overflow-auto Details">
-      <form accept-charset="UTF-8" action="/enesyteam/meovn/projects/1/activity" autocomplete="off" class="js-project-activity-form project-activity-form" method="get">
+      <form accept-charset="UTF-8" autocomplete="off" class="js-project-activity-form project-activity-form" method="get">
          <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
          <div class="border-bottom bg-yellow-light Details-content--hidden">
             <button class="btn-link ml-3 mt-2 mb-2 link-gray" type="submit">
@@ -84,7 +47,7 @@
       <ul class="list-style-none js-project-activity-container">
          <li class="p-3 border-bottom d-block" ng-repeat="logItem in activeLog">
             <a class="d-table-cell pr-2" ng-if="logItem.type == 1">
-               <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" name="circle" style="vertical-align: text-bottom; color: #fbca04; font-size: 14px; margin-left: 2px; margin-right: 0px; line-height: 24px;">
+               <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" name="circle" style="vertical-align: text-bottom; color: {{getStatusById(logItem.status_after).color}}; font-size: 14px; margin-left: 2px; margin-right: 0px; line-height: 24px;">
                   <g>
                      <path d="m37.3 20q0 4.7-2.3 8.6t-6.3 6.2-8.6 2.3-8.6-2.3-6.2-6.2-2.3-8.6 2.3-8.6 6.2-6.2 8.6-2.3 8.6 2.3 6.3 6.2 2.3 8.6z"></path>
                   </g>
@@ -99,9 +62,9 @@
                <a class="text-bold">
                {{logItem.uname}}
                </a>
-               {{logItem.type == 1 ? 'đã đánh dấu trạng thái' : 'đã ghi chú'}} <strong>"{{logItem.type == 1 ? logItem.status_after : logItem.content}}"</strong>
+               {{logItem.type == 1 ? 'đã đánh dấu trạng thái' : 'đã ghi chú'}} <strong>"{{logItem.type == 1 ? getStatusById(logItem.status_after).name : logItem.content}}"</strong>
                <span class="mt-1 mb-0 f6 d-block text-gray-light">
-                  {{logItem.updated_at | date: "HH:mm dd/MM"}}
+                  vào lúc: {{logItem.updated_at | date: "HH:mm dd/MM"}}
                </span>
             </p>
          </li>

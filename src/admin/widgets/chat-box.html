@@ -1,4 +1,4 @@
-<div class="embedded-window" style="">
+<div class="embedded-window">
    <div class="window--bio window--animated window--circle">
       <div id="main" class="main-container">
          <div class="window__headerVessel">
@@ -35,12 +35,12 @@
                         </div>
                         <div class="post-images">
                            <span class="image-card" ng-repeat="image in postData.attachments.data[0].subattachments.data">
-                              <a href="">
+                              <a href="" ng-click="showImageDialog(image.media.image.src)">
                                  <img ng-src="{{image.media.image.src}}">
                               </a>
                            </span>
                            <span class="image-card" ng-if="!postData.attachments.data[0].subattachments.data">
-                              <a href="">
+                              <a href="" ng-click="showImageDialog(postData.picture)">
                                  <img ng-src="{{postData.picture}}">
                               </a>
                            </span>
@@ -59,7 +59,7 @@
                      <div class="chat-operator-message window__chatAgentMessage">
                         {{commentData.message}}
                         <div ng-if="commentData.attachment">
-                           <a href="" ng-click="showImageDialog(image.image_data.url)">
+                           <a href="" ng-click="showImageDialog(commentData.attachment.media.image.src)">
                               <img ng-src="{{commentData.attachment.media.image.src}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
                            </a>
                         </div>
@@ -78,7 +78,7 @@
                            <a href="//facebook.com/{{tag.id}}" target="_blank">{{tag.name}}</a>
                         </span> -->
                         <div ng-if="comment.attachment">
-                           <a href="" ng-click="showImageDialog(image.image_data.url)">
+                           <a href="" ng-click="showImageDialog(comment.attachment.media.image.src)">
                               <img ng-src="{{comment.attachment.media.image.src}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
                            </a>
                         </div>

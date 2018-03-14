@@ -2,11 +2,13 @@
       <div class="write-area"  style="height: {{windowsHeight-(55+75)}}px;">
          <div class="pl-2 pr-2 pt-0">
             <div class="columns mb-1">
-               <div class="column block-blue pl-3 pr-3 mt-0">
-                  <div data-reactroot="" hidden="">
+               <div class="column block-blue pl-3 pr-3 mt-2">
+                  <div data-reactroot="" ng-if="activedItem.data.customerData.customerNote">
                      <div class="mb-2">
-                        <div class="flash">
-                           <button type="submit" class="btn btn-sm primary flash-action">OK</button><!-- react-text: 5 --><strong>Ghi chú của telesale: </strong> Nhận hàng vào buổi tối các ngày trong tuần.<!-- /react-text -->
+                        <div class="flash flash-warn">
+                           <!-- <button type="submit" class="btn btn-sm primary flash-action">OK</button> -->
+                           <strong>Ghi chú của telesale: </strong>
+                           {{activedItem.data.customerData.customerNote}}
                         </div>
                      </div>
                   </div>
@@ -122,7 +124,7 @@
                      </div>
                      <!-- Khu vực: {{toSelectedDistrict}} - Phường/Xã: {{toSelectedWard}} -->
                   </div>
-                  <div style="display: block;">
+                  <div style="display: none;">
                      <nav class="UnderlineNav"  style="float: none;clear: both;">
                         <div class="UnderlineNav-body">
                            <a role="tab" title="Item 1" class="UnderlineNav-item pl-0 selected">
@@ -330,21 +332,18 @@
                      </dl>
                      </div>
                      <div style="display: flex;">
-                       <div class="form-checkbox" ng-repeat="paymentType in paymentTypes">
+                       <div class="form-checkbox ml-2" ng-repeat="paymentType in paymentTypes">
                           <label>
                           <input class="js-email-global-unsubscribe" id="payment-type{{paymentType.id}}" name="paymentType" type="radio" value="marketing" ng-value="paymentType.id" ng-model="shippingData.PaymentTypeID">
                           {{paymentType.text}}
                           </label>
                        </div>
                      </div>
-                     <div class="form-checkbox">
-                        <!-- '"` --><!-- </textarea></xmp> -->
-                        <form accept-charset="UTF-8" action="/users/enesyteam/emails/toggle_visibility" data-autosubmit="true" method="post">
-                           <label>
-                           <input id="toggle_visibility" name="toggle_visibility" type="checkbox" value="true" checked="">
-                           Gửi hàng tại điểm giao dịch
-                           </label>
-                        </form>
+                     <div class="form-checkbox ml-2">
+                         <label>
+                         <input id="toggle_visibility" name="toggle_visibility" type="checkbox" value="true" checked="">
+                         Gửi hàng tại điểm giao dịch
+                         </label>
                      </div>
                   </div>
                   <!-- </form> -->
@@ -356,13 +355,12 @@
          <div class="notification">
             <!-- <input class="form-control mt-3 ml-3" type="text" name="" ng-model="trackingCode"> -->
          </div>
-         <div class="actions">
+         <div class="actions float-right">
             <ul class="list_action">
                <li>
-                  <button class="btn btn-primary" ng-click="submitGHN()">Lưu & Tạo GHN</button>
-               </li>
-               <li>
-                  <button class="btn" ng-click="testPrint()">Lưu</button>
+                  <button class="btn btn-primary" ng-click="submitGHN()">
+                    {{isSubmitingGHN == true ? 'Đang tạo đơn...' : 'Tạo đơn GHN'}}
+                  </button>
                </li>
             </ul>
          </div>

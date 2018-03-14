@@ -271,3 +271,6 @@ code {
 .upload-image-box .preview img{
     height: 100px
 }
+.customer-name.bad-number{
+    color: #cb2431 !important;
+}

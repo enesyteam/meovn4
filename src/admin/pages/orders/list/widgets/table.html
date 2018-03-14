@@ -41,7 +41,7 @@
                <div class="float-left col-8 pt-2 pr-3 text-right">
                   <div class="AvatarStack AvatarStack--right ">
                      <div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1" aria-label="Assigned to Dương">
-                        {{order.seller_will_call_id}}
+                        {{filterById(telesales, order.seller_will_call_id).last_name}}
                      </div>
                   </div>
                </div>
@@ -60,7 +60,7 @@
 <!-- Pagination -->
 <div class="paginate-container">
    <div class="pagination">
-      <a class="next_page" ng-class="canLoadMore==false ? 'disabled' : ''" style="padding:0" rel="next" ng-click="getNextOrders()">
+      <a class="next_page" ng-class="canLoadMore==false ? 'disabled' : ''" style="padding:0" rel="next" ng-click="getNextAddedOrders()">
       <span ng-if="isLoaddingOrder" style="border:none">
       Đang tải Orders...
       </span>

@@ -447,4 +447,9 @@ gulp.task('make-jade', function(){
     gulp.src('./src/navigation/index.html')
     .pipe(html2jade(jadeOptions))
     .pipe(gulp.dest('views/navigation'));
+
+    // login page
+    gulp.src('./login/index.html')
+    .pipe(html2jade(jadeOptions))
+    .pipe(gulp.dest('views/login'));
 });

@@ -1,7 +1,7 @@
 mShipping.controller('DetailCtrl',
     function($rootScope, $scope, $http, $window, $state, $stateParams, $document, $filter, $timeout, cfpLoadingBar,
-        cfpLoadingBar, Facebook, toastr, toastrConfig, moment, ProductPackService, 
-        firebaseService, GiaoHangNhanhService, activeItem, ghn_hubs, MFacebookService, 
+        cfpLoadingBar, Facebook, toastr, toastrConfig, moment, ProductPackService,
+        firebaseService, GiaoHangNhanhService, activeItem, ghn_hubs, MFacebookService,
         MUtilitiesService, current_hub, fanpages) {
 
         // console.log(firebase.utils);
@@ -9,127 +9,127 @@ mShipping.controller('DetailCtrl',
 
         $scope.conversation_type = $stateParams.ctype;
 
-        $scope.detectSharesLink = function(sharesLink){
+        $scope.detectSharesLink = function(sharesLink) {
             // console.log('detecting link...');
             var l = sharesLink.split('/').pop(); // ?type=3
             // alert(l);
-            if (l.indexOf('?type=3') !== -1){
+            if (l.indexOf('?type=3') !== -1) {
                 // photos
                 var k = sharesLink.split('/');
                 // {{detectSharesLink(m.shares.data[0].link)}}/picture?height=720&width=720
                 return '//graph.facebook.com/' + k[k.length - 2] + '/picture?height=720&width=720';
-            }
-            else{
+            } else {
                 return sharesLink;
                 // return '//graph.facebook.com/' + $stateParams.page_id + '_' + l + '?fields=picture' + '&access_token=' + $rootScope.access_token;
             }
         }
 
-        $scope.formatDate = function(d){
-          return moment(d).format("DD/MM/YYYY hh:mm");
+        $scope.formatDate = function(d) {
+            return moment(d).format("DD/MM/YYYY hh:mm");
         }
 
         // $scope.tessttt = activeItem[$stateParams.id];
-        angular.forEach(activeItem, function(value, key){
+        angular.forEach(activeItem, function(value, key) {
             // console.log(value);
             $scope.activedItem = value;
-          });
+        });
 
         var products = [];
 
         //
-        if($scope.activedItem.orderCode){
-            GiaoHangNhanhService.trackingOrder($scope.activedItem.orderCode).then(function(response){
-                $scope.$apply(function(){
+        if ($scope.activedItem.orderCode) {
+            GiaoHangNhanhService.trackingOrder($scope.activedItem.orderCode).then(function(response) {
+                $scope.$apply(function() {
                     $scope.trackingData = response;
                 })
             })
         }
 
-        if(current_hub){
+        if (current_hub) {
             // console.log($scope.currentHub);
-        }
-        else{
+        } else {
             AlertError('Không tìm thấy hub. Có thể bạn chưa khai báo HubID cho page này', 'Thông báo');
         }
 
-        var page = $filter("filter")(fanpages, {id: $stateParams.page_id});
+        var page = $filter("filter")(fanpages, {
+            id: $stateParams.page_id
+        });
         $scope.currentAccessToken = page ? page[0].access_token : null;
-        if(!$scope.currentAccessToken){
+        if (!$scope.currentAccessToken) {
             MUtilitiesService.AlertError('Chưa khai báo Fanpage', 'Lỗi');
         }
 
         // GRAPH FACEBOOK
-        var getToken = function(pageId){
-            return new Promise(function(resolve, reject){
-                var page = $filter("filter")(fanpages, {id: pageId});
-                if(page[0]){
+        var getToken = function(pageId) {
+            return new Promise(function(resolve, reject) {
+                var page = $filter("filter")(fanpages, {
+                    id: pageId
+                });
+                if (page[0]) {
                     resolve(page[0].access_token);
-                }
-                else{
+                } else {
                     reject('Page với ID ' + pageId + ' chưa được thêm vào danh sách quản lý.');
                 }
             })
         }
         // graph page
-        MFacebookService.graphPage($stateParams.page_id, $scope.currentAccessToken).then(function(response){
-            // console.log(response);
-            $scope.$apply(function(){
-                $scope.pageData = response;
+        MFacebookService.graphPage($stateParams.page_id, $scope.currentAccessToken).then(function(response) {
+                // console.log(response);
+                $scope.$apply(function() {
+                    $scope.pageData = response;
+                })
             })
-        })
-        .catch(function(err){
-            MUtilitiesService.AlertError(err, 'Lỗi');
-        })
+            .catch(function(err) {
+                MUtilitiesService.AlertError(err, 'Lỗi');
+            })
 
         //
-        if($stateParams.ctype==1){
+        if ($stateParams.ctype == 1) {
             // messages
             // alert($stateParams.cv_id);
-            MFacebookService.graphMessages($stateParams.cv_id, $scope.currentAccessToken).then(function(response){
-                $scope.$apply(function(){
-                    // console.log(response);
-                    $scope.messageData = response;
+            MFacebookService.graphMessages($stateParams.cv_id, $scope.currentAccessToken).then(function(response) {
+                    $scope.$apply(function() {
+                        // console.log(response);
+                        $scope.messageData = response;
+                    })
                 })
-            })
-            .catch(function(err){
-                MUtilitiesService.AlertError(err, 'Lỗi');
-            })
-        }
-        else{
+                .catch(function(err) {
+                    MUtilitiesService.AlertError(err, 'Lỗi');
+                })
+        } else {
             // graph post
-            MFacebookService.graphPost($stateParams.post_id, $scope.currentAccessToken).then(function(response){
-                $scope.$apply(function(){
-                    // console.log(response);
-                    $scope.postData = response;
+            MFacebookService.graphPost($stateParams.post_id, $scope.currentAccessToken).then(function(response) {
+                    $scope.$apply(function() {
+                        // console.log(response);
+                        $scope.postData = response;
+                    })
                 })
-            })
-            .catch(function(err){
-                MUtilitiesService.AlertError(err, 'Lỗi');
-            })
+                .catch(function(err) {
+                    MUtilitiesService.AlertError(err, 'Lỗi');
+                })
 
             // also graph comments
             // alert($stateParams.cv_id);
-            MFacebookService.graphComments($stateParams.cv_id, $scope.currentAccessToken).then(function(response){
-                $scope.$apply(function(){
-                    // console.log(response);
-                    $scope.commentData = response;
+            MFacebookService.graphComments($stateParams.cv_id, $scope.currentAccessToken).then(function(response) {
+                    $scope.$apply(function() {
+                        // console.log(response);
+                        $scope.commentData = response;
+                    })
                 })
-            })
-            .catch(function(err){
-                MUtilitiesService.AlertError(err, 'Lỗi');
-            })
+                .catch(function(err) {
+                    MUtilitiesService.AlertError(err, 'Lỗi');
+                })
         }
 
 
         // data to submit giao hang nhanh
         $scope.shippingData = {
             "token": $rootScope.ghnToken,
-            "PaymentTypeID": 1,
+            "PaymentTypeID": 2,
             "FromDistrictID": current_hub ? current_hub.DistrictID : '',
-            "FromWardCode": "21402",
-            "ToDistrictID": 1462,
-            "ToWardCode": "21609",
+            "FromWardCode": null,
+            "ToDistrictID": null,
+            "ToWardCode": null,
             "Note": $scope.activedItem ? $scope.activedItem.data.customerData.orderNote : '',
             "SealCode": "",
             "ExternalCode": "",
@@ -143,7 +143,7 @@ mShipping.controller('DetailCtrl',
             "NoteCode": "CHOTHUHANG",
             "InsuranceFee": 0,
             "ClientHubID": 0,
-            "ServiceID": 53319,
+            "ServiceID": null,
             "ToLatitude": 1.2343322,
             "ToLongitude": 10.54324322,
             "FromLat": 1.2343322,
@@ -168,47 +168,42 @@ mShipping.controller('DetailCtrl',
         }
 
 
-       $scope.selectedProducts = [];
-               // add to products list
+        $scope.selectedProducts = [];
+        // add to products list
         $scope.packageSize = {
-            width : 0,
-            height : 0,
-            length : 10,
-            weight: 200,
+            width: 12,
+            height: 12,
+            length: 6,
+            weight: 100,
         }
-        angular.forEach($scope.activedItem.data.customerData.products, function(product){
-                $scope.selectedProducts.push(product);
-                $scope.packageSize.width += product.count*10;
-                $scope.packageSize.height += product.count*10;
-            })
 
         // get all products
         $scope.aProducts = [];
-        var getAllAvailableProducts = function(){
-          var ref = firebase.database().ref();
-          let productsRef = ref.child('products');
-          productsRef.on('child_added', snapshot => {
-            $scope.aProducts.push(snapshot.val());
-          });
+        var getAllAvailableProducts = function() {
+            var ref = firebase.database().ref();
+            let productsRef = ref.child('products');
+            productsRef.on('child_added', snapshot => {
+                $scope.aProducts.push(snapshot.val());
+            });
         }
         getAllAvailableProducts();
-        
+
         // $scope.selectedProducts.push({
         //         id : 1,
         //         count : 0,
         //         note : ''
         //     });
-        
-        $scope.addProduct = function(){
+
+        $scope.addProduct = function() {
             $scope.selectedProducts.push({
-                id : 1,
-                count : 0,
-                note : ''
+                id: 1,
+                count: 0,
+                note: ''
             });
         }
 
 
-        $scope.deleteProduct = function(index){
+        $scope.deleteProduct = function(index) {
             console.log('xóa ' + index);
             $scope.selectedProducts.splice(index, 1);
         }
@@ -217,7 +212,7 @@ mShipping.controller('DetailCtrl',
             // console.log('need to recalculate');
         });
 
-        $scope.recalculateProductPacks = function(){
+        $scope.recalculateProductPacks = function() {
 
         }
         // console.log($scope.aProducts);
@@ -225,30 +220,28 @@ mShipping.controller('DetailCtrl',
         toastrConfig.closeButton = true;
         toastrConfig.timeOut = 3000;
 
-        $scope.NoteCodes = [
-          {
-            code : 'CHOTHUHANG',
-            text : 'Cho thử hàng'
-          },
-          {
-            code : 'CHOXEMHANGKHONGTHU',
-            text : 'Cho xem hàng không cho thử'
-          },
-          {
-            code : 'KHONGCHOXEMHANG',
-            text : 'Không cho xem hàng'
-          }
+        $scope.NoteCodes = [{
+                code: 'CHOTHUHANG',
+                text: 'Cho thử hàng'
+            },
+            {
+                code: 'CHOXEMHANGKHONGTHU',
+                text: 'Cho xem hàng không cho thử'
+            },
+            {
+                code: 'KHONGCHOXEMHANG',
+                text: 'Không cho xem hàng'
+            }
         ];
 
-        $scope.paymentTypes = [
-          {
-            id : 1,
-            text : 'Người gửi thanh toán'
-          },
-          {
-            id : 2,
-            text : 'Người nhận thanh toán'
-          }
+        $scope.paymentTypes = [{
+                id: 1,
+                text: 'Người gửi thanh toán'
+            },
+            {
+                id: 2,
+                text: 'Người nhận thanh toán'
+            }
         ];
 
         function AlertError(c, d) {
@@ -10605,14 +10598,14 @@ mShipping.controller('DetailCtrl',
                     console.log(data);
                     $scope.orderLogs = data;
                 })
-                 .catch(function(err) {
+                .catch(function(err) {
                     console.log(err);
                     // AlertError(err.data.msg, err.statusText);
                 });
         }
 
         function FindAvailableServices() {
-            if(!$scope.shippingData.FromDistrictID || !$scope.shippingData.ToDistrictID){
+            if (!$scope.shippingData.FromDistrictID || !$scope.shippingData.ToDistrictID) {
                 AlertError('Chưa chọn khu vực', 'Thông báo');
                 return;
             }
@@ -10623,10 +10616,10 @@ mShipping.controller('DetailCtrl',
             }
             var data = {
                 "token": $rootScope.ghnToken,
-                "Weight": 200,
-                "Length": 10,
-                "Width": 5,
-                "Height": 2,
+                "Weight": $scope.packageSize.weight,
+                "Length": $scope.packageSize.length,
+                "Width": $scope.packageSize.width,
+                "Height": $scope.packageSize.height,
                 "FromDistrictID": $scope.shippingData.FromDistrictID,
                 "ToDistrictID": $scope.shippingData.ToDistrictID,
                 "CouponCode": "",
@@ -10638,9 +10631,9 @@ mShipping.controller('DetailCtrl',
                     $scope.availableServices = data.data.data;
                 })
                 .catch(function(err) {
-                  if(err.status == -1){
-                    AlertError('Lỗi chọn khu vực', err.xhrStatus);
-                  }
+                    if (err.status == -1) {
+                        AlertError('Lỗi chọn khu vực', err.xhrStatus);
+                    }
                     console.log(err);
                     AlertError(err.data.msg, err.statusText);
                 });
@@ -10649,11 +10642,12 @@ mShipping.controller('DetailCtrl',
         // console.log($scope.activedItem.data.customerData);
 
         /*
-        * submit data to giao hang nhanh
-        *
-        */
+         * submit data to giao hang nhanh
+         *
+         */
+        $scope.isSubmitingGHN = false;
         $scope.submitGHN = function() {
-            console.log($scope.shippingData);
+            // console.log($scope.shippingData);
 
             var config = {
                 headers: {
@@ -10662,21 +10656,22 @@ mShipping.controller('DetailCtrl',
             }
 
             if (!validateOrder($scope.shippingData)) return;
-
+            $scope.isSubmitingGHN = true;
             $http.post('https://console.ghn.vn/api/v1/apiv3/CreateOrder', $scope.shippingData, config)
                 .then(function(data) {
+                    $scope.isSubmitingGHN = false;
                     // console.log(data);
                     AlertSuccessful('Tạo đơn GHN thành công với mã: ' + data.data.data.OrderCode, 'Thông báo');
                     // submit success, return order code
                     // update this order code to shipping item
-                    firebaseService.onUpdateOrderCode($stateParams.id, data.data.data.OrderCode).then(function(response){
-                        console.log(response);
+                    firebaseService.onUpdateOrderCode($stateParams.id, data.data.data.OrderCode).then(function(response) {
+                        // console.log(response);
                         // update to view
-                        var a = $rootScope.filterById($rootScope.shippingItems, $stateParams.id);
+                        var a = $rootScope.filterById($rootScope.availableShippingItems, $stateParams.id);
                         a.orderCode = data.data.data.OrderCode;
                         // tracking this order
-                        GiaoHangNhanhService.trackingOrder(data.data.data.OrderCode).then(function(response){
-                            $scope.$apply(function(){
+                        GiaoHangNhanhService.trackingOrder(data.data.data.OrderCode).then(function(response) {
+                            $scope.$apply(function() {
                                 $scope.trackingData = response;
                                 $scope.activedItem.orderCode = data.data.data.OrderCode;
                             })
@@ -10685,17 +10680,17 @@ mShipping.controller('DetailCtrl',
                 })
                 .catch(function(err) {
                     console.log(err);
-                    if(err.data){
-                      AlertError(err.data.msg, err.statusText);
-                    } else{
-                      AlertError('Đã có lỗi xảy ra, vui lòng kiểm tra lại dữ liệu nhập', err.xhrStatus);
+                    if (err.data) {
+                        AlertError(err.data.msg, err.statusText);
+                    } else {
+                        AlertError('Đã có lỗi xảy ra, vui lòng kiểm tra lại dữ liệu nhập', err.xhrStatus);
                     }
                 });
         }
 
 
-        $scope.cancelOrder = function(orderCode){
-            return GiaoHangNhanhService.cancelOrder(orderCode).then(function(response){
+        $scope.cancelOrder = function(orderCode) {
+            return GiaoHangNhanhService.cancelOrder(orderCode).then(function(response) {
                 AlertSuccessful('Hủy đơn hàng ' + orderCode + ' thành công', 'Thông báo');
             });
         }
@@ -10720,16 +10715,16 @@ mShipping.controller('DetailCtrl',
             return !c || !/[^\s]+/.test(c)
         };
 
-        $scope.formatDate = function(d){
-          return moment(d).format("DD/MM/YYYY");
+        $scope.formatDate = function(d) {
+            return moment(d).format("DD/MM/YYYY");
         }
 
         var p_validPhone = "86,88,89,90,91,92,93,94,96,97,98,99,120,121,122,123,124,125,126,127,128,129,161,162,163,164,165,166,167,168,169,186,188,199,868";
         var p_validHomePhone = "4,8,55,56,57,58,59,60,61,62,63,64,66,67,68,70,72,73,75,203,204,205,206,207,208,209,212,213,214,215,216,220,221,222,225,226,227,228,229,232,233,234,235,236,237,238,239,251,252,254,255,256,257,258,259,260,261,262,263,269,270,271,272,273,274,275,276,277,290,291,292,293,294,296,297,299,500,501,650,651,241,242,243,244,245,246,247,248,249,281,282,283,284,285,286,287,288,289";
-        
-        $scope.testLostFocus = function(){
-          AlertError('test lost focus', 'test');
-        }        
+
+        $scope.testLostFocus = function() {
+            AlertError('test lost focus', 'test');
+        }
 
 
 

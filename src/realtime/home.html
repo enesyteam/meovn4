@@ -13,7 +13,7 @@
                   </a></div> -->
                <ul class="filterbar-nav">
                   <li class="home tooltipped tooltipped-e tooltipped-no-delay" ng-repeat="(key, value) in availableOrders | countBy: 'status_id'" aria-label="{{getStatusById(key).name}}">
-                     <a class="shortcuts-project">
+                     <a class="shortcuts-project" ng-click="filterOrderByStatusId()">
                         <div class="nav-icon-container" style="margin:0 auto;">
                            <span class="Counter" style="background-color: {{getSourceColor(key)}};color:#fff">{{value}}</span>
                         </div>
@@ -50,7 +50,7 @@
                                     </span>
                                  </div>
                                  <span class="live_chat">
-                                    <span>{{order.customer_mobile}} {{getStatusById(order.status_id).name}}</span>
+                                    <span>{{order.customer_mobile}}  <strong class="Counter pt-1 pb-1 pl-2 pr-2" style="color:#79589F">{{filterById(telesales, order.seller_will_call_id).last_name || 'null'}}</strong>  {{getStatusById(order.status_id).name}}</span>
                                  </span>
                               </div>
                               <div class="time_tag"><span class="time_latest_message">
@@ -79,8 +79,8 @@
                                      <li class="tag_item" ng-if="order.status_id !== 1">
                                        <svg class=" tooltipped tooltipped-sw set-tag-enter set-tag-enter-active" aria-label="sdfsdf" fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" name="circle" style="vertical-align: text-bottom; color: {{getSourceColor(order.status_id)}}; font-size: 14px; margin-left: 2px; margin-right: 0px; line-height: 24px;"><g><path d="m37.3 20q0 4.7-2.3 8.6t-6.3 6.2-8.6 2.3-8.6-2.3-6.2-6.2-2.3-8.6 2.3-8.6 6.2-6.2 8.6-2.3 8.6 2.3 6.3 6.2 2.3 8.6z"></path></g></svg>
                                     </li>
-                                    <li ng-if="order.seller_will_call_id" class="tag_item" style="width: 30px;font-size: 12px;">
-                                       {{order.seller_will_call_id}}
+                                    <li class="tag_item tooltipped tooltipped-s" style="color:#cb2431" ng-if="order.is_bad_number==1" aria-label="Sai số">
+                                       <svg height="16" class="octicon octicon-stop" viewBox="0 0 14 16" version="1.1" width="16"><path fill-rule="evenodd" d="M10 1H4L0 5v6l4 4h6l4-4V5l-4-4zm3 9.5L9.5 14h-5L1 10.5v-5L4.5 2h5L13 5.5v5zM6 4h2v5H6V4zm0 6h2v2H6v-2z"></path></svg>
                                     </li>
                                  </ul>
                               </div>

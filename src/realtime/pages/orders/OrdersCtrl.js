@@ -309,6 +309,8 @@ mRealtime.controller('OdersCtrl',
                         status_id : $scope.activeOrder.status_id,
                         type :  $scope.activeOrder.type || null
                     },
+                    customer_name: $scope.activeOrder.customer_name,
+                    customer_mobile: $scope.activeOrder.customer_mobile,
                     created_time : firebase.database.ServerValue.TIMESTAMP
                 }
                 firebaseService.addNewShippingItem(data).then(function(response){
@@ -323,10 +325,60 @@ mRealtime.controller('OdersCtrl',
         $scope.changeStatus = function(status){
             updateStatus(status).then(function(response){
                 MUtilitiesService.AlertSuccessful(response,'Thông báo');
+                // gửi tin nhắn đến khách hàng nếu không nghe máy
+                if(status.id == 9){
+                    if($stateParams.type == 1){
+                        MFacebookService.replyMessage($stateParams.conversation_id,
+                                $scope.currentAccessToken, null, 'Chào Anh/chị, nhân viên CSKH đã liên hệ với anh/chị nhưng anh/chị chưa nghe máy. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
+                                MUtilitiesService.AlertSuccessful(response)
+                            })
+                            .catch(function(err){
+                                MUtilitiesService.AlertError(err, 'Lỗi')
+                            })
+                    }
+                    else{
+                        MFacebookService.replyComment($stateParams.conversation_id,
+                            $scope.currentAccessToken, null, 'Chào Anh/chị, nhân viên CSKH đã liên hệ với anh/chị nhưng anh/chị chưa nghe máy. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
+                            MUtilitiesService.AlertSuccessful(response)
+                        })
+                        .catch(function(err){
+                            MUtilitiesService.AlertError(err, 'Lỗi')
+                        })
+                    }
+                }
             })
             .catch(function(err){
                 MUtilitiesService.AlertError(err, 'Lỗi');
             })
+        }
+        $scope.reportBadNumber = function(){
+            // cập nhật database
+            MFirebaseService.updateBadNumber(activeItem.id).then(function(response){
+                MUtilitiesService.AlertSuccessful(response, 'Thông báo');
+            })
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Lỗi');
+            })
+
+            // gửi thông báo sai số đến khách hàng
+            if($stateParams.type == 1){
+                MFacebookService.replyMessage($stateParams.conversation_id,
+                        $scope.currentAccessToken, null, 'Chào Anh/chị, anh/chị vui lòng kiểm tra lại số điện thoại giúp em ạ!').then(function(response){
+                        MUtilitiesService.AlertSuccessful(response)
+                    })
+                    .catch(function(err){
+                        MUtilitiesService.AlertError(err, 'Lỗi')
+                    })
+            }
+            else{
+                MFacebookService.replyComment($stateParams.conversation_id,
+                    $scope.currentAccessToken, null, 'Chào Anh/chị, anh/chị vui lòng kiểm tra lại số điện thoại giúp em ạ!').then(function(response){
+                    MUtilitiesService.AlertSuccessful(response)
+                })
+                .catch(function(err){
+                    MUtilitiesService.AlertError(err, 'Lỗi')
+                })
+            }
         }
         function checkIfUserExists(userId) {
           var usersRef = new Firebase(USERS_LOCATION);
@@ -347,11 +399,6 @@ mRealtime.controller('OdersCtrl',
         }
         getAllAvailableProducts();
         $scope.selectedProducts = [];
-        // $scope.selectedProducts.push({
-        //         id : 1,
-        //         count : 0,
-        //         note : ''
-        //     });
         
         $scope.addProduct = function(){
             $scope.selectedProducts.push({
