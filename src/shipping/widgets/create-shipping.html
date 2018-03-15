@@ -53,8 +53,11 @@
                         <dl class="form-group">
                            <dt><label>Khu vực</label></dt>
                            <dd>
-                              <select class="form-control" chosen ng-model="shippingData.FromDistrictID" ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in Districts">
+<!--                               <select class="form-control" chosen ng-model="shippingData.FromDistrictID" ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in Districts">
                                  <option value=""></option>
+                              </select> -->
+                             <select class="form-control form-select" select2 ng-model="shippingData.FromDistrictID" data-placeholder="Pick a number" 
+                               ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in Districts">
                               </select>
                            </dd>
                         </dl>
@@ -63,8 +66,10 @@
                         <dl class="form-group">
                            <dt><label>Phường/Xã</label></dt>
                            <dd>
-                              <select class="form-control" chosen ng-model="shippingData.FromWardCode" ng-options="s.WardCode as s.WardName for s in Wards" data-placeholder-text-single="'Chọn Phường/Xã'">
+                              <!-- <select class="form-control" chosen ng-model="shippingData.FromWardCode" ng-options="s.WardCode as s.WardName for s in Wards" data-placeholder-text-single="'Chọn Phường/Xã'">
                                  <option value=""></option>
+                              </select> -->
+                              <select class="form-control form-select" select2 ng-model="shippingData.FromWardCode" placeholder="Pick a number" ng-options="s.WardCode as s.WardName for s in Wards">
                               </select>
                            </dd>
                         </dl>
@@ -106,8 +111,11 @@
                         <dl class="form-group">
                            <dt><label>Khu vực</label></dt>
                            <dd>
-                              <select class="form-control" chosen ng-model="shippingData.ToDistrictID" ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in Districts">
+                              <!-- <select class="form-control" chosen ng-model="shippingData.ToDistrictID" ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in Districts">
                                  <option value=""></option>
+                              </select> -->
+                              <select class="form-control form-select" select2 ng-model="shippingData.ToDistrictID" data-placeholder="Pick a number" 
+                               ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in Districts">
                               </select>
                            </dd>
                         </dl>
@@ -116,8 +124,11 @@
                         <dl class="form-group">
                            <dt><label>Phường/Xã</label></dt>
                            <dd>
-                              <select class="form-control" chosen ng-model="shippingData.ToWardCode" ng-options="s.WardCode as s.WardName for s in toWards" data-placeholder-text-single="'Chọn Phường/Xã'">
+                              <!-- <select class="form-control" chosen ng-model="shippingData.ToWardCode" ng-options="s.WardCode as s.WardName for s in toWards" data-placeholder-text-single="'Chọn Phường/Xã'">
                                  <option value=""></option>
+                              </select> -->
+                              <select class="form-control form-select" select2 ng-model="shippingData.ToWardCode" data-placeholder="Pick a number" ng-options="s.WardCode as s.WardName for s in toWards">
+                                <option value=""></option>
                               </select>
                            </dd>
                         </dl>

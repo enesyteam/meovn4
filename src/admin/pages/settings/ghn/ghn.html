@@ -116,9 +116,12 @@
               <dl class="form-group">
 	               <dt><label>Khu vực</label></dt>
 	               <dd>
-	                  <select class="form-control" chosen ng-model="ghn_hub_data.DistrictID" ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in ghn_districs">
+	                  <!-- <select class="form-control" chosen ng-model="ghn_hub_data.DistrictID" ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in ghn_districs">
 	                     <option value=""></option>
-	                  </select>
+	                  </select> -->
+	                  <select class="form-control form-select" select2 ng-model="ghn_hub_data.DistrictID" data-placeholder="Pick a number" 
+                       ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in ghn_districs">
+                      </select>
 	               </dd>
 	            </dl>
            </div>

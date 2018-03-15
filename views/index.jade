@@ -27,9 +27,7 @@ html(lang='en', ng-app='m_admin')
     link(rel='stylesheet', href='node_modules/angular-loading-bar/build/loading-bar.css')
     |     
     link(rel='stylesheet', href='/node_modules/angular-toastr/dist/angular-toastr.css')
-    |     
-    link(rel='stylesheet', href='/src/admin/sass/chosen.css')
-    |     
+    // <link rel="stylesheet" href="/src/admin/sass/chosen.css">
     link(rel='stylesheet', href='/src/admin/sass/admin-custom.css')
     |     
     link(rel='stylesheet', href='/src/admin/sass/chat-box.css')
@@ -39,6 +37,8 @@ html(lang='en', ng-app='m_admin')
     link(rel='stylesheet', href='/src/admin/sass/ng-dialog-custom.css')
     |     
     link(rel='stylesheet', href='/node_modules/angularjs-datepicker/dist/angular-datepicker.min.css')
+    |     
+    link(rel='stylesheet', href='/assets/css/select2.min.css')
   |   
   body.logged-in.env-production.page-dashboard
     // Header
@@ -167,10 +167,10 @@ html(lang='en', ng-app='m_admin')
       |     You can&apos;t perform that action at this time.
     |     
     script(src='/assets/js/jquery.min.js')
-    |     
-    script(src='/assets/js/chosen.jquery.min.js')
-    |     
-    script(src='/assets/js/chosen.proto.min.js')
+    //
+      <script src="/assets/js/chosen.jquery.min.js"></script>
+      <script src="/assets/js/chosen.proto.min.js"></script>
+    script(src='/assets/js/select2.min.js')
     |     
     script(src='/assets/js/scripts-angular.min.js')
     |     

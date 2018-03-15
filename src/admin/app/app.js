@@ -2,7 +2,7 @@ var m_admin = angular.module('m_admin', [
   'ui.router', 
   'ngAnimate',
   'angular-loading-bar',
-  'localytics.directives', // chosen
+  // 'localytics.directives', // chosen
   'firebase',
   'angular.filter',
   'facebook',
@@ -125,3 +125,45 @@ m_admin.directive('searchEnter', function () {
         });
     };
 });
+
+m_admin.directive("select2", ["$timeout", "$parse", function(c, b) {
+    return {
+        restrict: "AC",
+        require: "ngModel",
+        link: function(i, e, d) {
+            c(function() {
+                e.select2({
+                    width: "100%"
+                });
+                e.select2Initialized = true
+            });
+            var h = function() {
+                if (!e.select2Initialized) {
+                    return
+                }
+                c(function() {
+                    e.trigger("change")
+                })
+            };
+            var g = function() {
+                if (!e.select2Initialized) {
+                    return
+                }
+                c(function() {
+                    e.select2("destroy");
+                    e.select2({
+                        width: "100%"
+                    })
+                })
+            };
+            i.$watch(d.ngModel, h);
+            if (d.ngOptions) {
+                var f = d.ngOptions.match(/ in ([^ ]*)/)[1];
+                i.$watch(f, g)
+            }
+            if (d.ngDisabled) {
+                i.$watch(d.ngDisabled, h)
+            }
+        }
+    }
+}]);

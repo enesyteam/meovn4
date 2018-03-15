@@ -81,7 +81,7 @@
                </nav>
                <div class="row" style="display: flex;" ng-repeat="p in editData.data.customerData.products track by $index">
                   <dl class="form-group">
-                     <div class="one-third column pl-0 chosen-sm">
+                     <div class="one-half column pl-0 chosen-sm">
                         <dt>
                            <label>Sản phẩm {{$index+1}}</label>
                            <span class="d-inline-block mr-1">
@@ -94,13 +94,13 @@
                               </div>
                            </span>
                         </dt>
-                        <select class="form-control input-sm " chosen ng-model="p.id" ng-options="s.id as s.name for s in aProducts" data-placeholder-text-single="'Chọn sản phẩm'" style="width: 100%">
-                           <option value=""></option>
+                        <select class="form-control input-sm" select2 ng-model="p.id" data-placeholder="Pick a number" ng-options="s.id as s.name for s in aProducts" style="width: 100%">
+                          <option value=""></option>
                         </select>
                      </div>
-                     <div class="two-thirds column pr-0 pl-0">
+                     <div class="one-half column pr-0 pl-0">
                         <div class="one-fourth column">
-                           <dt><label>Số lượng</label></dt>
+                           <dt><label>S.L</label></dt>
                            <input type="number" class="form-control input-sm" id="example-text" placeholder="Số lượng" ng-model="p.count">
                         </div>
                         <div class="three-fourths column pl-0">
