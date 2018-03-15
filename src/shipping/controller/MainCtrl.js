@@ -6,7 +6,7 @@ mShipping.controller('MainCtrl',
 
         var ref = firebase.database().ref();
 
-        var pageSize = 10;
+        var pageSize = 30;
         $rootScope.availableShippingItems = [];
         $rootScope.newlyOrderKey = null;
         $rootScope.lastOrderKey = null;

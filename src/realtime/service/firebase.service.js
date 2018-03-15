@@ -276,6 +276,8 @@
                 id: newKey,
                 data: shippingItemData,
                 orderId: shippingItemData.orderData.id,
+                customer_name: shippingItemData.customer_name,
+                customer_mobile: shippingItemData.customer_mobile,
             })
 
             resolve('Thêm shipping item thành công!');

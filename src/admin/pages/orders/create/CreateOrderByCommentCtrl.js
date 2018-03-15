@@ -2,7 +2,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
     function($rootScope, $window, $scope, $http, $filter, $rootScope, $timeout, cfpLoadingBar, Facebook, firebaseService,
         MFirebaseService, MFacebookService, MUtilitiesService, fanpages) {
 
-        var isTestMode = true;
+        var isTestMode = false;
         // console.log(fanpages);
         // get token
         var getToken = function(pageId){
