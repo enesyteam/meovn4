@@ -41,14 +41,14 @@ m_admin.controller('DashboardCtrl',
         })
         MFirebaseService.getUsersReportForDate(date).then(function(snapshot){
             $scope.$apply(function(){
-                $rootScope.finishLoading = true;
+                // $rootScope.finishLoading = true;
                 $rootScope.todayUsersReport = snapshot.val();
             });
         })
         MFirebaseService.getPagesReportForDate(date).then(function(snapshot){
             $rootScope.todayPagesReport = [];
             $scope.$apply(function(){
-                $rootScope.finishLoading = true;
+                // $rootScope.finishLoading = true;
                 angular.forEach(snapshot.val(), function(value, key){
                     var page = {
                         id: key,
@@ -58,6 +58,13 @@ m_admin.controller('DashboardCtrl',
                     $rootScope.todayPagesReport.push(page);
                 })
                 console.log($rootScope.todayPagesReport);
+            });
+        })
+
+        MFirebaseService.getShippingReportForDate(date).then(function(snapshot){
+            $scope.$apply(function(){
+                $rootScope.finishLoading = true;
+                $rootScope.todayShippingReport = snapshot.val();
             });
         })
     }

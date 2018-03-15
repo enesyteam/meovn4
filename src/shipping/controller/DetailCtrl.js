@@ -1,7 +1,7 @@
 mShipping.controller('DetailCtrl',
     function($rootScope, $scope, $http, $window, $state, $stateParams, $document, $filter, $timeout, cfpLoadingBar,
         cfpLoadingBar, Facebook, toastr, toastrConfig, moment, ProductPackService,
-        firebaseService, GiaoHangNhanhService, activeItem, ghn_hubs, MFacebookService,
+        firebaseService, GiaoHangNhanhService, activeItem, ghn_hubs, MFacebookService, MFirebaseService, 
         MUtilitiesService, current_hub, fanpages, ghn_districs, ngDialog) {
 
         // console.log(firebase.utils);
@@ -619,7 +619,24 @@ mShipping.controller('DetailCtrl',
                                 $scope.activedItem.orderCode = data.data.data.OrderCode;
                             })
                         })
+                    });
+
+                    // cập nhật báo cáo tạo đơn
+                    // tăng số đơn tạo thành công lên 1
+                    // giảm số đơn chưa tạo xuống 1
+                    // tăng tổng số tiền cod lên $scope.shippingData.CoDAmount
+                    // tăng chi phí gửi hàng lên $scope.feeData.data.data.ServiceFee
+                    var today = new Date();
+                    var reportDateString = MFirebaseService.convertDate(today);
+
+                    MFirebaseService.onUpdateShippingReport(reportDateString, $scope.shippingData.CoDAmount,
+                        $scope.feeData.data.data.ServiceFee).then(function(response){
+                            console.log(response);
                     })
+                    .catch(function(err){
+                        MUtilitiesService.AlertError('Không thể cập nhật báo cáo shipping. Lỗi ' + err, 'Lỗi');
+                    })
+
                 })
                 .catch(function(err) {
                     console.log(err);

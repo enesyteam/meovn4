@@ -317,7 +317,20 @@ mRealtime.controller('OdersCtrl',
                     created_time : firebase.database.ServerValue.TIMESTAMP
                 }
                 firebaseService.addNewShippingItem(data).then(function(response){
-                    resolve(response);
+                    // khởi tạo báo cáo ngày cho shipping nếu cần
+                    var today = new Date();
+                    var reportDateString = MFirebaseService.convertDate(today);
+
+                    MFirebaseService.prepareEmptyShippingReport(reportDateString).then(function(response){
+                        console.log(response);
+                        // cập nhật báo cáo, tăng 1 đơn vị trong tổng số shipping items
+                        MFirebaseService.onCreateShippingItem(reportDateString).then(function(response){
+                            console.log(response);
+                            resolve('Tạo shipping item và cập nhật báo cáo thành công');
+                        })
+
+                    })
+                    // resolve(response);
                 })
                 .catch(function(err){
                     reject(err);

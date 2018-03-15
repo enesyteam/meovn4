@@ -715,6 +715,122 @@
                 })
             }
 
+            var prepareEmptyShippingReport = function(date){
+                return new Promise(function(resolve, reject){
+                    firebase.database().ref().child('report').child(date).child('shippingReport')
+                    .once('value', function(snapshot) {
+                        if (snapshot.val() !== null) {
+                            resolve('Báo cáo shipping của ngày ' + date + ' đã có => không cần khởi tạo')
+                            // return;
+                        }
+                        else{
+                            firebase.database().ref().child('report').child(date).child('shippingReport').transaction(function() {
+                                return {
+                                    total_shipping_items: 0,
+                                    total_new_customers: 0,
+                                    date: date,
+                                    total_created_items : 0,
+                                    total_not_created_items: 0,
+                                    total_cancel: 0,
+                                    total_cod: 0,
+                                    total_shipping_costs: 0,
+                                }
+                            })
+                            .then(function(response){
+                                resolve('Khởi tạo báo cáo shipping ngày ' + date + ' thành công');
+                            })
+                            .catch(function(err){
+                                reject(err);
+                            })
+                        }
+                    })
+                })
+            }
+
+            var onCreateShippingItem = function(date){
+                // tăng 1 đơn vị trong báo cáo về tổng số shipping items
+                return new Promise(function(resolve, reject){
+                    firebase.database().ref().child('report').child(date)
+                    .child('shippingReport').child('total_shipping_items')
+                        .transaction(function(oldValue) {
+                            return oldValue + 1;
+                    });
+                    firebase.database().ref().child('report').child(date)
+                    .child('shippingReport').child('total_not_created_items')
+                        .transaction(function(oldValue) {
+                            return oldValue + 1;
+                    });
+                    resolve('Cập nhật báo cáo ngày của shipping thành công');
+                })
+            }
+
+            var onUpdateShippingReport = function(date, cod, shipping_cod){
+                // update cod
+                firebase.database().ref().child('report').child(date)
+                .child('shippingReport').child('total_cod')
+                    .transaction(function(oldValue) {
+                        return oldValue + cod;
+                });
+
+                // update shipping costs
+                firebase.database().ref().child('report').child(date)
+                .child('shippingReport').child('total_shipping_costs')
+                    .transaction(function(oldValue) {
+                        return oldValue + shipping_cod;
+                });
+
+                // update total_created_items
+                firebase.database().ref().child('report').child(date)
+                .child('shippingReport').child('total_created_items')
+                    .transaction(function(oldValue) {
+                        return oldValue + 1;
+                });
+
+                // update total_not_created_items
+                firebase.database().ref().child('report').child(date)
+                .child('shippingReport').child('total_not_created_items')
+                    .transaction(function(oldValue) {
+                        return oldValue - 1;
+                });
+
+                return new Promise(function(resolve, reject){
+                    resolve('Cập nhật báo cáo shipping ngày thành công');
+                })
+            }
+
+            var onCancelShippingItem = function(){
+                firebase.database().ref().child('report').child(date)
+                .child('shippingReport').child('total_cod')
+                    .transaction(function(oldValue) {
+                        return oldValue - cod;
+                });
+
+                // update shipping costs
+                firebase.database().ref().child('report').child(date)
+                .child('shippingReport').child('total_shipping_costs')
+                    .transaction(function(oldValue) {
+                        return oldValue - shipping_cod;
+                });
+
+                // update total_created_items
+                firebase.database().ref().child('report').child(date)
+                .child('shippingReport').child('total_created_items')
+                    .transaction(function(oldValue) {
+                        return oldValue - 1;
+                });
+
+                // update total_cancel
+                firebase.database().ref().child('report').child(date)
+                .child('shippingReport').child('total_cancel')
+                    .transaction(function(oldValue) {
+                        return oldValue + 1;
+                });
+
+                return new Promise(function(resolve, reject){
+                    resolve('Cập nhật báo cáo shipping ngày thành công');
+                })
+            }
+
             function prepareEmptyDayReport(date){
                 return new Promise(function(resolve, reject){
                     // kiểm tra báo cáo đã có chưa
@@ -1445,6 +1561,14 @@
                 });
             }
 
+            var getShippingReportForDate = function(date){
+                // date = 2018-07-03
+                var reportDateString = convertDate2(date);
+                return firebase.database().ref().child('report').child(reportDateString)
+                .child('shippingReport').once('value', function(snapshot) {
+                });
+            }
+
             /**
             * Create file item formanager
             * @param  {fileName}  user who changing status
@@ -1545,6 +1669,7 @@
                 getReportForDate : getReportForDate,
                 getUsersReportForDate : getUsersReportForDate,
                 getPagesReportForDate : getPagesReportForDate,
+                getShippingReportForDate : getShippingReportForDate,
 
                 // photos
                 getPhotos : getPhotos,
@@ -1555,6 +1680,16 @@
                 getAllSellers : getAllSellers,
                 getStatuses : getStatuses,
                 updateBadNumber: updateBadNumber,
+
+                // convert date from 'yyyy-mm-dd' to yyyymmdd
+                convertDate2 : convertDate2,
+                // convert date from millisecons to yyyymmdd
+                convertDate : convertDate,
+
+                prepareEmptyShippingReport :prepareEmptyShippingReport ,
+
+                onCreateShippingItem : onCreateShippingItem,
+                onUpdateShippingReport : onUpdateShippingReport ,
             }
 
         }]);

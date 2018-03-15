@@ -274,3 +274,17 @@ code {
 .customer-name.bad-number{
     color: #cb2431 !important;
 }
+/*shipping report*/
+ul.shipping-report li{
+    width: 100%;
+    border-bottom: 1px dashed #eaecef !important;
+}
+ul.shipping-report li .report-text{
+    width: 70%;
+    display: inline-block;
+}
+ul.shipping-report li .report-value{
+    width: 25%;
+    display: inline-block;
+    text-align: right;
+}
