@@ -11,15 +11,86 @@
          <li ng-if="trackingData.data.data.CurrentStatus=='ReadyToPick'">
            Bạn có thể Chỉnh sửa đơn hàng này <a href="#">tại đây</a>.
          </li>
-         <li ng-if="trackingData.data.data.CurrentStatus=='ReadyToPick' || trackingData.data.data.CurrentStatus=='Picking'">
+         <li ng-if="trackingData.data.data.CurrentStatus=='ReadyToPick'">
            Bạn có thể Hủy đơn hàng này <a ng-click="cancelOrder(activedItem.orderCode)">tại đây</a>.
          </li>
-         <li ng-if="trackingData.data.data.CurrentStatus!=='ReadyToPick' && trackingData.data.data.CurrentStatus!=='Picking'">
+         <li ng-if="trackingData.data.data.CurrentStatus!=='ReadyToPick'">
            Bạn không thể chỉnh sửa hoặc hủy đơn hàng này vì GHN không cho phép.
          </li>
        </ul>
-
-      
+       <hr class="pt-3" />
+       <h3>Thông tin đơn hàng</h3>
+       <div>
+         <ul class="tracking-report">
+               <li>
+                  <div class="report-text">
+                     <h5 class="m-2">Tên người gửi: </h5>
+                  </div>
+                  <div class="report-value">
+                     <h5 class="m-2">{{trackingData.data.data.SenderName}}</h5>
+                  </div>
+               </li>
+               <li>
+                  <div class="report-text">
+                     <h5 class="m-2">Số điện thoại người gửi: </h5>
+                  </div>
+                  <div class="report-value">
+                     <h5 class="m-2">{{trackingData.data.data.SenderPhone}}</h5>
+                  </div>
+               </li>
+               <li>
+                  <div class="report-text">
+                     <h5 class="m-2">Địa chỉ người gửi: </h5>
+                  </div>
+                  <div class="report-value">
+                     <h5 class="m-2">{{trackingData.data.data.PickAddress}}</h5>
+                  </div>
+               </li>
+               <li>
+                  <div class="report-text">
+                     <h5 class="m-2">Họ tên người nhận: </h5>
+                  </div>
+                  <div class="report-value">
+                     <h5 class="m-2">{{trackingData.data.data.CustomerName}}</h5>
+                  </div>
+               </li>
+               <li>
+                  <div class="report-text">
+                     <h5 class="m-2">Số điện thoại người nhận: </h5>
+                  </div>
+                  <div class="report-value">
+                     <h5 class="m-2">{{trackingData.data.data.CustomerPhone}}</h5>
+                  </div>
+               </li>
+               <li>
+                  <div class="report-text">
+                     <h5 class="m-2">Địa chỉ người nhận: </h5>
+                  </div>
+                  <div class="report-value">
+                     <h5 class="m-2">{{trackingData.data.data.ShippingAddress}}</h5>
+                  </div>
+               </li>
+               <li>
+                  <div class="report-text">
+                     <h5 class="m-2">Tổng số tiền thanh toán (COD): </h5>
+                  </div>
+                  <div class="report-value">
+                     <h5 class="m-2">{{trackingData.data.data.CoDAmount | number}}</h5>
+                  </div>
+               </li>
+               <li>
+                  <div class="report-text">
+                     <h5 class="m-2">Ngày dự kiến giao hàng: </h5>
+                  </div>
+                  <div class="report-value">
+                     <h5 class="m-2">{{trackingData.data.data.ExpectedDeliveryTime | date: 'dd/MM/yyyy HH:mm'}}</h5>
+                  </div>
+               </li>
+            </ul>
+       </div>
+<!--        <pre>
+         {{trackingData | json}}
+       </pre> -->
      </div>
    </div>
       <div class="conversation-log" style="overflow-y: scroll;overflow-x: hidden;">

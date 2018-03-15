@@ -2051,4 +2051,27 @@ input.textarea {
 .emojis:active {
     opacity: 0.9;
 }
+ul.tracking-report{
+    list-style: none;
+}
+ul.tracking-report li{
+    width: 100%;
+    border-bottom: 1px dashed #eaecef !important;
+    
+}
+ul.tracking-report li h5{
+    font-weight: 300;
+}
+ul.tracking-report li .report-text{
+    width: 50%;
+    display: inline-block;
+}
+ul.tracking-report li .report-value{
+    width: 45%;
+    display: inline-block;
+    text-align: right;
+}
 
+ul.tracking-report li .report-value h5{
+    font-weight: 700;
+}
