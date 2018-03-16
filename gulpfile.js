@@ -350,6 +350,7 @@ var printingSources = gulp.src([
     /*app*/
     'src/print/app/app.js',
     'src/print/controller/MainCtrl.js',
+    'src/print/controller/DetailCtrl.js',
     'src/print/controller/PrintCtrl.js',
 
 ], {

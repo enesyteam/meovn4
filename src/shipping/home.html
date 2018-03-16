@@ -58,7 +58,9 @@
                                     </span>
                                  </div>
                                  <span class="live_chat">
-                                    <span ng-if="!order.data.orderCode">Chưa tạo đơn GHN</span>
+                                    <span ng-if="!order.data.orderCode">
+                                       Chốt bởi <strong>{{filterById(telesales, order.data.data.orderData.seller_will_call_id).last_name || 'Không rõ'}}</strong>
+                                    </span>
                                     <span ng-if="order.data.orderCode" style="color:#d73a49">Tạo đơn GHN lúc: {{order.data.push_to_ghn_at | date: 'HH:mm dd/MM'}}</span>
                                     <span></span>
                                  </span>
@@ -69,8 +71,8 @@
                                  <!-- {{order.orderCode}} -->
                               </span>
                                  <ul class="list_tag">
-                                    <li class="tag_item" ng-if="order.data.orderCode">
-                                       <svg height="16" class="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="16" aria-hidden="true" style="vertical-align: text-bottom; color: #279f43; font-size: 14px; margin-left: 2px; margin-right: 0px; line-height: 24px;"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path></svg>
+                                    <li class="tag_item" ng-if="order.data.orderCode && !order.data.is_cancel">
+                                       <svg height="16" class="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="16" aria-hidden="true" style="vertical-align: text-bottom; color: #279f43;margin-right: 0px; line-height: 24px;"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path></svg>
                                     </li>
                                     <!-- <li class="tag_item" ng-if="order.data.data.commentCount > 0" style="width: 30px">
                                        <svg aria-hidden="true" class="octicon octicon-comment v-align-middle" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -81,7 +83,7 @@
                                     </li> -->
                                      <li class="tag_item" ng-if="order.data.is_cancel">
                                        <!-- <svg class=" tooltipped tooltipped-sw set-tag-enter set-tag-enter-active" aria-label="sdfsdf" fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" name="circle" style="vertical-align: text-bottom; color: red; font-size: 14px; margin-left: 2px; margin-right: 0px; line-height: 24px;"><g><path d="m37.3 20q0 4.7-2.3 8.6t-6.3 6.2-8.6 2.3-8.6-2.3-6.2-6.2-2.3-8.6 2.3-8.6 6.2-6.2 8.6-2.3 8.6 2.3 6.3 6.2 2.3 8.6z"></path></g></svg> -->
-                                       <svg height="16" class="octicon octicon-stop" viewBox="0 0 14 16" version="1.1" width="16" aria-hidden="true" style="vertical-align: text-bottom; color: #d73a49; font-size: 14px; margin-left: 2px; margin-right: 0px; line-height: 24px;"><path fill-rule="evenodd" d="M10 1H4L0 5v6l4 4h6l4-4V5l-4-4zm3 9.5L9.5 14h-5L1 10.5v-5L4.5 2h5L13 5.5v5zM6 4h2v5H6V4zm0 6h2v2H6v-2z"></path></svg>
+                                       <svg height="16" class="octicon octicon-stop" viewBox="0 0 14 16" version="1.1" width="16" aria-hidden="true" style="vertical-align: text-bottom; color: #d73a49; margin-right: 0px; line-height: 24px;"><path fill-rule="evenodd" d="M10 1H4L0 5v6l4 4h6l4-4V5l-4-4zm3 9.5L9.5 14h-5L1 10.5v-5L4.5 2h5L13 5.5v5zM6 4h2v5H6V4zm0 6h2v2H6v-2z"></path></svg>
                                     </li>
                                     <li ng-if="order.data.data.seller_will_call_id" class="tag_item" style="width: 30px;font-size: 12px;">
                                        {{order.data.data.seller_will_call_id}}

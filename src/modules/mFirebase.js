@@ -7,6 +7,20 @@
         .service('MFirebaseService', ["$http", "$timeout", 'MUtilitiesService', 'firebase', 
             function($http, $timeout, MUtilitiesService, firebase) {
 
+    var getAllMembers = function(){
+        return firebase.database().ref().child('members').orderByChild('status').equalTo(1).once('value', function(snapshot) {
+        });
+    }
+
+    var getShippingItem = function(id){
+        return firebase.database().ref().child('shippingItems').orderByChild('id').equalTo(id).once('value', function(snapshot){
+          // console.log(snapshot.val());
+          // return snapshot.val()
+          
+          
+        })
+      }
+
         // function upload(file, uid, fileName) {
         //     var deferred = $q.defer();
         //     var fileRef = storageRef.child('uploads').child('products').child(fileName);
@@ -1696,7 +1710,10 @@
 
                 onCreateShippingItem : onCreateShippingItem,
                 onUpdateShippingReport : onUpdateShippingReport ,
-                onCancelShippingItem : onCancelShippingItem
+                onCancelShippingItem : onCancelShippingItem,
+
+                getAllMembers : getAllMembers,
+                getShippingItem : getShippingItem,
             }
 
         }]);

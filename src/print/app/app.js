@@ -54,6 +54,11 @@ var mPrinting = angular.module('mPrinting', [
                   //         return response.data.data;
                   //     })
                   //   },
+                  telesales: function(MFirebaseService){
+                    return MFirebaseService.getAllSellers().then(function(response){
+                      return response;
+                    })
+                  },
                   fanpages: function(MFirebaseService){
                       MFirebaseService.set_firebase(firebase);
                       // console.log(MFirebaseService);
@@ -73,9 +78,17 @@ var mPrinting = angular.module('mPrinting', [
             .state('home.detail', {
                 url: 'detail/id=:id&ctype=:ctype&cm=:cm&oid=:oid&pid=:page_id&poid=:post_id&cid=:customer_id&cv_id=:cv_id',
                 params     : { id : null, ctype : null, cm : null, oid : null, page_id : null, post_id : null, 
-                  customer_id : null, cv_id : null},
-                controller: 'PrintCtrl',
+                customer_id : null, cv_id : null},
+                controller: 'DetailCtrl',
                 templateUrl: "/src/print/detail.html",
+                resolve : {
+                  activeItem : function(MFirebaseService, $stateParams){
+                    return MFirebaseService.getShippingItem($stateParams.id).then(function(snapshot){
+                      // console.log(snapshot.val());
+                      return snapshot.val();
+                    });
+                  },
+                }
             })
             .state('print', {
                 url: '/printA5',
@@ -142,6 +155,31 @@ mPrinting
     }
 
   }])
+
+
+  angular.module('mPrinting').filter('cut', function () {
+        return function (value, wordwise, max, tail) {
+            if (!value) return '';
+
+            max = parseInt(max, 10);
+            if (!max) return value;
+            if (value.length <= max) return value;
+
+            value = value.substr(0, max);
+            if (wordwise) {
+                var lastspace = value.lastIndexOf(' ');
+                if (lastspace !== -1) {
+                  //Also remove . and , so its gives a cleaner result.
+                  if (value.charAt(lastspace-1) === '.' || value.charAt(lastspace-1) === ',') {
+                    lastspace = lastspace - 1;
+                  }
+                  value = value.substr(0, lastspace);
+                }
+            }
+
+            return value + (tail || ' …');
+        };
+    });
 
 
 

@@ -1,8 +1,9 @@
 mShipping.controller('MainCtrl',
     function($rootScope, $scope, $http, $window, $document, $filter, $timeout, cfpLoadingBar,
         cfpLoadingBar, Facebook, firebaseService, MFirebaseService, MUtilitiesService,
-        fanpages, ghn_hubs, ghn_token, ghn_districs) {
+        fanpages, ghn_hubs, ghn_token, ghn_districs, telesales) {
 
+        $rootScope.telesales = telesales;
 
         var ref = firebase.database().ref();
 
@@ -289,6 +290,7 @@ mShipping.controller('MainCtrl',
         // });
 
         $rootScope.filterById = function(sources, id) {
+            if(!id) return null;
             return $filter("filter")(sources, {
                 id: id
             })[0];

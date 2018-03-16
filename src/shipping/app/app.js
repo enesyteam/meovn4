@@ -52,6 +52,11 @@ var mShipping = angular.module('mShipping', [
                           return response.data.data;
                       })
                     },
+                  telesales: function(MFirebaseService){
+                    return MFirebaseService.getAllSellers().then(function(response){
+                      return response;
+                    })
+                  },
                   fanpages: function(MFirebaseService){
                       MFirebaseService.set_firebase(firebase);
                       // console.log(MFirebaseService);

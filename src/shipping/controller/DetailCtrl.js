@@ -7,7 +7,7 @@ mShipping.controller('DetailCtrl',
         // console.log(firebase.utils);
         // alert($stateParams.cv_id);
         // $scope.activedItem = activeItem;
-        console.log($scope.activedItem);
+        // console.log($scope.activedItem);
 
         $scope.showImageDialog = function(imageUrl){
             ngDialog.open({

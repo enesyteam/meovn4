@@ -305,6 +305,7 @@ mRealtime.controller('OdersCtrl',
                         conversation_id : $scope.activeOrder.conversation_id,
                         customer_id : $scope.activeOrder.customer_id,
                         customer_name : $scope.activeOrder.customer_name,
+                        seller_will_call_id : $scope.activeOrder.seller_will_call_id,
                         id : $scope.activeOrder.id,
                         page_id: $scope.activeOrder.page_id,
                         post_id : $scope.activeOrder.post_id || null,
@@ -314,7 +315,7 @@ mRealtime.controller('OdersCtrl',
                     },
                     customer_name: $scope.activeOrder.customer_name,
                     customer_mobile: $scope.activeOrder.customer_mobile,
-                    created_time : firebase.database.ServerValue.TIMESTAMP
+                    created_time : firebase.database.ServerValue.TIMESTAMP,
                 }
                 firebaseService.addNewShippingItem(data).then(function(response){
                     // khởi tạo báo cáo ngày cho shipping nếu cần

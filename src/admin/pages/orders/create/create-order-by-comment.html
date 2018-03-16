@@ -18,7 +18,7 @@
          <div class="one-half column pr-0">
             <dl class="form-group width-full">
                <dt><label>Tên khách hàng</label></dt>
-               <dd><input ng-model="orderData.customer_name" class="form-control" type="text" placeholder="Tên khách hàng" >
+               <dd><input ng-model="orderData.customer_name" class="form-control" type="text" placeholder="Tên khách hàng" add-order-enter="submitOrder()">
                </dd>
             </dl>
          </div>
@@ -26,7 +26,7 @@
             <dl class="form-group">
                <dt><label>Ghi chú của Admin</label></dt>
                <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
-                  <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="order-note" rows="20" style="margin: 0px 5px 0px 0px; width: 442px; height: 69px;" ng-model="orderData.admin_note"></textarea>
+                  <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="order-note" rows="20" style="margin: 0px 5px 0px 0px; width: 442px; height: 69px;" ng-model="orderData.admin_note"></textarea add-order-enter="submitOrder()">
                   <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
                   <div class="suggester-container">
                      <div class="suggester js-suggester js-navigation-container" data-url="/autocomplete/user-suggestions">
