@@ -126,6 +126,27 @@ m_admin.directive('searchEnter', function () {
     };
 });
 
+m_admin.directive('addOrderEnter', function () {
+    return function (scope, element, attrs) {
+
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.addOrderEnter);
+                    // scope.searchOrder();
+                });
+                event.preventDefault();
+            }
+            else if(event.which === 27){
+                scope.$apply(function (){
+                    scope.$eval(attrs.addOrderEnter);
+                    // scope.clearCommentData();
+                });
+            }
+        });
+    };
+});
+
 m_admin.directive("select2", ["$timeout", "$parse", function(c, b) {
     return {
         restrict: "AC",
