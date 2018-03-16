@@ -31,6 +31,16 @@ mPrinting.controller('DetailCtrl',
             return $filter("filter")($scope.aProducts, {id: id})[0];
         }
 
+        $scope.openSingleInvoicePrintPage = function(orderId){
+            // $state.go('PrintInvoice', {
+            //     id: orderId //selectedItem and id is defined
+            // });
+            // alert(orderId);
+
+            var url = $state.href('PrintInvoice', {});
+            $window.open(url,'_blank');
+        };
+
         // GRAPH FACEBOOK
         // graph page
         MFacebookService.graphPage($stateParams.page_id, $scope.currentAccessToken).then(function(response) {

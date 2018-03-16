@@ -18,6 +18,7 @@
 .pack-info{
 	margin-top: 10px;
 	border-top: 1px #e1e4e8 solid !important;
+    margin-top: 5px !important;
 }
 .customer-infomation td.field{
 	width: 30%;
@@ -32,4 +33,11 @@
 .pack-info .product{
 	margin-top: 10px;
 	/*border-top: 1px #e1e4e8 solid !important;*/
+}
+
+.header_col_right .a_left .f_name{
+	line-height: 45px;
+    font-weight: 300 !important;
+    font-size: 14px !important;
+    margin-left: 15px;
 }

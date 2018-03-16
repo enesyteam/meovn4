@@ -21,7 +21,7 @@
                   </div>
                   </a></div> -->
                <ul class="filterbar-nav">
-                  <li class="home tooltipped tooltipped-e tooltipped-no-delay" ng-repeat="(key, value) in orders | countBy: 'status_id'" aria-label="{{getStatusById(key).name}}">
+                  <li class="home tooltipped tooltipped-e tooltipped-no-delay" ng-repeat="(key, value) in availableShippingItems | countBy: 'data.push_to_ghn_at'" aria-label="{{getStatusById(key).name}}">
                      <a class="shortcuts-project">
                         <div class="nav-icon-container" style="margin:0 auto;">
                            <span class="Counter" style="background-color: {{getSourceColor(key)}};color:#fff">{{value}}</span>

@@ -2,10 +2,23 @@ mPrinting.controller('MainCtrl',
     function($scope, $rootScope, $http, $window, $state, $stateParams, $document, $filter, $timeout, 
         Facebook, toastr, toastrConfig, moment,
         MFacebookService, MFirebaseService, 
-        MUtilitiesService, fanpages, ngDialog, telesales) {
+        MUtilitiesService, fanpages, ngDialog, telesales, PrintService) {
 
+
+        PrintService.addOrderToPrint({
+            id : '1',
+            selected : true
+        });
+
+        $scope.gotoPrint = function(){
+            MUtilitiesService.AlertError('Chức năng in hàng loạt đang hoàn thiện', 'Thông báo');
+            // var url = $state.go('PrintMultiInvoice', {obj: telesales});
+            // window.open(url,'_blank');
+        }
 
         $rootScope.telesales = telesales;
+
+        $rootScope.selectedOrders = [1,2];
 
         $rootScope.filterById = function(sources, id) {
             if(!id) return null;

@@ -80,6 +80,17 @@ app.post('/printService', function(req, res) {
     }, 1000)
 });
 
+app.post('/printing#/PrintMultiInvoice', function(req, res) {
+  console.log(req);
+  setTimeout(function(){
+
+        res.send({
+          'id' : '3qư43'
+        });
+
+    }, 1000)
+});
+
 app.get('/terms', function(req, res) {
   res.send('Terms page');
 });

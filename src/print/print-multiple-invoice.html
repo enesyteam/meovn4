@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--
+  Invoice template by invoicebus.com
+  To customize this template consider following this guide https://invoicebus.com/how-to-create-invoice-template/
+  This template is under Invoicebus Template License, see https://invoicebus.com/templates/license/
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Chi tiết phiếu xuất kho</title>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="Invoicebus Invoice Template">
+    <meta name="author" content="Invoicebus">
+
+    <meta name="template-hash" content="f3142bbb0a1696d5caa932ecab0fc530">
+
+    <link rel="stylesheet" href="/src/print/sass/invoice.css">
+  </head>
+  <body>
+    <div id="container" class="content page-break" ng-repeat="order in orders">
+      
+      <section id="memo">
+        <div class="company-name">
+          <span>Phiếu xuất kho</span>
+          <div class="right-arrow"></div>
+        </div>
+
+        <div class="logo">
+          <img src="{{'//graph.facebook.com/' + current_Page[0].id  + '/picture?width=100&amp;height=100'}}" />
+        </div>
+        
+        <div class="company-info">
+          <div>
+            <span>Page: <strong>{{current_Page[0].name}}</strong></span>
+          </div>
+          <div>
+            <span>Tên người gửi: <strong>{{current_hub.ContactName}}</strong></span>
+          </div>
+          <div>
+            <span>Địa chỉ: <strong>{{current_hub.Address}}</strong></span>
+          </div>
+          <div>Số điện thoại: <strong>{{current_hub.ContactPhone}}</strong></div>
+        </div>
+
+      </section>
+      
+      <section id="invoice-info">
+        <div>
+          <span>Người bán hàng</span>
+          <span>Thời gian</span>
+          <span>Ghi chú đóng hàng</span>
+          <span>Ghi chú giao hàng</span>
+        </div>
+        
+        <div>
+          <span>{{filterById(telesales, activedItem.data.orderData.seller_will_call_id).last_name || 'Không rõ'}}</span>
+          <span>{{activedItem.created_time | date: 'HH:mm dd/MM/yyyy'}}</span>
+          <span>{{activedItem.data.customerData.customerNote || 'Không có'}}</span>
+          <span>{{activedItem.data.customerData.orderNote || 'Không có'}}</span>
+        </div>
+      </section>
+      
+      <section id="client-info">
+        <span>Thông tin người nhận</span>
+        <div>
+          <span class="bold">{{activedItem.data.customerData.realName}}</span>
+        </div>
+        
+        <div>
+          <span>Số điện thoại: <strong>{{activedItem.data.customerData.recievedPhone}}</strong></span>
+        </div>
+        
+        <div>
+          <span>Địa chỉ: <strong>{{activedItem.data.customerData.addresss}}</strong></span>
+        </div>
+      </section>
+      
+      <div class="clearfix"></div>
+      
+      <section id="invoice-title-number">
+      
+        <span id="title">Mã phiếu xuất kho: </span>
+        <span id="number">{{activedItem.id}}</span>
+        <div>Thời gian: {{currentTime | date: 'HH:mm dd/MM/yyyy'}}</div>
+      </section>
+      
+      <div class="clearfix"></div>
+      
+      <section id="items">
+        
+        <table cellpadding="0" cellspacing="0">
+        
+          <tr>
+            <th>TT</th> <!-- Dummy cell for the row number and row commands -->
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Giảm giá</th>
+            <th>Thành tiền</th>
+            <th>Ghi chú</th>
+          </tr>
+          
+          <tr data-iterate="item" ng-repeat="product in activedItem.data.customerData.products track by $index">
+            <td>{{$index+1}}</td> <!-- Don't remove this column as it's needed for the row commands -->
+            <td>{{findProduct(product.id).name}}</td>
+            <td>{{product.count}}</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>{{product.note || '-'}}</td>
+          </tr>
+
+          
+        </table>
+        
+      </section>
+
+      <div class="currency">
+        <span>Đơn giá</span> <span>VNĐ</span>
+      </div>
+      
+      <section id="sums">
+      
+        <table cellpadding="0" cellspacing="0">
+          <tr>
+            <th>Tổng cộng tiền hàng</th>
+            <td>{{activedItem.data.customerData.cod | number}}</td>
+          </tr>
+          
+          <tr data-iterate="tax">
+            <th>Phí vận chuyển</th>
+            <td>-</td>
+          </tr>
+        
+        
+          
+          <tr data-hide-on-quote="true">
+            <th>Tổng cộng</th>
+            <td>{{activedItem.data.customerData.cod | number}}</td>
+          </tr>
+          
+        </table>
+        
+      </section>
+      
+      <div class="clearfix"></div>
+      
+      <section id="terms">
+      
+        <span>Người xuất hàng</span>
+        <div>-</div>
+        
+      </section>
+    </div>
+
+    <!-- <script src="http://cdn.invoicebus.com/generator/generator.min.js?data=data.js"></script> -->
+  </body>
+</html>

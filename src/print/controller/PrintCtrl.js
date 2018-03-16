@@ -1,82 +1,50 @@
 mPrinting.controller('PrintCtrl',
-    function($rootScope, $scope, $http) {
-    	$scope.orders = []
+    function($rootScope, $scope, $http, $filter, fanpages, ghn_hubs, telesales, activeItem, MUtilitiesService) {
 
-    	$scope.getOrders1 = function() {
-            var config = {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-                }
-            }
+        $scope.telesales = telesales;
 
-            var startTime = new Date(); // today
-            var endTime = new Date(); // today
+        $scope.aProducts = [];
+        var getAllAvailableProducts = function(){
+          var ref = firebase.database().ref();
+          let productsRef = ref.child('products');
+          productsRef.on('child_added', snapshot => {
+            $scope.aProducts.push(snapshot.val());
+          });
+        }
+        getAllAvailableProducts();
 
-            startTime.setDate(startTime.getDate() - 2); // get 4 recent days
-            endTime.setDate(endTime.getDate());
-            startTime = startTime.getTime();
-            endTime = endTime.getTime();
-
-            var data = {
-                "token": '5a0baf851070b03e4d16f4cb', //$rootScope.ghnToken,
-                // "OrderCode": "DB9NKNQ4"
-                "FromTime": startTime,
-                // "ToTime" : Date.now(),
-                "Condition": {
-                    // "ShippingOrderID": 56721015,
-                    "CurrentStatus": "ReadyToPick",
-                    "CustomerID": 187464,
-                    "OrderCode": $scope.trackingCode
-                },
-                "Skip": 0
-            }
-            $http.post('https://console.ghn.vn/api/v1/apiv3/GetOrderLogs', data, config)
-                .then(function(data) {
-                    // console.log(data);
-                    console.log(data);
-                    $scope.orders = data.data.data.Logs;
-                })
-                 .catch(function(err) {
-                    console.log(err);
-                    // AlertError(err.data.msg, err.statusText);
-                });
+        $scope.findProduct = function(id){
+            return $filter("filter")($scope.aProducts, {id: id})[0];
         }
 
-        $scope.setPrintOrder = function(o){
-        	var config = {
-	                headers : {
-	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-	                }
-	            }
-	        var data = {
-				    "token": "5a0baf851070b03e4d16f4cb",
-				    "OrderCode": o.OrderCode
-				}
-
-	            $http.post('https://console.ghn.vn/api/v1/apiv3/OrderInfo', data, config)
-	            .then(function (data) {
-
-	                	$scope.order = data.data.data;
-
-	            });
+         $rootScope.filterById = function(sources, id) {
+            if(!id) return null;
+            return $filter("filter")(sources, {
+                id: id
+            })[0];
         }
 
-        $scope.getOrders = function(){
-			var config = {
-	                headers : {
-	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-	                }
-	            }
-	        var data = {
-				    "token": "5a0baf851070b03e4d16f4cb",
-				    "OrderCode": $scope.orderCode
-				}
+        angular.forEach(activeItem, function(value, key) {
+            // console.log(value);
+            $scope.activedItem = value;
+        });
+        console.log($scope.activedItem);
+        $scope.currentTime = Date.now();
 
-	            $http.post('https://console.ghn.vn/api/v1/apiv3/OrderInfo', data, config)
-	            .then(function (data) {
+        $scope.current_Page = $filter("filter")(fanpages, {
+            id: $scope.activedItem.data.orderData.page_id
+        });
+        $scope.currentAccessToken = $scope.current_Page && $scope.current_Page[0] ? $scope.current_Page[0].access_token : null;
+        if (!$scope.currentAccessToken) {
+            MUtilitiesService.AlertError('Đã có lỗi xảy ra, vui lòng reload (F5) lại', 'Lỗi');
+        }
 
-	                	$scope.order = data.data.data;
+        var hubId = $filter("filter")(fanpages, {
+                        id: $scope.activedItem.data.orderData.page_id
+                    })[0].HubID;
 
-	            });
-		}
+        $scope.current_hub = $filter("filter")(ghn_hubs, {
+                        HubID: hubId
+                    })[0];
+
     });

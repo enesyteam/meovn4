@@ -1,10 +1,9 @@
 <div id="js-contribution-activity" class="activity-listing contribution-activity" data-pjax-container="" style="min-height: 166px;">
    <div class="js-project-activity-pane Details">
-      <h3>Chi tiết đơn hàng</h3>
-      <p class="note">Đơn hàng được chốt bởi <strong>{{filterById(telesales, activedItem.data.orderData.seller_will_call_id).last_name || 'Không rõ'}}</strong> lúc {{activedItem.created_time | date: 'HH:mm dd/MM'}}</p>
       <div ng-if="activedItem.is_cancel == true" class="flash flash-error"><strong>Chú ý: </strong>Đơn hàng này đã hủy trên hệ thống</div>
+      <h3 class="mt-2">Chi tiết đơn hàng</h3>
       <div class="customer-infomation pt-2 mt-3">
-         <strong>Thông tin người nhận</strong>
+         <h2 class="mt-0 mb-1">Thông tin người nhận</h2>
          <table class="width-full">
                <tr>
                   <td class="field">Họ tên</td>
@@ -29,10 +28,10 @@
          </table>
       </div>
       <div class="pack-info pt-2 mt-3">
-         <strong>Nội dung đơn hàng</strong>
+         <h2 class="mt-0 mb-1">Nội dung đơn hàng</h2>
          <div class="packs-info">
             <div class="product" ng-repeat="product in activedItem.data.customerData.products track by $index">
-               <strong>Sản phẩm {{$index+1}}</strong>
+               <strong>Sản phẩm {{activedItem.data.customerData.products.length > 1 ? $index+1 : ''}}</strong>
                <table class="width-full">
                      <tr>
                         <td>Tên sản phẩm</td>
@@ -51,25 +50,25 @@
          </div>
       </div>
       <div class="pack-info pt-2 mt-3">
-         <strong>Ghi chú đóng hàng</strong>
-         <p>
+         <h2 class="mt-0 mb-1">Ghi chú đóng hàng</h2>
+         <p class="pl-3">
             {{activedItem.data.customerData.customerNote || 'Không có ghi chú'}}
          </p>
       </div>
       <div class="pack-info pt-2 mt-3">
-         <strong>Ghi chú giao hàng</strong>
-         <p>
+         <h2 class="mt-0 mb-1">Ghi chú giao hàng</h2>
+         <p class="pl-3">
             {{activedItem.data.customerData.orderNote || 'Không có ghi chú'}}
          </p>
       </div>
       <div class="pack-info pt-2 mt-3">
-         <strong>Tổng giá trị đơn hàng</strong>
+         <h2 class="mt-0 mb-1">Giá trị đơn hàng</h2>
          <div class="packs-info">
             <div class="product">
                <table class="width-full">
                      <tr>
                         <td>Tổng số tiền</td>
-                        <td style="font-size: 18px;font-weight: 700">{{activedItem.data.customerData.cod | number}}Đ</td>
+                        <td style="font-size: 18px;font-weight: 700">{{activedItem.data.customerData.cod | number}} Đ</td>
                      </tr>
                </table>
             </div>

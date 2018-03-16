@@ -1,13 +1,26 @@
-<div style="position: fixed;right: 0">
-   <input type="text" name="" ng-model="orderCode">
-   <button class="btn btn-primary mr-3" ng-click="getOrders()">Tạo trang in</button>   
-   <button class="btn" ng-click="getOrders1()">Get list</button>
-   <div ng-if="orders" ng-repeat="o in orders">
-      <div>
-         <div ng-click="setPrintOrder(o)" class="mt-2" style="cursor: pointer;">{{o.OrderCode + ' - ' + o.OrderInfo.CustomerPhone + ' - ' + o.OrderInfo.CustomerName}}</div>
-      </div>
-   </div>
-</div>
+<!DOCTYPE html>
+<!--
+  Invoice template by invoicebus.com
+  To customize this template consider following this guide https://invoicebus.com/how-to-create-invoice-template/
+  This template is under Invoicebus Template License, see https://invoicebus.com/templates/license/
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Chi tiết phiếu gửi hàng</title>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="Invoicebus Invoice Template">
+    <meta name="author" content="Invoicebus">
+
+    <meta name="template-hash" content="f3142bbb0a1696d5caa932ecab0fc530">
+
+    <link rel="stylesheet" href="/src/print/sass/app.css">
+  </head>
+  <body>
+
 <div class="content page-break" style="" ng-if="order">
    <div class="info-user">
       <div class="row">
@@ -62,7 +75,7 @@
             </div>
             <div>
                <label>Ngày giao hàng</label>
-               <p ng-bind="order.ExpectedDeliveryTime.split('-')[2]" class="ng-binding"> 02</p>
+               <p class="ng-binding">{{("0" + getDay(order.ExpectedDeliveryTime)).slice(-2)}}</p>
             </div>
          </div>
       </div>
@@ -115,3 +128,5 @@
       margin: 2px 20px 0 0;">1/1
    </div>
 </div>
+</body>
+</html>

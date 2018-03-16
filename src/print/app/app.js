@@ -33,8 +33,8 @@ var mPrinting = angular.module('mPrinting', [
 
         // $locationProvider.hashPrefix('');
 
-        // $urlRouterProvider.otherwise("/");
-        // $urlRouterProvider.when('/','realtime');
+        $urlRouterProvider.otherwise("/");
+        // $urlRouterProvider.when('/','printing');
         $stateProvider
             .state('home', {
                 url: '/',
@@ -90,9 +90,97 @@ var mPrinting = angular.module('mPrinting', [
                   },
                 }
             })
-            .state('print', {
-                url: '/printA5',
+            .state('PrintInvoice', {
+                url: '/PrintInvoice/id=:id',
+                params : {id : null},
                 controller: 'PrintCtrl',
+                templateUrl: "/src/print/print-invoice.html",
+                resolve : {
+                  ghn_token: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_ghn_token().then(function(response){
+                        return response;
+                      });
+                    },
+                  activeItem : function(MFirebaseService, $stateParams){
+                    return MFirebaseService.getShippingItem($stateParams.id).then(function(snapshot){
+                      // console.log(snapshot.val());
+                      return snapshot.val();
+                    });
+                  },
+                  telesales: function(MFirebaseService){
+                    return MFirebaseService.getAllSellers().then(function(response){
+                      return response;
+                    })
+                  },
+                  fanpages: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_fanpages().then(function(response){
+                        // console.log(response);
+                        return response;
+                      });
+                    },
+                    ghn_hubs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getHubs().then(function(response){
+                          return response.data.data;
+                      })
+                    }
+                }
+            })
+            .state('PrintMultiInvoice', {
+                url: '/PrintMultiInvoice',
+                params: {
+                   obj: null
+                 },
+                controller: 'PrintMultiInvoiceCtrl',
+                templateUrl: "/src/print/print-multiple-invoice.html",
+                resolve : {
+                  ghn_token: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_ghn_token().then(function(response){
+                        return response;
+                      });
+                    },
+                  telesales: function(MFirebaseService){
+                    return MFirebaseService.getAllSellers().then(function(response){
+                      return response;
+                    })
+                  },
+                  fanpages: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_fanpages().then(function(response){
+                        // console.log(response);
+                        return response;
+                      });
+                    },
+                    ghn_hubs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getHubs().then(function(response){
+                          return response.data.data;
+                      })
+                    },
+                    // orders: function($rootScope, PrintService){
+                    //   console.log(PrintService);
+                    //   return [
+                    //     {
+                    //       id : '1',
+                    //     },
+                    //     {
+                    //       id : '2',
+                    //     }
+                    //   ]
+                    // }
+                }
+            })
+            .state('print', {
+                url: '/printShipping/id=:id',
+                params : {id : null},
+                controller: 'PrintShippingBillCtrl',
                 templateUrl: "/src/print/print.html",
             });
             

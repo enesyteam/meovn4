@@ -349,9 +349,15 @@ var printingSources = gulp.src([
 
     /*app*/
     'src/print/app/app.js',
+
+    'src/print/service/print.service.js',
+
+
     'src/print/controller/MainCtrl.js',
     'src/print/controller/DetailCtrl.js',
     'src/print/controller/PrintCtrl.js',
+    'src/print/controller/PrintInvoiceMulti.js',
+    'src/print/controller/PrintShippingBill.js',
 
 ], {
     read: false

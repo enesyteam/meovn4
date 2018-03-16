@@ -13,16 +13,14 @@ html(lang='en', ng-app='mPrinting')
     |     
     title Printing - Meovn 4
     |     
-    base(href='/')
+    base(href='/printing')
     |     
     link(rel='stylesheet', href='/src/admin/sass/framework.css')
     |     
     link(rel='stylesheet', href='/src/admin/sass/styles-realtime.css')
     |     
     link(rel='stylesheet', href='/src/admin/sass/styles-realtime-custom.css')
-    |     
-    link(rel='stylesheet', href='/src/shipping/sass/app.css')
-    |     
+    // <link rel="stylesheet" href="/src/shipping/sass/app.css">
     link(rel='stylesheet', href='/src/print/sass/print-custom.css')
     |     
     link(rel='stylesheet', href='/src/admin/sass/chat-box.css')
@@ -102,10 +100,16 @@ html(lang='en', ng-app='mPrinting')
     |     
     script(src='/src/print/app/app.js')
     |     
+    script(src='/src/print/service/print.service.js')
+    |     
     script(src='/src/print/controller/MainCtrl.js')
     |     
     script(src='/src/print/controller/DetailCtrl.js')
     |     
     script(src='/src/print/controller/PrintCtrl.js')
+    |     
+    script(src='/src/print/controller/PrintInvoiceMulti.js')
+    |     
+    script(src='/src/print/controller/PrintShippingBill.js')
     // endinject
     script(src='/assets/js/frameworks-f6afcaeac971138fed77bef35a12efac982cf10f6d34190912b7307946f14c8b.js')
