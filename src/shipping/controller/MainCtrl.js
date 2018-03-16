@@ -50,6 +50,50 @@ mShipping.controller('MainCtrl',
             }
         });
 
+
+    // listen for order change
+    firebase.database().ref().child('shippingItems')
+    .on('child_changed', snapshot => {
+        console.log(snapshot.val());
+        // find item in array
+        $timeout(function() {
+            $scope.$apply(function() {
+                var itemChanged = null;
+                angular.forEach($rootScope.availableShippingItems, function(item){
+                    if(item.data.id == snapshot.val().id){
+                        itemChanged = item;
+                    }
+                })
+                
+                if(itemChanged){
+                    if (itemChanged.data.cancel_ghn_at !== snapshot.val().cancel_ghn_at) {
+                        itemChanged.data.cancel_ghn_at = snapshot.val().cancel_ghn_at;
+                    }
+                    if (itemChanged.data.is_cancel !== snapshot.val().is_cancel) {
+                        itemChanged.data.is_cancel = snapshot.val().is_cancel;
+                    }
+                    if(itemChanged.data.orderCode !== snapshot.val().is_cancel){
+                        itemChanged.orderCode = snapshot.val().orderCode;
+                    }
+                    if(itemChanged.data.push_to_ghn_at !== snapshot.val().push_to_ghn_at){
+                        itemChanged.data.push_to_ghn_at = snapshot.val().push_to_ghn_at;
+                    }
+                    if(itemChanged.data.cod_amount !== snapshot.val().cod_amount){
+                        itemChanged.data.cod_amount = snapshot.val().cod_amount;
+                    }
+                    if(itemChanged.data.service_fee !== snapshot.val().service_fee){
+                        itemChanged.data.service_fee = snapshot.val().service_fee;
+                    }
+                }
+                else{
+                    console.log('order ' + snapshot.val().id + ' đã thay đổi trạng thái nhưng không được hiển thị ở đây nên không cần cập nhật view...');
+                }
+                
+            })
+        }, 10);
+
+    });
+
         $rootScope.getNextShippingItems = function() {
             $rootScope.isLoaddingOrder = true;
             MFirebaseService.getNextShippingItems($rootScope.lastOrderKey, pageSize).then(function(response) {
