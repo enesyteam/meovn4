@@ -52,7 +52,7 @@
                               <!-- <select class="form-control" chosen ng-model="page_data.HubID" ng-options="s.HubID as (s.Address + ' - ' + s.ContactName + ' - ' + s.ContactPhone) for s in ghn_hubs">
                                  <option value=""></option>
                               </select> -->
-                              
+
                               <select class="form-control form-select" select2 ng-model="page_data.HubID" ng-options="s.HubID as (s.Address + ' - ' + s.ContactName + ' - ' + s.ContactPhone) for s in ghn_hubs">
                                </select>
                            </dd>
@@ -167,9 +167,11 @@
                   <dt><label>Chọn hub tương ứng trên GHN</label></dt>
                   <p class="note">Hoặc bấm <a href="" ng-click="goToAddHub()">vào đây</a> để thêm mới một Hub trên GHN</p>
                   <dd>
-                     <select class="form-control" chosen ng-model="page_data_to_edit.HubID" ng-options="s.HubID as (s.Address + ' - ' + s.ContactName + ' - ' + s.ContactPhone) for s in ghn_hubs">
+                     <!-- <select class="form-control" chosen ng-model="page_data_to_edit.HubID" ng-options="s.HubID as (s.Address + ' - ' + s.ContactName + ' - ' + s.ContactPhone) for s in ghn_hubs">
                         <option value=""></option>
-                     </select>
+                     </select> -->
+                     <select class="form-control form-select" select2 ng-model="page_data_to_edit.HubID" ng-options="s.HubID as (s.Address + ' - ' + s.ContactName + ' - ' + s.ContactPhone) for s in ghn_hubs">
+                               </select>
                   </dd>
                </div>
             </div>

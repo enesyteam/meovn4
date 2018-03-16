@@ -679,6 +679,7 @@ body .filterbar li.active svg {
     background-color: #fff;
     /*overflow: hidden;*/
     margin: 0;
+    border-bottom: 1px #e1e4e8 solid !important;
 }
 .list_content_col_left .people .person.active, .list_content_col_left .people .person:hover {
     background: rgba(0,0,0,.05);

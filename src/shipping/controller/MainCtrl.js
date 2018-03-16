@@ -16,14 +16,15 @@ mShipping.controller('MainCtrl',
         // tét
         // MFirebaseService.getOrdersByStatusId(9, 15).then(function(response) {
         //     console.log(response);
-        // })
+        // })p
 
         function getShippingItems() {
             $rootScope.availableShippingItems = [];
             MFirebaseService.getShippingItems(pageSize).then(function(response) {
                 response.reverse().map(function(order) {
+                    // console.log(order);
                     $scope.$apply(function() {
-                        $rootScope.availableShippingItems.push(order.data);
+                        $rootScope.availableShippingItems.push(order);
                     })
                 })
                 $scope.$apply(function() {
@@ -41,7 +42,10 @@ mShipping.controller('MainCtrl',
             if (snapshot.key !== $rootScope.newlyOrderKey) {
                 $scope.$apply(function() {
                     $rootScope.newlyOrderKey = snapshot.key;
-                    $rootScope.availableShippingItems.unshift(snapshot.val())
+                    $rootScope.availableShippingItems.unshift({
+                                key : snapshot.key,
+                                data : snapshot.val()
+                            })
                 });
             }
         });
@@ -51,7 +55,7 @@ mShipping.controller('MainCtrl',
             MFirebaseService.getNextShippingItems($rootScope.lastOrderKey, pageSize).then(function(response) {
                 response.reverse().slice(1).map(function(order) {
                     $scope.$apply(function() {
-                        $rootScope.availableShippingItems.push(order.data);
+                        $rootScope.availableShippingItems.push(order);
                     })
                 })
                 $scope.$apply(function() {

@@ -299,7 +299,7 @@ var shippingSources = gulp.src([
     // 'assets/js/snackbar.js', //snackbar
     'node_modules/ng-file-upload/dist/ng-file-upload.min.js',
     
-    'node_modules/angular-chosen-localytics/dist/angular-chosen.js',
+    // 'node_modules/angular-chosen-localytics/dist/angular-chosen.js',
     'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
     'node_modules/moment/min/moment.min.js',
     'node_modules/angular-moment/angular-moment.min.js',
@@ -316,15 +316,41 @@ var shippingSources = gulp.src([
     //
     'src/shipping/controller/MainCtrl.js',
     'src/shipping/controller/DetailCtrl.js',
+    'src/shipping/controller/PrintCtrl.js',
 
 ], {
     read: false
 });
 
 var printingSources = gulp.src([
+    // modules
+    'src/modules/mGHN.js',
+    'src/modules/mFirebase.js',
+    'src/modules/mFacebook.js',
+    'src/modules/mUtilities.js',
+
+    //vendors
+    'node_modules/angular-loading-bar/build/loading-bar.min.js',
+    'node_modules/angular-filter/dist/angular-filter.min.js', // angular filter
+
+    'node_modules/angular-facebook/angular-facebook.js',
+    'node_modules/ng-dialog/js/ngDialog.min.js',
+    // 'node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js',
+    // 'node_modules/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js',
+    'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
+
+    // 'assets/js/snackbar.js', //snackbar
+    'node_modules/ng-file-upload/dist/ng-file-upload.min.js',
+    
+    // 'node_modules/angular-chosen-localytics/dist/angular-chosen.js',
+    'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
+    'node_modules/moment/min/moment.min.js',
+    'node_modules/angular-moment/angular-moment.min.js',
+
     /*app*/
     'src/print/app/app.js',
     'src/print/controller/MainCtrl.js',
+    'src/print/controller/PrintCtrl.js',
 
 ], {
     read: false

@@ -95,6 +95,41 @@ var mShipping = angular.module('mShipping', [
                     // console.log(hub);
                   },
                 }
+            })
+            .state('print', {
+                url: '/print',
+                controller: 'PrintCtrl',
+                templateUrl: "/src/shipping/print.html",
+                resolve: {
+                  ghn_token: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_ghn_token().then(function(response){
+                        return response;
+                      });
+                    },
+                  ghn_districs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getDistricts().then(function(response){
+                          return response.data.data;
+                      })
+                    },
+                  fanpages: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_fanpages().then(function(response){
+                        // console.log(response);
+                        return response;
+                      });
+                    },
+                    ghn_hubs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getHubs().then(function(response){
+                          return response.data.data;
+                      })
+                    }
+                },
+                
             });
             
         $urlRouterProvider.otherwise('/');

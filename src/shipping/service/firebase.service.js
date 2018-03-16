@@ -222,6 +222,48 @@
     })
   }
 
+  var onUpdateShippingItemAfterPushGHN = function(data){
+    return new Promise(function(resolve, reject) {
+      ref.child('shippingItems').orderByChild('id').equalTo(data.shipping_item_id).once('value', function(snapshot){
+        if(snapshot.val() !== null){
+          angular.forEach(snapshot.val(), function(value, key){
+              // console.log(key);
+              snapshot.ref.child(key).update({
+                  "orderCode" : data.order_code,
+                  "push_to_ghn_at": Date.now(),
+                  'service_fee' : data.service_fee,
+                  'cod_amount' : data.cod_amount,
+                });
+            });
+            resolve('Success');
+          } else {
+            reject('Không tìm thấy dữ liệu để update');
+          }
+      });
+    })
+  }
+
+  var onCancelShippingItem = function(id){
+    return new Promise(function(resolve, reject) {
+      ref.child('shippingItems').orderByChild('id').equalTo(id).once('value', function(snapshot){
+        if(snapshot.val() !== null){
+          angular.forEach(snapshot.val(), function(value, key){
+              // console.log(key);
+              snapshot.ref.child(key).update({
+                  "is_cancel" : true,
+                  "cancel_ghn_at": Date.now()
+                });
+            });
+            resolve('Success');
+          } else {
+            reject('Không tìm thấy dữ liệu để update');
+          }
+      });
+    })
+  }
+
+
+
 
 
 	return{
@@ -234,7 +276,9 @@
     getShippingItems : getShippingItems,
     getShippingItem : getShippingItem,
     onUpdateOrderCode: onUpdateOrderCode,
-    getAllMembers : getAllMembers
+    getAllMembers : getAllMembers,
+    onUpdateShippingItemAfterPushGHN : onUpdateShippingItemAfterPushGHN,
+    onCancelShippingItem : onCancelShippingItem,
 	}
 
 }]);

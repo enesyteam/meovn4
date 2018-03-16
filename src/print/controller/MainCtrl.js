@@ -1,82 +1,72 @@
 mPrinting.controller('MainCtrl',
-    function($rootScope, $scope, $http) {
-    	$scope.orders = []
+    function($scope, $rootScope, $http, $window, $state, $stateParams, $document, $filter, $timeout, 
+        Facebook, toastr, toastrConfig, moment,
+        MFacebookService, MFirebaseService, 
+        MUtilitiesService, fanpages, ngDialog) {
+        
+        var pageSize = 30;
+        $rootScope.availableShippingItems = [];
+        $rootScope.newlyOrderKey = null;
+        $rootScope.lastOrderKey = null;
+        $rootScope.canLoadMore = true;
+        $rootScope.isLoaddingOrder = true;
 
-    	$scope.getOrders1 = function() {
-            var config = {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-                }
-            }
+        // tét
+        // MFirebaseService.getOrdersByStatusId(9, 15).then(function(response) {
+        //     console.log(response);
+        // })
 
-            var startTime = new Date(); // today
-            var endTime = new Date(); // today
-
-            startTime.setDate(startTime.getDate() - 2); // get 4 recent days
-            endTime.setDate(endTime.getDate());
-            startTime = startTime.getTime();
-            endTime = endTime.getTime();
-
-            var data = {
-                "token": '5a0baf851070b03e4d16f4cb', //$rootScope.ghnToken,
-                // "OrderCode": "DB9NKNQ4"
-                "FromTime": startTime,
-                // "ToTime" : Date.now(),
-                "Condition": {
-                    // "ShippingOrderID": 56721015,
-                    "CurrentStatus": "ReadyToPick",
-                    "CustomerID": 187464,
-                    "OrderCode": $scope.trackingCode
-                },
-                "Skip": 0
-            }
-            $http.post('https://console.ghn.vn/api/v1/apiv3/GetOrderLogs', data, config)
-                .then(function(data) {
-                    // console.log(data);
-                    console.log(data);
-                    $scope.orders = data.data.data.Logs;
+        function getShippingItems() {
+            $rootScope.availableShippingItems = [];
+            MFirebaseService.getShippingItems(pageSize).then(function(response) {
+                response.reverse().map(function(order) {
+                    $scope.$apply(function() {
+                        $rootScope.availableShippingItems.push(order);
+                    })
                 })
-                 .catch(function(err) {
-                    console.log(err);
-                    // AlertError(err.data.msg, err.statusText);
+                $scope.$apply(function() {
+                    $rootScope.newlyOrderKey = response[0].key;
+                    $rootScope.lastOrderKey = response[response.length - 1].key;
+                    $rootScope.isLoaddingOrder = false;
+                })
+            })
+        }
+        getShippingItems();
+
+        // trigger when new item
+        let newOrdersRef = firebase.database().ref().child('shippingItems').orderByChild('publish_date').limitToLast(1);
+        newOrdersRef.on('child_added', snapshot => {
+            if (snapshot.key !== $rootScope.newlyOrderKey) {
+                $scope.$apply(function() {
+                    $rootScope.newlyOrderKey = snapshot.key;
+                    $rootScope.availableShippingItems.unshift({
+                        key: snapshot.key,
+                        data: snapshot.val()
+                    })
                 });
+            }
+        });
+
+        $rootScope.getNextShippingItems = function() {
+            $rootScope.isLoaddingOrder = true;
+            MFirebaseService.getNextShippingItems($rootScope.lastOrderKey, pageSize).then(function(response) {
+                response.reverse().slice(1).map(function(order) {
+                    $scope.$apply(function() {
+                        $rootScope.availableShippingItems.push(order);
+                    })
+                })
+                $scope.$apply(function() {
+                    $rootScope.lastOrderKey = response[response.length - 1].key;
+                    $rootScope.isLoaddingOrder = false;
+                    // console.log(response);
+                    if (response.length == 1) { // item bị trùng
+                        $rootScope.canLoadMore = false;
+                    }
+                })
+            })
         }
 
-        $scope.setPrintOrder = function(o){
-        	var config = {
-	                headers : {
-	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-	                }
-	            }
-	        var data = {
-				    "token": "5a93de5d1070b06c97794a48",
-				    "OrderCode": o.OrderCode
-				}
 
-	            $http.post('https://console.ghn.vn/api/v1/apiv3/OrderInfo', data, config)
-	            .then(function (data) {
 
-	                	$scope.order = data.data.data;
-
-	            });
-        }
-
-        $scope.getOrders = function(){
-			var config = {
-	                headers : {
-	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-	                }
-	            }
-	        var data = {
-				    "token": "5a93de5d1070b06c97794a48",
-				    "OrderCode": $scope.orderCode
-				}
-
-	            $http.post('https://console.ghn.vn/api/v1/apiv3/OrderInfo', data, config)
-	            .then(function (data) {
-
-	                	$scope.order = data.data.data;
-
-	            });
-		}
+    	
     });

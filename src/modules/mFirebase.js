@@ -798,7 +798,7 @@
                 })
             }
 
-            var onCancelShippingItem = function(){
+            var onCancelShippingItem = function(date, cod, shipping_cod){
                 firebase.database().ref().child('report').child(date)
                 .child('shippingReport').child('total_cod')
                     .transaction(function(oldValue) {
@@ -813,11 +813,11 @@
                 });
 
                 // update total_created_items
-                firebase.database().ref().child('report').child(date)
-                .child('shippingReport').child('total_created_items')
-                    .transaction(function(oldValue) {
-                        return oldValue - 1;
-                });
+                // firebase.database().ref().child('report').child(date)
+                // .child('shippingReport').child('total_created_items')
+                //     .transaction(function(oldValue) {
+                //         return oldValue - 1;
+                // });
 
                 // update total_cancel
                 firebase.database().ref().child('report').child(date)
@@ -1515,7 +1515,10 @@
                         .endAt(query + "\uf8ff")
                         .once('value', snapshot => {
                             angular.forEach(snapshot.val(), function(value, key){
-                                result.push(value);
+                                result.push({
+                                    key : key,
+                                    data : value
+                                });
                             })
                             // console.log(snapshot.val());
                             resolve(result);
@@ -1531,7 +1534,10 @@
                         .endAt(phone + "\uf8ff")
                         .once('value', snapshot => {
                             angular.forEach(snapshot.val(), function(value, key){
-                                result.push(value);
+                                result.push({
+                                    key : key,
+                                    data : value
+                                });
                             })
                             resolve(result);
                         })
@@ -1690,6 +1696,7 @@
 
                 onCreateShippingItem : onCreateShippingItem,
                 onUpdateShippingReport : onUpdateShippingReport ,
+                onCancelShippingItem : onCancelShippingItem
             }
 
         }]);

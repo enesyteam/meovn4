@@ -19,10 +19,15 @@ routes = require('./routes');
 
 var app = express();
 
+
 app.use(logger('dev'));
+
+//support parsing of application/json type post data
 app.use(bodyParser.json());
+
+//support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({
-  extended: false
+  extended: true
 }));
 var server = http.createServer(app);
 
@@ -61,6 +66,18 @@ app.get('/webhook', function(req, res) {
 
   res.send('Error, wrong validation token');
   res.send(req);
+});
+
+app.post('/printService', function(req, res) {
+	console.log(req);
+	setTimeout(function(){
+
+        res.send(JSON.stringify({
+            firstName: req.body.Email,
+            lastName: req.body.lastName
+        }));
+
+    }, 1000)
 });
 
 app.get('/terms', function(req, res) {

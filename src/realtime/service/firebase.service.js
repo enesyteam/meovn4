@@ -278,6 +278,7 @@
                 orderId: shippingItemData.orderData.id,
                 customer_name: shippingItemData.customer_name,
                 customer_mobile: shippingItemData.customer_mobile,
+                created_time : shippingItemData.created_time
             })
 
             resolve('Thêm shipping item thành công!');

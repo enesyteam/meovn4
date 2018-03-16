@@ -342,29 +342,58 @@ mRealtime.controller('OdersCtrl',
             updateStatus(status).then(function(response){
                 MUtilitiesService.AlertSuccessful(response,'Thông báo');
                 // gửi tin nhắn đến khách hàng nếu không nghe máy
-                if(!isTestMode && status.id == 9){
-                    if($stateParams.type == 1){
-                        MFacebookService.replyMessage($stateParams.conversation_id,
+                if(status.id == 9){ // chưa nghe máy
+                    if(!isTestMode){
+                        if($stateParams.type == 1){
+                            MFacebookService.replyMessage($stateParams.conversation_id,
+                                    $scope.currentAccessToken, null, 'Chào Anh/chị, nhân viên CSKH đã liên hệ với anh/chị nhưng anh/chị chưa nghe máy. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
+                                    MUtilitiesService.AlertSuccessful(response)
+                                })
+                                .catch(function(err){
+                                    MUtilitiesService.AlertError(err, 'Lỗi')
+                                })
+                        }
+                        else{
+                            MFacebookService.replyComment($stateParams.conversation_id,
                                 $scope.currentAccessToken, null, 'Chào Anh/chị, nhân viên CSKH đã liên hệ với anh/chị nhưng anh/chị chưa nghe máy. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
                                 MUtilitiesService.AlertSuccessful(response)
                             })
                             .catch(function(err){
                                 MUtilitiesService.AlertError(err, 'Lỗi')
                             })
+                        }
                     }
                     else{
-                        MFacebookService.replyComment($stateParams.conversation_id,
-                            $scope.currentAccessToken, null, 'Chào Anh/chị, nhân viên CSKH đã liên hệ với anh/chị nhưng anh/chị chưa nghe máy. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
-                            MUtilitiesService.AlertSuccessful(response)
-                        })
-                        .catch(function(err){
-                            MUtilitiesService.AlertError(err, 'Lỗi')
-                        })
+                        MUtilitiesService.AlertSuccessful('Bạn đang sử dụng ở chế độ Test. Ở chế độ hoạt động hệ thống sẽ gửi một thông báo nhắc nhở khách hàng nghe máy!')
                     }
                 }
-                else{
-                    MUtilitiesService.AlertSuccessful('Bạn đang sử dụng ở chế độ Test. Ở chế độ hoạt động hệ thống sẽ gửi một thông báo nhắc nhở khách hàng nghe máy!')
-                }
+
+                // if(status.id == 6){
+                //     if(!isTestMode){
+                //         if($stateParams.type == 1){
+                //             MFacebookService.replyMessage($stateParams.conversation_id,
+                //                     $scope.currentAccessToken, null, 'Đơn hàng của!').then(function(response){
+                //                     MUtilitiesService.AlertSuccessful(response)
+                //                 })
+                //                 .catch(function(err){
+                //                     MUtilitiesService.AlertError(err, 'Lỗi')
+                //                 })
+                //         }
+                //         else{
+                //             MFacebookService.replyComment($stateParams.conversation_id,
+                //                 $scope.currentAccessToken, null, 'Chào Anh/chị, nhân viên CSKH đã liên hệ với anh/chị nhưng anh/chị chưa nghe máy. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
+                //                 MUtilitiesService.AlertSuccessful(response)
+                //             })
+                //             .catch(function(err){
+                //                 MUtilitiesService.AlertError(err, 'Lỗi')
+                //             })
+                //         }
+                //     }
+                //     else{
+                //         MUtilitiesService.AlertSuccessful('Bạn đang sử dụng ở chế độ Test. Ở chế độ hoạt động hệ thống sẽ gửi một thông báo nhắc nhở khách hàng nghe máy!')
+                //     }
+                // }
+                
             })
             .catch(function(err){
                 MUtilitiesService.AlertError(err, 'Lỗi');

@@ -6,6 +6,8 @@ mShipping.controller('DetailCtrl',
 
         // console.log(firebase.utils);
         // alert($stateParams.cv_id);
+        // $scope.activedItem = activeItem;
+        console.log($scope.activedItem);
 
         $scope.showImageDialog = function(imageUrl){
             ngDialog.open({
@@ -67,7 +69,7 @@ mShipping.controller('DetailCtrl',
             MUtilitiesService.AlertError('Chưa khai báo Fanpage', 'Lỗi');
         }
 
-        // GRAPH FACEBOOK
+        // GRAPH FACEBOOK nếu đơn hàng chưa tạo thành công
         var getToken = function(pageId) {
             return new Promise(function(resolve, reject) {
                 var page = $filter("filter")(fanpages, {
@@ -128,6 +130,7 @@ mShipping.controller('DetailCtrl',
                     MUtilitiesService.AlertError(err, 'Lỗi');
                 })
         }
+        
 
         $scope.packageSize = {
             width: 12,
@@ -603,15 +606,25 @@ mShipping.controller('DetailCtrl',
             $http.post('https://console.ghn.vn/api/v1/apiv3/CreateOrder', $scope.shippingData, config)
                 .then(function(data) {
                     $scope.isSubmitingGHN = false;
-                    // console.log(data);
-                    AlertSuccessful('Tạo đơn GHN thành công với mã: ' + data.data.data.OrderCode, 'Thông báo');
-                    // submit success, return order code
-                    // update this order code to shipping item
-                    firebaseService.onUpdateOrderCode($stateParams.id, data.data.data.OrderCode).then(function(response) {
-                        // console.log(response);
-                        // update to view
-                        var a = $rootScope.filterById($rootScope.availableShippingItems, $stateParams.id);
-                        a.orderCode = data.data.data.OrderCode;
+
+
+                    var dataToUpdate = {
+                        shipping_item_id : $stateParams.id,
+                        order_code: data.data.data.OrderCode,
+                        service_fee: $scope.feeData.data.data.ServiceFee,
+                        cod_amount : $scope.shippingData.CoDAmount
+                    }
+
+                    firebaseService.onUpdateShippingItemAfterPushGHN(dataToUpdate).then(function(response){
+                        console.log(response);
+                        // tìm shipping item và cập nhật
+                        angular.forEach($rootScope.availableShippingItems, function(item){
+                            if(item.data.id == $stateParams.id){
+                                item.data.orderCode = data.data.data.OrderCode;
+                            }
+                        })
+                        // var a = $rootScope.filterById($rootScope.availableShippingItems, $stateParams.id);
+                        // a.orderCode = data.data.data.OrderCode;
                         // tracking this order
                         GiaoHangNhanhService.trackingOrder(data.data.data.OrderCode).then(function(response) {
                             $scope.$apply(function() {
@@ -619,7 +632,10 @@ mShipping.controller('DetailCtrl',
                                 $scope.activedItem.orderCode = data.data.data.OrderCode;
                             })
                         })
-                    });
+                    })
+
+                    AlertSuccessful('Tạo đơn GHN thành công với mã: ' + data.data.data.OrderCode, 'Thông báo');
+                    
 
                     // cập nhật báo cáo tạo đơn
                     // tăng số đơn tạo thành công lên 1
@@ -647,6 +663,27 @@ mShipping.controller('DetailCtrl',
                     }
                 });
         }
+
+        $scope.cancelCurrentShippingItem = function(){
+            // hủy đơn trên GHN nếu được phép
+
+            // cập nhật trạng thái đã hủy cho shipping item
+            firebaseService.onCancelShippingItem($stateParams.id).then(function(response){
+                // cập nhật báo cáo shipping
+                var date = new Date($scope.activedItem.push_to_ghn_at);
+                var reportDateString = MFirebaseService.convertDate(date);
+                console.log(reportDateString);
+                // return;
+
+                MFirebaseService.onCancelShippingItem(reportDateString, $scope.activedItem.cod_amount, 
+                    $scope.activedItem.service_fee).then(function(response){
+                    console.log(response);
+                    MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên hệ thống thành công.');
+                })
+            })
+        }
+
+        // var onCancelShippingItem = function(date, cod, shipping_cod){
 
         function validateFeeRequestData(data){
             if(!data.token){
