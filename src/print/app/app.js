@@ -182,6 +182,21 @@ var mPrinting = angular.module('mPrinting', [
                 params : {id : null},
                 controller: 'PrintShippingBillCtrl',
                 templateUrl: "/src/print/print.html",
+                resolve: {
+                  ghn_token: function(MFirebaseService){
+                      MFirebaseService.set_firebase(firebase);
+                      // console.log(MFirebaseService);
+                      return MFirebaseService.get_ghn_token().then(function(response){
+                        return response;
+                      });
+                    },
+                  ghn_districs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getDistricts().then(function(response){
+                          return response.data.data;
+                      })
+                    },
+                }
             });
             
             
@@ -269,6 +284,26 @@ mPrinting
         };
     });
 
+mPrinting.directive('searchEnter', function () {
+    return function (scope, element, attrs) {
+
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.searchEnter);
+                    // scope.searchOrder();
+                });
+                event.preventDefault();
+            }
+            else if(event.which === 27){
+                scope.$apply(function (){
+                    scope.$eval(attrs.searchEnter);
+                    // scope.clearCommentData();
+                });
+            }
+        });
+    };
+});
 
 
 

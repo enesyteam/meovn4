@@ -97,7 +97,7 @@
                         });
                     }
                     else{
-                        reject('Thiếu conversation id');
+                        reject('Thiếu conversation id. Hội thoại không tồn tại hoặc có thể đã bị xóa.');
                     }
                 });
             }
@@ -169,7 +169,7 @@
                         });
                     }
                     else{
-                        reject('Thiếu conversation id');
+                        reject('Thiếu conversation id. Hội thoại không tồn tại hoặc có thể đã bị xóa.');
                     }
                 });
             }
@@ -254,7 +254,7 @@
                         resolve('Gửi bình luận tới khách hàng thành công');
                       }
                       else{
-                        reject('Không thể gửi bình luận tới khách hàng. Lỗi: ' + err);
+                        reject('Không thể gửi bình luận tới khách hàng. Lỗi: ' + response.error);
                       }
                     }
                 );

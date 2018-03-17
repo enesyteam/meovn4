@@ -51,6 +51,12 @@ mShipping.controller('MainCtrl',
             }
         });
 
+        $timeout(function(){
+            angular.forEach($rootScope.availableShippingItems, function(item){
+                console.log(item.data.id);
+            })
+        }, 3000)
+
 
     // listen for order change
     firebase.database().ref().child('shippingItems')

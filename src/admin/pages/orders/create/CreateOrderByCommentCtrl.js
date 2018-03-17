@@ -347,59 +347,67 @@ m_admin.controller('CreateOrderByCommentCtrl',
                 return;
             }
 
-            var newOrderKey = firebase.database().ref().child('newOrders').push().key;
-            $scope.orderData.id = newOrderKey;
-            $scope.orderData.status_id = 1;
-            $scope.orderData.publish_date = Date.now();
+            // kiểm tra số điện thoại
+            MUtilitiesService.validatePhoneNumber(false, 'Số điện thoại khách hàng', 
+                $scope.orderData.customer_mobile).then(function(response){
+                var newOrderKey = firebase.database().ref().child('newOrders').push().key;
+                $scope.orderData.id = newOrderKey;
+                $scope.orderData.status_id = 1;
+                $scope.orderData.publish_date = Date.now();
 
-            MFirebaseService.onAddNewOrder($rootScope.currentMember, $scope.orderData, $rootScope.sellers).then(function(response) {
-                MUtilitiesService.AlertSuccessful(response, 'Thông báo');
-                if(!isTestMode && $scope.sendThanks){
-                    // $scope.current_token
-                    if($scope.orderData.type == 1){
-                        // reply message
-                        MFacebookService.replyMessage($scope.orderData.conversation_id,
-                            $scope.current_token, null, 'Cảm ơn anh/chị đã để lại số điện thoại. Nhân viên CSKH sẽ liên hệ với anh/chị trong thời gian sớm nhất. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
-                            MUtilitiesService.AlertSuccessful(response)
-                        })
-                        .catch(function(err){
-                            MUtilitiesService.AlertError(err, 'Lỗi')
-                        })
+                MFirebaseService.onAddNewOrder($rootScope.currentMember, $scope.orderData, $rootScope.sellers).then(function(response) {
+                    MUtilitiesService.AlertSuccessful(response, 'Thông báo');
+                    if(!isTestMode && $scope.sendThanks){
+                        // $scope.current_token
+                        if($scope.orderData.type == 1){
+                            // reply message
+                            MFacebookService.replyMessage($scope.orderData.conversation_id,
+                                $scope.current_token, null, 'Cảm ơn anh/chị đã để lại số điện thoại. Nhân viên CSKH sẽ liên hệ với anh/chị trong thời gian sớm nhất. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
+                                MUtilitiesService.AlertSuccessful(response)
+                            })
+                            .catch(function(err){
+                                MUtilitiesService.AlertError(err, 'Lỗi')
+                            })
+                        }
+                        else{
+                            // reply comment
+                            MFacebookService.replyComment($scope.orderData.conversation_id,
+                                $scope.current_token, null, 'Cảm ơn anh/chị đã để lại số điện thoại. Nhân viên CSKH sẽ liên hệ với anh/chị trong thời gian sớm nhất. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
+                                MUtilitiesService.AlertSuccessful(response)
+                            })
+                            .catch(function(err){
+                                MUtilitiesService.AlertError(err, 'Lỗi')
+                            })
+                        }
                     }
                     else{
-                        // reply comment
-                        MFacebookService.replyComment($scope.orderData.conversation_id,
-                            $scope.current_token, null, 'Cảm ơn anh/chị đã để lại số điện thoại. Nhân viên CSKH sẽ liên hệ với anh/chị trong thời gian sớm nhất. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
-                            MUtilitiesService.AlertSuccessful(response)
-                        })
-                        .catch(function(err){
-                            MUtilitiesService.AlertError(err, 'Lỗi')
-                        })
+                        MUtilitiesService.AlertSuccessful('Bạn đang sử dụng ở chế độ Test. Ở chế độ hoạt động hệ thống sẽ gửi một tin nhắn cảm ơn khách hàng!')
                     }
-                }
-                else{
-                    MUtilitiesService.AlertSuccessful('Bạn đang sử dụng ở chế độ Test. Ở chế độ hoạt động hệ thống sẽ gửi một tin nhắn cảm ơn khách hàng!')
-                }
 
-                // reset order
-                $scope.conversationLink = null;
-                $scope.orderData = {
-                    type: null,
-                    id: null,
-                    page_id: null,
-                    post_id: null,
-                    conversation_id: null,
-                    customer_id: null,
-                    customer_name: null,
-                    customer_mobile: null,
-                    customer_message: null,
-                    admin_note: null,
-                    // seller_will_call_id: null,
-                    status_id: 1,
-                    publish_date: null,
-                }
-            }).catch(function(err){
-                MUtilitiesService.AlertError(err, 'Thông báo');
+                    // reset order
+                    $scope.conversationLink = null;
+                    $scope.orderData = {
+                        type: null,
+                        id: null,
+                        page_id: null,
+                        post_id: null,
+                        conversation_id: null,
+                        customer_id: null,
+                        customer_name: null,
+                        customer_mobile: null,
+                        customer_message: null,
+                        admin_note: null,
+                        // seller_will_call_id: null,
+                        status_id: 1,
+                        publish_date: null,
+                    }
+                }).catch(function(err){
+                    MUtilitiesService.AlertError(err, 'Thông báo');
+                })
+            })
+            .catch(function(err){
+               MUtilitiesService.AlertError(err, 'Lỗi');
+                return false; 
             })
         }
         $scope.resetSelectedSeller = function(){

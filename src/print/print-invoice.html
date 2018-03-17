@@ -16,6 +16,7 @@
     <meta name="author" content="Invoicebus">
 
     <meta name="template-hash" content="f3142bbb0a1696d5caa932ecab0fc530">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
     <link rel="stylesheet" href="/src/print/sass/invoice.css">
   </head>
@@ -82,7 +83,7 @@
       <section id="invoice-title-number">
       
         <span id="title">Mã phiếu xuất kho: </span>
-        <span id="number">{{activedItem.id}}</span>
+        <span id="number">{{activedItem.data.orderData.customer_id}}</span>
         <div>Thời gian: {{currentTime | date: 'HH:mm dd/MM/yyyy'}}</div>
       </section>
       

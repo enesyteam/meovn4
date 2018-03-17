@@ -141,46 +141,7 @@ mShipping.controller('DetailCtrl',
 
 
         // data to submit giao hang nhanh
-        $scope.shippingData = {
-            "token": $rootScope.ghnToken,
-            "PaymentTypeID": 2,
-            "FromDistrictID": current_hub ? current_hub.DistrictID : '',
-            "FromWardCode": null,
-            "ToDistrictID": null,
-            "ToWardCode": null,
-            "Note": $scope.activedItem ? $scope.activedItem.data.customerData.orderNote : '',
-            "SealCode": "",
-            "ExternalCode": "",
-            "ClientContactName": current_hub ? current_hub.ContactName : '',
-            "ClientContactPhone": current_hub ? current_hub.ContactPhone : '',
-            "ClientAddress": current_hub ? current_hub.Address : '',
-            "CustomerName": $scope.activedItem ? $scope.activedItem.data.customerData.realName : null,
-            "CustomerPhone": $scope.activedItem ? $scope.activedItem.data.customerData.recievedPhone : null,
-            "ShippingAddress": $scope.activedItem ? $scope.activedItem.data.customerData.addresss : null,
-            "CoDAmount": $scope.activedItem ? $scope.activedItem.data.customerData.cod : 0,
-            "NoteCode": "CHOTHUHANG",
-            "InsuranceFee": 0,
-            "ClientHubID": 0,
-            "ServiceID": null,
-            "ToLatitude": 1.2343322,
-            "ToLongitude": 10.54324322,
-            "FromLat": 1.2343322,
-            "FromLng": 10.54324322,
-            "Content": "",
-            "CouponCode": "",
-            "Weight": $scope.packageSize.weight,
-            "Length": $scope.packageSize.length,
-            "Width": $scope.packageSize.width,
-            "Height": $scope.packageSize.height,
-            "CheckMainBankAccount": false,
-            "ShippingOrderCosts": [],
-            "ReturnContactName": "",
-            "ReturnContactPhone": "",
-            "ReturnAddress": "",
-            "ReturnDistrictCode": "",
-            "ExternalReturnCode": "",
-            "IsCreditCreate": true
-        }
+        
 
 
         $scope.selectedProducts = [];
@@ -506,7 +467,7 @@ mShipping.controller('DetailCtrl',
         ///////////////////////
         $scope.shippingData = {
             "token": $rootScope.ghnToken,
-            "PaymentTypeID": 2,
+            "PaymentTypeID": 1,
             "FromDistrictID": current_hub ? current_hub.DistrictID : '',
             "FromWardCode": null,
             "ToDistrictID": null,
@@ -544,6 +505,7 @@ mShipping.controller('DetailCtrl',
             "ExternalReturnCode": "",
             "IsCreditCreate": true
         }
+
         /////////////////////
 
         // console.log($scope.activedItem.data.customerData);
@@ -670,11 +632,16 @@ mShipping.controller('DetailCtrl',
             // cập nhật trạng thái đã hủy cho shipping item
             firebaseService.onCancelShippingItem($stateParams.id).then(function(response){
                 // cập nhật báo cáo shipping
-                var itemChanged = $filter('filter')($rootScope.availableShippingItems, {
-                    'id': $stateParams.id
-                });
-                if(itemChanged[0]){
-                    var date = new Date(itemChanged[0].push_to_ghn_at);
+
+                var itemChanged = null;
+                angular.forEach($rootScope.availableShippingItems, function(item){
+                    if(item.data.id == $stateParams.id){
+                        itemChanged = item;
+                    }
+                })
+
+                if(itemChanged){
+                    var date = new Date(itemChanged.push_to_ghn_at);
                     var reportDateString = MFirebaseService.convertDate(date);
                     // console.log(reportDateString);
                     // return;

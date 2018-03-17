@@ -1071,6 +1071,9 @@
                 //////??????????????????????????????????????????????????????????????
                 // KHI PHÂN SỐ CŨ CỦA NGÀY TRƯỚC XỬ LÝ BÁO CÁO NHƯ THẾ NÀO????????
 
+                // phân bổ ===> luôn luôn tăng giá trị báo cáo ở thời điểm hiện tại
+                // hủy ===> giảm ở báo cáo của ngày trùng với ngày tạo order
+
                 // console.log(orders);
                 return new Promise(function(resolve, reject) {
                     if (orders.length == 0) {
@@ -1216,6 +1219,14 @@
                             var reportDateString = convertDate(today);
 
                             angular.forEach(groupOrders, function(group, key){
+
+                                // tiếp tục phân loại theo từng ngày, để cập nhật cho báo cáo ngày tương ứng
+                                console.log(group);
+                                angular.forEach(group, function(item){
+                                    console.log(item);
+                                })
+
+
                                 // console.log(key);
                                 var nodeName = findNodeName(parseInt(key));
                                 // tạo mảng báo cáo cho user nếu cần

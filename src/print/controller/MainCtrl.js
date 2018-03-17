@@ -143,6 +143,50 @@ mPrinting.controller('MainCtrl',
             })
         }
 
+        $rootScope.searchQuery = {
+            text: null
+        }
+
+        $rootScope.searchOrder = function() {
+
+            if (!$rootScope.searchQuery.text || $rootScope.searchQuery.text == '') {
+                // reset kết quả về mặc định
+                getShippingItems();
+                // MUtilitiesService.AlertError('Vui lòng nhập từ khóa tìm kiếm', 'Lỗi');
+                return;
+            }
+            if ($rootScope.searchQuery.text.length < 2) {
+                MUtilitiesService.AlertError('Chuỗi tìm kiếm quá ngắn', 'Lỗi');
+                return;
+            }
+            if ($rootScope.searchQuery.text.match(/^\d/)) {
+                if ($rootScope.searchQuery.text.length < 4) {
+                    MUtilitiesService.AlertError('Chuỗi tìm kiếm quá ngắn', 'Lỗi');
+                    return;
+                }
+                MFirebaseService.searchShippingItemsByCustomerPhone($rootScope.searchQuery.text).then(function(response) {
+                    if (response.length == 0) {
+                        MUtilitiesService.AlertError('Không tìm thấy kết quả nào', 'Lỗi');
+                        return;
+                    }
+                    $scope.$apply(function() {
+                        $rootScope.availableShippingItems = response
+                    })
+                });
+            } else {
+                MFirebaseService.searchShippingItemsByCustomerName($rootScope.searchQuery.text).then(function(response) {
+                    if (response.length == 0) {
+                        MUtilitiesService.AlertError('Không tìm thấy kết quả nào', 'Lỗi');
+                        return;
+                    }
+                    $scope.$apply(function() {
+                        $rootScope.availableShippingItems = response
+                    })
+                });
+            }
+
+        }
+
         // present
         var currentStatus = "\u2605 online";
         var userListRef = firebase.database().ref().child("presence");

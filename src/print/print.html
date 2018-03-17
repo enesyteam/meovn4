@@ -21,7 +21,7 @@
   </head>
   <body>
 
-<div class="content page-break" style="" ng-if="order">
+<div class="content page-break" style="color: #000 !important;margin: 10px 8px !important;" ng-if="order">
    <div class="info-user">
       <div class="row">
          <div class="col-6">
@@ -56,12 +56,12 @@
    </div>
    <div class="info-packet">
       <div class="row">
-         <div class="col-5">
+         <div class="col-5" ng-init="province = findDistrict(order.ToDistrictID)">
             <div class="toAddress" flowtype="" min-font="10" max-font="12" line-ratio="1.45" minimum="300" maximum="450">
-               <h1>
-                  <b ng-bind="x.toWardName" class="ng-binding">Thị trấn Chi Lăng</b>
-                  <b ng-bind="x.toDistrictName" class="ng-binding">Huyện Chi Lăng</b>
-                  <b ng-bind="x.toProvinceName" class="ng-binding">Lạng Sơn</b>
+               <h1 style="font-size:26.8px">
+                  <b class="ng-binding">{{ward.WardName}}</b>
+                  <b class="ng-binding">{{province.DistrictName}}</b>
+                  <b class="ng-binding">{{province.ProvinceName}}</b>
                </h1>
             </div>
          </div>
@@ -71,7 +71,7 @@
          </div>
          <div class="col-3 info-packet-service">
             <div>
-               <p ng-bind="x.sorting.split('/')[0]" class="ng-binding">02-07-05 </p>
+               <p class="ng-binding">02-07-05 </p>
             </div>
             <div>
                <label>Ngày giao hàng</label>
@@ -90,7 +90,7 @@
                   <img src="assets/images/print-checkbox.png" atl="">
                </li>
                <li style="height:90px;">
-                  <p class="ng-binding"><strong>Ghi chú KH:</strong> </p>
+                  <p class="ng-binding"><strong>Ghi chú KH: </strong>{{order.Note}}</p>
                </li>
                <li><img src="https://ontime.ghn.vn/Content/Images/signature.png" alt="" width="110px" height="40px"></li>
             </ul>
@@ -98,7 +98,7 @@
          <div class="col-3">
             <ul class="hul" style="text-align: center">
                <li>
-                  <span><b ng-bind="order.NoteCode" class="ng-binding">Cho thử hàng</b></span>
+                  <span><b class="ng-binding">{{findNoteCode(order.NoteCode).text}}</b></span>
                </li>
                <!-- ngIf: x.externalCode != null -->
                <li>
@@ -109,16 +109,12 @@
          </div>
          <div class="col-4">
             <div class="ads">
-               <h1 class="center">TUYỂN DỤNG</h1>
-               <h4 class="ng-binding">Thường xuyên tuyển dụng nhân viên giao nhận thu nhập 8 -15 triệu tại:
-                  Huyện Chi Lăng, Lạng Sơn
+               <h1 class="center" style="font-size: 26.8px">TUYỂN DỤNG</h1>
+               <h4 class="ng-binding" style="font-size: 13.4px;">Thường xuyên tuyển dụng nhân viên giao nhận thu nhập hấp dẫn tại: {{province.DistrictName}}, {{province.ProvinceName}}
                </h4>
                <p>
-                  Truy cập <b>giaohangnhanh.vn</b> mục <b>tuyển dụng</b>
-                  <br>
-                  <b>Hotline HCM: 028 6681 3907</b>
-                  <br>
-                  <b>Hotline HN: 024 6672 2727</b>
+                  Truy cập <strong>giaohangnhanh.vn</strong> mục <strong>tuyển dụng</strong>  
+                  Đăng ký tại : http://bit.ly/TDGHN2018
                </p>
             </div>
          </div>

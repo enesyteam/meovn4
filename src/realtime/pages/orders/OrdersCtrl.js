@@ -160,14 +160,66 @@ mRealtime.controller('OdersCtrl',
                 MUtilitiesService.AlertError('Vui lòng nhập nội dung', 'Lỗi');
                 return;
             } 
+            $scope.startReplying = true;
             if($stateParams.type == 1){
-                replyMessage();
+                // replyMessage();
+                MFacebookService.replyMessage($stateParams.conversation_id,
+                    $scope.currentAccessToken, null,
+                    $scope.comentText).then(function(response){
+                    MUtilitiesService.AlertSuccessful(response);
+                    $scope.$apply(function(){
+                        // mục đích hiển thị
+                        $scope.messageData.messages.data.unshift({
+                            from: {
+                                id: $stateParams.page_id,
+                                name: page[0].name || 'Tên page',
+                            },
+                            message : $scope.comentText,
+                            created_time : Date.now(),
+                        })
+
+                        $scope.comentText = null;
+                        $scope.startReplying = false;
+                    });
+                    
+
+                })
+                .catch(function(err){
+                    MUtilitiesService.AlertError(err, 'Lỗi')
+                })
             }
             else{
-                replyComment();
+                // replyComment();
+                MFacebookService.replyComment($stateParams.conversation_id,
+                    $scope.currentAccessToken, null, 
+                    $scope.comentText).then(function(response){
+                    MUtilitiesService.AlertSuccessful(response);
+                    $scope.$apply(function(){
+                        // mục đích hiển thị
+                        $scope.commentData.comments.data.push({
+                            from: {
+                                id: $stateParams.page_id,
+                                name: page[0].name || 'Tên page',
+                            },
+                            message : $scope.comentText,
+                            created_time : Date.now(),
+                        })
+
+                        $scope.comentText = null;
+                        $scope.startReplying = false;
+                    });
+
+                    
+
+                })
+                .catch(function(err){
+                    MUtilitiesService.AlertError(err, 'Lỗi')
+                })
             }
             
         }
+
+        
 
         var replyComment = function(){
             $scope.startReplying = true;
@@ -184,7 +236,7 @@ mRealtime.controller('OdersCtrl',
                     /* handle the result */
                     $scope.$apply(function(){
                         $scope.comentText = null;
-                        graphComments();
+                        // graphComments();
                         $scope.startReplying = false;
                         // snackbar('Gửi bình luận thành công!');
                         MUtilitiesService.AlertSuccessful('Gửi bình luận thành công', 'Thông báo');
@@ -208,7 +260,7 @@ mRealtime.controller('OdersCtrl',
                     /* handle the result */
                     $scope.$apply(function(){
                         $scope.comentText = null;
-                        graphMessages();
+                        // graphMessages();
                         $scope.startReplying = false;
                         // snackbar('Gửi tin nhắn thành công đến khách hàng!');
                         MUtilitiesService.AlertSuccessful('Gửi tin nhắn thành công', 'Thông báo');
