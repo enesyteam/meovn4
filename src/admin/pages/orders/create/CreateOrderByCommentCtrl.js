@@ -2,6 +2,9 @@ m_admin.controller('CreateOrderByCommentCtrl',
     function($rootScope, $window, $scope, $http, $filter, $rootScope, $timeout, cfpLoadingBar, Facebook, firebaseService,
         MFirebaseService, MFacebookService, MUtilitiesService, fanpages) {
 
+
+        // https://business.facebook.com/TrangSucPhongThuyVici/manager/messages/?threadid=422153718229875&folder=inbox
+
         var isTestMode = false;
         // console.log(fanpages);
         // get token

@@ -449,6 +449,7 @@ mRealtime.controller('OdersCtrl',
                 
             })
             .catch(function(err){
+                console.log(err);
                 MUtilitiesService.AlertError(err, 'Lỗi');
             })
         }
