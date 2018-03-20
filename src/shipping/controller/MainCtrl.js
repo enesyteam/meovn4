@@ -51,11 +51,11 @@ mShipping.controller('MainCtrl',
             }
         });
 
-        $timeout(function(){
-            angular.forEach($rootScope.availableShippingItems, function(item){
-                console.log(item.data.id);
-            })
-        }, 3000)
+        // $timeout(function(){
+        //     angular.forEach($rootScope.availableShippingItems, function(item){
+        //         console.log(item.data.id);
+        //     })
+        // }, 3000)
 
 
     // listen for order change

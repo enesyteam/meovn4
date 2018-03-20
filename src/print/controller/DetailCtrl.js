@@ -91,4 +91,9 @@ mPrinting.controller('DetailCtrl',
                 })
         }
 
+        $scope.isShowFullPost = false;
+        $scope.showFullPost = function(){
+          $scope.isShowFullPost = true;  
+        }  
+
     });

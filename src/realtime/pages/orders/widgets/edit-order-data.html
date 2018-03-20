@@ -1,7 +1,5 @@
 <div class="blankslate blankslate-clean-background" ng-if="!showEditOrderForm">
    <h3>Order này đã được chốt</h3>
-   <p>Bạn có thể chỉnh sửa thông tin Order này.</p>
-   <p>Bạn không có quyền chỉnh sửa thông tin của Order này.</p>
    <button class="btn-link btn-sm mt-3 mb-3" ng-click="showEditOrder()" aria-expanded="false" aria-label="Nếu sản phẩm không có trong danh mục">
       <svg aria-hidden="true" class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg>
       Chỉnh sửa thông tin
@@ -11,7 +9,7 @@
       <!-- '"` --><!-- </textarea></xmp> -->
       <div class="orderData" style="max-height: 450px;overflow-y: auto;overflow-x: hidden;margin-right: -15px">
          <div style="padding-right: 15px;padding-left: 5px">
-            </h4>
+            <div class="flash flash-error" ng-if="editData.orderCode"><strong>Chú ý: </strong>Order này đã chốt và tạo đơn thành công với mã vận đơn <strong>{{editData.orderCode}}</strong>. Thông tin thay đổi ở đây có thể sẽ không được cập nhật lên dữ liệu GHN.</div>
             <div style="display: block;">
                <nav class="UnderlineNav"  style="float: none;clear: both;">
                   <div class="UnderlineNav-body">
@@ -45,7 +43,7 @@
                         </div>
                         <div class="one-third column pl-0">
                            <dt><label>Năm sinh</label></dt>
-                           <input type="number" class="form-control input-sm" id="example-text" placeholder="Năm sinh"  ng-model="editData.data.customerData.birthDay">
+                           <input type="text" class="form-control input-sm" id="example-text" placeholder="Năm sinh"  ng-model="editData.data.customerData.birthDay">
                         </div>
                      </div>
                   </dl>
@@ -86,7 +84,7 @@
                            <label>Sản phẩm {{$index+1}}</label>
                            <span class="d-inline-block mr-1">
                               <div class="commit-build-statuses">
-                                 <a class="text-red tooltipped tooltipped-e tooltipped-no-delay" aria-label="Xóa sản phẩm này" ng-click="deleteProduct($index)" style="cursor: pointer;">
+                                 <a class="text-red tooltipped tooltipped-e tooltipped-no-delay" aria-label="Xóa sản phẩm này" ng-click="deleteProductOnEdit($index)" style="cursor: pointer;">
                                     <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
                                        <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
                                     </svg>
@@ -112,7 +110,7 @@
                </div>
                <div class="mt-2 mb-2">
                   <div>
-                     <button class="btn btn-default btn-primary btn-purple btn-sm" ng-click="addProduct()">
+                     <button class="btn btn-default btn-primary btn-purple btn-sm" ng-click="addProductOnEdit()">
                         <svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 12 16" width="12" class="octicon octicon-plus float-left mr-2">
                            <path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5z"></path>
                         </svg>
@@ -185,11 +183,11 @@
             </div>
          </div>
       </div>
-      <div class="mt-2" style="text-align: right;">
+      <div class="mt-2" style="text-align: right;border-top: 1px solid #dddfe2;">
          <!-- <a href="github-windows://openRepo/https://github.com/iamkdev/ng-frappe-charts" class="btn btn-outline get-repo-btn tooltipped tooltipped-s tooltipped-multiline" aria-label="Clone iamkdev/ng-frappe-charts to your computer and use it in GitHub Desktop.">
             Open in Desktop
             </a> -->
-         <a class="btn btn-default btn-primary btn-purple mt-3 mb-3" rel="nofollow" ng-click="onUpdateOrder()" style="cursor: pointer;box-shadow: none">
+         <a class="btn btn-default btn-primary btn-purple mt-3 mb-3" rel="nofollow" ng-click="submitEditOrder()" style="cursor: pointer;box-shadow: none">
             <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
                <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
             </svg>

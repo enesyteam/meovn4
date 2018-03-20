@@ -298,7 +298,7 @@ mRealtime.controller('OdersCtrl',
                 }
 
                 if(status.id == 6){
-                    if(validateCustomerData()){
+                    if(validateCustomerData($scope.customerData, $scope.selectedProducts)){
                         $scope.customerData.products = $scope.selectedProducts;
                     }
                     else{
@@ -518,6 +518,7 @@ mRealtime.controller('OdersCtrl',
                 note : ''
             });
         }
+
         $scope.deleteProduct = function(index){
             console.log('xóa ' + index);
             $scope.selectedProducts.splice(index, 1);
@@ -549,37 +550,71 @@ mRealtime.controller('OdersCtrl',
                 };
             })
         }
-        function validateCustomerData(){
+        function validateCustomerData(customerData, products){
+                MUtilitiesService.validatePhoneNumber(false, 'Số điện thoại khách hàng', 
+                customerData.recievedPhone).then(function(response){
 
-                if(!$scope.customerData.birthDay || $scope.customerData.birthDay.length < 1){
+                })  
+                .catch(function(err){
+                    MUtilitiesService.AlertError(err, 'Lỗi');
+                    return false;
+                })
+
+                if(!customerData.birthDay || customerData.birthDay.length < 1){
                     MUtilitiesService.AlertError('Vui lòng nhập năm sinh', 'Lỗi');
                     return false;
                 }
-                if(!angular.isNumber($scope.customerData.birthDay)){
-                    MUtilitiesService.AlertError('Năm sinh không đúng', 'Lỗi');
+                if(!angular.isNumber(parseInt(customerData.birthDay))){
+                    MUtilitiesService.AlertError('Vui lòng kiểm tra lại năm sinh', 'Lỗi');
                     return false;
                 }
-                if(!angular.isNumber($scope.customerData.cod)){
+                else if (angular.isNumber(parseInt(customerData.birthDay))) {
+
+                    var text = /^[0-9]+$/;
+                    if ((customerData.birthDay != "") && (!text.test(customerData.birthDay))) {
+                        console.log(customerData.birthDay);
+                        MUtilitiesService.AlertError('Năm sinh phải nhập dạng số', 'Lỗi');
+                        return false;
+                    }
+
+                    // if (customerData.birthDay.length != 4) {
+                    //     MUtilitiesService.AlertError('Năm sinh phải gồm 4 chữ số', 'Lỗi');
+                    //     return false;
+                    // }
+                    var current_year=new Date().getFullYear();
+                    if((customerData.birthDay < 1920) || 
+                        (customerData.birthDay > current_year))
+                        {
+                        MUtilitiesService.AlertError('Năm sinh thuộc khoảng từ 1920 đến ' + current_year, 'Lỗi');
+                        return false;
+                        }
+                }
+
+                if(!angular.isNumber(customerData.cod)){
                     MUtilitiesService.AlertError('Số tiền không đúng', 'Lỗi');
                     return false;
                 }
-                if($scope.customerData.cod <= 10000){
+                if(customerData.cod <= 10000){
                     MUtilitiesService.AlertError('Số tiền không đúng', 'Lỗi');
                     return false;
                 }
-                if(!$scope.customerData.addresss || $scope.customerData.addresss.length < 1){
+                if(!customerData.addresss || customerData.addresss.length < 1){
                     MUtilitiesService.AlertError('Vui lòng nhập địa chỉ nhận hàng', 'Lỗi');
                     return false;
                 }
-                if(!$scope.selectedProducts || $scope.selectedProducts.length == 0){
+                if(!products || products.length == 0){
                     MUtilitiesService.AlertError('Vui lòng thêm sản phẩm', 'Lỗi');
                     return false;
                 }
-                if($scope.selectedProducts.length > 0){
+                if(products.length > 0){
 
                     var pass = true;
                     var countProductPass = true;
-                    angular.forEach($scope.selectedProducts, function(product){
+                    angular.forEach(products, function(product){
+                        // if(!product.note){
+                        //     MUtilitiesService.AlertError('Vui lòng nhập ghi chú sản phẩm', 'Thông báo');
+                        //     return false;
+                        // }
                         pass = pass && product.id;
                         if(!angular.isNumber(product.count)){
                             MUtilitiesService.AlertError('Số lượng không đúng', 'Thông báo');
@@ -623,13 +658,69 @@ mRealtime.controller('OdersCtrl',
         *
         */
         $scope.showEditOrder = function(){
+            if(!canEditOrder()){
+                MUtilitiesService.AlertError('Bạn không có quyền chỉnh sửa Order này', 'Thông báo');
+                return;
+            }
             firebaseService.getShippingItemByOrderId($scope.activeOrder.id).then(function(snapshot){
                 $scope.$apply(function(){
                     angular.forEach(snapshot.val(), function(value, key){
                         $scope.editData = value;
+                        $scope.editKey = key;
                     });
                     $scope.showEditOrderForm = true;
                 })
             });
         }
+
+        var canEditOrder = function(){
+            if($rootScope.currentMember.is_admin == 1 || $rootScope.currentMember.is_mod == 1){
+                return true;
+            }
+            else if($rootScope.currentMember.id == $scope.activeOrder.seller_will_call_id){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        $scope.addProductOnEdit = function(){
+            $scope.editData.data.customerData.products.push({
+                id : null,
+                count : 1,
+                note : ''
+            });
+        }
+        $scope.deleteProductOnEdit = function(index){
+            // console.log('xóa ' + index);
+            $scope.editData.data.customerData.products.splice(index, 1);
+        }
+
+        $scope.submitEditOrder = function(){
+            // console.log($scope.editData.data);
+            if(!validateCustomerData($scope.editData.data.customerData, $scope.editData.data.customerData.products)){
+                return;
+            }
+
+            MUtilitiesService.showConfirmDialg('Thông báo',
+                'Bạn có muốn thay đổi thông tin Order đã chốt không.', 'Thay đổi', 'Bỏ qua')
+            .then(function(response) {
+                if (response) {
+                    // console.log('bắt đầu update dữ liệu');
+                    MFirebaseService.updateShippingItemCustomerData($scope.editKey, $scope.editData.data.customerData).then(function(response){
+                        MUtilitiesService.AlertSuccessful(response, 'Thông báo');
+                    })
+                    .catch(function(err){
+                        MUtilitiesService.AlertError(err, 'Lỗi');
+                    })
+                }
+                else{
+
+                }
+            });
+            // begin update
+            
+        }
+
 	});

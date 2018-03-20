@@ -196,13 +196,13 @@ mRealtime.filter("photosFilter", function() { // register new filter
     return photos.filter(function (item) {
       return item;
       ////
-      if(item.genders){
-        for (var i = 0; i < genders.length; i++) {
-          if(item.genders[i].selected == true && genders[i].selected == true){
-            return item;
-          }
-        }
-      }
+      // if(item.genders){
+      //   for (var i = 0; i < genders.length; i++) {
+      //     if(item.genders[i].selected == true && genders[i].selected == true){
+      //       return item;
+      //     }
+      //   }
+      // }
 
     })
   };

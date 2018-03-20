@@ -1432,7 +1432,7 @@
                     return new Promise(function (resolve, reject) {
                         var result = [];
                         firebase.database().ref().child('shippingItems')
-                            .orderByChild('customer_phone')
+                            .orderByChild('customer_mobile')
                             .startAt(phone)
                             .endAt(phone + "\uf8ff")
                             .once('value', snapshot => {
@@ -1446,7 +1446,7 @@
                 var searchShippingByCustomerName = function (query) {
                     return new Promise(function (resolve, reject) {
                         var result = [];
-                        firebase.database().ref().child('newOrders')
+                        firebase.database().ref().child('shippingItems')
                             .orderByChild('customer_name')
                             .startAt(query)
                             .endAt(query + "\uf8ff")
@@ -1456,6 +1456,45 @@
                                 })
                                 // console.log(snapshot.val());
                                 resolve(result);
+                            })
+                    })
+                }
+
+                var updateShippingItemCustomerData = function (itemId, customerData) {
+                    return new Promise(function (resolve, reject) {
+                        var updates = {};
+                        updates['/shippingItems/' + itemId + '/data/customerData'] = customerData;
+
+                        // update firebase database
+                        firebase.database().ref().update(updates).then(function (response) {
+                                resolve('Đã cập nhật dữ liệu Order thành công');
+                            })
+                            .catch(function (err) {
+                                reject(err)
+                            })
+                    })
+                }
+
+                var getShippingItem = function(id){
+                    return firebase.database().ref().child('shippingItems').orderByChild('id').equalTo(id).once('value', function(snapshot){
+                    })
+                  }
+
+                var cancelShippingItem = function(itemKey){
+                    return new Promise(function (resolve, reject) {
+
+                        var updates = {};
+                        updates['/shippingItems/' + itemKey + '/is_cancel'] = true;
+                        updates['/shippingItems/' + itemKey + '/cancel_ghn_at'] = Date.now();
+                        updates['/shippingItems/' + itemKey + '/orderCode'] = null;
+                        updates['/shippingItems/' + itemKey + '/push_to_ghn_at'] = null;
+
+                        // update firebase database
+                        firebase.database().ref().update(updates).then(function (response) {
+                                resolve('Đã cập nhật dữ liệu Order thành công');
+                            })
+                            .catch(function (err) {
+                                reject(err)
                             })
                     })
                 }
@@ -1746,10 +1785,13 @@
 
                     onCreateShippingItem: onCreateShippingItem,
                     onUpdateShippingReport: onUpdateShippingReport,
-                    onCancelShippingItem: onCancelShippingItem,
-
+                    
                     getAllMembers: getAllMembers,
                     getShippingItem: getShippingItem,
+
+                    updateShippingItemCustomerData: updateShippingItemCustomerData,
+                    cancelShippingItem : cancelShippingItem,
+                    onCancelShippingItem: onCancelShippingItem,
                 }
 
             }

@@ -1,5 +1,6 @@
 m_admin.controller('GHNCtrl',
-function($rootScope, $scope, $filter, $http, MGHNService, MFirebaseService, ghn_token, toastr,  toastrConfig, ghn_districs) {
+function($rootScope, $scope, $filter, $http, MGHNService, MFirebaseService, MUtilitiesService,
+ ghn_token, toastr,  toastrConfig, ghn_districs) {
 	$scope.current_token = {
 		token : ghn_token
 	};
@@ -19,6 +20,12 @@ function($rootScope, $scope, $filter, $http, MGHNService, MFirebaseService, ghn_
     };
 
 	$scope.set_ghn_token = function(){
+		if($rootScope.currentMember.is_admin !== 1){
+			MUtilitiesService.AlertError('Bạn không được quyền thay đổi token', 'Cảnh báo');
+			return;
+		}
+		
+
 		if(!$scope.current_token.token || $scope.current_token.token.length == 0){
 			// console.log('Token không đúng');
 			AlertError('Token không đúng', 'Lỗi');

@@ -418,6 +418,9 @@
                     // console.log(j);
 
                     return new Promise(function(resolve, reject){
+                        if(l.length == 0){
+                            reject(w + ' bắt buộc');
+                        }
                         var p, d, v, k, g;
                         if (m && IsNullOrEmpty(l)) {
                             reject(w + ' bắt buộc');

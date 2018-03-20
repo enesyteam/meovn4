@@ -3464,6 +3464,10 @@ input,textarea{
     margin-right: 5px
 }
 .window__formGreeting .post-detail .post-message .message-content{
+    max-height: none;
+}
+
+.window__formGreeting .post-detail .post-message.collapse .message-content{
     max-height: 250px;
 }
 .window__chat .message-shares-story{

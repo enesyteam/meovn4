@@ -25,12 +25,12 @@
                         <div class="post-story">
                            <a href="">{{postData.story}}</a>
                         </div>
-                        <div class="post-message collapse">
+                        <div class="post-message" ng-class="isShowFullPost ? '' : 'collapse'">
                            <span class="message-content">
                               {{postData.message}}
                            </span>
-                           <span class="collapse-more-btn">
-                              <a class="collapse-more-btn btn btn-sm btn-link">+ Xem thêm</a>
+                           <span class="collapse-more-btn" ng-if="!isShowFullPost">
+                              <a class="collapse-more-btn btn btn-sm btn-link" ng-click="showFullPost()">+ Xem thêm</a>
                            </span>
                         </div>
                         <div class="post-images">
