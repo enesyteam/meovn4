@@ -2,7 +2,7 @@ m_admin.controller('DashboardCtrl',
     function($rootScope, $scope, $http, $filter, $timeout, cfpLoadingBar, firebaseService, Facebook,
         MFirebaseService, MFacebookService, MUtilitiesService, fanpages) {
         // get access token
-        console.log(fanpages);
+        // console.log(fanpages);
         var getAccessToken = function(){
             $http.get('../assets/access_token.json').
               then(function onSuccess(response) {

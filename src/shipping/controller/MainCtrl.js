@@ -79,7 +79,7 @@ mShipping.controller('MainCtrl',
                         itemChanged.data.is_cancel = snapshot.val().is_cancel;
                     }
                     if(itemChanged.data.orderCode !== snapshot.val().orderCode){
-                        itemChanged.orderCode = snapshot.val().orderCode;
+                        itemChanged.data.orderCode = snapshot.val().orderCode;
                     }
                     if(itemChanged.data.push_to_ghn_at !== snapshot.val().push_to_ghn_at){
                         itemChanged.data.push_to_ghn_at = snapshot.val().push_to_ghn_at;

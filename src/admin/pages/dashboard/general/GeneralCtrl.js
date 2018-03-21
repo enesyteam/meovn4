@@ -18,7 +18,5 @@ function($rootScope, $scope, $filter, $timeout, cfpLoadingBar, firebaseService) 
         return $filter("filter")($rootScope.statuses, {
             id: statusId
         })[0];
-    }
-
-    
+    }    
 });
