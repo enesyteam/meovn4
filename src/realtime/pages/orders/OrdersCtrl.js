@@ -3,7 +3,7 @@ mRealtime.controller('OdersCtrl',
         cfpLoadingBar, Facebook, firebaseService, ProductPackService,
          activeItem, fanpages, MFacebookService, MFirebaseService, MUtilitiesService) {
 
-        var isTestMode = true;
+        var isTestMode = false;
 
         $scope.showImageDialog = function(imageUrl){
             ngDialog.open({
