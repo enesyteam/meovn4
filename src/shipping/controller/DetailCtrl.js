@@ -556,6 +556,24 @@ mShipping.controller('DetailCtrl',
             // console.log($scope.shippingData);
             // cập nhật dữ liệu của shipping item này
 
+            MFirebaseService.getShippingItem($stateParams.id).then(function(snapshot){
+                        
+                var itemKey = null;
+                var shippingItem = null;
+                angular.forEach(snapshot.val(), function(value, key) {
+                    itemKey = key;
+                    shippingItem = value;
+                });
+                if(!itemKey){
+                    MUtilitiesService.AlertError('Không tìm thấy dữ liệu đơn hàng', 'Lỗi');
+                    return;
+                }
+                if(shippingItem.data.is_cancel == true){
+                   MUtilitiesService.AlertError('Không cho phép tạo đơn hàng đã bị hủy trên hệ thống', 'Lỗi');
+                    return; 
+                }
+            })
+
 
             var config = {
                 headers: {
@@ -584,17 +602,10 @@ mShipping.controller('DetailCtrl',
                         angular.forEach($rootScope.availableShippingItems, function(item){
                             if(item.data.id == $stateParams.id){
                                 item.data.orderCode = data.data.data.OrderCode;
+                                item.data.orderCode = data.data.data.OrderCode;;
+                                item.data.push_to_ghn_at = new Date();
                             }
                         })
-                        // tìm và cập nhật Order này trong danh sách
-                        var itemChanged = $filter('filter')($rootScope.availableShippingItems, {
-                            'id': $stateParams.id
-                        });
-
-                        if(itemChanged){
-                            itemChanged[0].data.orderCode = data.data.data.OrderCode;;
-                            itemChanged[0].data.push_to_ghn_at = new Date();
-                        }
                         // var a = $rootScope.filterById($rootScope.availableShippingItems, $stateParams.id);
                         // a.orderCode = data.data.data.OrderCode;
                         // tracking this order
@@ -668,13 +679,12 @@ mShipping.controller('DetailCtrl',
                                     // $scope.activedItem.orderCode = null;
                                 // console.log(response);
                                 // tìm và cập nhật item này trong danh sách
-                                var itemChanged = $filter('filter')($rootScope.availableShippingItems, {
-                                    'id': shippingItem.id
-                                });
 
-                                if(itemChanged){
-                                    itemChanged[0].is_cancel = true;
-                                }
+                                angular.forEach($rootScope.availableShippingItems, function(item){
+                                    if(item.data.id == $stateParams.id){
+                                        item.data.is_cancel = true;
+                                    }
+                                })
 
                                 MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên hệ thống thành công. Vui lòng Reload (F5) để cập nhật thay đổi.');
                             })
