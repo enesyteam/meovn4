@@ -4036,11 +4036,12 @@ input,textarea{
     background: #fff;
     float: left;
     margin-left: -40px;
-    color: #3c3c3c;
+    color: red;
     min-height: 58px;
     padding-left: 50px;
     border-radius: 20px;
     border: 1px solid #ddd;
+    font-weight: 500;
 }
 .window--circle .window__chatVisitorMessage{
     border: 1px solid #ddd;
