@@ -646,7 +646,7 @@ mShipping.controller('DetailCtrl',
                         }
                         else{
                             // cập nhật trạng thái đã hủy cho shipping item
-                            var date = new Date(snapshot.val().updated_at);
+                            var date = new Date(snapshot.val().created_time);
                             var reportDateString = MFirebaseService.convertDate(date);
 
                             MFirebaseService.onCancelShippingItem(reportDateString, shippingItem.cod_amount, 
