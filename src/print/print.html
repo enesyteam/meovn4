@@ -103,7 +103,9 @@
                <!-- ngIf: x.externalCode != null -->
                <li>
                   <span>Ngày gửi:</span>
-                  <h2 ng-bind="order.StartPickTime" class="ng-binding">27/02/2018 16:49</h2>
+                  <h2 class="ng-binding">
+                    {{(order.StartPickTime | date: 'dd/MM/yyyy HH:mm') || (order.EndPickTime | date: 'dd/MM/yyyy HH:mm')}}
+                  </h2>
                </li>
             </ul>
          </div>

@@ -1,8 +1,9 @@
 mShipping.controller('DetailCtrl',
     function($rootScope, $scope, $http, $window, $state, $stateParams, $document, $filter, $timeout, cfpLoadingBar,
         cfpLoadingBar, Facebook, toastr, toastrConfig, moment, ProductPackService,
-        firebaseService, GiaoHangNhanhService, activeItem, ghn_hubs, MFacebookService, MFirebaseService, 
+        firebaseService, GiaoHangNhanhService, MGHNService, activeItem, ghn_hubs, ghn_token, MFacebookService, MFirebaseService, 
         MUtilitiesService, current_hub, fanpages, ghn_districs, ngDialog) {
+        // console.log(ghn_token);
 
         // console.log(firebase.utils);
         // alert($stateParams.cv_id);
@@ -628,10 +629,9 @@ mShipping.controller('DetailCtrl',
 
         $scope.cancelCurrentShippingItem = function(){
             MUtilitiesService.showConfirmDialg('Thông báo',
-                'Bạn có chắc muốn hủy đơn hàng này không.', 'Tiếp tục', 'Bỏ qua')
+                'Bạn có chắc muốn hủy đơn hàng này trên hệ thống không.', 'Tiếp tục', 'Bỏ qua')
             .then(function(response) {
                 if (response) {
-                    // get shipping item
                     MFirebaseService.getShippingItem($stateParams.id).then(function(snapshot){
                         
                         var itemKey = null;
@@ -645,24 +645,15 @@ mShipping.controller('DetailCtrl',
                             return;
                         }
                         else{
-                            if(!shippingItem.push_to_ghn_at){
-                                MUtilitiesService.AlertError('Đơn hàng chưa tạo trên GHN', 'Lỗi');
-                                return;
-                            }
                             // cập nhật trạng thái đã hủy cho shipping item
-                            MFirebaseService.cancelShippingItem(itemKey).then(function(response){
-                                console.log(response);
-                                // cập nhật báo cáo
-                                var date = new Date(shippingItem.push_to_ghn_at);
-                                var reportDateString = MFirebaseService.convertDate(date);
-                                // console.log(reportDateString);
-                                // return;
+                            var date = new Date(snapshot.val().updated_at);
+                            var reportDateString = MFirebaseService.convertDate(date);
 
-                                MFirebaseService.onCancelShippingItem(reportDateString, shippingItem.cod_amount, 
-                                    shippingItem.service_fee).then(function(response){
-                                    console.log(response);
-                                    MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên hệ thống thành công. Vui lòng Reload (F5) để cập nhật thay đổi.');
-                                })
+                            MFirebaseService.onCancelShippingItem(reportDateString, shippingItem.cod_amount, 
+                                shippingItem.service_fee, itemKey).then(function(response){
+                                    $scope.activedItem.orderCode = null;
+                                // console.log(response);
+                                MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên hệ thống thành công. Vui lòng Reload (F5) để cập nhật thay đổi.');
                             })
                         }
 
@@ -737,10 +728,43 @@ mShipping.controller('DetailCtrl',
             }
         }
 
-
+        /*
+        * Hủy đơn trên GHN
+        */
         $scope.cancelOrder = function(orderCode) {
-            return GiaoHangNhanhService.cancelOrder(orderCode).then(function(response) {
-                AlertSuccessful('Hủy đơn hàng ' + orderCode + ' thành công', 'Thông báo');
+            return MGHNService.cancelOrder(orderCode, ghn_token).then(function(response) {
+                // cập nhật báo cáo
+                MFirebaseService.getShippingItem($stateParams.id).then(function(snapshot){
+                        
+                        var itemKey = null;
+                        var shippingItem = null;
+                        angular.forEach(snapshot.val(), function(value, key) {
+                            itemKey = key;
+                            shippingItem = value;
+                        });
+                        if(!itemKey){
+                            MUtilitiesService.AlertError('Không tìm thấy dữ liệu đơn hàng', 'Lỗi');
+                            return;
+                        }
+                        else{
+                            if(!shippingItem.push_to_ghn_at){
+                                MUtilitiesService.AlertError('Đơn hàng chưa tạo trên GHN', 'Lỗi');
+                                return;
+                            }
+                            // cập nhật trạng thái đã hủy cho shipping item
+                            var date = new Date(shippingItem.push_to_ghn_at);
+                            var reportDateString = MFirebaseService.convertDate(date);
+
+                            MFirebaseService.cancelShippingItem(reportDateString, shippingItem.cod_amount, 
+                                    shippingItem.service_fee, itemKey).then(function(response){
+                                console.log(response);
+                                // cập nhật báo cáo
+                                
+                            })
+                        }
+
+                    })
+                // AlertSuccessful('Hủy đơn hàng ' + orderCode + ' thành công', 'Thông báo');
             });
         }
 

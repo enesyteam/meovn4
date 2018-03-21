@@ -21,7 +21,7 @@ mPrinting.controller('PrintShippingBillCtrl',
 
             $http.post('https://console.ghn.vn/api/v1/apiv3/OrderInfo', data, config)
             .then(function (data) {
-                console.log(data);
+                // console.log(data);
                 $scope.order = data.data.data;
 
                 // get wards
@@ -31,7 +31,7 @@ mPrinting.controller('PrintShippingBillCtrl',
                 }
                 $http.post('https://console.ghn.vn/api/v1/apiv3/GetWards', wdata, config)
                 .then(function(wdata) {
-                    console.log(wdata);
+                    // console.log(wdata);
                     // $scope.Wards = data.data.data.Wards
                         var ward = $filter("filter")(wdata.data.data.Wards, {
                             WardCode: data.data.data.ToWardCode
@@ -67,7 +67,7 @@ mPrinting.controller('PrintShippingBillCtrl',
             })[0];
         }
 
-        console.log(ghn_districs)
+        // console.log(ghn_districs)
 
         $scope.findDistrict = function(DistrictID){
             if(!DistrictID) return null;

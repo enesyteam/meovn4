@@ -1,5 +1,14 @@
 <div class="row_col_right">
-   <div ng-include="'/src/shipping/widgets/create-shipping.html'" ng-if="!activedItem.orderCode"></div>
+  <div class="create-shipping" ng-if="activedItem.is_cancel">
+      <div class="write-area"  style="height: {{windowsHeight-(55+75)}}px;">
+        <div class="blankslate" style="height: 100%">
+          <h3>Order này đã hủy trên hệ thống.</h3>
+          <p>Bạn không thể tạo đơn từ 1 Order đã hủy trên hệ thống. Vui lòng liên hệ Quản trị.</p>
+        </div>
+      </div>
+  </div>
+
+   <div ng-include="'/src/shipping/widgets/create-shipping.html'" ng-if="!activedItem.orderCode && !activedItem.is_cancel"></div>
    <div class="edit-shipping" ng-if="activedItem.orderCode">
      <div class="info">
        <h3>

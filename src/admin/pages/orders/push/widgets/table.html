@@ -44,7 +44,7 @@
                <div class="float-left col-8 pt-2 pr-3 text-right">
                   <div class="AvatarStack AvatarStack--right " ng-init="owner = filterById(telesales, order.seller_will_call_id).last_name">
                      <div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1" aria-label="Đã phân bổ cho {{owner}}">
-                        <span class="Counter p-2" ng-if="owner">{{owner}}</span>
+                        <span class="Counter p-2" ng-if="owner">{{filterById(telesales, order.seller_will_call_id).last_name}}</span>
                      </div>
                   </div>
                </div>

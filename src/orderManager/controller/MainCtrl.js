@@ -65,7 +65,7 @@ mOrderManager.controller('MainCtrl',
             {
                 id: 204,
                 code: 'WaitingToFinish',
-                text: 'Chờ trả',
+                text: 'Chờ hoàn tất',
                 description : 'Là trạng thái đơn hàng đang được xử lý để hoàn thành (ví dụ chuyển tiền thu hộ)'
             },
             {

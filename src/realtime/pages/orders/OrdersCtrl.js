@@ -219,57 +219,6 @@ mRealtime.controller('OdersCtrl',
             
         }
 
-        
-
-        var replyComment = function(){
-            $scope.startReplying = true;
-            FB.api(
-                "/" + $stateParams.conversation_id + "/comments",
-                "POST",
-                {
-                    "message": $scope.comentText,
-                    // "attachment_url" : "http://pluspng.com/img-png/github-octocat-logo-vector-png-octocat-icon-1600.png",
-                    "access_token" : $scope.currentAccessToken
-                },
-                function (response) {
-                  if (response && !response.error) {
-                    /* handle the result */
-                    $scope.$apply(function(){
-                        $scope.comentText = null;
-                        // graphComments();
-                        $scope.startReplying = false;
-                        // snackbar('Gửi bình luận thành công!');
-                        MUtilitiesService.AlertSuccessful('Gửi bình luận thành công', 'Thông báo');
-                    });
-                  }
-                }
-            );
-        }
-        var replyMessage = function(){
-            $scope.startReplying = true;
-            FB.api(
-                "/" + $stateParams.conversation_id + "/messages",
-                "POST",
-                {
-                    "message": $scope.comentText,
-                    // "attachment_url" : "https://storage.googleapis.com/content.pages.fm/2017/12/24/33e1abe1858d07830ab3f53b2b2c08988c507b5a.jpg",
-                    "access_token" : $scope.currentAccessToken
-                },
-                function (response) {
-                  if (response && !response.error) {
-                    /* handle the result */
-                    $scope.$apply(function(){
-                        $scope.comentText = null;
-                        // graphMessages();
-                        $scope.startReplying = false;
-                        // snackbar('Gửi tin nhắn thành công đến khách hàng!');
-                        MUtilitiesService.AlertSuccessful('Gửi tin nhắn thành công', 'Thông báo');
-                    });
-                  }
-                }
-            );
-        }
-
         /**
         * Check before user change status
         * @param  {user}  user who changing status
@@ -327,7 +276,6 @@ mRealtime.controller('OdersCtrl',
                     if(status.id == 6){
                         // thêm shipping item
                         addShippingItem().then(function(response){
-                            resolve('Cập nhật trạng thái thành công. Order đã sẵn sàng để tạo đơn');
                             // reset shipping data
                             $scope.customerData = {
                                 realName: $scope.activeOrder.customer_name,
@@ -337,6 +285,7 @@ mRealtime.controller('OdersCtrl',
                             }
                             // reset products
                             $scope.selectedProducts = [];
+                            resolve('Cập nhật trạng thái thành công. Order đã sẵn sàng để tạo đơn');
                         })
                     }
                     else{

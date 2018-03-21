@@ -87,11 +87,35 @@
                 })
             }
 
+            var cancelOrder = function(orderCode, access_token){
+                return new Promise(function(resolve, reject) {
+                    var data = {
+                        "token": access_token,
+                        "OrderCode": orderCode
+                    }
+
+                    $http.post('https://console.ghn.vn/api/v1/apiv3/CancelOrder', data, config)
+                        .then(function(response) {
+                            resolve(response);
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                            if(err.data){
+                              reject(err);
+                            } else{
+                              reject(err);
+                              // AlertError('Không thể hủy đơn hàng', err.xhrStatus);
+                            }
+                        });
+                  })
+              }
+
             return {
                 setAccessToken : setAccessToken,
                 getHubs : getHubs,
                 addHub : addHub,
                 getDistricts : getDistricts,
+                cancelOrder : cancelOrder,
             }
 
         }]);

@@ -28,7 +28,7 @@ mPrinting.controller('PrintCtrl',
             // console.log(value);
             $scope.activedItem = value;
         });
-        console.log($scope.activedItem);
+        // console.log($scope.activedItem);
         $scope.currentTime = Date.now();
 
         $scope.current_Page = $filter("filter")(fanpages, {

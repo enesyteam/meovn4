@@ -771,6 +771,7 @@
                                                 date: date,
                                                 total_created_items: 0,
                                                 total_not_created_items: 0,
+                                                total_cancel_ghn: 0,
                                                 total_cancel: 0,
                                                 total_cod: 0,
                                                 total_shipping_costs: 0,
@@ -838,19 +839,23 @@
                     })
                 }
 
-                var onCancelShippingItem = function (date, cod, shipping_cod) {
-                    firebase.database().ref().child('report').child(date)
-                        .child('shippingReport').child('total_cod')
-                        .transaction(function (oldValue) {
-                            return oldValue - cod;
-                        });
+                // Hủy đơn hàng trên hệ thống
+                var onCancelShippingItem = function (date, cod, shipping_cod, itemKey, isCancelOnSystem = true) {
 
-                    // update shipping costs
-                    firebase.database().ref().child('report').child(date)
-                        .child('shippingReport').child('total_shipping_costs')
-                        .transaction(function (oldValue) {
-                            return oldValue - shipping_cod;
-                        });
+                    // cập nhật firebase
+                    var updates = {};
+                        
+                    if(isCancelOnSystem){
+                        updates['/shippingItems/' + itemKey + '/is_cancel'] = true;
+                    }
+
+                    // update firebase database
+                    firebase.database().ref().update(updates).then(function (response) {
+                            // resolve('Đã cập nhật dữ liệu Order thành công');
+                        })
+                        .catch(function (err) {
+                            reject(err)
+                        })
 
                     // update total_created_items
                     // firebase.database().ref().child('report').child(date)
@@ -864,6 +869,12 @@
                         .child('shippingReport').child('total_cancel')
                         .transaction(function (oldValue) {
                             return oldValue + 1;
+                        });
+
+                    firebase.database().ref().child('report').child(date)
+                        .child('shippingReport').child('total_not_created_items')
+                        .transaction(function (oldValue) {
+                            return oldValue - 1;
                         });
 
                     return new Promise(function (resolve, reject) {
@@ -1480,14 +1491,53 @@
                     })
                   }
 
-                var cancelShippingItem = function(itemKey){
+                /*
+                * Hủy đơn trên GHN
+                */
+                var cancelShippingItem = function(date, cod, shipping_cod, itemKey, isCancelOnSystem = false){
                     return new Promise(function (resolve, reject) {
 
                         var updates = {};
-                        updates['/shippingItems/' + itemKey + '/is_cancel'] = true;
+                        
+                        if(isCancelOnSystem){
+                            updates['/shippingItems/' + itemKey + '/is_cancel'] = true;
+                        }
                         updates['/shippingItems/' + itemKey + '/cancel_ghn_at'] = Date.now();
                         updates['/shippingItems/' + itemKey + '/orderCode'] = null;
                         updates['/shippingItems/' + itemKey + '/push_to_ghn_at'] = null;
+
+                        // cập nhật báo cáo
+                        firebase.database().ref().child('report').child(date)
+                        .child('shippingReport').child('total_cod')
+                        .transaction(function (oldValue) {
+                            return oldValue - cod;
+                        });
+
+                        firebase.database().ref().child('report').child(date)
+                        .child('shippingReport').child('total_created_items')
+                        .transaction(function (oldValue) {
+                            return oldValue - 1;
+                        });
+
+                        firebase.database().ref().child('report').child(date)
+                        .child('shippingReport').child('total_not_created_items')
+                        .transaction(function (oldValue) {
+                            return oldValue + 1;
+                        });
+
+                        firebase.database().ref().child('report').child(date)
+                        .child('shippingReport').child('total_cancel_ghn')
+                        .transaction(function (oldValue) {
+                            return oldValue + 1;
+                        });
+
+                        
+                        // update shipping costs
+                        firebase.database().ref().child('report').child(date)
+                            .child('shippingReport').child('total_shipping_costs')
+                            .transaction(function (oldValue) {
+                                return oldValue - shipping_cod;
+                            });
 
                         // update firebase database
                         firebase.database().ref().update(updates).then(function (response) {

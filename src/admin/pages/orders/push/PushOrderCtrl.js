@@ -73,7 +73,7 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
 
 
     firebase.database().ref().child('newOrders').on('child_changed', snapshot => {
-        // console.log(snapshot.val());
+        console.log(snapshot.val());
         // find item in array
         $timeout(function() {
             $scope.$apply(function() {
@@ -81,6 +81,7 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
                     'id': snapshot.val().id
                 });
                 if(itemChanged[0]){
+                	// console.log(itemChanged[0]);
                     if (itemChanged[0].status_id !== snapshot.val().status_id) {
                         itemChanged[0].status_id = snapshot.val().status_id;
                     }
@@ -96,7 +97,7 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
                 }
                 
             })
-        }, 10);
+        }, 100);
 
     });
 

@@ -301,7 +301,7 @@
             <ul class="shipping-report" ng-if="todayShippingReport">
                <li>
                   <div class="report-text">
-                     <h5 class="m-2">Số lượng orders sẵn sàng tạo đơn GHN: </h5>
+                     <h5 class="m-2">Số lượng orders đã chốt: </h5>
                   </div>
                   <div class="report-value">
                      <h5 class="m-2">{{todayShippingReport.total_shipping_items}}</h5>
@@ -313,6 +313,15 @@
                   </div>
                   <div class="report-value">
                      <h5 class="m-2">{{todayShippingReport.total_created_items}}</h5>
+                  </div>
+               </li>
+               <li>
+                  <div class="report-text">
+                     <h5 class="m-2">Số lượng đơn GHN đã hủy: </h5>
+                  </div>
+                  <!-- <p class="note m-0">Đây là số lần hủy đơn trên GHN, nếu 1 đơn hàng tạo sai và sau đó người tạo đơn hủy thì vẫn được tính là 1 lần hủy</p> -->
+                  <div class="report-value">
+                     <h5 class="m-2">{{todayShippingReport.total_cancel_ghn}}</h5>
                   </div>
                </li>
                <li>
@@ -352,7 +361,7 @@
                      <h5 class="m-2">Chi phí gửi hàng trung bình cho 1 đơn hàng: </h5>
                   </div>
                   <div class="report-value">
-                     <h5 class="m-2">{{(todayShippingReport.total_shipping_costs/(todayShippingReport.total_created_items - todayShippingReport.total_cancel)) | number}}</h5>
+                     <h5 class="m-2">{{(todayShippingReport.total_shipping_costs/todayShippingReport.total_created_items) | number}}</h5>
                   </div>
                </li>
             </ul>
