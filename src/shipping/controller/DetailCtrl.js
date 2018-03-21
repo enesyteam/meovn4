@@ -646,8 +646,10 @@ mShipping.controller('DetailCtrl',
                         }
                         else{
                             // cập nhật trạng thái đã hủy cho shipping item
-                            var date = new Date(snapshot.val().created_time);
+                            var date = new Date(shippingItem.created_time);
+                            console.log('Shipping Item tạo lúc: ' + shippingItem.created_time);
                             var reportDateString = MFirebaseService.convertDate(date);
+                            console.log('Cần cập nhật báo cáo cho ngày: ' + reportDateString);
 
                             MFirebaseService.onCancelShippingItem(reportDateString, shippingItem.cod_amount, 
                                 shippingItem.service_fee, itemKey).then(function(response){
@@ -758,7 +760,7 @@ mShipping.controller('DetailCtrl',
                             MFirebaseService.cancelShippingItem(reportDateString, shippingItem.cod_amount, 
                                     shippingItem.service_fee, itemKey).then(function(response){
                                 console.log(response);
-                                // cập nhật báo cáo
+                                MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên GHN thành công', 'Thông báo');
                                 
                             })
                         }
