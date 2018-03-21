@@ -3,10 +3,11 @@ mPrinting.controller('PrintShippingBillCtrl',
         ghn_districs, ghn_token) {
        var orderCode = $stateParams.id;
         
-
+       $scope.created_at = $stateParams.time;
 
        if(!orderCode){
         MUtilitiesService.AlertError('Mã vận đơn không tồn tại', 'Lỗi');
+        return;
        }
 
         var config = {

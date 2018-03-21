@@ -61,31 +61,38 @@ mShipping.controller('MainCtrl',
     // listen for order change
     firebase.database().ref().child('shippingItems')
     .on('child_changed', snapshot => {
-        console.log(snapshot.val());
+        // console.log(snapshot.val().id);
+        var itemChanged = null;
+        angular.forEach($rootScope.availableShippingItems, function(item){
+            if(item.data.id == snapshot.val().id){
+                itemChanged =  item; //item.data.is_cancel = true;
+            }
+        });
         // find item in array
         $timeout(function() {
             $scope.$apply(function() {
-                var itemChanged = $filter('filter')($rootScope.availableShippingItems, {
-                    'id': snapshot.val().id
-                });
-                if(itemChanged[0]){
-                    if (itemChanged[0].data.cancel_ghn_at !== snapshot.val().cancel_ghn_at) {
-                        itemChanged[0].data.cancel_ghn_at = snapshot.val().cancel_ghn_at;
+                if(itemChanged){
+                    if (itemChanged.data.cancel_ghn_at !== snapshot.val().cancel_ghn_at) {
+                        itemChanged.data.cancel_ghn_at = snapshot.val().cancel_ghn_at;
                     }
-                    if (itemChanged[0].data.is_cancel !== snapshot.val().is_cancel) {
-                        itemChanged[0].data.is_cancel = snapshot.val().is_cancel;
+                    if (itemChanged.data.is_cancel !== snapshot.val().is_cancel) {
+                        itemChanged.data.is_cancel = snapshot.val().is_cancel;
                     }
-                    if(itemChanged[0].data.orderCode !== snapshot.val().orderCode){
-                        itemChanged[0].orderCode = snapshot.val().orderCode;
+                    if(itemChanged.data.orderCode !== snapshot.val().orderCode){
+                        itemChanged.orderCode = snapshot.val().orderCode;
                     }
-                    if(itemChanged[0].data.push_to_ghn_at !== snapshot.val().push_to_ghn_at){
-                        itemChanged[0].data.push_to_ghn_at = snapshot.val().push_to_ghn_at;
+                    if(itemChanged.data.push_to_ghn_at !== snapshot.val().push_to_ghn_at){
+                        itemChanged.data.push_to_ghn_at = snapshot.val().push_to_ghn_at;
                     }
-                    if(itemChanged[0].data.cod_amount !== snapshot.val().cod_amount){
-                        itemChanged[0].data.cod_amount = snapshot.val().cod_amount;
+                    if(itemChanged.data.cod_amount !== snapshot.val().cod_amount){
+                        itemChanged.data.cod_amount = snapshot.val().cod_amount;
                     }
-                    if(itemChanged[0].data.service_fee !== snapshot.val().service_fee){
-                        itemChanged[0].data.service_fee = snapshot.val().service_fee;
+                    if(itemChanged.data.service_fee !== snapshot.val().service_fee){
+                        itemChanged.data.service_fee = snapshot.val().service_fee;
+                    }
+                    if($rootScope.activedItem){
+                        $rootScope.activedItem.is_cancel = snapshot.val().is_cancel;
+                        $rootScope.activedItem.orderCode = snapshot.val().orderCode;
                     }
                 }
                 else{
@@ -141,6 +148,9 @@ mShipping.controller('MainCtrl',
                         $rootScope.canLoadMore = false;
                     }
                 })
+            })
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Thông báo');
             })
         }
 

@@ -6,6 +6,7 @@
     angular.module('mFirebase')
         .service('MFirebaseService', ["$http", "$timeout", 'MUtilitiesService', 'firebase',
             function ($http, $timeout, MUtilitiesService, firebase) {
+                // console.log(MGHNService);
 
                 var getAllMembers = function () {
                     return firebase.database().ref().child('members').orderByChild('status').equalTo(1).once('value', function (snapshot) {});
@@ -284,7 +285,46 @@
                                                                         updateOrderItem(orderId, Date.now()).then(function (response) {
                                                                             console.log(response);
                                                                         })
-                                                                        console.log('Bắt đầu hủy shipping item, hủy đơn trên GHN...');
+                                                                        // console.log('Bắt đầu hủy shipping item, hủy đơn trên GHN...');
+                                                                        // hủy đơn trên hệ thống
+                                                                        // tìm shipping item
+                                                                        searchShippingByOrderId(orderId).then(function(response){
+                                                                            // chú ý response là 1 mảng
+                                                                            if(response.length == 1){
+                                                                                var shippingItem = response[0].data;
+                                                                                var date = new Date(shippingItem.push_to_ghn_at);
+                                                                                var reportDateString = convertDate(date);
+
+                                                                                // hủy trên giao hàng nhanh
+                                                                                if(shippingItem.orderCode){
+                                                                                    cancelShippingItem(reportDateString, shippingItem.cod_amount, 
+                                                                                            shippingItem.service_fee, response[0].key).then(function(response){
+                                                                                        // console.log(response);
+                                                                                        MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng ' + shippingItem.orderCode + ' trên GHN thành công', 'Thông báo');
+                                                                                        
+                                                                                    })
+                                                                                }
+
+                                                                                if(shippingItem.is_cancel != true){
+                                                                                    // hủy trên hệ thống
+                                                                                    // cập nhật trạng thái đã hủy cho shipping item
+                                                                                    var date = new Date(shippingItem.created_time);
+                                                                                    // console.log('Shipping Item tạo lúc: ' + shippingItem.created_time);
+                                                                                    var reportDateString = convertDate(date);
+                                                                                    // console.log('Cần cập nhật báo cáo cho ngày: ' + reportDateString);
+
+                                                                                    onCancelShippingItem(reportDateString, shippingItem.cod_amount, 
+                                                                                        shippingItem.service_fee, response[0].key).then(function(response){
+                                                                                            // $scope.activedItem.orderCode = null;
+                                                                                        // console.log(response);
+                                                                                        // tìm và cập nhật item này trong danh sách
+
+                                                                                        MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên hệ thống thành công.', 'Thông báo');
+
+                                                                                    })
+                                                                                }
+                                                                            }
+                                                                        })
 
                                                                         resolve('Admin hoặc Mod đã thay đổi trạng thái một Order chưa được gán và cập nhật báo cáo thành công.');
                                                                     }).catch(function (err) {
@@ -318,7 +358,45 @@
                                                                         updateOrderItem(orderId, Date.now()).then(function (response) {
                                                                             console.log(response);
                                                                         })
-                                                                        console.log('Admin hoặc Mod đã hủy đơn không rõ sở hữu của ai...');
+                                                                        // hủy đơn trên hệ thống
+                                                                        // tìm shipping item
+                                                                        searchShippingByOrderId(orderId).then(function(response){
+                                                                            // chú ý response là 1 mảng
+                                                                            if(response.length == 1){
+                                                                                var shippingItem = response[0].data;
+                                                                                var date = new Date(shippingItem.push_to_ghn_at);
+                                                                                var reportDateString = convertDate(date);
+
+                                                                                // hủy trên giao hàng nhanh
+                                                                                if(shippingItem.orderCode){
+                                                                                    cancelShippingItem(reportDateString, shippingItem.cod_amount, 
+                                                                                            shippingItem.service_fee, response[0].key).then(function(response){
+                                                                                        // console.log(response);
+                                                                                        MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng ' + shippingItem.orderCode + ' trên GHN thành công', 'Thông báo');
+                                                                                        
+                                                                                    })
+                                                                                }
+
+                                                                                if(shippingItem.is_cancel != true){
+                                                                                    // hủy trên hệ thống
+                                                                                    // cập nhật trạng thái đã hủy cho shipping item
+                                                                                    var date = new Date(shippingItem.created_time);
+                                                                                    // console.log('Shipping Item tạo lúc: ' + shippingItem.created_time);
+                                                                                    var reportDateString = convertDate(date);
+                                                                                    // console.log('Cần cập nhật báo cáo cho ngày: ' + reportDateString);
+
+                                                                                    onCancelShippingItem(reportDateString, shippingItem.cod_amount, 
+                                                                                        shippingItem.service_fee, response[0].key).then(function(response){
+                                                                                            // $scope.activedItem.orderCode = null;
+                                                                                        // console.log(response);
+                                                                                        // tìm và cập nhật item này trong danh sách
+
+                                                                                        MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên hệ thống thành công.', 'Thông báo');
+
+                                                                                    })
+                                                                                }
+                                                                            }
+                                                                        })
 
                                                                         resolve('Admin hoặc Mod đã hủy đơn không rõ sở hữu của ai');
                                                                     }).catch(function (err) {
@@ -364,7 +442,45 @@
                                                                     updateOrderItem(orderId, Date.now()).then(function (response) {
                                                                         console.log(response);
                                                                     })
-                                                                    console.log(currentUser.last_name + 'đã hủy đơn thành công...');
+                                                                    // hủy đơn trên hệ thống
+                                                                    // tìm shipping item
+                                                                    searchShippingByOrderId(orderId).then(function(response){
+                                                                        // chú ý response là 1 mảng
+                                                                        if(response.length == 1){
+                                                                            var shippingItem = response[0].data;
+                                                                            var date = new Date(shippingItem.push_to_ghn_at);
+                                                                            var reportDateString = convertDate(date);
+
+                                                                            // hủy trên giao hàng nhanh
+                                                                            if(shippingItem.orderCode){
+                                                                                cancelShippingItem(reportDateString, shippingItem.cod_amount, 
+                                                                                        shippingItem.service_fee, response[0].key).then(function(response){
+                                                                                    // console.log(response);
+                                                                                    MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng ' + shippingItem.orderCode + ' trên GHN thành công', 'Thông báo');
+                                                                                    
+                                                                                })
+                                                                            }
+
+                                                                            if(shippingItem.is_cancel != true){
+                                                                                // hủy trên hệ thống
+                                                                                // cập nhật trạng thái đã hủy cho shipping item
+                                                                                var date = new Date(shippingItem.created_time);
+                                                                                // console.log('Shipping Item tạo lúc: ' + shippingItem.created_time);
+                                                                                var reportDateString = convertDate(date);
+                                                                                // console.log('Cần cập nhật báo cáo cho ngày: ' + reportDateString);
+
+                                                                                onCancelShippingItem(reportDateString, shippingItem.cod_amount, 
+                                                                                    shippingItem.service_fee, response[0].key).then(function(response){
+                                                                                        // $scope.activedItem.orderCode = null;
+                                                                                    // console.log(response);
+                                                                                    // tìm và cập nhật item này trong danh sách
+
+                                                                                    MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên hệ thống thành công.', 'Thông báo');
+
+                                                                                })
+                                                                            }
+                                                                        }
+                                                                    })
 
                                                                     resolve(currentUser.last_name + 'đã hủy đơn thành công...');
                                                                 }).catch(function (err) {
@@ -873,6 +989,12 @@
 
                     firebase.database().ref().child('report').child(date)
                         .child('shippingReport').child('total_not_created_items')
+                        .transaction(function (oldValue) {
+                            return oldValue - 1;
+                        });
+
+                    firebase.database().ref().child('report').child(date)
+                        .child('shippingReport').child('total_shipping_items')
                         .transaction(function (oldValue) {
                             return oldValue - 1;
                         });
@@ -1472,6 +1594,24 @@
                     })
                 }
 
+                var searchShippingByOrderId = function (orderId) {
+                    return new Promise(function (resolve, reject) {
+                        var result = [];
+                        firebase.database().ref().child('shippingItems')
+                            .orderByChild('orderId')
+                            .equalTo(orderId)
+                            .once('value', snapshot => {
+                                angular.forEach(snapshot.val(), function (value, key) {
+                                    result.push({
+                                        key : key,
+                                        data : value,
+                                    });
+                                })
+                                resolve(result);
+                            })
+                    })
+                }
+
                 var updateShippingItemCustomerData = function (itemId, customerData) {
                     return new Promise(function (resolve, reject) {
                         var updates = {};
@@ -1795,6 +1935,7 @@
                     getNextShippingItems: getNextShippingItems,
                     searchShippingItemsByCustomerPhone: searchShippingItemsByCustomerPhone,
                     searchShippingItemsByCustomerName: searchShippingItemsByCustomerName,
+                    searchShippingByOrderId : searchShippingByOrderId,
 
 
                     set_firebase: set_firebase,

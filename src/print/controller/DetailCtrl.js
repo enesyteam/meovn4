@@ -6,6 +6,7 @@ mPrinting.controller('DetailCtrl',
         
         angular.forEach(activeItem, function(value, key) {
             // console.log(value);
+            $rootScope.activedItem = value;
             $scope.activedItem = value;
         });
 

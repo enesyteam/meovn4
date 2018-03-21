@@ -21,7 +21,11 @@
     <link rel="stylesheet" href="/src/print/sass/invoice.css">
   </head>
   <body>
-    <div id="container" class="content page-break">
+    <div class="blankslate blankslate-clean-background" ng-if="activedItem.is_cancel">
+      <!-- <h3>Đơn hàng đã hủy trên hệ thống</h3> -->
+      <p>Bạn không thể in một đơn hàng đã hủy trên hệ thống. Vui lòng liên hệ Quản trị nếu cần trợ giúp.</p>
+    </div>
+    <div id="container" class="content page-break" ng-if="!activedItem.is_cancel">
       <section id="memo">
         <div class="company-name">
           <span>Phiếu xuất kho</span>

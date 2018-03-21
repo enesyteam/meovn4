@@ -178,8 +178,8 @@ var mPrinting = angular.module('mPrinting', [
                 }
             })
             .state('print', {
-                url: '/printShipping/id=:id',
-                params : {id : null},
+                url: '/printShipping/id=:id&time=:created_at',
+                params : {id : null, time : null},
                 controller: 'PrintShippingBillCtrl',
                 templateUrl: "/src/print/print.html",
                 resolve: {

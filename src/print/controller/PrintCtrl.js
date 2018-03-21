@@ -1,6 +1,16 @@
 mPrinting.controller('PrintCtrl',
     function($rootScope, $scope, $http, $filter, fanpages, ghn_hubs, telesales, activeItem, MUtilitiesService) {
 
+        angular.forEach(activeItem, function(value, key) {
+            // console.log(value);
+            $scope.activedItem = value;
+        });
+
+        if($scope.activedItem.is_cancel == true){
+            MUtilitiesService.AlertError('Đơn hàng này đã hủy trên hệ thống', 'Lỗi');
+            return;
+        }
+
         $scope.telesales = telesales;
 
         $scope.aProducts = [];
@@ -24,10 +34,6 @@ mPrinting.controller('PrintCtrl',
             })[0];
         }
 
-        angular.forEach(activeItem, function(value, key) {
-            // console.log(value);
-            $scope.activedItem = value;
-        });
         // console.log($scope.activedItem);
         $scope.currentTime = Date.now();
 
