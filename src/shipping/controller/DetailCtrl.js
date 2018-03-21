@@ -792,14 +792,12 @@ mShipping.controller('DetailCtrl',
                                     shippingItem.service_fee, itemKey).then(function(response){
                                 console.log(response);
                                 // tìm và cập nhật Order này trong danh sách
-                                var itemChanged = $filter('filter')($rootScope.availableShippingItems, {
-                                    'id': shippingItem.id
-                                });
 
-                                if(itemChanged){
-                                    itemChanged[0].orderCode = null;
-                                    itemChanged[0].cancel_ghn_at = new Date();
-                                }
+                                angular.forEach($rootScope.availableShippingItems, function(item){
+                                    if(item.data.orderCode == $stateParams.id){
+                                        item.data.cancel_ghn_at = new Date();;
+                                    }
+                                })
 
                                 MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên GHN thành công', 'Thông báo');
                                 
