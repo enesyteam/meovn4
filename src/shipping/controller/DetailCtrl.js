@@ -586,6 +586,15 @@ mShipping.controller('DetailCtrl',
                                 item.data.orderCode = data.data.data.OrderCode;
                             }
                         })
+                        // tìm và cập nhật Order này trong danh sách
+                        var itemChanged = $filter('filter')($rootScope.availableShippingItems, {
+                            'id': $stateParams.id
+                        });
+
+                        if(itemChanged){
+                            itemChanged[0].data.orderCode = data.data.data.OrderCode;;
+                            itemChanged[0].data.push_to_ghn_at = new Date();
+                        }
                         // var a = $rootScope.filterById($rootScope.availableShippingItems, $stateParams.id);
                         // a.orderCode = data.data.data.OrderCode;
                         // tracking this order
@@ -627,6 +636,9 @@ mShipping.controller('DetailCtrl',
                 });
         }
 
+        /*
+        * Hủy đơn hàng trên hệ thống
+        */
         $scope.cancelCurrentShippingItem = function(){
             MUtilitiesService.showConfirmDialg('Thông báo',
                 'Bạn có chắc muốn hủy đơn hàng này trên hệ thống không.', 'Tiếp tục', 'Bỏ qua')
@@ -653,8 +665,17 @@ mShipping.controller('DetailCtrl',
 
                             MFirebaseService.onCancelShippingItem(reportDateString, shippingItem.cod_amount, 
                                 shippingItem.service_fee, itemKey).then(function(response){
-                                    $scope.activedItem.orderCode = null;
+                                    // $scope.activedItem.orderCode = null;
                                 // console.log(response);
+                                // tìm và cập nhật item này trong danh sách
+                                var itemChanged = $filter('filter')($rootScope.availableShippingItems, {
+                                    'id': shippingItem.id
+                                });
+
+                                if(itemChanged){
+                                    itemChanged[0].is_cancel = true;
+                                }
+
                                 MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên hệ thống thành công. Vui lòng Reload (F5) để cập nhật thay đổi.');
                             })
                         }
@@ -760,6 +781,16 @@ mShipping.controller('DetailCtrl',
                             MFirebaseService.cancelShippingItem(reportDateString, shippingItem.cod_amount, 
                                     shippingItem.service_fee, itemKey).then(function(response){
                                 console.log(response);
+                                // tìm và cập nhật Order này trong danh sách
+                                var itemChanged = $filter('filter')($rootScope.availableShippingItems, {
+                                    'id': shippingItem.id
+                                });
+
+                                if(itemChanged){
+                                    itemChanged[0].orderCode = null;
+                                    itemChanged[0].cancel_ghn_at = new Date();
+                                }
+
                                 MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên GHN thành công', 'Thông báo');
                                 
                             })
