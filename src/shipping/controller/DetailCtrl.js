@@ -580,35 +580,35 @@ mShipping.controller('DetailCtrl',
 
                     AlertSuccessful('Tạo đơn GHN thành công với mã: ' + data.data.data.OrderCode, 'Thông báo');
 
-                    var message = 'Cảm ơn anh/chị đã đặt hàng trên hệ thống ' +
-                            page[0].name +  
-                            ' Đơn hàng của Anh/chị đã được tạo thành công với mã vận đơn: ' + data.data.data.OrderCode +
-                            ' Dự kiến đơn hàng sẽ được giao vào ngày: ' + $scope.trackingData.data.data.ExpectedDeliveryTime + 
-                            '. Khi cần bất cứ trợ giúp nào anh/chị vui lòng nhắn tin tại đây, nhân viên CSKH sẽ gọi lại hỗ trợ ' +
-                            ' anh/chị ngay ạ'+
-                            '. ' + page[0].name + ' Kính chúc anh/chị may mắn và hạnh phúc trong cuộc sống!'
-                    // gửi tin nhắn cảm ơn khách hàng
-                    if($stateParams.ctype == 1){
-                        // reply message
-                        MFacebookService.replyMessage($stateParams.cv_id,
-                            $scope.currentAccessToken, null, message
-                            ).then(function(response){
-                            MUtilitiesService.AlertSuccessful('Đã gửi tin nhắn thông báo đặt hàng thành công tới khách hàng.', 'Thông báo')
-                        })
-                        .catch(function(err){
-                            MUtilitiesService.AlertError(err, 'Lỗi')
-                        })
-                    }
-                    else{
-                        // reply comment
-                        MFacebookService.replyComment($stateParams.cv_id,
-                            $scope.currentAccessToken, null, message).then(function(response){
-                            MUtilitiesService.AlertSuccessful('Đã gửi tin nhắn thông báo đặt hàng thành công tới khách hàng.', 'Thông báo')
-                        })
-                        .catch(function(err){
-                            MUtilitiesService.AlertError(err, 'Lỗi')
-                        })
-                    }
+                    // var message = 'Cảm ơn anh/chị đã đặt hàng trên hệ thống ' +
+                    //         page[0].name +  
+                    //         ' Đơn hàng của Anh/chị đã được tạo thành công với mã vận đơn: ' + data.data.data.OrderCode +
+                    //         ' Dự kiến đơn hàng sẽ được giao vào ngày: ' + $scope.trackingData.data.data.ExpectedDeliveryTime + 
+                    //         '. Khi cần bất cứ trợ giúp nào anh/chị vui lòng nhắn tin tại đây, nhân viên CSKH sẽ gọi lại hỗ trợ ' +
+                    //         ' anh/chị ngay ạ'+
+                    //         '. ' + page[0].name + ' Kính chúc anh/chị may mắn và hạnh phúc trong cuộc sống!';
+                    // // gửi tin nhắn cảm ơn khách hàng
+                    // if($stateParams.ctype == 1){
+                    //     // reply message
+                    //     MFacebookService.replyMessage($stateParams.cv_id,
+                    //         $scope.currentAccessToken, null, message
+                    //         ).then(function(response){
+                    //         MUtilitiesService.AlertSuccessful('Đã gửi tin nhắn thông báo đặt hàng thành công tới khách hàng.', 'Thông báo')
+                    //     })
+                    //     .catch(function(err){
+                    //         MUtilitiesService.AlertError(err, 'Lỗi')
+                    //     })
+                    // }
+                    // else{
+                    //     // reply comment
+                    //     MFacebookService.replyComment($stateParams.cv_id,
+                    //         $scope.currentAccessToken, null, message).then(function(response){
+                    //         MUtilitiesService.AlertSuccessful('Đã gửi tin nhắn thông báo đặt hàng thành công tới khách hàng.', 'Thông báo')
+                    //     })
+                    //     .catch(function(err){
+                    //         MUtilitiesService.AlertError(err, 'Lỗi')
+                    //     })
+                    // }
                     
 
                     // cập nhật báo cáo tạo đơn
