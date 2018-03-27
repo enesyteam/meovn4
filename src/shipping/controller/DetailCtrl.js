@@ -102,6 +102,46 @@ mShipping.controller('DetailCtrl',
             MFacebookService.graphMessages($stateParams.cv_id, $scope.currentAccessToken).then(function(response) {
                     $scope.$apply(function() {
                         // console.log(response);
+                        angular.forEach(response.messages.data, function(mes){
+                            // mes = 'sdfsdfsdf';
+                            if(mes.shares && mes.shares.data){
+                                if(mes.shares.data[0].link){
+                                    // mes = 'sdfds';
+                                    // console.log(mes.shares.data[0].link);
+                                    // var link = $scope.detectMessageSharesLink(mes.shares.data[0].link);
+
+                                    MUtilitiesService.detectMessageSharesLink(mes.shares.data[0].link).then(function(result){
+                                        if(result.type == 'photo'){
+                                            mes.link = result.link;
+                                        }
+                                        else if(result.type == 'post'){
+                                            // console.log(result);
+                                            // alert('share is post');
+                                            MFacebookService.graphPostAttachments($scope.pageData.id + '_' + result.id, $scope.currentAccessToken)
+                                            .then(function(response){
+                                                console.log(response);
+                                                // mes.x = response.data;
+                                                // return response.data.attachments.picture;
+                                                $scope.$apply(function(){
+                                                    mes.post_share = response.data;
+                                                })
+                                            })
+                                            .catch(function(err){
+                                                // console.log(err);
+                                                MUtilitiesService.AlertError(err);
+                                            });
+                                        }
+                                        else {
+                                            return 'Trường hợp khác'
+                                        }
+                                    })
+
+                                    // console.log(link);
+                                    
+                                    
+                                }
+                            }
+                        })
                         $scope.messageData = response;
                     })
                 })
@@ -513,129 +553,137 @@ mShipping.controller('DetailCtrl',
 
         }
         $scope.isSubmitingGHN = false;
+        // $scope.shippingItem = null;
         $scope.submitGHN = function() {
             // console.log($scope.shippingData);
             // cập nhật dữ liệu của shipping item này
+            var itemKey = null;
+            
 
             MFirebaseService.getShippingItem($stateParams.id).then(function(snapshot){
-                        
-                var itemKey = null;
-                var shippingItem = null;
                 angular.forEach(snapshot.val(), function(value, key) {
-                    itemKey = key;
-                    shippingItem = value;
+                    $scope.$apply(function(){
+                        itemKey = key;
+                        $scope.shippingItem = value;
+
+                        var config = {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                            }
+                        }
+
+                        if (!validateShippingData()) return;
+
+                        $scope.isSubmitingGHN = true;
+                        $http.post('https://console.ghn.vn/api/v1/apiv3/CreateOrder', $scope.shippingData, config)
+                            .then(function(data) {
+                                $scope.isSubmitingGHN = false;
+
+
+                                var dataToUpdate = {
+                                    shipping_item_id : $stateParams.id,
+                                    order_code: data.data.data.OrderCode,
+                                    service_fee: $scope.feeData.data.data.ServiceFee,
+                                    cod_amount : $scope.shippingData.CoDAmount
+                                }
+
+                                firebaseService.onUpdateShippingItemAfterPushGHN(dataToUpdate).then(function(response){
+                                    // console.log(response);
+                                    // tìm shipping item và cập nhật
+                                    // angular.forEach($rootScope.availableShippingItems, function(item){
+                                    //     if(item.data.id == $stateParams.id){
+                                    //         item.data.orderCode = data.data.data.OrderCode;
+                                    //         item.data.orderCode = data.data.data.OrderCode;;
+                                    //         item.data.push_to_ghn_at = new Date();
+                                    //     }
+                                    // })
+                                    // var a = $rootScope.filterById($rootScope.availableShippingItems, $stateParams.id);
+                                    // a.orderCode = data.data.data.OrderCode;
+                                    // tracking this order
+                                    GiaoHangNhanhService.trackingOrder(data.data.data.OrderCode).then(function(response) {
+                                        $scope.$apply(function() {
+                                            $scope.trackingData = response;
+                                            $scope.activedItem.orderCode = data.data.data.OrderCode;
+                                        })
+                                    })
+                                })
+
+                                AlertSuccessful('Tạo đơn GHN thành công với mã: ' + data.data.data.OrderCode, 'Thông báo');
+
+                                // cập nhật báo cáo tạo đơn
+                                // tăng số đơn tạo thành công lên 1
+                                // giảm số đơn chưa tạo xuống 1
+                                // tăng tổng số tiền cod lên $scope.shippingData.CoDAmount
+                                // tăng chi phí gửi hàng lên $scope.feeData.data.data.ServiceFee
+                                // var today = new Date();
+                                // var reportDateString = MFirebaseService.convertDate(today);
+
+                                var date = new Date($scope.shippingItem.created_time);
+                                var reportDateString = MFirebaseService.convertDate(date);
+
+                                MFirebaseService.onUpdateShippingReport(reportDateString, $scope.shippingData.CoDAmount,
+                                    $scope.feeData.data.data.ServiceFee).then(function(response){
+                                        // console.log(response);
+                                })
+                                .catch(function(err){
+                                    MUtilitiesService.AlertError('Không thể cập nhật báo cáo shipping. Lỗi ' + err, 'Lỗi');
+                                });
+
+                                // Gửi tin nhắn cảm ơn khách hàng
+                                var message = 'Cảm ơn anh/chị đã đặt hàng trên hệ thống ' +
+                                page[0].name +  
+                                '. Đơn hàng của Anh/chị đã được tạo thành công với mã vận đơn: ' + data.data.data.OrderCode +
+                                '. Khi cần bất cứ trợ giúp nào anh/chị vui lòng nhắn tin tại đây, nhân viên CSKH sẽ gọi lại hỗ trợ ' +
+                                ' anh/chị ngay ạ'+
+                                '. ' + page[0].name + ' Kính chúc anh/chị may mắn và hạnh phúc trong cuộc sống!';
+
+                                // gửi tin nhắn cảm ơn khách hàng
+                                if($stateParams.ctype == 1){
+                                    // reply message
+                                    MFacebookService.replyMessage($stateParams.cv_id,
+                                        $scope.currentAccessToken, null, message
+                                        ).then(function(response){
+                                        MUtilitiesService.AlertSuccessful('Đã gửi tin nhắn thông báo đặt hàng thành công tới khách hàng.', 'Thông báo')
+                                    })
+                                    .catch(function(err){
+                                        console.log(err);
+                                        // MUtilitiesService.AlertError(err, 'Lỗi')
+                                    })
+                                }
+                                else{
+                                    // reply comment
+                                    MFacebookService.replyComment($stateParams.cv_id,
+                                        $scope.currentAccessToken, null, message).then(function(response){
+                                        MUtilitiesService.AlertSuccessful('Đã gửi tin nhắn thông báo đặt hàng thành công tới khách hàng.', 'Thông báo')
+                                    })
+                                    .catch(function(err){
+                                        console.log(err);
+                                        // MUtilitiesService.AlertError(err, 'Lỗi')
+                                    })
+                                }
+
+                            })
+                            .catch(function(err) {
+                                console.log(err);
+                                if (err.data) {
+                                    AlertError(err.data.msg, err.statusText);
+                                } else {
+                                    AlertError('Đã có lỗi xảy ra, vui lòng kiểm tra lại dữ liệu nhập', err.xhrStatus);
+                                }
+                            });
+                    })
+                    
                 });
                 if(!itemKey){
                     MUtilitiesService.AlertError('Không tìm thấy dữ liệu đơn hàng', 'Lỗi');
                     return;
                 }
-                if(shippingItem.data.is_cancel == true){
+                if($scope.shippingItem.data.is_cancel == true){
                    MUtilitiesService.AlertError('Không cho phép tạo đơn hàng đã bị hủy trên hệ thống', 'Lỗi');
                     return; 
                 }
             })
-
-
-            var config = {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-                }
-            }
-
-            if (!validateShippingData()) return;
-
-            $scope.isSubmitingGHN = true;
-            $http.post('https://console.ghn.vn/api/v1/apiv3/CreateOrder', $scope.shippingData, config)
-                .then(function(data) {
-                    $scope.isSubmitingGHN = false;
-
-
-                    var dataToUpdate = {
-                        shipping_item_id : $stateParams.id,
-                        order_code: data.data.data.OrderCode,
-                        service_fee: $scope.feeData.data.data.ServiceFee,
-                        cod_amount : $scope.shippingData.CoDAmount
-                    }
-
-                    firebaseService.onUpdateShippingItemAfterPushGHN(dataToUpdate).then(function(response){
-                        // console.log(response);
-                        // tìm shipping item và cập nhật
-                        // angular.forEach($rootScope.availableShippingItems, function(item){
-                        //     if(item.data.id == $stateParams.id){
-                        //         item.data.orderCode = data.data.data.OrderCode;
-                        //         item.data.orderCode = data.data.data.OrderCode;;
-                        //         item.data.push_to_ghn_at = new Date();
-                        //     }
-                        // })
-                        // var a = $rootScope.filterById($rootScope.availableShippingItems, $stateParams.id);
-                        // a.orderCode = data.data.data.OrderCode;
-                        // tracking this order
-                        GiaoHangNhanhService.trackingOrder(data.data.data.OrderCode).then(function(response) {
-                            $scope.$apply(function() {
-                                $scope.trackingData = response;
-                                $scope.activedItem.orderCode = data.data.data.OrderCode;
-                            })
-                        })
-                    })
-
-                    AlertSuccessful('Tạo đơn GHN thành công với mã: ' + data.data.data.OrderCode, 'Thông báo');
-
-                    // var message = 'Cảm ơn anh/chị đã đặt hàng trên hệ thống ' +
-                    //         page[0].name +  
-                    //         ' Đơn hàng của Anh/chị đã được tạo thành công với mã vận đơn: ' + data.data.data.OrderCode +
-                    //         ' Dự kiến đơn hàng sẽ được giao vào ngày: ' + $scope.trackingData.data.data.ExpectedDeliveryTime + 
-                    //         '. Khi cần bất cứ trợ giúp nào anh/chị vui lòng nhắn tin tại đây, nhân viên CSKH sẽ gọi lại hỗ trợ ' +
-                    //         ' anh/chị ngay ạ'+
-                    //         '. ' + page[0].name + ' Kính chúc anh/chị may mắn và hạnh phúc trong cuộc sống!';
-                    // // gửi tin nhắn cảm ơn khách hàng
-                    // if($stateParams.ctype == 1){
-                    //     // reply message
-                    //     MFacebookService.replyMessage($stateParams.cv_id,
-                    //         $scope.currentAccessToken, null, message
-                    //         ).then(function(response){
-                    //         MUtilitiesService.AlertSuccessful('Đã gửi tin nhắn thông báo đặt hàng thành công tới khách hàng.', 'Thông báo')
-                    //     })
-                    //     .catch(function(err){
-                    //         MUtilitiesService.AlertError(err, 'Lỗi')
-                    //     })
-                    // }
-                    // else{
-                    //     // reply comment
-                    //     MFacebookService.replyComment($stateParams.cv_id,
-                    //         $scope.currentAccessToken, null, message).then(function(response){
-                    //         MUtilitiesService.AlertSuccessful('Đã gửi tin nhắn thông báo đặt hàng thành công tới khách hàng.', 'Thông báo')
-                    //     })
-                    //     .catch(function(err){
-                    //         MUtilitiesService.AlertError(err, 'Lỗi')
-                    //     })
-                    // }
-                    
-
-                    // cập nhật báo cáo tạo đơn
-                    // tăng số đơn tạo thành công lên 1
-                    // giảm số đơn chưa tạo xuống 1
-                    // tăng tổng số tiền cod lên $scope.shippingData.CoDAmount
-                    // tăng chi phí gửi hàng lên $scope.feeData.data.data.ServiceFee
-                    var today = new Date();
-                    var reportDateString = MFirebaseService.convertDate(today);
-
-                    MFirebaseService.onUpdateShippingReport(reportDateString, $scope.shippingData.CoDAmount,
-                        $scope.feeData.data.data.ServiceFee).then(function(response){
-                            console.log(response);
-                    })
-                    .catch(function(err){
-                        MUtilitiesService.AlertError('Không thể cập nhật báo cáo shipping. Lỗi ' + err, 'Lỗi');
-                    })
-
-                })
-                .catch(function(err) {
-                    console.log(err);
-                    if (err.data) {
-                        AlertError(err.data.msg, err.statusText);
-                    } else {
-                        AlertError('Đã có lỗi xảy ra, vui lòng kiểm tra lại dữ liệu nhập', err.xhrStatus);
-                    }
-                });
+            
         }
 
         /*

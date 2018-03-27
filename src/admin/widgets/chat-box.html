@@ -103,41 +103,35 @@
                      </div>
                      <div ng-class="message.from.id !== pageData.id ? 'chat-operator-message window__chatAgentMessage' : 'chat-visitor-message window__chatVisitorMessage'">
                         {{message.message}}
-                       <!--  <span ng-if="comment.message_tags" ng-repeat="tag in comment.message_tags">
-                           <a href="//facebook.com/{{tag.id}}" target="_blank">{{tag.name}}</a>
-                        </span> -->
                         <div ng-if="message.attachments">
                            <a href="" ng-repeat="image in message.attachments.data" ng-click="showImageDialog(image.image_data.url)">
                               <img ng-src="{{image.image_data.url}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
                            </a>
                         </div>
                         <div ng-if="message.shares.data">
-                           <!-- {{message.shares.data}} -->
-                           <!-- share Post -->
                            <div class="mt-2 mb-2 message-shares-story">
                               <p ng-if="message.shares.data[0].name">
                                  {{message.shares.data[0].name | cut:true:100:' ...'}}
                               </p>
                               <div class="shares-attachments">
-                                 <div class="share-photos" ng-init="shareData = detectMessageSharesLink(message.shares.data[0].link)">
-                                    <!-- share is a photo -->
-                                    <!-- {{message.shares.data[0].link}} -->
-                                    <!-- {{detectMessageSharesLink(message.shares.data[0].link)}} -->
-                                    <div class="photo" ng-if="shareData.type == 'photo'">
-                                       <!-- {{shareData}} -->
-                                       <img ng-src="{{shareData.link}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
-                                    </div>
-                                    {{shareData}}
-                                     <!-- <div class="photo" ng-if="shareData.type !== 'photo'">
-                                       {{detectMessageSharesLink(message.shares.data[0].link)}}
-                                       <img ng-src="{{shareData}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
-                                    </div> -->
-                                    <!-- {{shareData}} -->
-                                    <!-- {{detectMessageSharesLink(message.shares.data[0].link)}} -->
-                                    <!-- <div class="photo" ng-if="shareData.type !== 'photo'" ng-repeat="photoData in shareData.attachments.data[0].subattachments.data">
+                                 <div class="share-photos">
+                                    <div class="photo" ng-if="message.link">
+                                       <a href="" ng-click="showImageDialog(message.link)">
+                                          <img ng-src="{{message.link}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
+                                       </a>
                                        
-                                       <img ng-src="{{photoData.media.image.src}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
-                                    </div> -->
+                                    </div>
+                                    <div class="window__formGreeting">
+                                       <div class="post-detail">
+                                          <div class="post-images" ng-if="message.post_share">
+                                             <span class="image-card" ng-repeat="pic in message.post_share.attachments.data[0].subattachments.data">
+                                                <a href="" ng-click="showImageDialog(pic.media.image.src)">
+                                                   <img ng-src="{{pic.media.image.src}}">
+                                                </a>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    </div>
                                  </div>
                               </div>
                               <a href="{{message.shares.data[0].link}}" target="_blank">

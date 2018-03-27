@@ -466,7 +466,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
 
             Facebook.api('/' + conversationId + '?fields=permalink_url&access_token=' + $rootScope.access_token, function(response) {
                 var link = response.permalink_url;
-                console.log(response.permalink_url);
+                // console.log(response.permalink_url);
                 if (link.indexOf('permalink') !== -1) {
                     Facebook.api('/' + link + '&access_token=' + $rootScope.access_token, function(r) {
                         $scope.pageInfo = r;

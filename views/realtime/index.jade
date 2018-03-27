@@ -97,6 +97,8 @@ html(lang='en', ng-app='mRealtime')
             |             
             .d-flex
               ul#user-links.user-nav.d-flex.flex-items-center.list-style-none
+                li {{currentMember.email}}
+                |                 
                 li.dropdown.js-menu-container
                   span.d-inline-block.px-2
                     a.notification-indicator.tooltipped.tooltipped-s.js-socket-channel.js-notification-indicator(aria-label='Bạn không có thông báo mới nào', data-channel='notification-changed:16075067', data-ga-click='Header, go to notifications, icon:read', data-hotkey='g n')

@@ -388,7 +388,7 @@
                             });
                         }
                         if (shareLink.indexOf('posts') !== -1) {
-                            console.log('sdfsdfsdfsdfdsf');
+                            // console.log('sdfsdfsdfsdfdsf');
                             var l = shareLink.split('/');
                             resolve({
                                 type: 'post',

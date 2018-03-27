@@ -947,7 +947,12 @@
                     firebase.database().ref().child('report').child(date)
                         .child('shippingReport').child('total_not_created_items')
                         .transaction(function (oldValue) {
-                            return oldValue - 1;
+                            if(oldValue >= 1){
+                                return oldValue - 1;
+                            }
+                            else{
+                                return oldValue;
+                            }
                         });
 
                     return new Promise(function (resolve, reject) {
@@ -990,13 +995,23 @@
                     firebase.database().ref().child('report').child(date)
                         .child('shippingReport').child('total_not_created_items')
                         .transaction(function (oldValue) {
-                            return oldValue - 1;
+                            if(oldValue >= 1){
+                                return oldValue - 1;
+                            }
+                            else{
+                                return oldValue;
+                            }
                         });
 
                     firebase.database().ref().child('report').child(date)
                         .child('shippingReport').child('total_shipping_items')
                         .transaction(function (oldValue) {
-                            return oldValue - 1;
+                            if(oldValue >= 1){
+                                return oldValue - 1;
+                            }
+                            else{
+                                return oldValue;
+                            }
                         });
 
 
