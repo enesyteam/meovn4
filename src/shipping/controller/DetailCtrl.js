@@ -334,46 +334,6 @@ mShipping.controller('DetailCtrl',
                 });
         }
 
-        $scope.testPrint = function() {
-            var config = {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-                }
-            }
-
-            var startTime = new Date(); // today
-            var endTime = new Date(); // today
-
-            startTime.setDate(startTime.getDate() - 40); // get 4 recent days
-            endTime.setDate(endTime.getDate());
-            startTime = startTime.getTime();
-            endTime = endTime.getTime();
-
-            var data = {
-                "token": '5a0baf851070b03e4d16f4cb', //$rootScope.ghnToken,
-                "OrderCode": "DB55L3F7",
-                "FromTime": startTime,
-                // "ToTime" : Date.now(),
-                "Condition": {
-                    // "ShippingOrderID": 56721015,
-                    "CurrentStatus": "Delivered",
-                    "CustomerID": 187464,
-                    // "OrderCode": $scope.trackingCode
-                },
-                "Skip": 100
-            }
-            $http.post('https://console.ghn.vn/api/v1/apiv3/GetOrderLogs', data, config)
-                .then(function(data) {
-                    // console.log(data);
-                    console.log(data);
-                    $scope.orderLogs = data;
-                })
-                .catch(function(err) {
-                    console.log(err);
-                    // AlertError(err.data.msg, err.statusText);
-                });
-        }
-
         $scope.FindAvailableServices = function() {
             if (!$scope.shippingData.FromDistrictID) {
                 // AlertError('Chưa chọn khu vực gửi hàng', 'Thông báo');
@@ -619,6 +579,36 @@ mShipping.controller('DetailCtrl',
                     })
 
                     AlertSuccessful('Tạo đơn GHN thành công với mã: ' + data.data.data.OrderCode, 'Thông báo');
+
+                    var message = 'Cảm ơn anh/chị đã đặt hàng trên hệ thống ' +
+                            page[0].name +  
+                            ' Đơn hàng của Anh/chị đã được tạo thành công với mã vận đơn: ' + data.data.data.OrderCode +
+                            ' Dự kiến đơn hàng sẽ được giao vào ngày: ' + $scope.trackingData.data.data.ExpectedDeliveryTime + 
+                            '. Khi cần bất cứ trợ giúp nào anh/chị vui lòng nhắn tin tại đây, nhân viên CSKH sẽ gọi lại hỗ trợ ' +
+                            ' anh/chị ngay ạ'+
+                            '. ' + page[0].name + ' Kính chúc anh/chị may mắn và hạnh phúc trong cuộc sống!'
+                    // gửi tin nhắn cảm ơn khách hàng
+                    if($stateParams.ctype == 1){
+                        // reply message
+                        MFacebookService.replyMessage($stateParams.cv_id,
+                            $scope.currentAccessToken, null, message
+                            ).then(function(response){
+                            MUtilitiesService.AlertSuccessful('Đã gửi tin nhắn thông báo đặt hàng thành công tới khách hàng.', 'Thông báo')
+                        })
+                        .catch(function(err){
+                            MUtilitiesService.AlertError(err, 'Lỗi')
+                        })
+                    }
+                    else{
+                        // reply comment
+                        MFacebookService.replyComment($stateParams.cv_id,
+                            $scope.currentAccessToken, null, message).then(function(response){
+                            MUtilitiesService.AlertSuccessful('Đã gửi tin nhắn thông báo đặt hàng thành công tới khách hàng.', 'Thông báo')
+                        })
+                        .catch(function(err){
+                            MUtilitiesService.AlertError(err, 'Lỗi')
+                        })
+                    }
                     
 
                     // cập nhật báo cáo tạo đơn
