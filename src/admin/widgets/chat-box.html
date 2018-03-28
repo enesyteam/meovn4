@@ -26,10 +26,10 @@
                            <a href="">{{postData.story}}</a>
                         </div>
                         <div class="post-message" ng-class="isShowFullPost ? '' : 'collapse'">
-                           <span class="message-content">
+                           <span class="message-content" ng-if="postData.message">
                               {{postData.message}}
                            </span>
-                           <span class="collapse-more-btn" ng-if="!isShowFullPost">
+                           <span class="collapse-more-btn" ng-if="!isShowFullPost && postData.message">
                               <a class="collapse-more-btn btn btn-sm btn-link" ng-click="showFullPost()">+ Xem thêm</a>
                            </span>
                         </div>
@@ -105,7 +105,7 @@
                         {{message.message}}
                         <div ng-if="message.attachments">
                            <a href="" ng-repeat="image in message.attachments.data" ng-click="showImageDialog(image.image_data.url)">
-                              <img ng-src="{{image.image_data.url}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
+                              <img ng-src="{{image.image_data.url}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);    ">
                            </a>
                         </div>
                         <div ng-if="message.shares.data">
@@ -113,11 +113,12 @@
                               <p ng-if="message.shares.data[0].name">
                                  {{message.shares.data[0].name | cut:true:100:' ...'}}
                               </p>
+                              
                               <div class="shares-attachments">
                                  <div class="share-photos">
                                     <div class="photo" ng-if="message.link">
                                        <a href="" ng-click="showImageDialog(message.link)">
-                                          <img ng-src="{{message.link}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
+                                          <img ng-src="{{message.link}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);float: right;">
                                        </a>
                                        
                                     </div>

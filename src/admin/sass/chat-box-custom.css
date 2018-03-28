@@ -1,0 +1,43 @@
+.main-container {
+    background: #e5ded8;
+    /* background-image: url(https://chatserver.comm100.com/images/background3.png); */
+}
+.window--circle .window__chatAgentMessage {
+    background: #fff;
+    float: left;
+    margin-left: -40px;
+    color: #111;
+    min-height: 58px;
+    padding-left: 50px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-weight: 300;
+    -webkit-box-shadow: 0 1px 0.5px rgba(0,0,0,.13);
+    box-shadow: 0 1px 0.5px rgba(0,0,0,.13);
+}
+.window--circle .window__chatVisitorMessage {
+        border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #dcf8c6;
+    -webkit-box-shadow: 0 1px 0.5px rgba(0,0,0,.13);
+    box-shadow: 0 1px 0.5px rgba(0,0,0,.13);
+}
+.window__chatVisitorMessage {
+    float: right;
+    background: #fff;
+    color: #111;
+}
+.window--bio.window--circle {
+    height: 100%;
+}
+.embedded-window{
+	height: 100%;
+}
+.chatbox-frame{
+	height: 100%
+}
+.window__formGreeting .post-detail .post-message .collapse-more-btn{
+	position: relative;
+	background: transparent;
+	    padding-top: 0 !important;
+}
