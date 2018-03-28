@@ -22,7 +22,9 @@ function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
                   selected : false,
                   seller_will_call_id : order.data.seller_will_call_id,
                   status_id : order.data.status_id,
-                  publish_date : order.data.publish_date
+                  publish_date : order.data.publish_date,
+                  is_bad_number : order.data.is_bad_number,
+                  active_log : order.data.activeLog,
                 }
             $scope.$apply(function() {
                 $scope.availableOrders.push(item);
@@ -46,7 +48,9 @@ function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
             selected : false,
             seller_will_call_id : snapshot.val().seller_will_call_id,
             status_id : snapshot.val().status_id,
-            publish_date : snapshot.val().publish_date
+            publish_date : snapshot.val().publish_date,
+                  is_bad_number : order.data.is_bad_number,
+                  active_log : order.data.activeLog,
           }
         $timeout(function() {
         	$scope.$apply(function(){
@@ -69,7 +73,9 @@ function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
                     selected : false,
                     seller_will_call_id : order.data.seller_will_call_id,
                     status_id : order.data.status_id,
-                    publish_date : order.data.publish_date
+                    publish_date : order.data.publish_date,
+                  is_bad_number : order.data.is_bad_number,
+                  active_log : order.data.activeLog,
                   }
                 $scope.$apply(function() {
 	                $scope.availableOrders.push(item);

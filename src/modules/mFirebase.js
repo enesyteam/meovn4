@@ -4,8 +4,8 @@
     angular.module('mFirebase', ['firebase']);
 
     angular.module('mFirebase')
-        .service('MFirebaseService', ["$http", "$timeout", 'MUtilitiesService', 'firebase',
-            function ($http, $timeout, MUtilitiesService, firebase) {
+        .service('MFirebaseService', ["$http", '$q', "$timeout", 'MUtilitiesService', 'firebase',
+            function ($http, $q, $timeout, MUtilitiesService, firebase) {
                 // console.log(MGHNService);
 
                 var getAllMembers = function () {
@@ -1254,39 +1254,55 @@
                         }
 
                         // tạo mảng dữ liệu sẽ updates
+                        var canPushOrders = [];
                         var updates = {};
                         angular.forEach(orders, function (order) {
-                            updates['/newOrders/' + order.id + '/seller_will_call_id'] = user.id;
+                            // ngăn không cho phân bổ các order đang có người sở hữu
+                            if(!order.seller_will_call_id){
+                                canPushOrders.push(order);
+                                updates['/newOrders/' + order.id + '/seller_will_call_id'] = user.id;
+                            }
                         });
 
                         // update firebase database
                         firebase.database().ref().update(updates).then(function (response) {
                             // cập nhật báo cáo của user
-                            var groupOrders = orders.groupBy('status_id');
+                            var groupOrders = canPushOrders.groupBy('status_id');
 
                             var today = new Date();
                             var reportDateString = convertDate(today);
 
                             // console.log(groupOrders);
-                            angular.forEach(groupOrders, function (group, key) {
-                                // console.log(key);
-                                var nodeName = findNodeName(parseInt(key));
+                            preparingEmptyReport(user, user, null).then(function (response) {
 
-                                // Cập nhật báo cáo cho user
-                                preparingEmptyReport(user, user, null).then(function (response) {
+                                var promises = [];
+
+                                angular.forEach(groupOrders, function (group, key) {
+                                    // console.log(key);
+                                    var deferred = $q.defer();
+
+                                    var nodeName = findNodeName(parseInt(key));
+
+                                    // Cập nhật báo cáo cho user
                                     firebase.database().ref().child('report').child(reportDateString).child('userReport')
                                         .child(user.id).child(nodeName).transaction(function (oldValue) {
-                                            return oldValue + orders.length;
+                                            return oldValue + group.length;
                                         }).then(function (res) {
-                                            resolve('Đã phân bổ thành công ' + orders.length + ' orders cho user id = ' + user.id);
+                                            deferred.resolve('Đã phân bổ thành công ' + canPushOrders.length + ' orders cho user id = ' + user.id);
+                                            console.log('Đã phân bổ thành công ' + canPushOrders.length + ' orders cho user id = ' + user.id);
                                         });
-                                }).catch(function (err) {
-                                    console.log(err);
-                                    reject('Không thể cập nhật báo cáo của user');
-                                })
-                                console.log('Cập nhật báo cáo ' + group.length + ' cho ' + nodeName + ' của user: ' + user.id);
-                            })
+                                    promises.push(deferred.promise);
+                                    console.log('Cập nhật báo cáo ' + group.length + ' cho ' + nodeName + ' của user: ' + user.id);
+                                })/////
 
+                                $q.all(promises).then(function(results){
+                                        resolve('Đã phân bổ thành công ' + canPushOrders.length + ' orders cho user id = ' + user.id);
+                                    })
+
+                            }).catch(function (err) {
+                                console.log(err);
+                                reject('Không thể cập nhật báo cáo của user');
+                            })
 
                         }).catch(function (err) {
                             reject('Không thể phân bổ orders, đã có lỗi xảy ra');

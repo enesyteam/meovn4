@@ -1,6 +1,6 @@
 <div class="border-right border-bottom border-left">
    <ul class="js-navigation-container js-active-navigation-container">
-      <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read" ng-repeat="order in availableOrders">
+      <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read" ng-repeat="order in availableOrders" ng-init="color = filterById(statuses, order.status_id).color">
          <div class="d-table table-fixed width-full Box-row--drag-hide position-relative">
             <!-- drag handles -->
             <!-- checkbox and issue open icon -->
@@ -12,14 +12,14 @@
             <div class="float-left pt-2 pl-2">
             </div>
             <!-- Issue title column -->
-            <div class="float-left col-9 p-2 lh-condensed">
-               <a class="link-gray-dark no-underline h4 js-navigation-open">
+            <div class="float-left col-9 p-2 lh-condensed" >
+               <a class="link-gray-dark no-underline h4 js-navigation-open" style="color:{{color}}">
                {{order.customer_name}}
                <span ng-if="order.selected">(Đã chọn)</span>
                </a>
                <span class="d-inline-block mr-1">
-                  <div class="commit-build-statuses">
-                     <a class=""  style="color:{{filterById(statuses, order.status_id).color}}">
+                  <div class="commit-build-statuses" style="color:{{color}}">
+                     <a class=""  style="color:{{color}}">
                         <svg aria-hidden="true" class="octicon octicon-primitive-dot" height="16" version="1.1" viewBox="0 0 8 16" width="8">
                            <path fill-rule="evenodd" d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"></path>
                         </svg>
@@ -29,7 +29,18 @@
                </span>
                <div class="mt-1 text-small text-gray">
                   <span class="opened-by">
-                  Tạo lúc {{order.publish_date | date:'HH:mm dd/MM'}} | {{order.customer_mobile}}
+                  Tạo lúc {{order.publish_date | date:'HH:mm dd/MM'}} | {{order.customer_mobile}} | 
+                  <span class="comments-list" style="opacity: 0.6">
+                     <span ng-repeat="c in order.active_log">
+                        <span ng-if="c.type == 1">
+                           <a class=""  style="color:{{filterById(statuses, c.status_after).color}}">
+                              <svg class="octicon octicon-primitive-dot mr-1 checklist-dot" aria-label="Not added yet" viewBox="0 0 8 16" version="1.1" width="8" height="16" role="img"><path fill-rule="evenodd" d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"></path></svg>
+                           </a>
+                        </span>
+                        <span ng-if="c.type == 2"><em>{{c.uname}}: "{{c.content}}"</em></span>
+                     </span>
+                  </span>
+                     <strong ng-if="order.is_bad_number" style="color:red"> | Order này đã được đánh dấu là sai số</strong>
                   </span>
                   <span class="d-inline-block">
                   </span>
@@ -45,13 +56,13 @@
                      </div>
                   </div>
                </div>
-               <div class="float-right col-4 no-wrap pt-2 pr-3 text-right">
+               <!-- <div class="float-right col-4 no-wrap pt-2 pr-3 text-right">
                   <a class="muted-link" aria-label="1 comment">
                      <svg aria-hidden="true" class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14">
                         <path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path>
                      </svg>
                   </a>
-               </div>
+               </div> -->
             </div>
          </div>
       </li>

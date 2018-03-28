@@ -186,6 +186,10 @@ mRealtime.controller('MainCtrl',
                     if(snapshot.val().is_bad_number == 1){
                         itemChanged[0].is_bad_number = 1;
                     }
+                    // kiểm tra nếu active order trùng với order đang thay đổi
+                    if(snapshot.val().id == $rootScope.activeOrder.id){
+                        $rootScope.activeOrder = snapshot.val();
+                    }
                 }
                 else{
                     console.log('order ' + snapshot.val().id + ' đã thay đổi trạng thái nhưng không được hiển thị ở đây nên không cần cập nhật view...');
@@ -217,11 +221,6 @@ mRealtime.controller('MainCtrl',
     }
     $rootScope.hideSelectPhotoFacebox = function() {
         $rootScope.isFaceboxShowing = false;
-    }
-
-    $scope.activeOrder = function(order) {
-        $rootScope.activeOrder = order;
-        $rootScope.activeStatusId = order.status_id;
     }
 
     $rootScope.signout = function() {

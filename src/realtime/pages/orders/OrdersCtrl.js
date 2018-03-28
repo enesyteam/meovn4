@@ -41,7 +41,8 @@ mRealtime.controller('OdersCtrl',
             
         }
 
-        $scope.activeOrder = activeItem;
+        $rootScope.activeOrder = activeItem;
+        console.log(activeItem);
         $rootScope.activeStatusId = activeItem.status_id;
 
         var page = $filter("filter")(fanpages, {id: $stateParams.page_id});
@@ -298,12 +299,12 @@ mRealtime.controller('OdersCtrl',
             if($rootScope.currentMember.is_admin == 1){
                return true;
             }
-            if($scope.activeOrder.seller_will_call_id !== $rootScope.currentMember.id){
+            if($rootScope.activeOrder.seller_will_call_id !== $rootScope.currentMember.id){
                 MUtilitiesService.AlertError('Không cho phép thay đổi trạng thái Order của người khác', 'Thông báo');
                 return false;
             }
 
-            if($scope.activeOrder.status_id == status.id){
+            if($rootScope.activeOrder.status_id == status.id){
                 MUtilitiesService.AlertError('Trạng thái không thay đổi', 'Thông báo');
                 return false;
             }
@@ -348,8 +349,8 @@ mRealtime.controller('OdersCtrl',
                         addShippingItem().then(function(response){
                             // reset shipping data
                             $scope.customerData = {
-                                realName: $scope.activeOrder.customer_name,
-                                recievedPhone: $scope.activeOrder.customer_mobile,
+                                realName: $rootScope.activeOrder.customer_name,
+                                recievedPhone: $rootScope.activeOrder.customer_mobile,
                                 birthDay: '',
                                 addresss: '',
                             }
@@ -373,19 +374,19 @@ mRealtime.controller('OdersCtrl',
                 var data = {
                     customerData : $scope.customerData,
                     orderData : {
-                        conversation_id : $scope.activeOrder.conversation_id,
-                        customer_id : $scope.activeOrder.customer_id,
-                        customer_name : $scope.activeOrder.customer_name,
-                        seller_will_call_id : $scope.activeOrder.seller_will_call_id,
-                        id : $scope.activeOrder.id,
-                        page_id: $scope.activeOrder.page_id,
-                        post_id : $scope.activeOrder.post_id || null,
-                        publish_date : $scope.activeOrder.publish_date,
-                        status_id : $scope.activeOrder.status_id,
-                        type :  $scope.activeOrder.type || null
+                        conversation_id : $rootScope.activeOrder.conversation_id,
+                        customer_id : $rootScope.activeOrder.customer_id,
+                        customer_name : $rootScope.activeOrder.customer_name,
+                        seller_will_call_id : $rootScope.activeOrder.seller_will_call_id,
+                        id : $rootScope.activeOrder.id,
+                        page_id: $rootScope.activeOrder.page_id,
+                        post_id : $rootScope.activeOrder.post_id || null,
+                        publish_date : $rootScope.activeOrder.publish_date,
+                        status_id : $rootScope.activeOrder.status_id,
+                        type :  $rootScope.activeOrder.type || null
                     },
-                    customer_name: $scope.activeOrder.customer_name,
-                    customer_mobile: $scope.activeOrder.customer_mobile,
+                    customer_name: $rootScope.activeOrder.customer_name,
+                    customer_mobile: $rootScope.activeOrder.customer_mobile,
                     created_time : firebase.database.ServerValue.TIMESTAMP,
                 }
                 firebaseService.addNewShippingItem(data).then(function(response){
@@ -543,8 +544,8 @@ mRealtime.controller('OdersCtrl',
             $scope.selectedProducts.splice(index, 1);
         }
         $scope.customerData = {
-            realName: $scope.activeOrder.customer_name,
-            recievedPhone: $scope.activeOrder.customer_mobile,
+            realName: $rootScope.activeOrder.customer_name,
+            recievedPhone: $rootScope.activeOrder.customer_mobile,
             birthDay: '',
             addresss: '',
             products: [],
@@ -681,7 +682,7 @@ mRealtime.controller('OdersCtrl',
                 MUtilitiesService.AlertError('Bạn không có quyền chỉnh sửa Order này', 'Thông báo');
                 return;
             }
-            firebaseService.getShippingItemByOrderId($scope.activeOrder.id).then(function(snapshot){
+            firebaseService.getShippingItemByOrderId($rootScope.activeOrder.id).then(function(snapshot){
                 $scope.$apply(function(){
                     angular.forEach(snapshot.val(), function(value, key){
                         $scope.editData = value;
@@ -696,7 +697,7 @@ mRealtime.controller('OdersCtrl',
             if($rootScope.currentMember.is_admin == 1 || $rootScope.currentMember.is_mod == 1){
                 return true;
             }
-            else if($rootScope.currentMember.id == $scope.activeOrder.seller_will_call_id){
+            else if($rootScope.currentMember.id == $rootScope.activeOrder.seller_will_call_id){
                 return true;
             }
             else{
