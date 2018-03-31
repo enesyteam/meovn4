@@ -7,7 +7,7 @@
 
     angular.module('mShipping')
         .service('GiaoHangNhanhService', ["$http", function($http) {
-          var token = "5a93de5d1070b06c97794a48";
+          var token = "5a0baf851070b03e4d16f4cb";
           var config = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'

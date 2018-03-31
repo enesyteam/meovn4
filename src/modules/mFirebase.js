@@ -1528,7 +1528,7 @@
                             .limitToLast(pageSize)
                             .on('child_added', snapshot => {
                                 // console.log(snapshot.val());
-                                if (snapshot.val().status_id !== 0)
+                                if (snapshot.val().status_id !== 6 && snapshot.val().status_id !== 7 && snapshot.val().status_id !== 8)
                                     result.push({
                                         key: snapshot.key,
                                         data: snapshot.val()
@@ -1547,7 +1547,7 @@
                             .endAt(fromKey)
                             // .limitToLast(pageSize)
                             .on('child_added', snapshot => {
-                                if (snapshot.val().status_id !== 0)
+                                if (snapshot.val().status_id !== 6 && snapshot.val().status_id !== 7 && snapshot.val().status_id !== 8)
                                     result.push({
                                         key: snapshot.key,
                                         data: snapshot.val()

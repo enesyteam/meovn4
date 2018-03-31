@@ -50,8 +50,13 @@ mShipping.controller('DetailCtrl',
 
         //
         if ($scope.activedItem.orderCode) {
+            // console.log($scope.activedItem);
+            MGHNService.getOrderLog($scope.activedItem.orderCode, $scope.activedItem.push_to_ghn_at, ghn_token).then (function(response){
+                console.log(response.data.data.Logs);
+            })
             GiaoHangNhanhService.trackingOrder($scope.activedItem.orderCode).then(function(response) {
                 $scope.$apply(function() {
+                    // console.log(response);
                     $scope.trackingData = response;
                 })
             })
@@ -119,7 +124,7 @@ mShipping.controller('DetailCtrl',
                                             // alert('share is post');
                                             MFacebookService.graphPostAttachments($scope.pageData.id + '_' + result.id, $scope.currentAccessToken)
                                             .then(function(response){
-                                                console.log(response);
+                                                // console.log(response);
                                                 // mes.x = response.data;
                                                 // return response.data.attachments.picture;
                                                 $scope.$apply(function(){
