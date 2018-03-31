@@ -1,4 +1,4 @@
-
+var path = require('path');
 /*
  * GET home page.
  */
@@ -33,7 +33,8 @@ exports.permissions = function (req, res) {
 };
 
 exports.navigation = function (req, res) {
-	res.render('navigation');
+	// res.render('navigation');
+	res.sendFile(path.join(__dirname, '../src/navigation/index.html'));
 };
 
 exports.versions = function (req, res) {

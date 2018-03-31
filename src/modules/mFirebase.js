@@ -303,6 +303,9 @@
                                                                                         MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng ' + shippingItem.orderCode + ' trên GHN thành công', 'Thông báo');
                                                                                         
                                                                                     })
+                                                                                    .catch(function(err){
+                                                                                        MUtilitiesService.AlertError('Không thể hủy đơn hàng trên GHN, Lỗi: ' + err, 'Thông báo')
+                                                                                    })
                                                                                 }
 
                                                                                 if(shippingItem.is_cancel != true){
@@ -320,7 +323,9 @@
                                                                                         // tìm và cập nhật item này trong danh sách
 
                                                                                         MUtilitiesService.AlertSuccessful('Đã hủy đơn hàng trên hệ thống thành công.', 'Thông báo');
-
+                                                                                    })
+                                                                                    .catch(function(err){
+                                                                                        MUtilitiesService.AlertError('Không thể hủy đơn hàng trên hệ thống, Lỗi: ' + err, 'Thông báo')
                                                                                     })
                                                                                 }
                                                                             }
@@ -342,7 +347,7 @@
                                                 })
                                         } else {
                                             MUtilitiesService.showConfirmDialg('Thông báo',
-                                                    'Order này đã được chốt bởi không rõ ai cả, bạn có muốn hủy không?', 'Hủy', 'Bỏ qua')
+                                                    'Order này đã được chốt nhưng không rõ người chốt, bạn có muốn hủy không?', 'Hủy', 'Bỏ qua')
                                                 .then(function (response) {
                                                     if (response) {
                                                         preparingEmptyReport(currentUser, orderOwner, snapshot.val().page_id);
@@ -377,7 +382,7 @@
                                                                                     })
                                                                                 }
 
-                                                                                if(shippingItem.is_cancel != true){
+                                                                                if(shippingItem.is_cancel !== true){
                                                                                     // hủy trên hệ thống
                                                                                     // cập nhật trạng thái đã hủy cho shipping item
                                                                                     var date = new Date(shippingItem.created_time);
@@ -419,11 +424,8 @@
                                     } else {
                                         // USER HỦY ORDER CỦA HỌ
                                         // 1. cập nhật trạng thái
-
                                         // 2. cập nhật báo cáo
-
                                         // 3. hủy shipping item tương ứng
-
                                         // 4. tìm xem đơn hàng trên ghn đã tạo chưa để hủy
                                         MUtilitiesService.showConfirmDialg('Thay đổi trạng thái Order đã chốt?',
                                                 'Bạn đã chốt Order này vào lúc: ' + new Date(snapshot.val().updated_at) + '.', 'Thay đổi', 'Bỏ qua')
@@ -731,7 +733,7 @@
                             });
                     }
                     else{
-                        firebase.database().ref().child('report').child(date).child(nodeNameAfter)
+                        firebase.database().ref().child('report').child(todayDateString).child(nodeNameAfter)
                             .transaction(function (oldValue) {
                                 return oldValue + 1;
                             });
@@ -742,7 +744,7 @@
                         // 1 - Tăng 1 đơn vị trong báo cáo USER của nodeNameAfter
 
                         if (orderOwnerId) { // order đã được gán
-                            firebase.database().ref().child('report').child(date).child('userReport')
+                            firebase.database().ref().child('report').child(todayDateString).child('userReport')
                                 .child(orderOwnerId).child(nodeNameAfter).transaction(function (oldValue) {
                                     return oldValue + 1;
                                 });
@@ -754,7 +756,7 @@
                     }
 
                     // node name before luôn luôn thay đổi ở ngày tạo
-                    firebase.database().ref().child('report').child(date).child(nodeNameBefore)
+                    firebase.database().ref().child('report').child(todayDateString).child(nodeNameBefore)
                     .transaction(function (oldValue) {
                         if (oldValue < 1) {
                             return oldValue;
@@ -767,7 +769,7 @@
                     // node name befor của user cũng luôn luôn thay đổi ở ngày tạo
                     if (orderOwnerId) { // order đã được gán
                         // 2 - Giảm 1 đơn vị trong báo cáo USER của nodeNameBefore
-                        firebase.database().ref().child('report').child(date).child('userReport')
+                        firebase.database().ref().child('report').child(todayDateString).child('userReport')
                             .child(orderOwnerId).child(nodeNameBefore).transaction(function (oldValue) {
                                 if (oldValue < 1) {
                                     return oldValue;
@@ -1406,7 +1408,7 @@
                                     angular.forEach(groupOrders, function (group, key) {
 
                                         // tiếp tục phân loại theo từng ngày, để cập nhật cho báo cáo ngày tương ứng
-                                        console.log(group);
+                                        // console.log(group);
                                         angular.forEach(group, function (item) {
                                             // console.log(item);
                                             item.date = convertDate(new Date(item.publish_date));

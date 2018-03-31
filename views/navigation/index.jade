@@ -20,6 +20,7 @@ html(lang='en', ng-app='m_admin')
       article.col-lg-4.col-xl-3.m-3.m-md-2.anim-fade-in
         a.hover-grow.no-underline.d-flex.flex-column.flex-justify-end.position-relative.height-full.width-full.overflow-hidden.rounded-1.box-shadow-medium(href='/admin', target='_blank', data-ga-click='Explore, go to FiveThirtyEight, location:spotlight', style='background-color: #ffffff;')
           .position-absolute.top-0.right-0.bottom-0.left-0.overflow-hidden.text-center
+            img.width-fit.mx-auto(src='/assets/images/navigation-admin.png', alt='A lightweight, purely text-based approach to recording your terminal sessions')
           |                
           .Spotlight-blur.position-relative.d-flex.flex-column.flex-justify-center.text-center.text-gray-dark.p-4.p-lg-5(style='background-color: #ffffff; background-color: rgba(255,255,255,.9);')
             h1.f1.text-normal.lh-condensed.mb-2 Trang qu&#x1EA3;n tr&#x1ECB;
@@ -32,6 +33,7 @@ html(lang='en', ng-app='m_admin')
       article.col-lg-4.col-xl-3.m-3.m-md-2.anim-fade-in
         a.hover-grow.no-underline.d-flex.flex-column.flex-justify-end.position-relative.height-full.overflow-hidden.rounded-1.box-shadow-medium(href='/sale', target='_blank', data-ga-click='Explore, go to asciinema/asciinema, location:spotlight', style='background-color: #1b0e27;')
           .position-absolute.top-0.right-0.bottom-0.left-0.overflow-hidden.text-center
+            img.width-fit.mx-auto(src='/assets/images/navigation-sale.png', alt='A lightweight, purely text-based approach to recording your terminal sessions')
           |                
           .Spotlight.position-relative
             .Spotlight-text.position-relative.text-white.p-4.p-lg-5
@@ -107,6 +109,39 @@ html(lang='en', ng-app='m_admin')
               p.f5.mb-0 Tracking &dstrok;&#x1A1;n h&agrave;ng tr&ecirc;n Giao h&agrave;ng nhanh.
             |                   
             .Spotlight-blur.position-absolute.top-0.right-0.bottom-0.left-0.rounded-1(style='background-color: #100933;')
+      |          
+      .container.simple-search-page.one-half
+        #code_search
+          h2.text-normal
+            svg.octicon.octicon-search(height='24', viewbox='0 0 16 16', version='1.1', width='24', aria-hidden='true')
+              path(fill-rule='evenodd', d='M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z')
+            |         Search more than 
+            strong 82M
+            |  repositories
+          // '"`
+          // </textarea></xmp>
+          form#search_form.search_repos.my-3(action='/search', accept-charset='UTF-8', method='get')
+            input(name='utf8', type='hidden', value='✓')
+            |       
+            .TableObject.search-form-fluid
+              .TableObject-item.TableObject-item--primary.position-relative
+                input.form-control.input-block.js-search-suggester-field.js-navigation-enable(aria-label='Search GitHub', autocapitalize='off', autocomplete='off', autofocus='', data-contents-url='/autocomplete/search', data-hotkey='s', name='q', placeholder='Search GitHub', spellcheck='false', type='text')
+                |           
+                .boxed-group.position-absolute.mt-1(style='z-index: 10')
+                  .js-search-suggester.d-none.boxed-group-inner.rounded-1.px-0
+                |           
+                input(type='hidden', name='ref', value='simplesearch')
+              |         
+              .TableObject-item
+                button.btn(type='submit') Search
+          |     
+          p
+            strong ProTip!
+            |       For an 
+            a(href='/search/advanced') advanced search
+            | , use some of our 
+            button.btn-link(type='button', data-facebox-class='shortcuts', data-facebox='#search_cheatsheet_pane') prefixes
+            | .
     |       
     h1(style='text-align: center;font-weight: 200;color: #fff') Wellcome to Meovn Team!
     |       
