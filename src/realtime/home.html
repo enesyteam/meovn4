@@ -34,7 +34,7 @@
                   <div class="people" ng-if="finishLoadingOrders" id="list-wrapper">
                      <div style="height: 100%" 
                      scroll-to-bottom="availableOrders">
-                        <li ng-repeat="order in availableOrders track by $index" ui-sref="home.detail({type: order.type, id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person order-{{order.id}}">
+                        <li ng-repeat="order in availableOrders track by $index" ui-sref="home.detail({type: order.type, id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person order-{{order.id}}" ng-class="currentMember.id == order.seller_will_call_id ? 'my-order' : ''">
                         <div class="wrap_chat">
                            <!-- <div class="check">
                               <input type="checkbox" class="check_people" value="on">
