@@ -54,7 +54,7 @@ app.get('/versions',  routes.versions);
 // app.use(express.static(path.join(__dirname, 'assets')));
 // app.use('/static', express.static('public'))
 app.use('/assets', express.static('assets'));
-app.use('/well-known', express.static('well-known'));
+app.use('/.well-known', express.static('.well-known'));
 app.use('/node_modules', express.static('node_modules'));
 app.use('/src', express.static('src'));
 // app.use('/', express.static('/'));
