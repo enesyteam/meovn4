@@ -46,11 +46,15 @@ var mShipping = angular.module('mShipping', [
                         return response;
                       });
                     },
-                  ghn_districs: function(MGHNService, ghn_token){
+                  ghn_districs: function(MGHNService, ghn_token, MUtilitiesService){
                       MGHNService.setAccessToken(ghn_token);
                       return MGHNService.getDistricts().then(function(response){
-                          return response.data.data;
+                        return response.data.data;
                       })
+                      .catch(function(err){
+                        MUtilitiesService.AlertError('Lỗi kết nối tới Giao hàng nhanh', 'Lỗi');
+                      })
+                      
                     },
                   telesales: function(MFirebaseService){
                     return MFirebaseService.getAllSellers().then(function(response){
@@ -68,7 +72,10 @@ var mShipping = angular.module('mShipping', [
                     ghn_hubs: function(MGHNService, ghn_token){
                       MGHNService.setAccessToken(ghn_token);
                       return MGHNService.getHubs().then(function(response){
-                          return response.data.data;
+                        return response.data.data;
+                      })
+                      .catch(function(err){
+                        MUtilitiesService.AlertError('Lỗi kết nối tới Giao hàng nhanh', 'Lỗi');
                       })
                     }
                 },

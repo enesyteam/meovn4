@@ -4,7 +4,8 @@
   angular.module('mGHN', []);
 
   angular.module('mGHN')
-        .service('MGHNService', ["$http", function($http) {
+        .service('MGHNService', ["$http", function($http, MUtilitiesService) {
+            // console.log(MUtilitiesService)
             var access_token = null;
             var config = {
                 headers: {
@@ -83,6 +84,7 @@
                     })
                     .catch(function(err){
                         reject(err);
+                        // AlertError('Lỗi kết nối tới hệ thống GHN', 'Thông báo');
                     });
                 })
             }

@@ -3,6 +3,12 @@ mShipping.controller('MainCtrl',
         cfpLoadingBar, Facebook, firebaseService, MFirebaseService, MUtilitiesService,
         fanpages, ghn_hubs, ghn_token, ghn_districs, telesales) {
 
+        // console.log(ghn_districs);
+        // if(!ghn_districs || !ghn_hubs){
+        //     MUtilitiesService.AlertError('Lỗi kết nối tới hệ thống GHN', 'Lỗi');
+        //     return;
+        // }
+
         $rootScope.telesales = telesales;
 
         var ref = firebase.database().ref();

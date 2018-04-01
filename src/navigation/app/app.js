@@ -61,7 +61,7 @@ var mNavigation = angular.module('mNavigation', [
                 templateUrl: "/src/navigation/pages/report/index.html",
             });
             
-        // $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/');
     })
     .run(themeRun);
 

@@ -10,6 +10,11 @@ mShipping.controller('DetailCtrl',
         // $scope.activedItem = activeItem;
         // console.log($scope.activedItem);
 
+        // if(!ghn_districs || !ghn_hubs){
+        //     MUtilitiesService.AlertError('Lỗi kết nối tới hệ thống GHN', 'Lỗi');
+        //     return;
+        // }
+
         $scope.showImageDialog = function(imageUrl){
             ngDialog.open({
                 disableAnimation : true,
@@ -603,6 +608,11 @@ mShipping.controller('DetailCtrl',
                             order_code: data.data.data.OrderCode,
                             service_fee: $scope.feeData.data.data.ServiceFee,
                             cod_amount : $scope.shippingData.CoDAmount
+                        }
+
+                        if(!data.data.data.OrderCode || data.data.data.OrderCode.length == 0){
+                            MUtilitiesService.AlertError('Có lỗi khi tạo đơn GHN (Lỗi phát sinh từ hệ thống GHN)', 'Lỗi');
+                            return;
                         }
 
                         firebaseService.onUpdateShippingItemAfterPushGHN(dataToUpdate).then(function(response){
