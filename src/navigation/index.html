@@ -9,6 +9,7 @@
       <link rel="stylesheet" href="src/navigation/frameworks-f3552d2cdfd0.css">
       <link rel="stylesheet" href="src/navigation/github-5c258338a847.css">
       <link rel="stylesheet" href="/node_modules/angular-toastr/dist/angular-toastr.css">
+      <link rel="stylesheet" href="/node_modules/angularjs-datepicker/dist/angular-datepicker.min.css">
 
 
       <link rel="stylesheet" href="src/navigation/custom.css">
@@ -96,13 +97,21 @@
       <h3 style="text-align: center;color: #fff">Vui lòng lựa chọn hệ thống để sử dụng.</h3> -->
       <div class="container simple-search-page one-half">
          <div class="subnav" data-pjax="">
-      <div class="subnav-links float-left" role="navigation">
+      <!-- <div class="subnav-links float-left" role="navigation">
 
           <a class="js-selected-navigation-item selected subnav-item" aria-label="Issues created by you" role="tab" 
           ui-sref="search" ui-sref-active="selected">Tìm kiếm</a>
           <a class="js-selected-navigation-item subnav-item" aria-label="Issues assigned to you" role="tab" 
           ui-sref="report" ui-sref-active="selected">Xem danh sách đơn hàng</a>
-      </div>
+      </div> -->
+      <div class="tabnav mb-4">
+            <nav class="tabnav-tabs" aria-label="Navigate your dashboard">
+              <a ui-sref="search" ui-sref-active="selected" class="tabnav-tab" aria-current="page">Tìm kiếm đơn hàng
+              </a>
+              
+              <a ui-sref="report" ui-sref-active="selected" class="tabnav-tab">Danh sách đơn hàng</a>
+            </nav>
+          </div>
     </div>
 
         <div ui-view></div>
@@ -137,6 +146,8 @@
 
       <script src="/node_modules/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
       <script src="/node_modules/ng-dialog/js/ngDialog.min.js"></script>
+      <script src="node_modules/angularjs-datepicker/dist/angular-datepicker.min.js"></script>
+      
 
 
       <script src="/src/modules/mGHN.js"></script>
@@ -147,5 +158,6 @@
       <script src="/src/navigation/app/app.js"></script>
       <script src="/src/navigation/service/firebase.storage.service.js"></script>
       <script src="/src/navigation/controller/MainCtrl.js"></script>
+      <script src="/src/navigation/controller/ReportCtrl.js"></script>
    </body>
 </html>

@@ -1540,6 +1540,33 @@
                     })
                 }
 
+                var getOrdersByDate = function (date) {
+                    return new Promise(function (resolve, reject) {
+
+                        var orderDays = [];
+
+                        var endTime = new Date(date);
+                        var startTime = new Date(date);
+                        startTime.setHours(0,0,0,0);
+                        endTime.setHours(23,59,59,999);
+
+                        startTime = startTime.getTime();
+                        endTime = endTime.getTime();
+
+                        var result = [];
+                        firebase.database().ref().child('shippingItems')
+                            .orderByChild('created_time')
+                            .startAt(startTime)
+                            .endAt(endTime)
+                            .once('value', snapshot => {
+                                angular.forEach(snapshot.val(), function(item){
+                                    result.push(item);
+                                })
+                                resolve(result);
+                            })
+                    })
+                }
+
                 var getNextOrders = function (fromKey, pageSize) {
                     return new Promise(function (resolve, reject) {
                         var result = [];
@@ -1958,6 +1985,7 @@
                 return {
                     getCanReleaseStatusIds: getCanReleaseStatusIds,
                     getOrders: getOrders,
+                    getOrdersByDate : getOrdersByDate,
                     getOrdersByStatusId: getOrdersByStatusId,
                     searchOrderByCustomerName: searchOrderByCustomerName,
                     searchOrderByCustomerPhone: searchOrderByCustomerPhone,

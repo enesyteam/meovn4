@@ -1,0 +1,40 @@
+<ul class="repo-list">
+   <div class="repo-list-item d-flex flex-justify-start py-4 public source result-item"
+      ng-class="order.is_cancel == true ? 'is-cancel' : ''" ng-repeat="order in result track by $index">
+      <div class="col-10 pr-3">
+         <h3>
+            <a class="v-align-middle">{{$index + 1}}. {{order.customer_name}}/<em>{{order.customer_mobile}}</em></a>
+            {{order.is_cancel == true ? ' (Đã hủy)' : ''}}
+         </h3>
+         <p class="d-flex text-gray mb-2 pr-4">
+            {{order.data.customerData.addresss}}
+         </p>
+         <div class="topics-row-container d-inline-flex flex-wrap flex-items-center f6 my-1 ghn-status">
+            <a class="topic-tag topic-tag-link f6 my-1 status-name tooltipped tooltipped-n tooltipped-no-delay" ng-repeat="log in order.logs track by $index" aria-label="{{log.UpdateTime | date: 'HH:mm dd/MM/yyyy'}}">
+            {{getStatus(log.CurrentStatus).text}}
+                <em ng-if="$index == (order.logs.length - 1)" style="font-weight: 500">{{log.UpdateTime | date: 'HH:mm dd/MM/yyyy'}}</em>
+            </a>
+         </div>
+         <div class="d-flex">
+            <p class="f6 text-gray mr-3 mb-0 mt-2">
+               Chốt bởi: {{filterById(telesales, order.data.orderData.seller_will_call_id).last_name || ''}}, lúc: {{order.data.created_time | date: 'HH:mm dd/MM/yyyy'}}
+            </p>
+            <!-- <p class="f6 text-gray mr-3 mb-0 mt-2">
+               Cập nhật trạng thái giao hàng lúc: 
+               <relative-time datetime="2018-03-28T01:05:16.38Z" title="Mar 31, 2018, 8:51 PM GMT+7">dd</relative-time>
+            </p> -->
+         </div>
+      </div>
+<!--       <div class="d-table-cell col-2 text-gray pt-2">
+         <span class="repo-language-color ml-0" style="background-color:#2b7489;"></span> TypeScript
+      </div> -->
+      <div class="col-2 text-right pt-1 pr-3 pt-2">
+         <a class="muted-link">
+            <svg aria-label="star" class="octicon octicon-star" viewBox="0 0 14 16" version="1.1" width="14" height="16" role="img">
+               <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path>
+            </svg>
+            {{order.cod_amount | number}}
+         </a>
+      </div>
+   </div>
+</ul>
