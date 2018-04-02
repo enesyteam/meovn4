@@ -568,14 +568,16 @@ mShipping.controller('DetailCtrl',
             // console.log($scope.shippingData);
             // cập nhật dữ liệu của shipping item này
             var itemKey = null;
-            
+            $scope.shippingItem = null;
 
             MFirebaseService.getShippingItem($stateParams.id).then(function(snapshot){
                 angular.forEach(snapshot.val(), function(value, key) {
-                    $scope.$apply(function(){
-                        itemKey = key;
-                        $scope.shippingItem = value;
-                    })
+                    if(value){
+                        $scope.$apply(function(){
+                            itemKey = key;
+                            $scope.shippingItem = value;
+                        })
+                    }
                     
                 });
 
@@ -700,7 +702,6 @@ mShipping.controller('DetailCtrl',
                         }
                     });
             })
-            
         }
 
         /*
