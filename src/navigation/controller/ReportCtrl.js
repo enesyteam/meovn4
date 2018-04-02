@@ -102,13 +102,13 @@ mNavigation.controller('ReportCtrl',
 			                // console.log(r.data.data.Logs);
 			                $scope.$apply(function(){
 			                	item.logs = r.data.data.Logs
-			                	$scope.isGettingData = false;
+			                	
 			                })
 			            })
 	            	}
 
 	            })
-
+                $scope.isGettingData = false;
 	            $scope.result = response;
 	    	})
 	    	.catch(function(){
