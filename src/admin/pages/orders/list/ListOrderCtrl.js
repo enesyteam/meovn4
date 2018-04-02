@@ -1,7 +1,7 @@
 m_admin.controller('ListOrderCtrl',
 function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
 	MFirebaseService, MUtilitiesService) {
-	var pageSize = 30;
+	var pageSize = 100;
     $scope.availableOrders = [];
     $scope.newlyOrderKey = null;
     $scope.lastOrderKey = null;

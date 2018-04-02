@@ -8,7 +8,7 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
 	$scope.telesales_arr = telesales;
 
 	// MFirebaseService.getOrdersPaginate("-L6zzq3C7ugXdIGN2bJE", 10);
-	var pageSize = 30;
+	var pageSize = 100;
     $scope.canAsignOrders = [];
     $scope.newlyOrderKey = null;
     $scope.lastOrderKey = null;

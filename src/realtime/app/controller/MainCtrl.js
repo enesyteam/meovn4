@@ -3,7 +3,7 @@ mRealtime.controller('MainCtrl',
     cfpLoadingBar, Facebook, firebaseService, firebaseStorageService, 
     MFirebaseService, MUtilitiesService, fanpages, telesales) {
 
-    var pageSize = 30;
+    var pageSize = 100;
     $rootScope.availableOrders = [];
     $rootScope.newlyOrderKey = null;
     $rootScope.lastOrderKey = null;

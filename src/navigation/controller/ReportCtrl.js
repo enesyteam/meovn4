@@ -130,4 +130,35 @@ mNavigation.controller('ReportCtrl',
     		}
     		
     	}
+
+        $scope.getCSV = function(){
+            if(!$scope.result || $scope.result.length == 0){
+                MUtilitiesService.AlertError('Không có dữ liệu', 'Lỗi');
+                return null;
+            }
+
+            var res = [];
+            angular.forEach($scope.result, function(order){
+                if(order.is_cancel !== true){
+                    var date = new Date(order.data.created_time);
+                    res.push({
+                        name: order.customer_name,
+                        mobile: '0' + order.customer_mobile,
+                        created_date: ("0" + date.getDate()).slice(-2) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear(),
+                        code: order.orderCode,
+                        cod: order.cod_amount,
+                        shipping_fee: order.service_fee,
+                        by: $scope.filterById($scope.telesales, order.data.orderData.seller_will_call_id).last_name,
+                        current_status: 
+                        order.logs ? $scope.getStatus(order.logs[order.logs.length -1].CurrentStatus).text : 'Không rõ'
+                    });
+                }
+            })
+            return res;
+        }   
+
+        $scope.getCSVFileName = function(){
+            var date = new Date($scope.selectedDate);
+            return ("0" + date.getDate()).slice(-2) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear();
+        }
     })

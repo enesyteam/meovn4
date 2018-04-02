@@ -15,6 +15,9 @@
          <a class="btn btn-sm new-pull-request-btn" data-pjax="" ng-click="getReportForSelectedDate(selectedDate)">
          Cập nhật
          </a>
+         <a class="btn btn-sm btn-primary new-pull-request-btn" data-pjax="" ng-csv="getCSV" charset="utf-8,\uFEFF" filename="export_don_hang_{{getCSVFileName()}}.csv" csv-header="['Tên KH', 'ĐT', 'Ngày tạo', 'Mã VĐ', 'COD', 'Phí gửi hàng', 'Người chốt', 'Trạng thái hiện tại', 'Kết quả kiểm tra']">
+         Xuất dữ liệu
+         </a>
 </div>
 
 <div ng-if="isGettingData" class="mt-8" style="margin-top:50px">

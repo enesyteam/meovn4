@@ -6,6 +6,7 @@ var mNavigation = angular.module('mNavigation', [
 
     'toastr',
     '720kb.datepicker',
+    'ngCsv',
     'mGHN',
     // 'mFacebook',
     'mFirebase',
