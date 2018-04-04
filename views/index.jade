@@ -24,7 +24,6 @@ html(lang='en', ng-app='m_admin')
     |     
     link(rel='stylesheet', href='src/admin/sass/styles.css')
     |     
-    link(rel='stylesheet', href='node_modules/angular-loading-bar/build/loading-bar.css')
     |     
     link(rel='stylesheet', href='/node_modules/angular-toastr/dist/angular-toastr.css')
     // <link rel="stylesheet" href="/src/admin/sass/chosen.css">
@@ -41,14 +40,19 @@ html(lang='en', ng-app='m_admin')
     link(rel='stylesheet', href='/node_modules/angularjs-datepicker/dist/angular-datepicker.min.css')
     |     
     link(rel='stylesheet', href='/assets/css/select2.min.css')
+    |     
+    link(rel='stylesheet', href='/node_modules/metrics-graphics/dist/metricsgraphics.css')
+    |     
+    link(rel='stylesheet', href='node_modules/angular-loading-bar/build/loading-bar.css')
+    // <link rel="stylesheet" href="/node_modules/angular-loading-bar/build/loading-bar.css">
   |   
   body.logged-in.env-production.page-dashboard
     // Header
     .position-relative.js-header-wrapper
       a.bg-black.text-white.p-3.show-on-focus.js-skip-to-content(href='#start-of-content', tabindex='1') Skip to content
       |      
-      #js-pjax-loader-bar.pjax-loader-bar
-        .progress
+      #loading-bar
+        // <div class="bar"></div>
       |      
       header.Header.f5(role='banner')
         .d-flex.px-3.flex-justify-between.container-lg
@@ -172,6 +176,11 @@ html(lang='en', ng-app='m_admin')
     //
       <script src="/assets/js/chosen.jquery.min.js"></script>
       <script src="/assets/js/chosen.proto.min.js"></script>
+    script(src='/node_modules/d3/dist/d3.min.js')
+    |     
+    script(src='/node_modules/metrics-graphics/dist/metricsgraphics.min.js')
+    |     
+    |     
     script(src='/assets/js/select2.min.js')
     |     
     script(src='/assets/js/scripts-angular.min.js')
@@ -199,8 +208,7 @@ html(lang='en', ng-app='m_admin')
       firebase.initializeApp(config);
     // AngularFire
     script(src='/assets/js/angularfire.min.js')
-    |   
-    script(src='/node_modules/angular-chosen-localytics/dist/angular-chosen.js')
+    // <script src="/node_modules/angular-chosen-localytics/dist/angular-chosen.js"></script>
     // inject:js
     script(src='/src/modules/mGHN.js')
     |   
@@ -209,6 +217,8 @@ html(lang='en', ng-app='m_admin')
     script(src='/src/modules/mFacebook.js')
     |   
     script(src='/src/modules/mUtilities.js')
+    |   
+    script(src='/src/modules/metrics-graphics.js')
     |   
     script(src='/node_modules/phone-validate-vn/build/chotot.validators.phone.min.js')
     |   

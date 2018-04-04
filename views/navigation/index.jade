@@ -1,5 +1,5 @@
 doctype html
-html(lang='en', ng-app='m_admin')
+html(lang='en', ng-app='mNavigation')
   head
     meta(charset='utf-8')
     |       
@@ -14,8 +14,16 @@ html(lang='en', ng-app='m_admin')
     link(rel='stylesheet', href='src/navigation/frameworks-f3552d2cdfd0.css')
     |       
     link(rel='stylesheet', href='src/navigation/github-5c258338a847.css')
+    |       
+    link(rel='stylesheet', href='/node_modules/angular-toastr/dist/angular-toastr.css')
+    |       
+    link(rel='stylesheet', href='/node_modules/angularjs-datepicker/dist/angular-datepicker.min.css')
+    |       
+    link(rel='stylesheet', href='src/navigation/custom.css')
+    |       
+    link(rel='stylesheet', href='/src/admin/sass/ng-dialog-custom.css')
   |    
-  body(style='background: #2f363d')
+  body.navigation-page
     .container-xl.d-lg-flex.clearfix.p-md-2(style='max-width: 1440px;')
       article.col-lg-4.col-xl-3.m-3.m-md-2.anim-fade-in
         a.hover-grow.no-underline.d-flex.flex-column.flex-justify-end.position-relative.height-full.width-full.overflow-hidden.rounded-1.box-shadow-medium(href='/admin', target='_blank', data-ga-click='Explore, go to FiveThirtyEight, location:spotlight', style='background-color: #ffffff;')
@@ -23,12 +31,7 @@ html(lang='en', ng-app='m_admin')
             img.width-fit.mx-auto(src='/assets/images/navigation-admin.png', alt='A lightweight, purely text-based approach to recording your terminal sessions')
           |                
           .Spotlight-blur.position-relative.d-flex.flex-column.flex-justify-center.text-center.text-gray-dark.p-4.p-lg-5(style='background-color: #ffffff; background-color: rgba(255,255,255,.9);')
-            h1.f1.text-normal.lh-condensed.mb-2 Trang qu&#x1EA3;n tr&#x1ECB;
-            |                   
-            p.f5.lh-condensed.mb-0
-              | H&#x1EC7; th&#x1ED1;ng qu&#x1EA3;n l&yacute;
-              svg.octicon.octicon-chevron-right.ml-1.v-align-middle(height='16', viewbox='0 0 8 16', version='1.1', width='8', aria-hidden='true')
-                path(fill-rule='evenodd', d='M7.5 8l-5 5L1 11.5 4.75 8 1 4.5 2.5 3z')
+            h1.f1.text-normal.lh-condensed.mb-2 Qu&#x1EA3;n tr&#x1ECB;
       |          
       article.col-lg-4.col-xl-3.m-3.m-md-2.anim-fade-in
         a.hover-grow.no-underline.d-flex.flex-column.flex-justify-end.position-relative.height-full.overflow-hidden.rounded-1.box-shadow-medium(href='/sale', target='_blank', data-ga-click='Explore, go to asciinema/asciinema, location:spotlight', style='background-color: #1b0e27;')
@@ -37,16 +40,11 @@ html(lang='en', ng-app='m_admin')
           |                
           .Spotlight.position-relative
             .Spotlight-text.position-relative.text-white.p-4.p-lg-5
-              .h6.text-uppercase Trang b&aacute;n h&agrave;ng
-              |                      
+              // <div class="h6 text-uppercase">Trang bán hàng</div>
               h1.h2.lh-condensed.mb-1
-                svg.octicon.octicon-repo.mr-1.v-align-middle(height='24', viewbox='0 0 12 16', version='1.1', width='18', aria-hidden='true')
-                  path(fill-rule='evenodd', d='M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z')
-                |                         
                 span.text-normal
-                |  / sale
-              |                      
-              p.f5.mb-0 H&#x1EC7; th&#x1ED1;ng b&aacute;n h&agrave;ng d&agrave;nh cho Telesales
+                |  B&aacute;n h&agrave;ng
+              // <p class="f5 mb-0">Hệ thống bán hàng dành cho Telesales</p>
             |                   
             .Spotlight-blur.position-absolute.top-0.right-0.bottom-0.left-0.rounded-1(style='background-color: #1b0e27;')
       |          
@@ -56,16 +54,9 @@ html(lang='en', ng-app='m_admin')
           |                
           .Spotlight.position-relative
             .Spotlight-text.position-relative.text-white.p-4.p-lg-5
-              .h6.text-uppercase T&#x1EA1;o &dstrok;&#x1A1;n | &Dstrok;&oacute;ng h&agrave;ng
-              |                      
               h1.h2.lh-condensed.mb-1
-                svg.octicon.octicon-repo.mr-1.v-align-middle(height='24', viewbox='0 0 12 16', version='1.1', width='18', aria-hidden='true')
-                  path(fill-rule='evenodd', d='M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z')
-                |                         
                 span.text-normal
-                |  / shipping
-              |                      
-              p.f5.mb-0 &Dstrok;&oacute;ng h&agrave;ng | T&#x1EA1;o &dstrok;&#x1A1;n h&agrave;ng tr&ecirc;n GHN.
+                |  T&#x1EA1;o &dstrok;&#x1A1;n
             |                   
             .Spotlight-blur.position-absolute.top-0.right-0.bottom-0.left-0.rounded-1(style='background-color: #100933;')
       |          
@@ -77,72 +68,100 @@ html(lang='en', ng-app='m_admin')
             </div>
           .Spotlight.position-relative
             .Spotlight-text.position-relative.text-white.p-4.p-lg-5
-              .h6.text-uppercase In &#x1EA5;n
-              |                      
               h1.h2.lh-condensed.mb-1
-                svg.octicon.octicon-repo.mr-1.v-align-middle(height='24', viewbox='0 0 12 16', version='1.1', width='18', aria-hidden='true')
-                  path(fill-rule='evenodd', d='M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z')
-                |                         
                 span.text-normal
-                |  / printing
-              |                      
-              p.f5.mb-0 In phi&#x1EBF;u GHN / phi&#x1EBF;u xu&#x1EA5;t kho h&agrave;ng lo&#x1EA1;t.
+                |  &Dstrok;&oacute;ng h&agrave;ng/In &#x1EA5;n
             |                   
             .Spotlight-blur.position-absolute.top-0.right-0.bottom-0.left-0.rounded-1(style='background-color: #100933;')
       |          
       article.col-lg-4.col-xl-3.m-3.m-md-2.anim-fade-in
         a.hover-grow.no-underline.d-flex.flex-column.flex-justify-end.position-relative.height-full.overflow-hidden.rounded-1.box-shadow-medium(href='/tracking', target='_blank', data-ga-click='Explore, go to photonstorm/phaser, location:spotlight', style='background-color: #100933;')
           .position-absolute.top-0.right-0.bottom-0.left-0.overflow-hidden.text-center
-            span(style='margin-top:15px;margin-right:15px;color: #fff;float: right;') Ch&#x1B0;a s&#x1EB5;n s&agrave;ng
           |                
           .Spotlight.position-relative
             .Spotlight-text.position-relative.text-white.p-4.p-lg-5
-              .h6.text-uppercase Tracking
-              |                      
               h1.h2.lh-condensed.mb-1
-                svg.octicon.octicon-repo.mr-1.v-align-middle(height='24', viewbox='0 0 12 16', version='1.1', width='18', aria-hidden='true')
-                  path(fill-rule='evenodd', d='M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z')
-                |                         
                 span.text-normal
-                |  / tracking
-              |                      
-              p.f5.mb-0 Tracking &dstrok;&#x1A1;n h&agrave;ng tr&ecirc;n Giao h&agrave;ng nhanh.
+                |  Tracking &dstrok;&#x1A1;n h&agrave;ng
             |                   
             .Spotlight-blur.position-absolute.top-0.right-0.bottom-0.left-0.rounded-1(style='background-color: #100933;')
-      |          
-      .container.simple-search-page.one-half
-        #code_search
-          h2.text-normal
-            svg.octicon.octicon-search(height='24', viewbox='0 0 16 16', version='1.1', width='24', aria-hidden='true')
-              path(fill-rule='evenodd', d='M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z')
-            |         Search more than 
-            strong 82M
-            |  repositories
-          // '"`
-          // </textarea></xmp>
-          form#search_form.search_repos.my-3(action='/search', accept-charset='UTF-8', method='get')
-            input(name='utf8', type='hidden', value='✓')
-            |       
-            .TableObject.search-form-fluid
-              .TableObject-item.TableObject-item--primary.position-relative
-                input.form-control.input-block.js-search-suggester-field.js-navigation-enable(aria-label='Search GitHub', autocapitalize='off', autocomplete='off', autofocus='', data-contents-url='/autocomplete/search', data-hotkey='s', name='q', placeholder='Search GitHub', spellcheck='false', type='text')
-                |           
-                .boxed-group.position-absolute.mt-1(style='z-index: 10')
-                  .js-search-suggester.d-none.boxed-group-inner.rounded-1.px-0
-                |           
-                input(type='hidden', name='ref', value='simplesearch')
-              |         
-              .TableObject-item
-                button.btn(type='submit') Search
-          |     
-          p
-            strong ProTip!
-            |       For an 
-            a(href='/search/advanced') advanced search
-            | , use some of our 
-            button.btn-link(type='button', data-facebox-class='shortcuts', data-facebox='#search_cheatsheet_pane') prefixes
-            | .
+    //
+      <h1 style="text-align: center;font-weight: 200;color: #fff">Wellcome to Meovn Team!</h1>
+      <h3 style="text-align: center;color: #fff">Vui lòng lựa chọn hệ thống để sử dụng.</h3>
+    .container.simple-search-page.one-half
+      .subnav(data-pjax='')
+        //
+          <div class="subnav-links float-left" role="navigation">
+          <a class="js-selected-navigation-item selected subnav-item" aria-label="Issues created by you" role="tab"
+          ui-sref="search" ui-sref-active="selected">Tìm kiếm</a>
+          <a class="js-selected-navigation-item subnav-item" aria-label="Issues assigned to you" role="tab"
+          ui-sref="report" ui-sref-active="selected">Xem danh sách đơn hàng</a>
+          </div>
+        .tabnav.mb-4
+          nav.tabnav-tabs(aria-label='Navigate your dashboard')
+            a.tabnav-tab(ui-sref='search', ui-sref-active='selected', aria-current='page')
+              | T&igrave;m ki&#x1EBF;m &dstrok;&#x1A1;n h&agrave;ng
+            |               
+            |               
+            a.tabnav-tab(ui-sref='report', ui-sref-active='selected') Danh s&aacute;ch &dstrok;&#x1A1;n h&agrave;ng
+      |         
+      div(ui-view='')
     |       
-    h1(style='text-align: center;font-weight: 200;color: #fff') Wellcome to Meovn Team!
+    script(src='/assets/js/jquery.min.js')
+    //
+      <script src="/assets/js/chosen.jquery.min.js"></script>
+      <script src="/assets/js/chosen.proto.min.js"></script>
+    script(src='/assets/js/scripts-angular.min.js')
+    |     
+    script(src='/node_modules/angular-animate/angular-animate.min.js')
+    |     
+    script(src='/node_modules/angular-resource/angular-resource.min.js')
+    |     
+    script(src='/node_modules/angular-route/angular-route.min.js')
+    |     
+    script(src='/node_modules/angular-ui-router/release/angular-ui-router.min.js')
+    |     
+    script(src='/node_modules/angular-sanitize/angular-sanitize.min.js')
+    |     
+    script(src='https://www.gstatic.com/firebasejs/4.5.1/firebase.js')
+    |     
+    script(src='/assets/js/select2.min.js')
+    |     
+    script.
+      // Initialize Firebase
+      var config = {
+      apiKey: "AIzaSyD7LUAvgwADpNZqzvm_-4Um7aBMXh7Ed1M",
+      authDomain: "meo4-f0335.firebaseapp.com",
+      databaseURL: "https://meo4-f0335.firebaseio.com",
+      projectId: "meo4-f0335",
+      storageBucket: "meo4-f0335.appspot.com",
+      messagingSenderId: "155610084230"
+      };
+      firebase.initializeApp(config);
+    // AngularFire
+    script(src='/assets/js/angularfire.min.js')
     |       
-    h3(style='text-align: center;color: #fff') Vui l&ograve;ng l&#x1EF1;a ch&#x1ECD;n h&#x1EC7; th&#x1ED1;ng &dstrok;&#x1EC3; s&#x1EED; d&#x1EE5;ng.
+    script(src='/node_modules/angular-toastr/dist/angular-toastr.tpls.min.js')
+    |       
+    script(src='/node_modules/ng-dialog/js/ngDialog.min.js')
+    |       
+    script(src='node_modules/angularjs-datepicker/dist/angular-datepicker.min.js')
+    |       
+    script(src='/node_modules/ng-csv/build/ng-csv.js')
+    |       
+    |       
+    script(src='/src/modules/mGHN.js')
+    |        
+    script(src='/src/modules/mFirebase.js')
+    |        
+    script(src='/src/modules/mFacebook.js')
+    |        
+    script(src='/src/modules/mUtilities.js')
+    |       
+    script(src='/src/navigation/app/app.js')
+    |       
+    script(src='/src/navigation/service/firebase.storage.service.js')
+    |       
+    script(src='/src/navigation/controller/MainCtrl.js')
+    |       
+    script(src='/src/navigation/controller/ReportCtrl.js')

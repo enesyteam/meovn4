@@ -186,20 +186,37 @@ code {
 .users-report .report-row .details-column{
     display: table;
     height: 100%;
+    /*padding: 10px;*/
+    text-align: center;
 }
 .users-report .header .details-column .detail,
 .users-report .report-row .details-column .detail{
     display: table-cell;
     vertical-align: middle;
     width: 10%;
+    /*padding: 10px;*/
+    text-align: center;
+}
+.users-report .header .details-column .detail.success{
+    /*background: #f9f9f9;*/
 }
 .users-report .header h5{
     margin-bottom: 0 !important;
 }
 .details-column .detail .btn-actions{
     padding: 2px 5px;
+    display: none;
+}
+
+.details-column .detail.actions .btn-actions{
+    display: none;
+    /*opacity: 0*/
+}
+.report-row:hover .details-column .detail.actions .btn-actions{
+    /*opacity: 1*/
     display: inline-block;
 }
+
 .details-column .detail .btn-actions .octicon{
     margin-top: 2px;
 }

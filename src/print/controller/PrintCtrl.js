@@ -1,5 +1,5 @@
 mPrinting.controller('PrintCtrl',
-    function($rootScope, $scope, $http, $filter, fanpages, ghn_hubs, telesales, activeItem, MUtilitiesService) {
+    function($rootScope, $scope, $http, $filter, fanpages, telesales, activeItem, MUtilitiesService) {
 
         angular.forEach(activeItem, function(value, key) {
             // console.log(value);

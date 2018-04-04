@@ -7,7 +7,7 @@ var mShipping = angular.module('mShipping', [
   'firebase',
   'angular.filter',
   'facebook',
-  'infinite-scroll',
+  // 'infinite-scroll',
   'ngDialog',
   // 'snackbar',
   'ngFileUpload',

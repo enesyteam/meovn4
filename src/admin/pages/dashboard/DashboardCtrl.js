@@ -43,6 +43,7 @@ m_admin.controller('DashboardCtrl',
             $scope.$apply(function(){
                 // $rootScope.finishLoading = true;
                 $rootScope.todayUsersReport = snapshot.val();
+                // console.log(snapshot.val());
             });
         })
         MFirebaseService.getPagesReportForDate(date).then(function(snapshot){
@@ -57,7 +58,7 @@ m_admin.controller('DashboardCtrl',
                     }
                     $rootScope.todayPagesReport.push(page);
                 })
-                console.log($rootScope.todayPagesReport);
+                // console.log($rootScope.todayPagesReport);
             });
         })
 

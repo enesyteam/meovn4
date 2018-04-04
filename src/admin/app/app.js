@@ -15,6 +15,7 @@ var m_admin = angular.module('m_admin', [
   'mFacebook',
   'mFirebase',
   'mUtilities',
+  'metricsgraphics',
 
   'm_admin.dashboard',
   'm_admin.settings',
@@ -95,14 +96,26 @@ angular.module('m_admin').filter('cut', function () {
         };
     });
 
-function themeRun($rootScope, appVersion, releaseDate, access_token){
+function themeRun($rootScope, appVersion, releaseDate, access_token, cfpLoadingBar){
     $rootScope.access_token = access_token;
     $rootScope.appVersion = appVersion;
     $rootScope.releaseDate = releaseDate;
-    $rootScope.successArr = [];
-    $rootScope.notCalledArr = [];
-    $rootScope.todayArr = [];
-    $rootScope.othersArr = [];
+
+    cfpLoadingBar.start();
+
+    $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+      if(toState.resolve){
+        $rootScope.isLoading = true;
+        cfpLoadingBar.start();
+      }
+    });
+
+    $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
+      if(toState.resolve){
+        $rootScope.isLoading = false;
+        cfpLoadingBar.complete();
+      }
+    });
   }
 
 m_admin.directive('searchEnter', function () {

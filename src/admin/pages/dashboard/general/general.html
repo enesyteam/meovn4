@@ -27,13 +27,23 @@
             <div ng-if="todayReport">
                <div class="report">
                   <div class="text-center rounded-1 report-item">
-                     <h2 class="total">{{todayReport.today || 0}}</h2>
+                     <h2 class="total">
+                        <svg aria-hidden="true" class="octicon octicon-book" height="24" version="1.1" viewBox="0 0 24 24" width="24">
+                        <path xmlns="http://www.w3.org/2000/svg" d="M0 0h24v24H0z" fill="none"/>
+                        <path xmlns="http://www.w3.org/2000/svg" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                     {{todayReport.today || 0}}</h2>
                      <h3 class="h5 lh-condensed mb-1">Số mới hôm nay</h3>
                      <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
                      <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
                   </div>
                   <div class="text-center rounded-1 report-item">
-                     <h2 class="total">{{todayReport.calledCount || 0}}</h2>
+                     <h2 class="total">
+                        <svg aria-hidden="true" class="octicon octicon-book" height="24" version="1.1" viewBox="0 0 24 24" width="24">
+                        <path xmlns="http://www.w3.org/2000/svg" d="M0 0h24v24H0z" fill="none"/>
+                        <path xmlns="http://www.w3.org/2000/svg" d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/>
+                        </svg>
+                     {{todayReport.calledCount || 0}}</h2>
                      <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
                      <h3 class="h5 lh-condensed mb-1">Tổng số cuộc gọi</h3>
                      <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
@@ -48,23 +58,21 @@
                   </div>
                   <div class="text-center rounded-1 report-item">
                      <h2 class="total success">
+                        <svg aria-hidden="true" class="octicon octicon-book" height="24" version="1.1" viewBox="0 0 24 24" width="24">
+                        <path xmlns="http://www.w3.org/2000/svg" d="M0 0h24v24H0z" fill="none"/>
+                        <path xmlns="http://www.w3.org/2000/svg" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
                         {{todayReport.successCount || 0}}
                      </h2>
                      <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
-                     <h3 class="h5 lh-condensed mb-1">Đã chốt</h3>
+                     <h3 class="h5 lh-condensed mb-1">Đã chốt ({{(todayReport.calledCount > 0 ? todayReport.successCount/todayReport.calledCount : 0)*100 | number : 2}}%)</h3>
                      <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
                      <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
                   </div>
-                  <div class="text-center rounded-1 report-item">
-                     <h2 class="total">{{(todayReport.calledCount > 0 ? todayReport.successCount/todayReport.calledCount : 0)*100 | number : 2}}%</h2>
-                     <!-- <img src="https://assets-cdn.github.com/images/modules/marketplace/mpft-icon.svg" class="mb-2" alt=""> -->
-                     <h3 class="h5 lh-condensed mb-1">Tỷ lệ chốt</h3>
-                     <!-- <p class="mb-2 lh-condensed">Free for 14 days</p> -->
-                     <!-- <p><a href="/marketplace/free-trials" class="btn btn-outline px-lg-6 mt-2">View apps</a></p> -->
-                  </div>
+                  
                </div>
                <div>
-                  <div class="overall-summary overall-summary-bottomless">
+                  <div class="overall-summary">
                      <div class="stats-switcher-viewport js-stats-switcher-viewport">
                         <div class="stats-switcher-wrapper">
                            <ul class="numbers-summary"  style="opacity: {{finishLoading ? 1 : 0}}">
@@ -124,6 +132,15 @@
                      <span class="language-color" aria-label="CSS 0.8%" style="width:0.8%; background-color:#563d7c;" itemprop="keywords">&nbsp;</span>
                      </div> -->
                </div>
+               <div>
+                  <chart data="charts.reportData.data"
+                     options="charts.reportData"
+                     ng-if="charts.reportData.data">
+                 </chart>
+                 <div id="custom-color-key" class="t-center mt-2 mb-2">
+                    
+                 </div>
+               </div>
             </div>
             <div class="blankslate blankslate-clean-background" ng-if="!todayReport">
                <h3>Không tìm thấy báo cáo ngày</h3>
@@ -173,10 +190,10 @@
                      <div class="detail">
                         <h5 class="strong">Báo xấu</h5>
                      </div>
-                     <div class="detail">
+                     <!-- <div class="detail">
                         <h5 class="strong">Tỷ lệ chốt</h5>
-                     </div>
-                     <div class="detail">
+                     </div> -->
+                     <div class="detail actions">
                         <h5 class="strong">Actions</h5>
                      </div>
                   </div>
@@ -207,12 +224,13 @@
                               <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
                            </svg>
                         </span>
-                        <span ng-if="sellerData.lastSuccessAt">
+                        <span>
                            <svg aria-hidden="true" class="octicon octicon-clock" height="16" version="1.1" viewBox="0 0 14 16" width="14">
                               <path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
                            </svg>
-                           Vừa chốt lúc 
-                           <span>{{sellerData.lastSuccessAt | date:'h:mma'}}</span>
+                           
+                           <span ng-if="sellerData.lastSuccessAt">Vừa chốt lúc {{sellerData.lastSuccessAt | date:'h:mma'}}</span>
+                           <em ng-if="!sellerData.lastSuccessAt">(Chưa có dữ liệu)</em>
                         </span>
                      </div>
                   </div>
@@ -220,8 +238,13 @@
                      <li class="detail">
                         <span style="font-size:18px;">{{sellerData.calledCount }}</span>
                      </li>
-                     <li class="detail">
-                        <span class="success" style="font-size:18px;">{{sellerData.successCount }}</span>
+                     <li class="detail success">
+                        <span class="success" style="font-size:18px;">
+                           {{sellerData.successCount }}
+                        </span>
+                        <sup>
+                           {{(sellerData.calledCount > 0 ? sellerData.successCount/sellerData.calledCount : 0)*100 | number : 2}}%
+                        </sup>
                      </li>
                      <li class="detail">
                         <span style="font-size:18px;">{{sellerData.notCalledCount}}</span>
@@ -241,10 +264,10 @@
                      <li class="detail">
                         <span style="font-size:18px;">{{ sellerData.blockedCount || 0 }}</span>
                      </li>
-                     <li class="detail">
+                     <!-- <li class="detail">
                         <span style="font-size:18px;">{{(sellerData.calledCount > 0 ? sellerData.successCount/sellerData.calledCount : 0)*100 | number : 2}}%</span>
-                     </li>
-                     <li class="detail">
+                     </li> -->
+                     <li class="detail actions">
                         <button class="btn btn-primary btn-sm btn-actions tooltipped tooltipped-n" aria-label="Phân bổ thêm số cho {{ sellerData.userName }}" ng-click="onAssignMoreForUser(sellerData.id)">
                            <svg height="12" class="octicon octicon-plus" viewBox="0 0 12 16" version="1.1" width="12" aria-hidden="true">
                               <path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5z"></path>

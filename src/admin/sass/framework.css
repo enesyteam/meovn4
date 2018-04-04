@@ -7910,3 +7910,6 @@ a.tabnav-extra:hover {
     height: auto;
     clip: auto
 }
+.t-center{
+    text-align: center;
+}

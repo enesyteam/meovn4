@@ -276,7 +276,7 @@
                         resolve('Gửi tin nhắn tới khách hàng thành công');
                       }
                       else{
-                            reject('Không thể gửi tin nhắn tới khách hàng. Lỗi: ' + err);
+                            reject('Không thể gửi tin nhắn tới khách hàng. Lỗi: ' + response.error);
                           }
                     }
                 );

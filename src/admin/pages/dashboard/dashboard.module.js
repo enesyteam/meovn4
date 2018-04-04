@@ -21,7 +21,14 @@
         .state('home.dashboard.general',{
             url: '/general',
             controller : 'GeneralCtrl',
-            templateUrl: "src/admin/pages/dashboard/general/general.html"
+            templateUrl: "src/admin/pages/dashboard/general/general.html",
+            // resolve : {
+            //   chart_data: function(MFirebaseService){
+            //     return MFirebaseService.getReportForChart().then(function(response){
+            //       return response;
+            //     });
+            //   }
+            // }
         })
         .state('home.dashboard.realtime',{
             url: '/realtime',

@@ -1915,6 +1915,58 @@
                         .child('shippingReport').once('value', function (snapshot) {});
                 }
 
+                var getReportForChart = function () {
+                    // date = 2018-07-03
+                    return new Promise(function(resolve, reject){
+                        firebase.database().ref().child('report').limitToLast(30).once('value', function (snapshot) {
+                            console.log(snapshot.val());
+                            var res = [];
+                            var new_customer = [], success = [], user_report = [];
+
+
+                            angular.forEach(snapshot.val(), function(item){
+                                new_customer.push({
+                                    'date' : item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3'),
+                                    'value' : item.today
+                                });
+                                success.push({
+                                    'date': item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3'),
+                                    'value' : item.successCount
+                                });
+                                // if(page_report.length>0){
+                                //    angular.forEach(page_report, function(page_data){
+                                //         if(page_data && page_data.id == item.pageReport.id){
+                                //             page_report.push({
+                                //                 id : page_data.totalCustomers + item.pageReport.totalCustomers
+                                //             });
+                                //         }
+                                //     }) 
+                                // }
+                                // else{
+
+                                // }
+                                
+                                // page_report_new.push({
+                                //     'date': item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3'),
+                                //     'value' : item.successCount
+                                // });
+                                // angular.forEach(item.userReport, function(userData){
+
+                                // })
+
+                            })
+                            res.push(new_customer);
+                            res.push(success);
+
+                            resolve({
+                                system_report: res,
+                                user_report: null
+                            });
+                        });
+                    })
+                }
+
+
                 /**
                  * Create file item formanager
                  * @param  {fileName}  user who changing status
@@ -2045,6 +2097,7 @@
                     updateShippingItemCustomerData: updateShippingItemCustomerData,
                     cancelShippingItem : cancelShippingItem,
                     onCancelShippingItem: onCancelShippingItem,
+                    getReportForChart: getReportForChart,
                 }
 
             }
