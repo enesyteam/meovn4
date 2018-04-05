@@ -122,12 +122,12 @@ var mPrinting = angular.module('mPrinting', [
                         return response;
                       });
                     },
-                    // ghn_hubs: function(MGHNService, ghn_token){
-                    //   MGHNService.setAccessToken(ghn_token);
-                    //   return MGHNService.getHubs().then(function(response){
-                    //       return response.data.data;
-                    //   })
-                    // }
+                    ghn_hubs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getHubs().then(function(response){
+                          return response.data.data;
+                      })
+                    }
                 }
             })
             .state('PrintMultiInvoice', {
