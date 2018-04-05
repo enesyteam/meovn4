@@ -1,0 +1,51 @@
+
+<div class="Box-header">
+<h3 class="Box-title">Hội thoại từ {{order.customer_name}} > {{pageData.name}}</h3>
+</div>
+
+<div class="Box-body" style="overflow-y: scroll;
+    height: 442px;background: #e5ded8">
+	<div ng-include="'/src/admin/widgets/chat-box.html'"></div>
+   <div class="quick-reply-popover" ng-class="shouldDisplayQuickReply? 'display' : ''">
+      <ul class="replies-list">
+         <li class="reply-item" ng-repeat="reply in (replies | quickReplyFilter:messageContent.text)">
+            <!-- photo in (imageFiles | photosFilter:filterPageId:genders:destinies) -->
+            <div class="d-table table-fixed width-full Box-row--drag-hide position-relative">
+               <div class="float-left col-2 p-2 lh-condensed">
+                  <strong>/{{reply.key}}</strong>
+               </div>
+               <div class="float-right col-10 p-2 lh-condensed">
+                  {{reply.text}}
+               </div>
+            </div>
+         </li>
+
+      </ul>
+   </div>
+</div>
+
+<div class="Box-footer" style="height: 102px; background: #fff;position: relative;z-index: 100;    padding: 0;">
+<div ng-if="startReplying" class="p6n-ls-wrapper" aria-hidden="true" style="display: block;position: absolute;bottom: 102px;left: 15px;z-index: 101;">
+      <pan-loader offline="offline" pan-buttertip-message="" pan-show-tip-if="offline" style="
+         display: block;	
+         ">
+         <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
+         <small class="pl-1">Đang gửi...</small>
+      </pan-loader>
+   </div>
+   <div class="write_chat">
+      <div class="input_chat"><textarea ng-model="messageContent.text" class="input-msg" id="fb_info_message" name="input_message" placeholder="Nhập / để hiển thị danh sách câu trả lời mẫu. {{order.type==1 ? 'Tin nhắn' : 'Bình luận'}} sẽ được gửi trực tiếp đến khách hàng..." autocomplete="on" dialog-comment-enter="sendReply()" ng-change="onTyping()" data-hotkey="/"></textarea></div>
+      <div class="function_message">
+         <ul class="list_action">
+            <li id="open_image_" class="open_image_post">
+               <div>
+                  <a class="open_file" ng-click="showSelectPhotoFacebox()">
+                     <svg height="24" class="octicon octicon-file-media" viewBox="0 0 12 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M6 5h2v2H6V5zm6-.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v11l3-5 2 4 2-2 3 3V5z"></path></svg>
+                  </a>
+               </div>
+            </li>
+            
+         </ul>
+      </div>
+   </div>
+</div>

@@ -3,20 +3,25 @@ var mNavigation = angular.module('mNavigation', [
   'ngAnimate',
   'ngSanitize',
 
+  'facebook',
+
 
     'toastr',
     '720kb.datepicker',
     'ngCsv',
     'mGHN',
-    // 'mFacebook',
+    'mFacebook',
     'mFirebase',
     'mUtilities',
 	])
     .constant('appVersion', '3.0.0')
     .constant('releaseDate', 'Nov-20, 2017')
     .constant('access_token', 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD')
-    .config(function($stateProvider, $locationProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $locationProvider, $urlRouterProvider, FacebookProvider) {
     	$locationProvider.hashPrefix('');
+
+      var myAppId = '1085772744867580';
+    FacebookProvider.init(myAppId);
 
         // $locationProvider.hashPrefix('');
         // $locationProvider.html5Mode(true);

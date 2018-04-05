@@ -21,6 +21,11 @@
                       return MFirebaseService.getCanReleaseStatusIds().then(function(response){
                         return response
                       });
+                    },
+                    replies: function(MFirebaseService){
+                      return MFirebaseService.getReplies().then(function(response){
+                        return response;
+                      })
                     }
                   }
                 })

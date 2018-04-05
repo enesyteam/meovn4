@@ -7913,3 +7913,6 @@ a.tabnav-extra:hover {
 .t-center{
     text-align: center;
 }
+.y-scroll{
+    overflow-y: scroll;
+}

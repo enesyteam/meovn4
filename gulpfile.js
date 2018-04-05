@@ -215,6 +215,7 @@ var adminSources = gulp.src([
         'src/admin/pages/settings/settings.module.js',
         'src/admin/pages/settings/OptionsCtrl.js',
         'src/admin/pages/settings/ghn/GHNCtrl.js',
+        'src/admin/pages/settings/replies/QuickReplyCtrl.js',
 
         // SOURCES
         'src/admin/pages/sources/sources.module.js',

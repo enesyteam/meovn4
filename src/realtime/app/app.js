@@ -20,7 +20,7 @@ var mRealtime = angular.module('mRealtime', [
   'mFirebase',
   'mUtilities',
 	])
-    .constant('appVersion', '3.0.0')
+    .constant('appVersion', '4.2.0')
     .constant('releaseDate', 'Nov-20, 2017')
     .constant('access_token', 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD')
     .config(function($stateProvider, $locationProvider, $urlRouterProvider, 

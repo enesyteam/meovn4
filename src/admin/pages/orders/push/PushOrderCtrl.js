@@ -27,12 +27,18 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
 	          var item = {
 	                  customer_name : order.data.customer_name,
 	                  customer_mobile : order.data.customer_mobile,
+	                  customer_id : order.data.customer_id,
 	                  id : order.data.id,
+	                  type: order.data.type,
+	                  page_id : order.data.page_id,
+	                  post_id : order.data.post_id,
 	                  selected : false,
+	                  conversation_id: order.data.conversation_id,
 	                  seller_will_call_id : order.data.seller_will_call_id,
 	                  status_id : order.data.status_id,
 	                  publish_date : order.data.publish_date,
-	                  is_bad_number : order.data.is_bad_number
+	                  is_bad_number : order.data.is_bad_number,
+	                  active_log : order.data.activeLog,
 	                }
 	            $scope.$apply(function() {
 	                $scope.canAsignOrders.push(item);
@@ -55,12 +61,18 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
         var item = {
             customer_name : snapshot.val().customer_name,
             customer_mobile : snapshot.val().customer_mobile,
+            customer_id : snapshot.val().customer_id,
             id : snapshot.val().id,
+            type: snapshot.val().type,
             selected : false,
+            page_id : snapshot.val().page_id,
+            post_id : snapshot.val().post_id,
+            conversation_id: snapshot.val().conversation_id,
             seller_will_call_id : snapshot.val().seller_will_call_id,
             status_id : snapshot.val().status_id,
             publish_date : snapshot.val().publish_date,
-            is_bad_number : snapshot.val().is_bad_number
+            is_bad_number : snapshot.val().is_bad_number,
+            active_log : snapshot.val().activeLog,
           }
         $timeout(function() {
         	$scope.$apply(function(){
@@ -108,13 +120,19 @@ function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseServic
             response.reverse().slice(1).map(function(order) {
                 var item = {
                     customer_name : order.data.customer_name,
-                    customer_mobile : order.data.customer_mobile,
-                    id : order.data.id,
-                    selected : false,
-                    seller_will_call_id : order.data.seller_will_call_id,
-                    status_id : order.data.status_id,
-                    publish_date : order.data.publish_date,
-                    is_bad_number : order.data.is_bad_number
+	                  customer_mobile : order.data.customer_mobile,
+	                  customer_id : order.data.customer_id,
+	                  id : order.data.id,
+	                  type: order.data.type,
+	                  page_id : order.data.page_id,
+	                  post_id : order.data.post_id,
+	                  selected : false,
+	                  conversation_id: order.data.conversation_id,
+	                  seller_will_call_id : order.data.seller_will_call_id,
+	                  status_id : order.data.status_id,
+	                  publish_date : order.data.publish_date,
+	                  is_bad_number : order.data.is_bad_number,
+	                  active_log : order.data.activeLog,
                   }
                 $scope.$apply(function() {
 	                $scope.canAsignOrders.push(item);

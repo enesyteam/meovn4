@@ -1,6 +1,7 @@
 <div class="border-right border-bottom border-left">
    <ul class="js-navigation-container js-active-navigation-container">
-      <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read" ng-repeat="order in canAsignOrders" ng-click="toggleSelectAnOrder(order)" style="cursor:pointer;">
+      <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read  order-item-row" ng-repeat="order in canAsignOrders" ng-click="toggleSelectAnOrder(order)" style="cursor:pointer;"
+      ng-init="color = filterById(statuses, order.status_id).color">
          <div class="d-table table-fixed width-full Box-row--drag-hide position-relative">
             <!-- drag handles -->
             <!-- checkbox and issue open icon -->
@@ -10,29 +11,55 @@
                </span>
             </div>
             <div class="float-left pt-2 pl-2">
+               <div class="order-customer-avatar">
+                  <img ng-src="{{'//graph.facebook.com/' + order.customer_id  + '/picture?width=50&amp;height=50'}}" alt="avatar" title="{{order.customer_name}}">
+               </div>
             </div>
             <!-- Issue title column -->
-            <div class="float-left col-9 p-2 lh-condensed">
-               <a class="link-gray-dark no-underline h4 js-navigation-open customer-name {{order.is_bad_number==1 ? 'bad-number' : ''}}">
-               {{order.customer_name}}
-               <span ng-if="order.selected">(Đã chọn)</span>
-               </a>
-               <span class="d-inline-block mr-1">
-                  <div class="commit-build-statuses">
-                     <a class="" style="color:{{filterById(statuses, order.status_id).color}}">
+            <div class="float-left col-8 p-2 lh-condensed">
+
+               <div style="max-width: 150px;    text-overflow: ellipsis;white-space: nowrap;overflow: hidden;display: inline-block;">
+                  <span class="link-gray-dark no-underline h4 js-navigation-open customer-name {{order.is_bad_number==1 ? 'bad-number' : ''}}">
+                  {{order.customer_name}}
+                  </span>
+                  <span ng-if="order.selected">(Đã chọn)</span>
+               </div>
+               <span class="d-inline-block mr-1" style="line-height: 20px;vertical-align: top">
+                  <div class="commit-build-statuses" style="color:{{color}}">
+                     <a class=""  style="color:{{color}}">
                         <svg aria-hidden="true" class="octicon octicon-primitive-dot" height="16" version="1.1" viewBox="0 0 8 16" width="8">
-                           <path fill-rule="evenodd" d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"></path>
+                           <path fill-rule="evenodd" d="M7.5 8l-5 5L1 11.5 4.75 8 1 4.5 2.5 3l5 5z"></path>
                         </svg>
                      </a>
                      {{filterById(statuses, order.status_id).name}}
-                     <span class="tag_item tooltipped tooltipped-s" style="color:#cb2431" ng-if="order.is_bad_number==1" aria-label="Sai số">
-                        <svg height="16" class="octicon octicon-stop" viewBox="0 0 14 16" version="1.1" width="16"><path fill-rule="evenodd" d="M10 1H4L0 5v6l4 4h6l4-4V5l-4-4zm3 9.5L9.5 14h-5L1 10.5v-5L4.5 2h5L13 5.5v5zM6 4h2v5H6V4zm0 6h2v2H6v-2z"></path></svg>
-                     </span>
                   </div>
                </span>
                <div class="mt-1 text-small text-gray">
                   <span class="opened-by">
-                     Tạo lúc {{order.publish_date | date:'HH:mm dd/MM'}} | {{order.customer_mobile}} {{order.activeLog ? 'Có ' + order.activeLog.length + ' hoạt động được ghi nhận' : 'Chưa có hoạt động nào được ghi nhận'}}
+                     <svg aria-hidden="true" class="octicon octicon-clock" height="14" version="1.1" viewBox="0 0 14 16" width="14">
+                        <path fill-rule="evenodd" d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                     </svg>
+                  Tạo lúc: {{order.publish_date | date:'HH:mm dd/MM'}} 
+                  <svg aria-hidden="true" class="octicon octicon-book" height="14" version="1.1" viewBox="0 0 24 24" width="14">
+                     <path xmlns="http://www.w3.org/2000/svg" d="M0 0h24v24H0z" fill="none"></path>
+                     <path xmlns="http://www.w3.org/2000/svg" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path>
+                  </svg>
+                   {{order.customer_mobile}}
+                  <span class="comments-list" style="opacity: 0.9">
+                     <span ng-repeat="c in order.active_log">
+                        <span ng-if="c.type == 1">
+                           <a class=""  style="color:{{filterById(statuses, c.status_after).color}}">
+                              <svg class="octicon octicon-primitive-dot mr-1 checklist-dot" aria-label="Not added yet" viewBox="0 0 8 16" version="1.1" width="8" height="16" role="img"><path fill-rule="evenodd" d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"></path></svg>
+                           </a>
+                        </span>
+                        <span ng-if="c.type == 2">
+                           <svg aria-hidden="true" class="octicon octicon-comment v-align-middle" height="14" version="1.1" viewBox="0 0 16 16" width="14">
+                              <path fill-rule="evenodd" d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"></path>
+                           </svg>
+                           <em>{{c.uname}}: "{{c.content}}"</em></span>
+                     </span>
+                  </span>
+                     <strong ng-if="order.is_bad_number" style="color:red"> | Order này đã được đánh dấu là sai số</strong>
                   </span>
                   <span class="d-inline-block">
                   </span>
@@ -42,9 +69,10 @@
             </div>
             <div class="float-right col-2">
                <div class="float-left col-8 pt-2 pr-3 text-right">
-                  <div class="AvatarStack AvatarStack--right " ng-init="owner = filterById(telesales, order.seller_will_call_id).last_name">
-                     <div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1" aria-label="Đã phân bổ cho {{owner}}">
-                        <span class="Counter p-2" ng-if="owner">{{filterById(telesales, order.seller_will_call_id).last_name}}</span>
+                  <div class="AvatarStack AvatarStack--right " ng-init="owner = filterById(telesales, order.seller_will_call_id)">
+                     <div class="AvatarStack-body mt-1" aria-label="Đã phân bổ cho {{owner.last_name}}">
+                        <small ng-if="owner" class="Label Label--outline">{{owner.last_name}}</small>
+                        <small ng-if="!owner">...</small>
                      </div>
                   </div>
                </div>
@@ -54,6 +82,11 @@
                      <!-- <svg aria-hidden="true" class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg> -->
                   </a>
                </div>
+            </div>
+            <div class="actions">
+               <button class="btn btn-sm" ng-click="showChatBox(order); $event.stopPropagation();">
+               <svg height="16" class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path></svg>
+               Tương tác</button>
             </div>
          </div>
       </li>

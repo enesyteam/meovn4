@@ -4,9 +4,11 @@
     angular.module('mUtilities', ['ngDialog']);
 
     angular.module('mUtilities')
-        .service('MUtilitiesService', ['$document', '$timeout', 'toastr', 'toastrConfig', 'ngDialog', 'firebaseStorageService',
-            function($document, $timeout, toastr, toastrConfig, ngDialog, firebaseStorageService) {
-                // console.log(firebaseStorageService);
+        .service('MUtilitiesService', ['$document', '$timeout', '$filter', 'toastr', 'toastrConfig', 'ngDialog', 
+            'firebaseStorageService', 'MFacebookService',
+            function($document, $timeout, $filter, toastr, toastrConfig, ngDialog, firebaseStorageService, 
+                MFacebookService) {
+                // console.log(MFirebaseService);
                 // TOASTR
                 var configToastr = function() {
                     toastrConfig.closeButton = true;
@@ -73,6 +75,244 @@
                             .catch(function(s) {
                                 resolve(false);
                             })
+                    })
+                }
+
+                 
+
+                var showChatBox = function(onOpenCallback) {
+                    return new Promise(function(resolve, reject) {
+                        ngDialog.open({
+                                template: 'src/admin/widgets/chat-box-dialog.html',
+                                controller: ['$scope', function($scope) {
+                                $scope.order = onOpenCallback().order;
+                                // console.log($scope.order);
+                                $scope.token = onOpenCallback().token;
+                                $scope.fanpages = onOpenCallback().fanpages;
+                                $scope.replies = onOpenCallback().replies;
+
+                                var getToken = function(pageId){
+                                    return new Promise(function(resolve, reject){
+                                        var page = $filter("filter")($scope.fanpages, {id: pageId});
+                                        if(page[0]){
+                                            resolve(page[0].access_token);
+                                        }
+                                        else{
+                                            reject('Page với ID ' + pageId + ' chưa được thêm vào danh sách quản lý.');
+                                        }
+                                    })
+                                }
+
+                                // console.log($scope.order);
+
+                                MFacebookService.graphPage($scope.order.page_id, $scope.token).then(function(response){
+                                  $scope.$apply(function(){
+                                    $scope.pageData = response;
+                                    // console.log($scope.pageData);
+                                  })
+
+                                  getToken(response.id).then(function(token){
+                                    // console.log('token: ' + token);
+                                        $scope.$apply(function(){
+                                            $scope.currentAccessToken = token;
+                                        })
+
+                                        if($scope.order.type==1){
+                                        // messages
+                                        MFacebookService.graphMessages($scope.order.conversation_id, token).then(function(response){
+                                            $scope.$apply(function(){
+                                                // console.log(response);
+                                                // chỉnh sửa thông tin chút
+                                                angular.forEach(response.messages.data, function(mes){
+                                                    // mes = 'sdfsdfsdf';
+                                                    if(mes.shares && mes.shares.data){
+                                                        if(mes.shares.data[0].link){
+                                                            // mes = 'sdfds';
+                                                            // console.log(mes.shares.data[0].link);
+                                                            // var link = $scope.detectMessageSharesLink(mes.shares.data[0].link);
+
+                                                            detectMessageSharesLink(mes.shares.data[0].link).then(function(result){
+                                                                if(result.type == 'photo'){
+                                                                    mes.link = result.link;
+                                                                }
+                                                                else if(result.type == 'post'){
+                                                                    // console.log(result);
+                                                                    // alert('share is post');
+                                                                    MFacebookService.graphPostAttachments($scope.pageData.id + '_' + result.id, token)
+                                                                    .then(function(response){
+                                                                        // console.log(response);
+                                                                        // mes.x = response.data;
+                                                                        // return response.data.attachments.picture;
+                                                                        $scope.$apply(function(){
+                                                                            mes.post_share = response.data;
+                                                                        })
+                                                                    })
+                                                                    .catch(function(err){
+                                                                        // console.log(err);
+                                                                        AlertError(err);
+                                                                    });
+                                                                }
+                                                                else {
+                                                                    return 'Trường hợp khác'
+                                                                }
+                                                            })
+
+                                                            // console.log(link);
+                                                            
+                                                            
+                                                        }
+                                                    }
+                                                })
+                                                $scope.messageData = response;
+                                            });
+
+                                        })
+                                        .catch(function(err){
+                                            AlertError(err, 'Lỗi');
+                                        })
+                                    }
+                                    else{
+                                        // graph post
+                                        MFacebookService.graphPost($scope.order.post_id, token).then(function(response){
+                                            $scope.$apply(function(){
+                                                // console.log(response);
+                                                $scope.postData = response;
+                                            })
+                                        })
+                                        .catch(function(err){
+                                            AlertError(err, 'Lỗi');
+                                        })
+
+                                        // also graph comments
+                                        MFacebookService.graphComments($scope.order.conversation_id, token).then(function(response){
+                                            $scope.$apply(function(){
+                                                // console.log(response);
+                                                $scope.commentData = response;
+                                            })
+                                        })
+                                        .catch(function(err){
+                                            AlertError(err, 'Lỗi');
+                                        })
+                                    }
+                                    })
+                                })
+
+
+                                var testMode = false;
+                                $scope.messageContent = {
+                                    text : null
+                                };
+
+                                function doReply(){
+                                     if(!testMode){
+                                        $scope.startReplying = true;
+                                        if($scope.order.type == 1){
+                                            // reply message
+                                            MFacebookService.replyMessage($scope.order.conversation_id,
+                                                $scope.currentAccessToken, null, $scope.messageContent.text).then(function(response){
+                                                AlertSuccessful(response);
+                                                $scope.$apply(function(){
+                                                    // mục đích hiển thị
+                                                    $scope.messageData.messages.data.unshift({
+                                                        from: {
+                                                            id: $scope.pageData.id,
+                                                            name: $scope.pageData.name || 'Tên page',
+                                                        },
+                                                        message : $scope.messageContent.text,
+                                                        created_time : Date.now(),
+                                                    })
+
+                                                    $scope.messageContent.text = null;
+                                                    $scope.startReplying = false;
+                                                });
+                                            })
+                                            .catch(function(err){
+                                                AlertError(err, 'Lỗi')
+                                            })
+                                        }
+                                        else{
+                                            // reply comment
+                                            MFacebookService.replyComment($scope.order.conversation_id,
+                                                $scope.currentAccessToken, null, $scope.messageContent.text).then(function(response){
+                                                AlertSuccessful(response);
+                                                $scope.$apply(function(){
+                                                    // mục đích hiển thị
+                                                    $scope.commentData.comments.data.push({
+                                                        from: {
+                                                            id: $scope.pageData.id,
+                                                            name: $scope.pageData.name || 'Tên page',
+                                                        },
+                                                        message : $scope.messageContent.text,
+                                                        created_time : Date.now(),
+                                                    })
+
+                                                    $scope.messageContent.text = null;
+                                                    $scope.startReplying = false;
+                                                });
+                                            })
+                                            .catch(function(err){
+                                                AlertError(err, 'Lỗi')
+                                            })
+                                        }
+                                    }
+                                    else{
+                                        AlertError($scope.messageContent.text, 'Thông báo');
+                                        AlertSuccessful($scope.currentAccessToken, 'Token');
+                                    }
+
+                                    $scope.shouldDisplayQuickReply = false;
+                                }
+
+                                $scope.shouldDisplayQuickReply = false;
+
+                                $scope.onTyping = function(){
+                                    if($scope.messageContent.text.startsWith("/")){
+                                        $scope.shouldDisplayQuickReply = true;
+                                    }
+                                    else{
+                                        $scope.shouldDisplayQuickReply = false;
+                                    }
+                                }
+
+
+
+                                /*
+                                * reply to customer
+                                */
+                                $scope.sendReply = function(){
+                                    if(!$scope.messageContent.text || $scope.messageContent.text.length == 0){
+                                        AlertError('Vui lòng nhập nội dung tin nhắn', 'Thông báo');
+                                        return;
+                                    }
+
+                                    if($scope.messageContent.text.startsWith("/")){
+
+                                        onOpenCallback().findReply($scope.messageContent.text.substr(1)).then(function(response){
+                                            $scope.$apply(function(){
+                                                $scope.messageContent.text = response.text;
+                                                return;
+                                            })
+                                        })
+                                        .catch(function(err){
+                                            // không tìm thấy mẫu trả lời nhanh
+                                            AlertError('Dường như bạn đang cố gắng thử một chuỗi trả lời nhanh bằng tổ hợp phím tắt.'+
+                                                ' Tuy nhiên hệ thống không tìm thấy mẫu trả lời nhanh nào tương ứng với tổ hợp phím tắt này.', 'Lỗi');
+                                            return;
+                                        })
+                                    }
+                                    else{
+                                        doReply();
+                                    }
+                                }
+                            }],
+                            // plain: true,
+                            disableAnimation : true,
+                            width: 800,
+                            height: 600,
+                            className: 'ngdialog-theme-default y-scroll',
+                            onOpenCallback: onOpenCallback,
+                            });
+                            
                     })
                 }
 
@@ -486,6 +726,7 @@
                     detectMessageSharesLink: detectMessageSharesLink,
                     showUploadImage : showUploadImage,
                     validatePhoneNumber : validatePhoneNumber,
+                    showChatBox : showChatBox,
                 }
             }
         ]);

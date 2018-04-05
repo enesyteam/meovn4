@@ -23,7 +23,7 @@ var m_admin = angular.module('m_admin', [
   'm_admin.sources',
   'm_admin.orders',
   ])
-  .constant('appVersion', '3.0.0')
+  .constant('appVersion', '4.2.0')
   .constant('releaseDate', 'Nov-20, 2017')
   .constant('access_token', 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD')
   .config(function($stateProvider, $locationProvider, $urlRouterProvider, cfpLoadingBarProvider, FacebookProvider){
@@ -103,12 +103,12 @@ function themeRun($rootScope, appVersion, releaseDate, access_token, cfpLoadingB
 
     cfpLoadingBar.start();
 
-    $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-      if(toState.resolve){
-        $rootScope.isLoading = true;
-        cfpLoadingBar.start();
-      }
-    });
+    // $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+    //   if(toState.resolve){
+    //     $rootScope.isLoading = true;
+    //     cfpLoadingBar.start();
+    //   }
+    // });
 
     $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
       if(toState.resolve){
@@ -139,6 +139,27 @@ m_admin.directive('searchEnter', function () {
     };
 });
 
+m_admin.directive('dialogCommentEnter', function () {
+    return function (scope, element, attrs) {
+
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.dialogCommentEnter);
+                    // scope.searchOrder();
+                });
+                event.preventDefault();
+            }
+            else if(event.which === 27){
+                scope.$apply(function (){
+                    // scope.$eval(attrs.dialogCommentEnter);
+                    // scope.clearCommentData();
+                });
+            }
+        });
+    };
+});
+
 m_admin.directive('addOrderEnter', function () {
     return function (scope, element, attrs) {
 
@@ -158,6 +179,29 @@ m_admin.directive('addOrderEnter', function () {
             }
         });
     };
+});
+
+m_admin.filter('quickReplyFilter', function () {
+  return function(replies, input) {
+
+    return replies.filter(function (item) {
+      if(!input){
+        return item;
+      }
+      // console.log(input);
+      if(input.startsWith("/") && input.length == 1){
+        return item;
+      }
+
+      if(item.key.indexOf(input.substr(1)) !== -1){
+        return item;
+      }
+      else{
+        return null;
+      }
+      
+    });
+  }
 });
 
 m_admin.directive("select2", ["$timeout", "$parse", function(c, b) {

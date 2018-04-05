@@ -1,6 +1,7 @@
 mNavigation.controller('ReportCtrl',
     function($rootScope, $scope, $http, $filter, $timeout,
     	MFirebaseService, MUtilitiesService, MGHNService, ghn_token, fanpages, telesales) {
+        // console.log(ghn_token);
     	$scope.telesales = telesales;
     	$scope.filterById = function(sources, id) {
 	        if(!id) return null;
@@ -86,7 +87,7 @@ mNavigation.controller('ReportCtrl',
     	function getReport(selectedDate){
     		$scope.isGettingData = true;
     		MFirebaseService.getOrdersByDate(selectedDate).then(function(response){
-    			console.log(response);
+    			// console.log(response);
     			if(response.length == 0){
     				$scope.$apply(function(){
 	    				$scope.isGettingData = false;
@@ -121,7 +122,7 @@ mNavigation.controller('ReportCtrl',
     	$scope.getReportForSelectedDate = function(date){
     		if(date){
     			var currentDate = new Date(date);
-    			console.log(currentDate.getTime());
+    			// console.log(currentDate.getTime());
     			// currentDate.getTime()
     			getReport(currentDate);
     		}

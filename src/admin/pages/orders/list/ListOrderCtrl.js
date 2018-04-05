@@ -1,6 +1,6 @@
 m_admin.controller('ListOrderCtrl',
-function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
-	MFirebaseService, MUtilitiesService) {
+function($scope, $rootScope, $timeout, cfpLoadingBar, firebaseService, Facebook,
+	MFirebaseService, MUtilitiesService, MFacebookService, fanpages) {
 	var pageSize = 100;
     $scope.availableOrders = [];
     $scope.newlyOrderKey = null;
@@ -13,29 +13,38 @@ function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
     //     console.log(response);
     // })
 
-    MFirebaseService.getOrders(pageSize).then(function(response) {
-        response.reverse().map(function(order) {
-          var item = {
-                  customer_name : order.data.customer_name,
-                  customer_mobile : order.data.customer_mobile,
-                  id : order.data.id,
-                  selected : false,
-                  seller_will_call_id : order.data.seller_will_call_id,
-                  status_id : order.data.status_id,
-                  publish_date : order.data.publish_date,
-                  is_bad_number : order.data.is_bad_number,
-                  active_log : order.data.activeLog,
-                }
-            $scope.$apply(function() {
-                $scope.availableOrders.push(item);
-            })
-        })
-        $scope.$apply(function() {
-            $scope.newlyOrderKey = response[0].key;
-            $scope.lastOrderKey = response[response.length - 1].key;
-            $scope.isLoaddingOrder = false;
-        })
-    })
+    function getOrders(){
+      $scope.availableOrders = [];
+        MFirebaseService.getOrders(pageSize).then(function(response) {
+          response.reverse().map(function(order) {
+            var item = {
+                    customer_name : order.data.customer_name,
+                    customer_mobile : order.data.customer_mobile,
+                    customer_id : order.data.customer_id,
+                    id : order.data.id,
+                    type: order.data.type,
+                    page_id : order.data.page_id,
+                    post_id : order.data.post_id,
+                    selected : false,
+                    conversation_id: order.data.conversation_id,
+                    seller_will_call_id : order.data.seller_will_call_id,
+                    status_id : order.data.status_id,
+                    publish_date : order.data.publish_date,
+                    is_bad_number : order.data.is_bad_number,
+                    active_log : order.data.activeLog,
+                  }
+              $scope.$apply(function() {
+                  $scope.availableOrders.push(item);
+              })
+          })
+          $scope.$apply(function() {
+              $scope.newlyOrderKey = response[0].key;
+              $scope.lastOrderKey = response[response.length - 1].key;
+              $scope.isLoaddingOrder = false;
+          })
+      })
+    }
+    getOrders();
 
     // trigger when new order added
     let newOrdersRef = firebase.database().ref().child('newOrders').orderByChild('publish_date').limitToLast(1);
@@ -44,8 +53,13 @@ function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
         var item = {
             customer_name : snapshot.val().customer_name,
             customer_mobile : snapshot.val().customer_mobile,
+            customer_id : snapshot.val().customer_id,
             id : snapshot.val().id,
+            type: snapshot.val().type,
             selected : false,
+            page_id : snapshot.val().page_id,
+            post_id : snapshot.val().post_id,
+            conversation_id: snapshot.val().conversation_id,
             seller_will_call_id : snapshot.val().seller_will_call_id,
             status_id : snapshot.val().status_id,
             publish_date : snapshot.val().publish_date,
@@ -69,8 +83,13 @@ function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
                 var item = {
                     customer_name : order.data.customer_name,
                     customer_mobile : order.data.customer_mobile,
+                    customer_id : order.data.customer_id,
                     id : order.data.id,
+                    type: order.data.type,
                     selected : false,
+                    page_id : order.data.page_id,
+                    post_id : order.data.post_id,
+                    conversation_id: order.data.conversation_id,
                     seller_will_call_id : order.data.seller_will_call_id,
                     status_id : order.data.status_id,
                     publish_date : order.data.publish_date,
@@ -98,7 +117,9 @@ function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
 
     $scope.searchOrder = function(){
       if(!$scope.searchQuery.text || $scope.searchQuery.text == ''){
-        MUtilitiesService.AlertError('Vui lòng nhập từ khóa tìm kiếm', 'Lỗi');
+        // reset kết quả về mặc định
+        getOrders();
+        // MUtilitiesService.AlertError('Vui lòng nhập từ khóa tìm kiếm', 'Lỗi');
         return;
       }
       if($scope.searchQuery.text.length < 2){
@@ -106,7 +127,7 @@ function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
         return;
       }
       if($scope.searchQuery.text.match(/^\d/)){
-        alert($scope.searchQuery.text);
+        // alert($scope.searchQuery.text);
         if($scope.searchQuery.text.length < 4){
           MUtilitiesService.AlertError('Chuỗi tìm kiếm quá ngắn', 'Lỗi');
           return;
@@ -134,4 +155,6 @@ function($scope, $scope, $timeout, cfpLoadingBar, firebaseService, Facebook,
       }
       
     }
+
+    
 });

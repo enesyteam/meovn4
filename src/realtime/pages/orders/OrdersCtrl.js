@@ -42,7 +42,7 @@ mRealtime.controller('OdersCtrl',
         }
 
         $rootScope.activeOrder = activeItem;
-        console.log(activeItem);
+        // console.log(activeItem);
         $rootScope.activeStatusId = activeItem.status_id;
 
         var page = $filter("filter")(fanpages, {id: $stateParams.page_id});

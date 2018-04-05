@@ -7,7 +7,7 @@
                   <div>
                      <div class="window__headerBox clearfix">
                         <div class="header__agent header__agent--fadeInUp">
-                           <div id="header-operator-avatar" class="header__avatar header__avatar--fadeInDown"><img class="header__avatarImage" src="{{pageData.picture.data.url}}" alt="" width="50" height="50"></div>
+                           <div id="header-operator-avatar" class="header__avatar header__avatar--fadeInDown"><img class="header__avatarImage" ng-src="{{pageData.picture.data.url}}" alt="" width="50" height="50"></div>
                            <div class="header__agentInfo">
                               <div class="direction-ltr header__agentName">{{pageData.name}}</div>
                            </div>
@@ -70,7 +70,7 @@
                   </div>
                   <div ng-class="comment.from.id == pageData.id ? 'chat-visitor window__chatVisitor clearfix' : 'window__chatAgent clearfix'" ng-repeat="comment in commentData.comments.data" ng-click="setCustomer(comment.from)" style="cursor: pointer;">
                      <div class="agentMessage__avatar" ng-if="comment.from.id !== pageData.id">
-                        <img ng-src="{{'//graph.facebook.com/' + comment.from.id + '/picture?width=50&amp;height=50'}}" alt="Brian - Comm100" class="agentMessage__avatarImg">
+                        <img ng-src="{{'//graph.facebook.com/' + comment.from.id + '/picture?width=50&amp;height=50'}}" class="agentMessage__avatarImg">
                      </div>
                      <div ng-class="comment.from.id !== pageData.id ? 'chat-operator-message window__chatAgentMessage' : 'chat-visitor-message window__chatVisitorMessage'">
                         {{comment.message}}
@@ -99,7 +99,7 @@
                   </div>
                   <div ng-class="message.from.id == pageData.id ? 'chat-visitor window__chatVisitor clearfix' : 'window__chatAgent clearfix'" ng-repeat="message in messageData.messages.data | reverse">
                      <div class="agentMessage__avatar" ng-if="message.from.id !== pageData.id">
-                        <img ng-src="{{'//graph.facebook.com/' + message.from.id + '/picture?width=50&amp;height=50'}}" alt="Brian - Comm100" class="agentMessage__avatarImg">
+                        <img ng-src="{{'//graph.facebook.com/' + message.from.id + '/picture?width=50&amp;height=50'}}" class="agentMessage__avatarImg">
                      </div>
                      <div ng-class="message.from.id !== pageData.id ? 'chat-operator-message window__chatAgentMessage' : 'chat-visitor-message window__chatVisitorMessage'">
                         {{message.message}}

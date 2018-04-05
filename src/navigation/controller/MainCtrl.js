@@ -109,7 +109,7 @@ mNavigation.controller('MainCtrl',
                         MUtilitiesService.AlertError('Không tìm thấy kết quả nào', 'Thông báo');
                         return;
                     }
-                	console.log(response);
+                	// console.log(response);
                    // $scope.$apply(function() {
                     angular.forEach(response, function(item){
                     	// console.log(item.data.push_to_ghn_at);
@@ -135,7 +135,7 @@ mNavigation.controller('MainCtrl',
                         MUtilitiesService.AlertError('Không tìm thấy kết quả nào', 'Thông báo');
                         return;
                     }
-                    console.log(response);
+                    // console.log(response);
                    // $scope.$apply(function() {
                     angular.forEach(response, function(item){
                     	// console.log(item.data.push_to_ghn_at);

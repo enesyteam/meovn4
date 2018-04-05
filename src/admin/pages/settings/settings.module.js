@@ -40,6 +40,18 @@
                       })
                     },
                   }
+                })
+      .state('home.settings.reply',{
+              url: '/replies',
+                  controller : 'QuickReplyCtrl',
+                  templateUrl: "src/admin/pages/settings/replies/quick-reply.html",
+                  resolve: {
+                    replies: function(MFirebaseService){
+                      return MFirebaseService.getReplies().then(function(response){
+                        return response;
+                      })
+                    }
+                  }
                 });
   }
 

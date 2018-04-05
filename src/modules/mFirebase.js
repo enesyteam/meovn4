@@ -1117,6 +1117,80 @@
                     })
                 }
 
+                /**
+                 * Add new reply to database
+                 * @param  {replyData}  order data as json object
+                 * @return {object} response
+                 */
+                var onAddNewReply = function (replyData) {
+                    return new Promise(function (resolve, reject) {
+                        // kiểm tra xem tổ hợp phím tắt đã tồn tại chưa
+                        firebase.database().ref().child('quickReplies').orderByChild('key')
+                        .equalTo(replyData.key)
+                            .once('value', function (snapshot) {
+                                if (snapshot.val() !== null) {
+                                    // tổ hợp phím tắt đã tồn tại
+                                    reject('Tổ hợp phím tắt ' + replyData.key + ' đã tồn tại. Vui lòng thử một tổ hợp khác');
+                                }
+                                else{
+                                    // tổ hợp phím tắt chưa tồn tại => thêm vào database
+                                    var updates = {};
+                                    updates['/quickReplies/' + replyData.id] = replyData;
+                                    return firebase.database().ref().update(updates).then(function () {
+                                        resolve('Thêm mẫu trả lời nhanh thành công!');
+                                    })
+                                    .catch(function (error) {
+                                        reject('Không thể thêm mẫu trả lời nhanh. Lỗi: ' + error);
+                                    });
+                                }
+                            });
+                    });
+                }
+
+                var findReplyByKey = function (key) {
+                    return new Promise(function (resolve, reject) {
+                        // kiểm tra xem tổ hợp phím tắt đã tồn tại chưa
+                        firebase.database().ref().child('quickReplies').orderByChild('key')
+                        .equalTo(key)
+                            .once('value', function (snapshot) {
+                                if (snapshot.val() !== null) {
+                                    angular.forEach(snapshot.val(), function(value, key){
+                                        resolve(value);
+                                    })
+                                }
+                                else{
+                                   reject('Không tìm thấy mẫu trả lời nhanh');
+                                }
+                            });
+                    });
+                }
+
+                var onDeleteReply = function(id){
+                    return new Promise(function (resolve, reject) {
+                        var updates = {};
+                        updates['/quickReplies/' + id] = null;
+                        return firebase.database().ref().update(updates).then(function () {
+                            resolve('Xóa mẫu trả lời nhanh thành công!');
+                        })
+                        .catch(function (error) {
+                            reject('Không thể xóa mẫu trả lời nhanh. Lỗi: ' + error);
+                        });
+                    });
+                }
+
+                var getReplies = function () {
+                    return new Promise(function (resolve, reject) {
+                        var result = [];
+                        firebase.database().ref().child('quickReplies')
+                            .on('child_added', snapshot => {
+                                if (snapshot.val())
+                                    result.push(snapshot.val());
+                                
+                            })
+                        resolve(result);
+                    })
+                }
+
 
                 /**
                  * Add new order to database
@@ -2098,6 +2172,10 @@
                     cancelShippingItem : cancelShippingItem,
                     onCancelShippingItem: onCancelShippingItem,
                     getReportForChart: getReportForChart,
+                    onAddNewReply : onAddNewReply,
+                    getReplies : getReplies,
+                    onDeleteReply : onDeleteReply,
+                    findReplyByKey : findReplyByKey
                 }
 
             }

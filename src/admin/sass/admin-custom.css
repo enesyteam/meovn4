@@ -291,6 +291,12 @@ code {
 .customer-name.bad-number{
     color: #cb2431 !important;
 }
+/*.customer-name{
+    max-width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}*/
 /*shipping report*/
 ul.shipping-report li{
     width: 100%;
@@ -304,4 +310,150 @@ ul.shipping-report li .report-value{
     width: 25%;
     display: inline-block;
     text-align: right;
+}
+
+.write_chat  .input_chat {
+    width: 80%;
+    float: left;
+    display: block;
+}
+.write_chat  .input_chat textarea {
+    width: 100%;
+    height: 98px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    padding: 10px 20px;
+    color: #111;
+    resize: none;
+
+}
+.write_chat  .function_message {
+    width: 20%;
+    float: left;
+    display: block;
+    background: #fff;
+    overflow: hidden;
+    padding-right: 10px;
+    height: 70px;
+}
+.write_chat  .function_message .list_action {
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+.write_chat  .function_message .list_action li {
+    list-style: none;
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 15px 10px 30px;
+    overflow: hidden;
+}
+.write_chat .function_message .list_action:first-child div {
+    cursor: pointer;
+}
+.write_chat  .function_message .list_action li .image_post_form {
+    position: absolute;
+    z-index: 999;
+    top: -125px;
+    background: #fff;
+    border: 1px solid #aeaeae;
+    border-radius: 3px;
+    right: 9px;
+}
+.order-item-row {
+    position: relative;
+}
+.order-item-row .actions{
+    /*display: none;*/
+    position: absolute;
+    left: 50%;
+    top: 25%;
+    visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s, opacity 0.25s linear;
+}
+.order-item-row:hover .actions{
+    visibility: visible;
+  opacity: 1;
+}
+.order-customer-avatar img {
+    width: 40px;
+    height: 40px;
+    float: left;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    vertical-align: middle;
+}
+
+.write_chat .input_chat textarea::-webkit-scrollbar{width:7px}
+.write_chat .input_chat textarea::-webkit-scrollbar-track{background:#ebebeb}
+.write_chat .input_chat textarea::-webkit-scrollbar-thumb{background:#999;border-radius:15px}
+.write_chat .input_chat textarea::-webkit-scrollbar-thumb:active,
+.write_chat .input_chat textarea::-webkit-scrollbar-thumb:hover{background:#999;border-radius:15px}
+
+.quick-reply-popover::-webkit-scrollbar{width:7px}
+.quick-reply-popover::-webkit-scrollbar-track{background:#ebebeb}
+.quick-reply-popover::-webkit-scrollbar-thumb{background:#999;border-radius:15px}
+.quick-reply-popover::-webkit-scrollbar-thumb:active,
+.quick-reply-popover::-webkit-scrollbar-thumb:hover{background:#999;border-radius:15px}
+
+.Box-body::-webkit-scrollbar{width:7px}
+.Box-body::-webkit-scrollbar-track{background:#ebebeb}
+.Box-body::-webkit-scrollbar-thumb{background:#999;border-radius:15px}
+.Box-body::-webkit-scrollbar-thumb:active,
+.Box-body::-webkit-scrollbar-thumb:hover{background:#999;border-radius:15px}
+
+@-webkit-keyframes show-quick-reply {
+    0% {
+        -webkit-transform: translateY(102px);
+        transform: translateY(102px)
+    }
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+}
+@keyframes show-quick-reply {
+    0% {
+        -webkit-transform: translateY(102px);
+        transform: translateY(102px)
+    }
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+}
+
+.quick-reply-popover{
+    position: absolute;
+    bottom: 102px;
+    /* margin: 0 -16px 0; */
+    /* width: 100%; */
+    margin-left: -16px;
+    margin-right: 7px;
+    z-index: 10;
+    /* list-style: none; */
+    background: #1b1f23;
+    color: #fff;
+    /*border-radius: 3px;*/
+    max-height: 102px;
+    /*height: 102px;*/
+    
+    padding: 0.5em 0.75em;
+    font: normal normal 11px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    
+    visibility: hidden;
+    opacity: 0;
+    overflow-y: scroll;
+}
+.quick-reply-popover.display{
+    visibility: visible;
+    opacity: 0.8;
+    animation: show-quick-reply 0.2s cubic-bezier(0, 0, 0, 1);
+}
+ul.replies-list{
+    list-style: none;
+    margin: 0
 }
