@@ -62,20 +62,40 @@ mRealtime.controller('MainCtrl',
         let ordersRef = ref.child('newOrders').orderByChild('publish_date').limitToLast(100);
         ordersRef.on('child_added', snapshot => {
           $scope.$apply(function(){
-            $rootScope.orders.push(snapshot.val());
-          });
+              $rootScope.orders.push(snapshot.val());
+            });
+
+          // ref.child('newOrders/' + snapshot.val().id).on('child_changed', sns => {
+            
+
+          //   console.log(sns.key + ' ///// đã thay đổi thành //// ' + sns.val());
+
+          //   var itemChanged = $filter('filter')($rootScope.orders, {'id':snapshot.val().id})[0];
+
+          //   if(sns.key == 'seller_will_call_id'){
+          //     if(itemChanged){
+          //       itemChanged.seller_will_call_id == sns.val();
+          //     }
+          //   }
+          // });
+
+          
         });
 
         // listen for order change
         ref.child('newOrders').on('child_changed', snapshot => {
           // find item in array
-          var itemChanged = $filter('filter')($rootScope.orders, {'id':snapshot.val().id})[0];
-          if(itemChanged.status_id !== snapshot.val().status_id){
-            itemChanged.status_id = snapshot.val().status_id; 
-          }
-          if(itemChanged.seller_will_call_id !== snapshot.val().seller_will_call_id){
-            itemChanged.seller_will_call_id = snapshot.val().seller_will_call_id; 
-          }
+          $timeout(function() {
+            $scope.$apply(function(){
+              var itemChanged = $filter('filter')($rootScope.orders, {'id':snapshot.val().id})[0];
+                if(itemChanged.status_id !== snapshot.val().status_id){
+                    itemChanged.status_id = snapshot.val().status_id;
+                }
+                if(itemChanged.seller_will_call_id !== snapshot.val().seller_will_call_id){
+                    itemChanged.seller_will_call_id = snapshot.val().seller_will_call_id; 
+                }
+            })
+          }, 10);
           
         });
 

@@ -165,11 +165,11 @@ html(lang='en', ng-app='mRealtime')
     |     
     .bg-transparent-dark.transition-in-out.facebox-overlay.facebox-overlay-hide.facebox-overlay-active(style="{{!isFaceboxShowing ? 'display: none;' : 'display: block;';}}")
     // <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js')
+    script(src='/assets/js/jquery.min.js')
     |     
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js')
+    script(src='/assets/js/chosen.jquery.min.js')
     |     
-    script(data-require='chosen@*', data-semver='1.5.1', src='https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.proto.min.js')
+    script(src='/assets/js/chosen.proto.min.js')
     |     
     script(src='/assets/js/scripts-angular.min.js')
     |     
@@ -197,7 +197,7 @@ html(lang='en', ng-app='mRealtime')
       };
       firebase.initializeApp(config);
     // AngularFire
-    script(src='https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js')
+    script(src='/assets/js/angularfire.min.js')
     // inject:js
     script(src='/src/modules/mGHN.js')
     |     
@@ -241,7 +241,7 @@ html(lang='en', ng-app='mRealtime')
     |     
     script(src='/src/realtime/pages/orders/OrdersCtrl.js')
     // endinject
-    script(src='https://assets-cdn.github.com/assets/frameworks-f6afcaeac971138fed77bef35a12efac982cf10f6d34190912b7307946f14c8b.js')
+    script(src='/assets/js/frameworks-f6afcaeac971138fed77bef35a12efac982cf10f6d34190912b7307946f14c8b.js')
     // <script type="text/javascript" src="https://assets-cdn.github.com/assets/github-0bf824ad9b5c44a4ba98c8d86ede76a76d1bf24675f586cb61210f717b420cbe.js"></script>
     // jQuery
     // <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

@@ -1,14 +1,8 @@
 mRealtime.controller('OdersCtrl',
     function($rootScope, $scope, $state, $stateParams, $filter, $timeout, cfpLoadingBar, ngDialog, 
         cfpLoadingBar, Facebook, firebaseService, ProductPackService,
-         activeItem, fanpages, MFacebookService, MUtilitiesService) {
+         activeItem, fanpages, MFacebookService, MFirebaseService, MUtilitiesService) {
 
-        $scope.testDialog = function(){
-            ngDialog.open({
-                template: '<p>my template</p>',
-                plain: true
-            });
-        }
         $scope.showImageDialog = function(imageUrl){
             ngDialog.open({
                 disableAnimation : true,
@@ -61,7 +55,7 @@ mRealtime.controller('OdersCtrl',
                 type: 2, //note,
                 status_after : null,
                 content: $scope.noteContent.text,
-                updated_at: Date.now()
+                updated_at: firebase.database.ServerValue.TIMESTAMP
             }
             firebase.database().ref().child('newOrders/' + $stateParams.id).child('activeLog').push(activeLogItem);
             $scope.noteContent.text = '';
@@ -242,13 +236,11 @@ mRealtime.controller('OdersCtrl',
                return true;
             }
             if($scope.activeOrder.seller_will_call_id !== $rootScope.currentMember.id){
-                // snackbar('Oop! Thao tác không được chấp nhận!');
                 MUtilitiesService.AlertError('Không cho phép thay đổi trạng thái Order của người khác', 'Thông báo');
                 return false;
             }
 
             if($scope.activeOrder.status_id == status.id){
-                // snackbar('Oop! Không thay đổi trạng thái!');
                 MUtilitiesService.AlertWarning('Trạng thái không thay đổi', 'Thông báo');
                 return false;
             }
@@ -259,9 +251,21 @@ mRealtime.controller('OdersCtrl',
             if(!validationBeforChangeStatus(status)){
                 return;
             };
-            // $scope.activeOrder.status_id = status.id;
             $rootScope.activeStatusId = status.id;
+
+            MFirebaseService.onChangeOrderStatus($stateParams.id, $rootScope.currentMember, status.id).then(function(response){
+                console.log(response);
+                MUtilitiesService.AlertSuccessful(response, 'Thông báo');
+            })
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Thông báo');
+            });
             
+            return;
+            /////////////////////////////////////////////////////////////
+            // END
+
+
             var ref = firebase.database().ref();
             
             var thisOrderRef = ref.child('newOrders/' + $stateParams.id);
@@ -282,7 +286,7 @@ mRealtime.controller('OdersCtrl',
                             uname : $rootScope.currentMember.last_name,
                             type: 1, //change status,
                             status_after : status.id,
-                            updated_at: Date.now()
+                            updated_at: firebase.database.ServerValue.TIMESTAMP
                         }
                         firebase.database().ref().child('newOrders/' + $stateParams.id).child('activeLog').push(activeLogItem);
 
@@ -447,7 +451,7 @@ mRealtime.controller('OdersCtrl',
                             status_id : $scope.activeOrder.status_id,
                             type :  $scope.activeOrder.type || null
                         },
-                        created_time : Date.now()
+                        created_time : firebase.database.ServerValue.TIMESTAMP
                     }
                     firebaseService.addNewShippingItem(data).then(function(response){
 
