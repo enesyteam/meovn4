@@ -208,6 +208,39 @@ mRealtime.filter("photosFilter", function() { // register new filter
   };
 });
 
+mRealtime.filter("ordersFilter", function() { // register new filter
+  /*
+  * photos : array of photos to filter
+  * pageId : photo belong to pageID
+  * gender : photo of gender
+  * destiny : photo of destiny (Mệnh)
+  */
+  return function(orders, status_id, search_mod = false) { // filter arguments
+    // console.log(orders);
+
+    if(!orders) return null;
+    return orders.filter(function (item) {
+      if(search_mod){
+        return item;
+      }
+      else{
+        if(!status_id){
+          return item;
+        }
+        else{
+          if(status_id == item.status_id){
+            return item;
+          }
+          else{
+            return null;
+          }
+        }
+      }
+
+    })
+  };
+});
+
 function checkIfOneItemSelected(arr){
   return new Promise(function(resolve, reject){
     angular.forEach(arr, function(item){

@@ -1,6 +1,6 @@
 m_admin.controller('CreateOrderByCommentCtrl',
     function($rootScope, $window, $scope, $http, $filter, $rootScope, $timeout, cfpLoadingBar, Facebook, firebaseService,
-        MFirebaseService, MFacebookService, MUtilitiesService, fanpages) {
+        MFirebaseService, MFacebookService, MUtilitiesService, fanpages, statuses) {
 
 
         // https://business.facebook.com/TrangSucPhongThuyVici/manager/messages/?threadid=422153718229875&folder=inbox
@@ -53,12 +53,27 @@ m_admin.controller('CreateOrderByCommentCtrl',
             publish_date: null,
         };
 
+        $scope.onConversationLinkChangeg = function(){
+            if(!$scope.conversationLink || $scope.conversationLink.length < 5 || $scope.conversationLink.indexOf('facebook.com') == -1){
+                return;
+            }
+            else{
+                beginGraph();
+            }
+        }
+
         //////////// GRAPH
         var beginGraph = function(){
+            $scope.usersCount = 1;
+            // if(!$scope.conversationLink || $scope.conversationLink.length==0){
+            //     return;
+            // }
             $scope.pageData = null;
             $scope.postData = null;
             $scope.messageData = null;
             $scope.commentData = null;
+            $scope.isGraphing = true;
+            $scope.orderData.customer_mobile = null;
             // graph page
             if($scope.conversationLink.indexOf('threadid') !== -1){
                 // message
@@ -91,7 +106,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
                                     // make order Data
                                     makeOrderDataFromMessage(response);
                                     $scope.orderData.conversation_id = response.id;
-
+                                    $scope.isGraphing = false;
                                 })
                             })
                         })
@@ -107,6 +122,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
                                         // make order Data
                                         makeOrderDataFromMessage(response);
                                         $scope.orderData.conversation_id = response.id;
+                                        $scope.isGraphing = false;
                                     })
                                 })
                             })
@@ -121,6 +137,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
                                             // make order Data
                                             makeOrderDataFromMessage(response);
                                             $scope.orderData.conversation_id = response.id;
+                                            $scope.isGraphing = false;
                                         })
                                     })
                                 })
@@ -140,6 +157,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
                                                             // make order Data
                                                             makeOrderDataFromMessage(response);
                                                             $scope.orderData.conversation_id = response.id;
+                                                            $scope.isGraphing = false;
                                                         })
                                                     })
                                                     resolve(true);
@@ -216,6 +234,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
                                     // }
                                     makeOrderDataFromComment(response);
                                     $scope.orderData.conversation_id = conversationId;
+                                    $scope.isGraphing = false;
                                 })
                             })
                             .catch(function(err){
@@ -247,6 +266,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
                         if (response) {
                             console.log('...Bắt đầu thêm');
                             $rootScope.addOrderManual();
+                            $scope.isGraphing = false;
                         }
                         else{
                             console.log('Bỏ qua thêm thủ công');
@@ -254,6 +274,7 @@ m_admin.controller('CreateOrderByCommentCtrl',
                     })
                     .catch(function(err){
                         console.log(err);
+                        $scope.isGraphing = false;
                     })
                 });
                 
@@ -261,10 +282,12 @@ m_admin.controller('CreateOrderByCommentCtrl',
             }
             
         }
+
+        $scope.usersCount = 1;
         var makeOrderDataFromMessage = function(data){
-            // console.log(data);
             angular.forEach(data.participants.data, function(p) {
                 if (p.id !== $scope.pageData.id) {
+                    
                     $scope.customer = p;
                     // order data
                     $scope.orderData.page_id = $scope.pageData.id;
@@ -275,9 +298,17 @@ m_admin.controller('CreateOrderByCommentCtrl',
             });
         }
         var makeOrderDataFromComment = function(data){
+            // console.log(data);
             $scope.orderData.page_id = $scope.pageData.id;
             $scope.orderData.customer_id = data.from.id;
             $scope.orderData.customer_name = data.from.name;
+            if(data.comments && data.comments.length > 0){
+                angular.forEach(data.comments.data, function(p){
+                    if (p.from.id !== $scope.pageData.id) {
+                        $scope.usersCount++;
+                    }
+                })
+            }
         }
         $scope.setCustomer = function(customer){
             if(customer.id == $scope.pageData.id || $scope.orderData.customer_id == customer.id){
@@ -343,13 +374,34 @@ m_admin.controller('CreateOrderByCommentCtrl',
             }
             return true;
         }
+
+        function resetOrderData(){
+            $scope.conversationLink = null;
+            $scope.orderData = {
+                type: null,
+                id: null,
+                page_id: null,
+                post_id: null,
+                conversation_id: null,
+                customer_id: null,
+                customer_name: null,
+                customer_mobile: null,
+                customer_message: null,
+                admin_note: null,
+                status_id: 1,
+                publish_date: null,
+            }
+            $scope.usersCount = 1;
+        }
+        $scope.reset = function(){
+            resetOrderData();
+        }
         $scope.sendThanks = true;
         $scope.submitOrder = function() {
             if(!validateOrderData($scope.orderData)){
                 // MUtilitiesService.AlertError('Không thể thêm Order. Vui lòng xem lại dữ liệu', 'Thông báo');
                 return;
             }
-
             // kiểm tra số điện thoại
             MUtilitiesService.validatePhoneNumber(false, 'Số điện thoại khách hàng', 
                 $scope.orderData.customer_mobile).then(function(response){
@@ -358,7 +410,44 @@ m_admin.controller('CreateOrderByCommentCtrl',
                 $scope.orderData.status_id = 1;
                 $scope.orderData.publish_date = Date.now();
 
-                MFirebaseService.onAddNewOrder($rootScope.currentMember, $scope.orderData, $rootScope.sellers).then(function(response) {
+                MFirebaseService.findDuplicateOrerByPhone($scope.orderData.customer_mobile)
+                .then(function(response){
+                    if(response.length > 0){
+                        MUtilitiesService.showDublicateConfirm(function(){
+                            return {
+                                orders: response,
+                                fanpages: fanpages,
+                                statuses: statuses
+                            }
+                        })
+                        .then(function(response){
+                            if(response == true){
+                                // alert('Vẫn thêm số trùng');
+                                // tuy nhiên sẽ bổ sung thêm ghi chú phần admin note
+                                $scope.orderData.admin_note = 'Khách hàng đã từng để lại số ĐT, vui lòng sử dụng chức năng tìm kiếm để xem lịch sử để lại số.';
+                                doSubmitOrder();
+                            }
+                            else{
+                                $scope.$apply(function(){
+                                    resetOrderData();
+                                })
+                            }
+                        })
+                    }
+                    else{
+                        // do Submit
+                        doSubmitOrder();
+                    }
+                });
+            })
+            .catch(function(err){
+               MUtilitiesService.AlertError(err, 'Lỗi');
+                return false; 
+            })
+        }
+        function doSubmitOrder(){
+            MFirebaseService.onAddNewOrder($rootScope.currentMember, $scope.orderData, $rootScope.sellers)
+                .then(function(response) {
                     MUtilitiesService.AlertSuccessful(response, 'Thông báo');
                     if(!isTestMode && $scope.sendThanks){
                         // $scope.current_token
@@ -386,32 +475,11 @@ m_admin.controller('CreateOrderByCommentCtrl',
                     else{
                         MUtilitiesService.AlertSuccessful('Bạn đang sử dụng ở chế độ Test. Ở chế độ hoạt động hệ thống sẽ gửi một tin nhắn cảm ơn khách hàng!')
                     }
-
                     // reset order
-                    $scope.conversationLink = null;
-                    $scope.orderData = {
-                        type: null,
-                        id: null,
-                        page_id: null,
-                        post_id: null,
-                        conversation_id: null,
-                        customer_id: null,
-                        customer_name: null,
-                        customer_mobile: null,
-                        customer_message: null,
-                        admin_note: null,
-                        // seller_will_call_id: null,
-                        status_id: 1,
-                        publish_date: null,
-                    }
+                    resetOrderData();
                 }).catch(function(err){
                     MUtilitiesService.AlertError(err, 'Thông báo');
                 })
-            })
-            .catch(function(err){
-               MUtilitiesService.AlertError(err, 'Lỗi');
-                return false; 
-            })
         }
         $scope.resetSelectedSeller = function(){
             $scope.orderData.seller_will_call_id = null;
@@ -603,94 +671,6 @@ m_admin.controller('CreateOrderByCommentCtrl',
         // TODO: SUBMIT NEW ORDER
         $scope.graph = function() {
             beginGraph();
-            return;
-
-            
-            // https://business.facebook.com/DaQuyPhongThuyTrangAn/manager/messages/?threadid=144606886204668&folder=inbox
-            // message link = https://facebook.com/128910997779161/manager/messages/?threadid=141327656537495&folder=inbox
-            // comment link = https://facebook.com/188076085089506_142551766431653
-            var link = $scope.conversationLink;
-
-            // we need to check link
-            if (link.indexOf('threadid') !== -1) {
-                $scope.post_data = null;
-                $scope.subMessages = null;
-                $scope.orderData.post_id = null;
-                // message
-                var l = $scope.conversationLink.split('/').pop();
-                var s = l.split('=');
-                var x = s[1]; //141327656537495&folder
-                var y = x.split('&');
-                var thread = y[0];
-                // page id
-                var p = $scope.conversationLink.split('/');
-
-                var pname = p[3];
-                // console.log(pname);
-                // var pid = p[3];
-                Facebook.api('/' + pname + '?fields=&access_token=' + $rootScope.access_token, function(response) {
-                    // console.log(response);
-                    // pid = response.id;
-                    $scope.$apply(function() {
-
-                        $scope.pageInfo = response;
-                        $scope.orderData.page_id = response.id;
-
-                        if (thread) {
-                            // get thread id ""
-                            if (!$rootScope.access_token_arr) return;
-                            var token = $scope.filterById($rootScope.access_token_arr, $scope.pageInfo.id);
-                            if (token) {
-                                $scope.currentAccessToken = token.acess_token;
-                            }
-                            // search in 100 recent messages
-                            Facebook.api('/' + $scope.pageInfo.id + '/conversations?fields=id,link&limit=100&access_token=' + $scope.currentAccessToken, function(response) {
-                                if (response && !response.error) {
-                                    //
-                                    angular.forEach(response.data, function(data) {
-                                        var link = data.link;
-                                        if (link.indexOf(thread) !== -1) {
-                                            var t_id = data.id;
-
-                                            $scope.orderData.conversation_id = t_id;
-
-                                            Facebook.api('/' + t_id + '?fields=messages.limit(100){message,from,created_time},snippet,link,unread_count,participants&access_token=' + $scope.currentAccessToken, function(r) {
-                                                $scope.messsageLog = r;
-                                                angular.forEach(r.participants.data, function(p) {
-                                                    if (p.id !== $scope.pageInfo.id) {
-                                                        $scope.customer = p;
-                                                        // order data
-                                                        $scope.orderData.customer_id = p.id;
-                                                        $scope.orderData.customer_name = p.name;
-                                                        $scope.orderData.type = 1; // message
-                                                    }
-                                                });
-
-                                                // console.log(r);
-                                            });
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-
-                });
-
-
-
-            } else {
-                // comment
-                $scope.messsageLog = null;
-                $scope.finishedGraph = null;
-                $scope.orderData.type = null; // message
-
-                var l = $scope.conversationLink.split('/');
-                var conversationId = l[l.length - 1];
-
-                graphOriginalConversation(conversationId);
-
-            }
         }
 
         // functions

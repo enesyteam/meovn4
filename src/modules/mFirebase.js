@@ -1695,6 +1695,21 @@
                     })
                 }
 
+                var findDuplicateOrerByPhone = function(phone){
+                    return new Promise(function (resolve, reject) {
+                        var result = [];
+                        firebase.database().ref().child('newOrders')
+                            .orderByChild('customer_mobile')
+                            .equalTo(phone)
+                            .once('value', snapshot => {
+                                angular.forEach(snapshot.val(), function (value, key) {
+                                    result.push(value);
+                                })
+                                resolve(result);
+                            })
+                    })
+                }
+
                 // search shipping item
                 var searchShippingByCustomerPhone = function (phone) {
                     return new Promise(function (resolve, reject) {
@@ -1993,7 +2008,7 @@
                     // date = 2018-07-03
                     return new Promise(function(resolve, reject){
                         firebase.database().ref().child('report').limitToLast(30).once('value', function (snapshot) {
-                            console.log(snapshot.val());
+                            // console.log(snapshot.val());
                             var res = [];
                             var new_customer = [], success = [], user_report = [];
 
@@ -2115,6 +2130,7 @@
                     getOrdersByStatusId: getOrdersByStatusId,
                     searchOrderByCustomerName: searchOrderByCustomerName,
                     searchOrderByCustomerPhone: searchOrderByCustomerPhone,
+                    findDuplicateOrerByPhone: findDuplicateOrerByPhone,
                     getNextOrders: getNextOrders,
 
                     // trang shipping

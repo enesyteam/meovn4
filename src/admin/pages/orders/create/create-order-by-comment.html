@@ -1,10 +1,20 @@
 <div class="columns">
-   <div class="one-half column">
+   <div class="two-thirds column">
       <div class="row" style="display: block">
          <form>
+            <div class="flash flash-warn" ng-if="usersCount > 1">
+               <strong>Chú ý: </strong> Hội thoại chứa nhiều khách hàng, vui lòng click vào comment tương ứng với khách
+                hàng để lựa chọn khách hàng đó.
+            </div>
             <dl class="form-group">
-               <dt><label>Nhập link cuộc hội thoại và Enter</label></dt>
-               <dd><input ng-model="conversationLink" class="form-control" type="text" placeholder="e.g: https://facebook.com/326410367763204_326415471096027" graph-enter="">
+               <dt><label>Paste link cuộc hội thoại <strong style="color:red">(Không cần Enter)</strong>
+                  <pan-loader offline="offline" pan-buttertip-message="" pan-show-tip-if="offline" style="
+                     display: inline-block;
+                     " ng-if="isGraphing">
+                     <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
+                  </pan-loader>
+               </label></dt>
+               <dd><input ng-model="conversationLink" class="form-control width-full" type="text" placeholder="e.g: https://facebook.com/326410367763204_326415471096027" graph-enter="" ng-change="onConversationLinkChangeg()">
                </dd>
             </dl>
          </form>
@@ -26,7 +36,7 @@
             <dl class="form-group">
                <dt><label>Ghi chú của Admin</label></dt>
                <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
-                  <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="order-note" rows="20" style="margin: 0px 5px 0px 0px; width: 442px; height: 69px;" ng-model="orderData.admin_note"></textarea add-order-enter="submitOrder()">
+                  <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input width-full" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="order-note" rows="20" style="margin: 0px 5px 0px 0px; width: 442px; height: 69px;" ng-model="orderData.admin_note"></textarea add-order-enter="submitOrder()">
                   <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
                   <div class="suggester-container">
                      <div class="suggester js-suggester js-navigation-container" data-url="/autocomplete/user-suggestions">
@@ -63,14 +73,17 @@
                </label>
             </dt>
          </dl>
-         <dl class="form-group">
-            <a ng-click="submitOrder()" class="btn btn-primary float-right">
+         <dl class="form-group float-right">
+            <a ng-click="reset()" class="btn btn-danger">
+            Reset
+            </a>
+            <a ng-click="submitOrder()" class="btn btn-primary">
             Tạo Order
             </a>
          </dl>
       </div>
    </div>
-   <div class="one-half column">
+   <div class="one-third column" style="position: fixed;right: 0;width: 450px;overflow-y: scroll;bottom: 0;top: 55px;" ng-if="orderData.conversation_id">
       <div class="newsfeed-placeholder p-0 mb-3 mt-5">
          <div ng-include="'/src/admin/widgets/chat-box.html'"></div>
       </div>

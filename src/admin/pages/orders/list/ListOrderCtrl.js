@@ -42,38 +42,40 @@ function($scope, $rootScope, $timeout, cfpLoadingBar, firebaseService, Facebook,
               $scope.lastOrderKey = response[response.length - 1].key;
               $scope.isLoaddingOrder = false;
           })
+
+          // trigger when new order added
+        let newOrdersRef = firebase.database().ref().child('newOrders').orderByChild('publish_date').limitToLast(1);
+        newOrdersRef.on('child_added', snapshot => {
+          if(snapshot.key !== $scope.newlyOrderKey){
+            var item = {
+                customer_name : snapshot.val().customer_name,
+                customer_mobile : snapshot.val().customer_mobile,
+                customer_id : snapshot.val().customer_id,
+                id : snapshot.val().id,
+                type: snapshot.val().type,
+                selected : false,
+                page_id : snapshot.val().page_id,
+                post_id : snapshot.val().post_id,
+                conversation_id: snapshot.val().conversation_id,
+                seller_will_call_id : snapshot.val().seller_will_call_id,
+                status_id : snapshot.val().status_id,
+                publish_date : snapshot.val().publish_date,
+                is_bad_number : snapshot.val().is_bad_number,
+                active_log : snapshot.val().activeLog,
+              }
+            $timeout(function() {
+              $scope.$apply(function(){
+                $scope.newlyOrderKey = snapshot.key;
+                $scope.availableOrders.unshift(snapshot.val());
+              });
+            }, 10);
+          }
+        });
       })
     }
     getOrders();
 
-    // trigger when new order added
-    let newOrdersRef = firebase.database().ref().child('newOrders').orderByChild('publish_date').limitToLast(1);
-    newOrdersRef.on('child_added', snapshot => {
-      if(snapshot.key !== $scope.newlyOrderKey){
-        var item = {
-            customer_name : snapshot.val().customer_name,
-            customer_mobile : snapshot.val().customer_mobile,
-            customer_id : snapshot.val().customer_id,
-            id : snapshot.val().id,
-            type: snapshot.val().type,
-            selected : false,
-            page_id : snapshot.val().page_id,
-            post_id : snapshot.val().post_id,
-            conversation_id: snapshot.val().conversation_id,
-            seller_will_call_id : snapshot.val().seller_will_call_id,
-            status_id : snapshot.val().status_id,
-            publish_date : snapshot.val().publish_date,
-            is_bad_number : snapshot.val().is_bad_number,
-            active_log : snapshot.val().activeLog,
-          }
-        $timeout(function() {
-        	$scope.$apply(function(){
-	          $scope.newlyOrderKey = snapshot.key;
-	          $scope.availableOrders.unshift(snapshot.val());
-	        });
-        }, 10);
-      }
-    });
+    
 
     
     $scope.getNextAddedOrders = function() {

@@ -58,6 +58,7 @@
                      <div class="agentMessage__avatar"><img ng-src="{{commentData.from ? '//graph.facebook.com/' + commentData.from.id + '/picture?width=50&amp;height=50' : '';}}" class="agentMessage__avatarImg"></div>
                      <div class="chat-operator-message window__chatAgentMessage">
                         {{commentData.message}}
+                        <small style="display: block;margin-left: 10px;font-size: 12px;color: #555;" ng-if="commentData.from.id !== pageData.id">{{commentData.from.name}}</small>
                         <div ng-if="commentData.attachment">
                            <a href="" ng-click="showImageDialog(commentData.attachment.media.image.src)">
                               <img ng-src="{{commentData.attachment.media.image.src}}" style="width: 120px;height: auto;border-radius: 10px;    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);">
@@ -74,6 +75,7 @@
                      </div>
                      <div ng-class="comment.from.id !== pageData.id ? 'chat-operator-message window__chatAgentMessage' : 'chat-visitor-message window__chatVisitorMessage'">
                         {{comment.message}}
+                        <small style="display: block;margin-left: 10px;font-size: 12px;color: #555;" ng-if="comment.from.id !== pageData.id">{{comment.from.name}}</small>
                        <!--  <span ng-if="comment.message_tags" ng-repeat="tag in comment.message_tags">
                            <a href="//facebook.com/{{tag.id}}" target="_blank">{{tag.name}}</a>
                         </span> -->

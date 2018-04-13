@@ -78,6 +78,57 @@
                     })
                 }
 
+                var showDublicateConfirm = function(onOpenCallback) {
+                    var html =
+                        '<div class="Box-header">' +
+                        '<h3 class="Box-title">Phát hiện trùng số</h3>' +
+                        '</div>' +
+                        '<div class="Box-body">' +
+                        '<div>Tìm thấy {{orders.length}} order(s) có cùng số điện thoại: </div>'
+                        + '<ul style="margin-left:15px;">'
+                        +   '<li ng-repeat="order in orders">'
+                        +       '<span>{{order.customer_name}} - {{order.customer_mobile}} - {{filterById(statuses, order.status_id).name}} - '
+                        + '{{filterById(fanpages, order.page_id).name}} - (Tạo lúc: {{order.publish_date | date: "dd/MM hh:MM"}})</span>'
+                        +   '</li>'
+                        + '</ul>' +
+                        '</div>' +
+
+                        '<div class="Box-footer">' +
+                        '<button type="button" class="btn btn-sm btn-primary" ng-click="confirm(true)">Tiếp tục</button>' +
+                        '<button type="button" class="btn btn-sm ml-2" ng-click="reject()">Bỏ qua</button>' +
+                        '</div>';
+
+                    return new Promise(function(resolve, reject) {
+                       var dlg = ngDialog.open({
+                                template: html,
+                                controller: ['$scope', '$filter', function($scope, $filter){
+                                    console.log($filter);
+                                  $scope.orders =  onOpenCallback().orders;
+                                  $scope.fanpages =  onOpenCallback().fanpages;
+                                  $scope.statuses =  onOpenCallback().statuses;
+                                  console.log($scope.orders);
+                                  $scope.filterById = function(sources, id) {
+                                        if(!id) return null;
+                                        return $filter("filter")(sources, {
+                                            id: id
+                                        })[0];
+                                    }   
+                                  $scope.confirm = function(){
+                                    dlg.close();
+                                    resolve(true);
+                                  }
+                                  $scope.reject = function(){
+                                    dlg.close();
+                                    resolve(false);
+                                  }
+                                }],
+                                plain: true,
+                                disableAnimation : true,
+                                onOpenCallback: onOpenCallback,
+                            })
+                    })
+                }
+
                  
 
                 var showChatBox = function(onOpenCallback) {
@@ -727,6 +778,7 @@
                     showUploadImage : showUploadImage,
                     validatePhoneNumber : validatePhoneNumber,
                     showChatBox : showChatBox,
+                    showDublicateConfirm: showDublicateConfirm,
                 }
             }
         ]);

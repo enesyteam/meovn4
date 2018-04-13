@@ -12,14 +12,20 @@
                   </div>
                   </a></div> -->
                <ul class="filterbar-nav">
-                  <li class="home tooltipped tooltipped-e tooltipped-no-delay" ng-repeat="(key, value) in availableOrders | countBy: 'status_id'" aria-label="{{getStatusById(key).name}}">
-                     <a class="shortcuts-project" ng-click="filterOrderByStatusId()">
+                  <li class="home tooltipped tooltipped-e tooltipped-no-delay" aria-label="Hiển thị tất cả" ng-class="!filter_status_id ? 'active' : ''">
+                     <a class="shortcuts-project" ng-click="toggleShowAll()">
                         <div class="nav-icon-container" style="margin:0 auto;">
-                           <span class="Counter" style="background-color: {{getSourceColor(key)}};color:#fff">{{value}}</span>
+                           <span>All</span>
                         </div>
                      </a>
                   </li>
-                  
+                  <li class="home tooltipped tooltipped-e tooltipped-no-delay" ng-repeat="status in statuses" aria-label="{{status.name}}" ng-class="status.id==filter_status_id ? 'active' : ''" ng-if="status.active == 1 && status.allow_fillter == 1">
+                     <a class="shortcuts-project" ng-click="toggleFilterStatusId(status.id)">
+                        <div class="nav-icon-container" style="margin:0 auto;">
+                           <span>{{status.short_name}}</span>
+                        </div>
+                     </a>
+                  </li>                  
                </ul>
             </div>
             <div class="col_left_conversation">
@@ -34,7 +40,7 @@
                   <div class="people" ng-if="finishLoadingOrders" id="list-wrapper">
                      <div style="height: 100%" 
                      scroll-to-bottom="availableOrders">
-                        <li ng-repeat="order in availableOrders track by $index" ui-sref="home.detail({type: order.type, id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person order-{{order.id}}" ng-class="currentMember.id == order.seller_will_call_id ? 'my-order' : ''">
+                        <li ng-repeat="order in (availableOrders | ordersFilter:filter_status_id:search_mod)" ui-sref="home.detail({type: order.type, id : order.id, conversation_id:order.conversation_id, page_id: order.page_id, post_id: order.post_id, customer_id: order.customer_id})" ui-sref-active="active" class="person order-{{order.id}}" ng-class="currentMember.id == order.seller_will_call_id  || currentMember.is_admin == 1  || currentMember.is_mod == 1 ? 'my-order' : ''" ng-if="order.seller_will_call_id == currentMember.id || currentMember.is_admin == 1  || currentMember.is_mod == 1 || search_mod == true">
                         <div class="wrap_chat">
                            <!-- <div class="check">
                               <input type="checkbox" class="check_people" value="on">

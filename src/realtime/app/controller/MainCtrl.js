@@ -3,7 +3,57 @@ mRealtime.controller('MainCtrl',
     cfpLoadingBar, Facebook, firebaseService, firebaseStorageService, 
     MFirebaseService, MUtilitiesService, fanpages, telesales) {
 
-    var pageSize = 100;
+
+    $scope.activeFilter = {
+        filter_status_id: null,
+        filter_seller_id: null,
+    }
+
+    $scope.search_mod = false;
+
+    $scope.filter_status_id = null;
+    $scope.toggleFilterStatusId = function(status_id){
+        $scope.filter_status_id = status_id;
+    }
+
+    $scope.toggleShowAll = function(){
+        $scope.filter_status_id = null;
+    }
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (!user) {
+            // console.log('Bạn chưa đăng nhập!');
+            $window.location = '/login';
+        } else {
+
+            $rootScope.firebaseUser = user;
+            firebaseService.getAllMembers().then(function(members) {
+
+                $scope.$apply(function() {
+                    $rootScope.sellers = members.val();
+                });
+
+                // console.log($rootScope.sellers);
+
+                angular.forEach($rootScope.sellers, function(value) {
+                    if (value.email == user.email) {
+
+                        // console.log(value);
+                        $scope.$apply(function() {
+                            $rootScope.currentMember = value;
+                        });
+                        $scope.activeFilter = {
+                            filter_status_id: null,
+                            filter_seller_id: $rootScope.currentMember.id,
+                        }
+                    }
+                });
+            });
+        }
+    });
+
+
+
+    var pageSize = 150;
     $rootScope.availableOrders = [];
     $rootScope.newlyOrderKey = null;
     $rootScope.lastOrderKey = null;
@@ -11,16 +61,14 @@ mRealtime.controller('MainCtrl',
     $rootScope.isLoaddingOrder = true;
 
     $scope.telesales = telesales;
-
-    // tét
-    // MFirebaseService.getOrdersByStatusId(9, 15).then(function(response) {
-    //     console.log(response);
-    // })
+    
 
     function getOrders(){
         $rootScope.availableOrders = [];
         MFirebaseService.getOrders(pageSize).then(function(response) {
             response.reverse().map(function(order) {
+                // console.log(order);
+                // console.log($scope.activeFilter.filter_seller_id);
                 $scope.$apply(function() {
                     $rootScope.availableOrders.push(order.data);
                 })
@@ -74,13 +122,16 @@ mRealtime.controller('MainCtrl',
       if(!$rootScope.searchQuery.text || $rootScope.searchQuery.text == ''){
         // reset kết quả về mặc định
         getOrders();
+        $scope.search_mod = false;
         // MUtilitiesService.AlertError('Vui lòng nhập từ khóa tìm kiếm', 'Lỗi');
         return;
       }
       if($rootScope.searchQuery.text.length < 2){
         MUtilitiesService.AlertError('Chuỗi tìm kiếm quá ngắn', 'Lỗi');
+        $scope.search_mod = false;
         return;
       }
+      $scope.search_mod = true;
       if($rootScope.searchQuery.text.match(/^\d/)){
         if($rootScope.searchQuery.text.length < 4){
           MUtilitiesService.AlertError('Chuỗi tìm kiếm quá ngắn', 'Lỗi');
@@ -254,65 +305,7 @@ mRealtime.controller('MainCtrl',
         // $files = null;
     };
 
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (!user) {
-            // console.log('Bạn chưa đăng nhập!');
-            $window.location = '/login';
-        } else {
-            // for presence
-            var connectedRef = ref.child(".info/connected");
-            connectedRef.on("value", function(isOnline) {
-                if (isOnline.val()) {
-                    // If we lose our internet connection, we want ourselves removed from the list.
-                    myUserRef.onDisconnect().remove();
-
-                    // Set our initial online status.
-                    setUserStatus("\u2605 online");
-                    console.log(isOnline.val());
-                } else {
-                    console.log('không rõ');
-                    // We need to catch anytime we are marked as offline and then set the correct status. We
-                    // could be marked as offline 1) on page load or 2) when we lose our internet connection
-                    // temporarily.
-                    setUserStatus(currentStatus);
-                }
-            });
-
-            $rootScope.firebaseUser = user;
-            firebaseService.getAllMembers().then(function(members) {
-
-                $scope.$apply(function() {
-                    $rootScope.sellers = members.val();
-                });
-
-                // console.log($rootScope.sellers);
-
-                angular.forEach($rootScope.sellers, function(value) {
-                    if (value.email == user.email) {
-
-                        // console.log(value);
-                        $scope.$apply(function() {
-                            $rootScope.currentMember = value;
-                        });
-                    }
-                });
-            });
-            // console.log(user);
-            //   firebaseService.getAllMembers().then(function(members){
-            //   angular.forEach(members, function(m){
-            //     if(m.email ==user.email){
-            //       if(m.is_admin != 1 || m.is_mod != 1){
-            //         // $window.location = '/404.html';
-            //         return;
-            //       }
-            //     }
-            //     // else{
-            //     //   $window.location = '/admin/#/dashboard';
-            //     // }
-            //   });
-            // });
-        }
-    });
+    
 
     // present
     var currentStatus = "\u2605 online";

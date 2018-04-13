@@ -2,6 +2,17 @@ mNavigation.controller('ReportCtrl',
     function($rootScope, $scope, $http, $filter, $timeout,
     	MFirebaseService, MUtilitiesService, MGHNService, ghn_token, fanpages, telesales) {
         // console.log(ghn_token);
+        $scope.aProducts = [];
+        var getAllAvailableProducts = function() {
+            var ref = firebase.database().ref();
+            let productsRef = ref.child('products');
+            productsRef.on('child_added', snapshot => {
+                $scope.aProducts.push(snapshot.val());
+            });
+        }
+
+        getAllAvailableProducts();
+
     	$scope.telesales = telesales;
     	$scope.filterById = function(sources, id) {
 	        if(!id) return null;
@@ -111,6 +122,7 @@ mNavigation.controller('ReportCtrl',
 	            })
                 $scope.isGettingData = false;
 	            $scope.result = response;
+                console.log(response);
 	    	})
 	    	.catch(function(){
 	    		$scope.isGettingData = false;
@@ -138,20 +150,46 @@ mNavigation.controller('ReportCtrl',
                 return null;
             }
 
+
+
             var res = [];
             angular.forEach($scope.result, function(order){
                 if(order.is_cancel !== true){
+                    var productLength = order.data.customerData.products.length;
+                    var product1, product2, product3;
+                    if(productLength == 1){
+                        product1 = $scope.filterById($scope.aProducts, order.data.customerData.products[0].id);
+                    }
+                    else if(productLength == 2){
+                        product1 = $scope.filterById($scope.aProducts, order.data.customerData.products[0].id);
+                        product2 = $scope.filterById($scope.aProducts, order.data.customerData.products[1].id);
+                    }
+                    else if(productLength == 3){
+                        product1 = $scope.filterById($scope.aProducts, order.data.customerData.products[0].id);
+                        product2 = $scope.filterById($scope.aProducts, order.data.customerData.products[1].id);
+                        product3 = $scope.filterById($scope.aProducts, order.data.customerData.products[2].id);
+                    }
                     var date = new Date(order.data.created_time);
                     res.push({
                         name: order.customer_name,
                         mobile: '0' + order.customer_mobile,
                         created_date: ("0" + date.getDate()).slice(-2) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear(),
+                        address:  order.data.customerData.addresss,
+                        birthday: order.data.customerData.birthDay,
                         code: order.orderCode,
                         cod: order.cod_amount,
                         shipping_fee: order.service_fee,
                         by: $scope.filterById($scope.telesales, order.data.orderData.seller_will_call_id).last_name,
                         current_status: 
-                        order.logs ? $scope.getStatus(order.logs[order.logs.length -1].CurrentStatus).text : 'Không rõ'
+                        order.logs ? $scope.getStatus(order.logs[order.logs.length -1].CurrentStatus).text : 'Không rõ',
+                        product1: product1 ? product1.name + ' (' + order.data.customerData.products[0].note + ')' : '',
+                        product1_count: product1 ? order.data.customerData.products[0].count : null,
+
+                        product2: product2 ? product2.name + ' (' + order.data.customerData.products[1].note + ')' : '',
+                        product2_count: product2 ? order.data.customerData.products[1].count : null,
+
+                        product3: product3 ? product3.name + ' (' + order.data.customerData.products[2].note + ')' : '',
+                        product3_count: product3 ? order.data.customerData.products[2].count : null,
                     });
                 }
             })
@@ -162,4 +200,6 @@ mNavigation.controller('ReportCtrl',
             var date = new Date($scope.selectedDate);
             return ("0" + date.getDate()).slice(-2) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear();
         }
+
+
     })
