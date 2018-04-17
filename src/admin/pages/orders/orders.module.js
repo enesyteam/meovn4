@@ -9,6 +9,7 @@
       .config(function($stateProvider, $urlRouterProvider){
         $urlRouterProvider.when('/admin/orders','/admin/orders/create');
         $urlRouterProvider.when('/admin/orders/create','/admin/orders/create/byComment');
+        $urlRouterProvider.when('/admin/orders/push','/admin/orders/push/all');
         $stateProvider
           .state('home.orders',{
               url: '/orders',
@@ -38,6 +39,17 @@
               url: '/push',
                   controller : 'PushOrderCtrl',
                   templateUrl: "src/admin/pages/orders/push/list.html"
+                })
+          .state('home.orders.push.all',{
+              url: '/all',
+                  controller : 'PushOrderCtrl',
+                  templateUrl: "src/admin/pages/orders/push/list-all.html"
+                })
+          .state('home.orders.push.uid',{
+              url: '/id=:uid',
+                  params: {uid: null},
+                  controller : 'PushOrderCtrl',
+                  templateUrl: "src/admin/pages/orders/push/list-by-user.html"
                 })
           .state('home.orders.create',{
                 url: '/create',

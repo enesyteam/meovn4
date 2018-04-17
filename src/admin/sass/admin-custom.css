@@ -367,17 +367,20 @@ ul.shipping-report li .report-value{
 }
 .order-item-row .actions{
     /*display: none;*/
-    position: absolute;
+/*    position: absolute;
     left: 50%;
-    top: 25%;
+    top: 25%;*/
     visibility: hidden;
       opacity: 0;
       transition: visibility 0s, opacity 0.25s linear;
 }
 .order-item-row:hover .actions{
     visibility: visible;
-  opacity: 1;
+    opacity: 1;
 }
+/*.order-item-row:hover{
+    background-color: transparent !important;
+}*/
 .order-customer-avatar img {
     width: 40px;
     height: 40px;
@@ -456,4 +459,33 @@ ul.shipping-report li .report-value{
 ul.replies-list{
     list-style: none;
     margin: 0
+}
+
+.order-item-row.selected{
+    color: #fff !important;
+    text-decoration: none;
+    background-color: #0366d6
+}
+.order-item-row.selected .customer-name,
+.order-item-row.selected .status-name,
+.order-item-row.selected .info,
+.order-item-row.selected .actions{
+    color: #fff !important;
+}
+
+.topic-tag.selected{
+    background-color: #0366d6;
+    color: #fff !important;
+}
+.table-list-header{
+    background-color: #eee;
+    height: 50px;
+    display: flex;
+    vertical-align: middle;
+}
+.users-report .report-row{
+    padding: 5px !important
+}
+.users-report .report-row:hover{
+    background: #f6f8fa;
 }

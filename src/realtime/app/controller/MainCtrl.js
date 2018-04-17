@@ -220,7 +220,7 @@ mRealtime.controller('MainCtrl',
 
     // listen for order change
     ref.child('newOrders').on('child_changed', snapshot => {
-        console.log(snapshot.val());
+        // console.log(snapshot.val());
         // find item in array
         $timeout(function() {
             $scope.$apply(function() {

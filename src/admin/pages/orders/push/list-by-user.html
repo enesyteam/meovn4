@@ -1,7 +1,8 @@
 <div class="border-right border-bottom border-left">
    <ul class="js-navigation-container js-active-navigation-container">
       <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read  order-item-row" ng-repeat="order in (canAsignOrders | pushOrdersFilter:filterStatus)" ng-click="toggleSelectAnOrder(order)" style="cursor:pointer;"
-      ng-init="color = filterById(statuses, order.status_id).color" ng-class="order.selected ? 'selected' : ''">
+      ng-init="color = filterById(statuses, order.status_id).color" ng-class="order.selected ? 'selected' : ''"
+      ng-if="currentUserId==order.seller_will_call_id">
          <div class="d-table table-fixed width-full Box-row--drag-hide position-relative">
             <!-- drag handles -->
             <!-- checkbox and issue open icon -->
@@ -45,10 +46,6 @@
                   </svg>
                    {{order.customer_mobile}}
                   <span class="comments-list" style="opacity: 0.9">
-                     <span ng-if="order.admin_note">
-                        <strong>admin note: </strong>
-                        <span>{{order.admin_note}}</span>
-                     </span>
                      <span ng-repeat="c in order.active_log">
                         <span ng-if="c.type == 1">
                            <a class=""  style="color:{{filterById(statuses, c.status_after).color}}">
@@ -80,7 +77,7 @@
                   </div>
                </div>
                <div class="float-right col-4 no-wrap pt-2 pr-3 text-right">
-                  <a class="muted-link actions" ng-click="showChatBox(order); $event.stopPropagation();">
+                  <a class="muted-link actions tooltipped tooltipped-n tooltipped-no-delay" ng-click="showChatBox(order); $event.stopPropagation();" aria-label="Tương tác với khách hàng">
                      <svg height="16" class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path></svg>
                      <!-- <svg aria-hidden="true" class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg> -->
                   </a>

@@ -1,6 +1,6 @@
 <div id="options_bucket">
-   <div class="Subhead">
-      <h2 class="Subhead-heading">Danh sách Orders khả dụng</h2>
+   <!-- <div class="Subhead">
+      <h2 class="Subhead-heading">Quản lý Orders</h2>
       <div class="">
          <div class="breadcrumb">
          </div>
@@ -12,13 +12,32 @@
             <div class="p6n-ls-container" ng-class="{'p6n-ls-offline' : isOffline}">  <span class="p6n-ls-node"></span>  <span class="p6n-ls-node"></span></div>
          </pan-loader>
       </div>
-   </div>
+   </div> -->
+   <nav class="UnderlineNav mb-3">
+     <div class="UnderlineNav-body">
+       <a ui-sref="home.orders.push.all"
+       ui-sref-active="selected"
+        role="tab" title="Item 1" class="UnderlineNav-item">Tất cả</a>
+       <a role="tab" title="Item 2" 
+       class="UnderlineNav-item" 
+       ng-repeat="seller in (telesales_arr | reverse) track by $index"
+       ui-sref="home.orders.push.uid({uid: seller.id})"
+       ui-sref-active="selected">{{seller.last_name}}</a>
+     </div>
+   </nav>
    <!-- Filter -->
    <div class="subnav" data-pjax="">
-      <a ng-click="testPush()" class="btn btn-primary float-right" tabindex="0" data-ga-click="Repository, go to compare view, location:pull request list; text:New pull request">
-      Phân số
-      </a>
-      <div class="float-left subnav-spacer-right" role="search">
+
+      <div class="float-right">
+         <a ng-click="releaseSelectedUsers()" class="btn btn-danger" tabindex="0" data-ga-click="Repository, go to compare view, location:pull request list; text:New pull request">
+         Hủy số
+         </a>
+         <a ng-click="testPush()" class="btn btn-primary" tabindex="0"
+         ng-if="!currentUserId">
+         Phân số
+         </a>
+      </div>
+      <!-- <div class="float-left subnav-spacer-right" role="search">
          <div class="float-left select-menu js-menu-container js-select-menu subnav-search-context">
             <button class="btn select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false">
             Filters
@@ -40,23 +59,53 @@
                </div>
             </div>
          </div>
-         <!-- '"` --><!-- </textarea></xmp> -->
          <form accept-charset="UTF-8" class="subnav-search float-left">
             <input aria-label="Search all issues" class="form-control form-control subnav-search-input input-contrast"  id="js-issues-search" name="q" placeholder="Nhập tên hoặc số điện thoại" type="text" ng-model="searchQuery.text" search-enter="searchOrder()">
             <svg aria-hidden="true" class="octicon octicon-search subnav-search-icon" height="16" version="1.1" viewBox="0 0 16 16" width="16">
                <path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path>
             </svg>
          </form>
-      </div>
+      </div> -->
       <div class="subnav-links float-left" role="navigation">
-         <a class="js-selected-navigation-item subnav-item" data-selected-links="repo_labels /angular/angular/labels">Sources</a>
-         <a class="js-selected-navigation-item subnav-item" style="cursor: pointer;" ng-click="releaseSelectedUsers()">Hủy orders</a>
-         <button class="btn-link link-gray subnav-item js-hide-project-menu" aria-label="Close menu" type="button" ng-click="toggleShowUserPane()">
+         <a class="js-selected-navigation-item subnav-item" 
+         ng-class="filterStatus==status ? 'selected' : ''"
+         ng-repeat="status in statuses track by $index"
+         ng-if="status.allow_fillter == 1"
+         ng-click="toggleFilterStatus(status)">
+         <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" name="circle" style="vertical-align: text-bottom; color: {{status.color}}; font-size: 14px; margin-left: 2px; margin-right: 0px; line-height: 24px;">
+            <g>
+               <path d="m37.3 20q0 4.7-2.3 8.6t-6.3 6.2-8.6 2.3-8.6-2.3-6.2-6.2-2.3-8.6 2.3-8.6 6.2-6.2 8.6-2.3 8.6 2.3 6.3 6.2 2.3 8.6z"></path>
+            </g>
+         </svg>
+                  {{status.name}}</a>
+
+         <!-- <a class="js-selected-navigation-item subnav-item" style="cursor: pointer;" ng-click="releaseSelectedUsers()">Hủy orders</a> -->
+         <!-- <button class="btn-link link-gray subnav-item js-hide-project-menu" aria-label="Close menu" type="button" ng-click="toggleShowUserPane()">
             <svg height="16" class="octicon octicon-organization" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
                <path fill-rule="evenodd" d="M16 12.999c0 .439-.45 1-1 1H7.995c-.539 0-.994-.447-.995-.999H1c-.54 0-1-.561-1-1 0-2.634 3-4 3-4s.229-.409 0-1c-.841-.621-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.442.58 2.5 3c.058 2.41-.159 2.379-1 3-.229.59 0 1 0 1s1.549.711 2.42 2.088C9.196 9.369 10 8.999 10 8.999s.229-.409 0-1c-.841-.62-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.437.581 2.495 3c.059 2.41-.158 2.38-1 3-.229.59 0 1 0 1s3.005 1.366 3.005 4"></path>
             </svg>
-         </button>
+         </button> -->
       </div>
+
+   </div>
+   <div ng-if="!currentUserId">
+      <div class="mb-3 repository-topics-container js-repository-topics-container js-details-container">
+         <div id="topics-list-container" data-url="/angular/angular/settings/topics">
+             <div class="list-topics-container f6 mt-1">
+               <a class="topic-tag topic-tag-link Label Label--outline Label--outline-green tooltipped tooltipped-n tooltipped-no-delay" 
+               ng-class="{'selected': seller.selected === true}" 
+               ng-repeat="seller in (telesales_arr | reverse) track by $index"
+               ng-click="checkedUser(seller)"
+               aria-label="{{seller.report.notCalledCount || 0}} số chưa gọi">
+                 {{seller.last_name}}
+                 <svg ng-if="seller.selected === true" aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                     <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                  </svg>
+               </a>
+           </div>
+      </div>
+
+    </div>
    </div>
    <!-- /Filter -->
    <div class="graph-canvas is-graph-loading" ng-if="isLoaddingOrder">
@@ -78,7 +127,7 @@
       <h3>Không có Order nào khả dụng để phân bổ!</h3>
       <!-- <p>Issues are used to track todos, bugs, feature requests, and more. As issues are created, they’ll appear here in a searchable and filterable list. To get started, you should</p> -->
    </div>
-   <div class="js-notice push-order-users-pane" ng-class="showUserPane ? '' : 'd-none'">
+   <!-- <div class="js-notice push-order-users-pane" ng-class="showUserPane ? '' : 'd-none'">
       <div class="px-3 py-2 border-bottom bg-gray">
          <h3 class="f5">
             <svg height="16" class="octicon octicon-organization" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
@@ -104,7 +153,6 @@
                   <span class="css-truncate-target">
                   {{seller.last_name + ': ID = ' +  seller.id}}
                   </span>
-                  <!-- <span class="session-state-indicator recent" style="float: right;"></span> -->
 
                   <button class="btn-link link-gray float-right tooltipped tooltipped-w pr-1 btn-release-user-orders" aria-label="Hủy tất cả Orders của {{seller.last_name}}" type="button" ng-click="releaseUser(seller, $event)">
                      <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
@@ -119,91 +167,38 @@
             </div>
          </div>
       </div>
-   </div>
+   </div> -->
    <!-- Table -->
    <div ng-if="!isLoaddingOrder && canAsignOrders.length > 0">
       <!-- Table header -->
       <div class="table-list-header" id="js-issues-toolbar">
-         <div class="table-list-filters">
-            <div class="table-list-header-toggle states float-left pl-3">
-               <a class="btn-link selected">
+         <form accept-charset="UTF-8" class="subnav-search mt-2 mr-2 ml-2">
+            <input aria-label="Search all issues" class="form-control form-control subnav-search-input input-contrast"  id="js-issues-search" name="q" placeholder="Nhập số điện thoại, Enter để tìm..." type="text" ng-model="searchQuery.text" search-enter="searchOrder()">
+            <svg aria-hidden="true" class="octicon octicon-search subnav-search-icon" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+               <path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path>
+            </svg>
+         </form>
+         <div class="table-list-filters  mt-2 mr-2 ml-0">
+            <div class="table-list-header-toggle states pl-3">
+               <!-- <a class="btn-link selected">
                <input type="checkbox" ng-model="checkedAll" ng-click="checkAll()">
                Chọn tất cả
-               </a>
-            </div>
-            <div class="table-list-header-toggle states float-left pl-3">
-               <a class="btn-link" style="color:#cb2431">Đã chọn: <strong>{{countSelectedOrders()}}</strong> orders</a>
-            </div>
-            
-            <div class="table-list-header-toggle float-right">
-               <div class="float-left select-menu label-select-menu js-menu-container js-select-menu js-transitionable">
-                  <button class="btn-link select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false" data-hotkey="l">
-                  Trạng thái
-                  </button>
-                  <div class="select-menu-modal-holder js-menu-content js-navigation-container" aria-expanded="false">
-                     <div class="select-menu-modal">
-                        <div class="select-menu-header">
-                           <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                           </svg>
-                           <span class="select-menu-title">Chọn theo trạng thái</span>
-                        </div>
-                        <div class="js-select-menu-deferred-content">
-                           <div class="select-menu-list">
-                              <div data-filterable-for="label-filter-field" data-filterable-type="substring">
-                                 <a class="select-menu-item js-navigation-item js-navigation-open {{status.selected==true ? 'selected' : ''}}" ng-repeat="status in can_release_statuses track by $index" ng-click="selectOrderByStatus(status)">
-                                    <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                       <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                                    </svg>
-                                    <div class="select-menu-item-text css-truncate">
-                                       <div class="color-label-wrapper css-truncate-target">
-                                          <span class="color" style="background-color: {{status.color}}">&nbsp;</span>
-                                          <span class="name">{{status.name}}</span>
-                                       </div>
-                                    </div>
-                                 </a>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="select-menu-loading-overlay anim-pulse">
-                           <svg aria-hidden="true" class="octicon octicon-octoface" height="32" version="1.1" viewBox="0 0 16 16" width="32">
-                              <path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path>
-                           </svg>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="float-left select-menu js-menu-container js-select-menu js-load-contents">
-                  <button class="btn-link select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false" data-hotkey="a">
-                  Được gán cho
-                  </button>
-                  <div class="select-menu-modal-holder js-menu-content js-navigation-container">
-                     <div class="select-menu-modal">
-                        <div class="select-menu-header">
-                           <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
-                              <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
-                           </svg>
-                           <span class="select-menu-title">Chọn user</span>
-                        </div>
-                        <div class="select-menu-list" role="menu">
-                           <div>
-                              <a class="select-menu-item js-navigation-item js-navigation-open {{seller.checked==true ? 'selected' : ''}}" role="menuitem"
-                              ng-repeat="seller in telesales_arr track by $index" ng-click="selectOrderBySeller(seller)">
-                                 <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                                    <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
-                                 </svg>
-                                 <div class="select-menu-item-text">{{seller.last_name}}</div>
-                              </a>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               </a> -->
+               <!-- <a class="js-selected-navigation-item subnav-item mt-2" 
+                  ng-class="checkedAll==true ? 'selected' : ''"
+                  ng-click="checkAll()">{{checkedAll==true ? 'Bỏ chọn' : 'Chọn'}} tất cả</a> -->
+               <!-- <a class="issues-reset-query ml-3" ng-click="unCheckedAll()" ng-if="countSelectedOrders() > 0"
+                  style="color:#cb2431; line-height: 34px">
+                  <svg class="octicon octicon-x issues-reset-query-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path></svg>
+                  Đã chọn {{countSelectedOrders()}} orders, click vào đây để bỏ chọn.
+            </a> -->
             </div>
          </div>
+         
       </div>
       <!-- /Table header -->
-      <div ng-include="'src/admin/pages/orders/push/widgets/table.html'"></div>
+      <!-- <div ng-include="'src/admin/pages/orders/push/widgets/table.html'"></div> -->
+      <div ui-view></div>
    </div>
    <!-- /Table -->
 </div>

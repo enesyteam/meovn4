@@ -1,5 +1,6 @@
 m_admin.controller('OrdersCtrl',
 function($rootScope, $scope, $filter, MFirebaseService, MUtilitiesService, telesales, statuses, fanpages, replies) {
+    // console.log(statuses);
 	$rootScope.telesales = telesales;
 	$rootScope.statuses = statuses;
 	

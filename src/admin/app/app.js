@@ -204,6 +204,20 @@ m_admin.filter('quickReplyFilter', function () {
   }
 });
 
+m_admin.filter('pushOrdersFilter', function () {
+  return function(orders, status) {
+    // console.log(status);
+    return orders.filter(function (item) {
+      if(!status){
+        return item;
+      }
+      else{
+        return item.status_id == status.id
+      }
+    });
+  }
+});
+
 m_admin.directive("select2", ["$timeout", "$parse", function(c, b) {
     return {
         restrict: "AC",
