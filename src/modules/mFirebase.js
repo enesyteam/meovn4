@@ -1273,6 +1273,10 @@
                             reject('Vui lòng chọn User(s) để phân bổ');
                             return;
                         }
+                        if(users.length > orders.length){
+                            reject('Không thể phân bổ ' + orders.length + ' order(s) cho ' + users.length + ' user(s)');
+                            return;
+                        }
                         // bắt đầu phân bổ số
                         var num = Math.floor(orders.length / users.length);
                         // var balance = orders.length % users.length;
