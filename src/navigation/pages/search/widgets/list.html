@@ -9,20 +9,22 @@
          <p class="d-flex text-gray mb-2 pr-4">
             {{order.data.data.customerData.addresss}}
          </p>
-         <div class="topics-row-container d-inline-flex flex-wrap flex-items-center f6 my-1 ghn-status">
+         <div class="topics-row-container d-flex flex-wrap flex-items-center f6 my-1 ghn-status">
             <a class="topic-tag topic-tag-link f6 my-1 status-name tooltipped tooltipped-n tooltipped-no-delay" ng-repeat="log in order.logs track by $index" aria-label="{{log.UpdateTime | date: 'HH:mm dd/MM/yyyy'}}">
             {{getStatus(log.CurrentStatus).text}}
                 <em ng-if="$index == (order.logs.length - 1)" style="font-weight: 500">{{log.UpdateTime | date: 'HH:mm dd/MM/yyyy'}}</em>
             </a>
          </div>
-         <div class="d-flex">
+         <div class="d-flex" style="float: left">
             <p class="f6 text-gray mr-3 mb-0 mt-2">
                Chốt bởi: {{filterById(telesales, order.data.data.orderData.seller_will_call_id).last_name || ''}}, lúc: {{order.data.data.created_time | date: 'HH:mm dd/MM/yyyy'}}
             </p>
-            <!-- <p class="f6 text-gray mr-3 mb-0 mt-2">
-               Cập nhật trạng thái giao hàng lúc: 
-               <relative-time datetime="2018-03-28T01:05:16.38Z" title="Mar 31, 2018, 8:51 PM GMT+7">dd</relative-time>
-            </p> -->
+            <p class="f6 text-gray mr-3 mb-0 mt-2">
+               Sản phẩm: 
+               <span ng-repeat="p in order.data.data.customerData.products track by $index">
+                  {{order.data.data.customerData.products[$index].count}}x[{{ filterById(aProducts, order.data.data.customerData.products[$index].id).name}}]
+               </span>
+            </p>
          </div>
       </div>
 <!--       <div class="d-table-cell col-2 text-gray pt-2">

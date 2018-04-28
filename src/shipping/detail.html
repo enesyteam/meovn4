@@ -13,8 +13,13 @@
        <h3>
        Order này đã tạo đơn hàng thành công trên GHN với mã vận đơn: {{activedItem.orderCode}}
        </h3>
-       <span>Trạng thái đơn hàng: {{trackingData.data.data.CurrentStatus}}</span>
+       <span>Trạng thái đơn hàng: <strong> {{getStatusByCode(trackingData.data.data.CurrentStatus).text}} </strong></span>
        <hr />
+       <!-- <a href="/printing#/PrintInvoice/id={{activedItem.id}}" target="_blank" class="btn btn-purple">In phiếu xuất kho</a> -->
+       <div class="flash flash-error">
+        <!-- react-text: 5 -->Bạn có thể in phiếu xuất kho ngay tại đây.<!-- /react-text -->
+        <a href="/printing#/PrintInvoice/id={{activedItem.id}}" target="_blank" class="btn btn-purple flash-action">In phiếu xuất kho</a>
+      </div>
        <ul class="actions-list">
          <!-- <li ng-if="trackingData.data.data.CurrentStatus=='ReadyToPick'">
            Bạn có thể Chỉnh sửa đơn hàng này <a href="#">tại đây</a>.

@@ -10,6 +10,7 @@ var m_admin = angular.module('m_admin', [
   '720kb.datepicker',
   'ngDialog',
   'ngFileUpload',
+  'infinite-scroll',
   
   'mGHN',
   'mFacebook',
@@ -22,6 +23,7 @@ var m_admin = angular.module('m_admin', [
   'm_admin.report',
   'm_admin.sources',
   'm_admin.orders',
+  'm_admin.mix',
   ])
   .constant('appVersion', '4.2.0')
   .constant('releaseDate', 'Nov-20, 2017')

@@ -3,6 +3,17 @@ mNavigation.controller('MainCtrl',
     	MFirebaseService, MUtilitiesService, MGHNService, ghn_token, fanpages, telesales) {
     	// console.log(telesales);
     	$scope.telesales = telesales;
+        $scope.aProducts = [];
+        var getAllAvailableProducts = function() {
+            var ref = firebase.database().ref();
+            let productsRef = ref.child('products');
+            productsRef.on('child_added', snapshot => {
+                $scope.aProducts.push(snapshot.val());
+            });
+        }
+
+        getAllAvailableProducts();
+        
     	$rootScope.filterById = function(sources, id) {
 	        if(!id) return null;
 	        return $filter("filter")(sources, {

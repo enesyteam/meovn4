@@ -3,6 +3,19 @@
          <div class="pl-2 pr-2 pt-0">
             <div class="columns mb-1">
                <div class="column block-blue pl-3 pr-3 mt-2">
+                <div class="mt-2 mb-2">
+                  <div class="flash flash-error" style="background-color: #4080ff;color: #fff;">
+                        <div>
+                          <h4>Trong trường hợp đơn hàng không tạo, hãy bổ sung ghi chú tại đây</h4>
+                        </div>
+                        <div class="input_chat">
+                          <textarea ng-model="comentText" class="input-msg width-full" id="fb_info_message" name="input_message" placeholder="Nội dung ghi chú." autocomplete="on" comment-enter=""></textarea>
+                        </div>
+                        <div>
+                          <button class="btn btn-sm btn-primary">Tạo ghi chú</button>
+                        </div>
+                     </div>
+                </div>
                   <div data-reactroot="" ng-if="activedItem.data.customerData.customerNote">
                      <div class="mb-2">
                         <div class="flash flash-warn">
@@ -366,6 +379,7 @@
       </div>
       <div class="actions-area">
          <div class="notification">
+
           <div ng-if="feeData">
             <div class="one-third column">
               <h3 class="mt-3 ml-5">{{feeData.data.data.CalculatedFee | number}} Đ</h3>

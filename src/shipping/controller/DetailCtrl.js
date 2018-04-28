@@ -15,6 +15,77 @@ mShipping.controller('DetailCtrl',
         //     return;
         // }
 
+        $scope.statuses = [
+            {
+                id: 101,
+                code: 'ReadyToPick',
+                text: 'Mới tạo',
+                description : 'Trạng thái ReadyToPick là trạng thái đơn hàng mới được tạo ra và chờ nhân viên lấy hàng đến lấy. Khi đơn hàng được tạo ra mặc định sẽ nằm trong trạng thái này.'
+            },
+            {
+                id: 0,
+                code: 'Cancel',
+                text: 'Hủy',
+                description : 'Là trạng thái đơn hàng bị hủy'
+            },
+            {
+                id: 201,
+                code: 'Storing',
+                text: 'Đã lấy',
+                description : 'Là trạng thái nhân viên giao nhận của giaohangnhanh đã nhận được và chuyển hàng hóa về kho lưu trữ'
+            },
+            {
+                id: 202,
+                code: 'Delivering',
+                text: 'Đang giao',
+                description : 'Là trạng thái nhân viên giao nhận của giaohangnhanh đang đi giao hàng cho người nhận'
+            },
+            {
+                id: 203,
+                code: 'Delivered',
+                text: 'Thành công',
+                description : 'Là trạng thái đơn hàng đã được giao thành công'
+            },
+            {
+                id: 301,
+                code: 'Return',
+                text: 'Trả hàng',
+                description : 'Là trạng thái đơn hàng trả lại cho người bán sau 3 lần giao hàng không thành công'
+            },
+            {
+                id: 302,
+                code: 'Returned',
+                text: 'Đã trả',
+                description : 'Là trạng thái đơn hàng đã được trả lại cho người bán'
+            },
+            {
+                id: 204,
+                code: 'WaitingToFinish',
+                text: 'Chờ hoàn tất',
+                description : 'Là trạng thái đơn hàng đang được xử lý để hoàn thành (ví dụ chuyển tiền thu hộ)'
+            },
+            {
+                id: 310,
+                code: 'Finish',
+                text: 'Hoàn tất',
+                description : 'Đơn hàng đã hoàn thành'
+            },
+            {
+                id: 111,
+                code: 'LostOrder',
+                text: 'Thất lạc',
+                description : 'Trạng thái đơn hàng bị thất lạc'
+            },
+        ];
+
+        $scope.getStatusByCode = function(code){
+            var status = $filter("filter")($scope.statuses, {
+                code: code
+            });
+
+            return status && status[0] ? status[0] : null
+        }
+
         $scope.showImageDialog = function(imageUrl){
             ngDialog.open({
                 disableAnimation : true,

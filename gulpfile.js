@@ -186,6 +186,7 @@ var adminSources = gulp.src([
         'node_modules/angular-facebook/angular-facebook.js',
 
         'node_modules/ng-dialog/js/ngDialog.min.js',
+        'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
 
 
         // app
@@ -207,6 +208,10 @@ var adminSources = gulp.src([
         'src/admin/pages/dashboard/general/GeneralCtrl.js',
         // dashboard > realtime
         'src/admin/pages/dashboard/realtime/RealtimeCtrl.js',
+
+        // DASHBOARD
+        'src/admin/pages/mix/mix.module.js',
+        'src/admin/pages/mix/MixCtrl.js',
 
         // REPORT
         'src/admin/pages/report/report.module.js',

@@ -2,6 +2,10 @@ m_admin.controller('PushOrderCtrl',
     function($rootScope, $scope, $filter, $timeout, firebaseService, MFirebaseService, MUtilitiesService, $q,
         can_release_statuses, telesales, $state, $stateParams, ) {
 
+        $rootScope.myPagingFunction = function(){
+            // console.log('test');
+        }
+
         $rootScope.currentUserId = $stateParams.uid;
 
         $rootScope.selectedOrders = [];
