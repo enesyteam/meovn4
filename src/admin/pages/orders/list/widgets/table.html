@@ -18,7 +18,7 @@
             <div class="float-left col-8 p-2 lh-condensed" >
                <div style="max-width: 150px;    text-overflow: ellipsis;white-space: nowrap;overflow: hidden;display: inline-block;">
                   <span class="link-gray-dark no-underline h4 js-navigation-open customer-name {{order.is_bad_number==1 ? 'bad-number' : ''}}">
-                  {{order.customer_name}}
+                  {{order.customer_name}} {{order.id}}
                   </span>
                   <span ng-if="order.selected">(Đã chọn)</span>
                </div>

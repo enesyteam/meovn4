@@ -1022,6 +1022,22 @@
                     })
                 }
 
+                var addShippingNote = function(id, data){
+                    var updates = {};
+                        
+                    updates['/shippingItems/' + id + '/note'] = data;
+
+                    return new Promise(function(resolve, reject){
+                        // update firebase database
+                        firebase.database().ref().update(updates).then(function (response) {
+                                resolve('Thêm ghi chú thành công');
+                            })
+                            .catch(function (err) {
+                                reject(err)
+                            })
+                    })
+                }
+
                 function prepareEmptyDayReport(date) {
                     return new Promise(function (resolve, reject) {
                         // kiểm tra báo cáo đã có chưa
@@ -2195,7 +2211,9 @@
                     onAddNewReply : onAddNewReply,
                     getReplies : getReplies,
                     onDeleteReply : onDeleteReply,
-                    findReplyByKey : findReplyByKey
+                    findReplyByKey : findReplyByKey,
+
+                    addShippingNote: addShippingNote,
                 }
 
             }

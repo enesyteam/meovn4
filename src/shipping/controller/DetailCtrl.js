@@ -15,6 +15,8 @@ mShipping.controller('DetailCtrl',
         //     return;
         // }
 
+        $scope.activeId = $stateParams.id;
+
         $scope.statuses = [
             {
                 id: 101,
@@ -978,5 +980,25 @@ mShipping.controller('DetailCtrl',
         $scope.showFullPost = function(){
           $scope.isShowFullPost = true;  
         }   
+
+        $scope.noteData = {
+            text: null,
+            uid: 2,
+            created_at: Date.now()
+        }
+
+        $scope.submitNote = function(id){
+            if(!$scope.noteData.text || $scope.noteData.text.length == 0){
+                MUtilitiesService.AlertError('Vui lòng nhập nội dung ghi chú', 'Lỗi');
+                return;
+            }
+            MFirebaseService.addShippingNote(id, $scope.noteData)
+            .then(function(response){
+                MUtilitiesService.AlertSuccessful(response, 'Thông báo')
+            })
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Lỗi')
+            })
+        }
 
     });
