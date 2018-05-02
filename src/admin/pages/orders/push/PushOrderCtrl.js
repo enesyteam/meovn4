@@ -52,6 +52,7 @@ m_admin.controller('PushOrderCtrl',
                         is_bad_number: order.data.is_bad_number,
                         active_log: order.data.activeLog,
                         admin_note: order.data.admin_note,
+                        key: order.key
                     }
                     $scope.$apply(function() {
                         $scope.canAsignOrders.push(item);
