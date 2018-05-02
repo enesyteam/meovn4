@@ -2,7 +2,7 @@
    <ul class="js-navigation-container js-active-navigation-container">
       <li id="issue_21406" class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row read  order-item-row" ng-repeat="order in (canAsignOrders | pushOrdersFilter:filterStatus)" ng-click="toggleSelectAnOrder(order)" style="cursor:pointer;"
       ng-init="color = filterById(statuses, order.status_id).color" ng-class="order.selected ? 'selected' : ''"
-      ng-if="currentUserId==order.seller_will_call_id">
+      ng-if="currentUserId==order.seller_will_call_id && order.id>
          <div class="d-table table-fixed width-full Box-row--drag-hide position-relative">
             <!-- drag handles -->
             <!-- checkbox and issue open icon -->
