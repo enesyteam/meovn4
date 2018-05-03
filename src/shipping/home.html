@@ -42,14 +42,15 @@
                   </div> -->
                   <div class="people scrollable">
                      <div style="height: 100%">
-                        <li ng-repeat="order in availableShippingItems" class="person order-{{order.id}}" ui-sref="home.detail({ctype: order.data.data.orderData.type, id : order.data.id, cm: order.data.data.customerData.recievedPhone, page_id: order.data.data.orderData.page_id, post_id: order.data.data.orderData.post_id, customer_id: order.data.data.orderData.customer_id, oid: order.data.data.orderData.id, cv_id: order.data.data.orderData.conversation_id})" ui-sref-active="active">
+                        <li ng-repeat="order in availableShippingItems" class="person order-{{order.id}}" ui-sref="home.detail({ctype: order.data.data.orderData.type, id : order.data.id, cm: order.data.data.customerData.recievedPhone, page_id: order.data.data.orderData.page_id, post_id: order.data.data.orderData.post_id, customer_id: order.data.data.orderData.customer_id, oid: order.data.data.orderData.id, cv_id: order.data.data.orderData.conversation_id})" ui-sref-active="active"
+                        ng-if="order.data.id">
                         <div class="wrap_chat">
                            <!-- <div class="check">
                               <input type="checkbox" class="check_people" value="on">
                            </div> -->
                            <div class="clearfix">
-                              <div class="">
-                                 <img ng-src="{{'//graph.facebook.com/' + order.data.data.orderData.customer_id  + '/picture?width=50&amp;height=50'}}" alt="avatar" title="{{order.data.orderData.customer_name}}">
+                              <div class="" style="opacity: 0.35">
+                                 <img ng-src="assets/images/default-avatar-contact.svg" alt="avatar" title="{{order.data.orderData.customer_name}}">
                               </div>
                               <div class="info">
                                  <div class="title">

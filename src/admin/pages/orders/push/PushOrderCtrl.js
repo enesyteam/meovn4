@@ -604,7 +604,7 @@ m_admin.controller('PushOrderCtrl',
                 })
         }
 
-        $rootScope.filterStatus = null;
+        // $rootScope.filterStatus = null;
         // filter
         $rootScope.toggleFilterStatus = function(status) {
             // unselect all orders in list

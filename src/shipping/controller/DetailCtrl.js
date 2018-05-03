@@ -120,6 +120,7 @@ mShipping.controller('DetailCtrl',
         // $scope.tessttt = activeItem[$stateParams.id];
         angular.forEach(activeItem, function(value, key) {
             // console.log(value);
+            $rootScope.activeKey = key;
             $rootScope.activedItem = value;
             $scope.activedItem = value;
         });
@@ -994,7 +995,13 @@ mShipping.controller('DetailCtrl',
             }
             MFirebaseService.addShippingNote(id, $scope.noteData)
             .then(function(response){
-                MUtilitiesService.AlertSuccessful(response, 'Thông báo')
+                MUtilitiesService.AlertSuccessful(response, 'Thông báo');
+                $rootScope.activedItem.note = $scope.noteData;
+                $scope.noteData = {
+                    text: null,
+                    uid: 2,
+                    created_at: Date.now()
+                }
             })
             .catch(function(err){
                 MUtilitiesService.AlertError(err, 'Lỗi')

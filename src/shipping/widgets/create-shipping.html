@@ -4,29 +4,33 @@
             <div class="columns mb-1">
                <div class="column block-blue pl-3 pr-3 mt-2">
                 <div class="mt-2 mb-2">
-                  <div class="flash flash-error" style="background-color: #4080ff;color: #fff;">
-                        <div>
+                  <div class="p-3" style="border: 1px dashed rgba(27,31,35,0.3);border-radius: 5px;">
+                        <!-- <div>
                           <h4>Trong trường hợp đơn hàng không tạo, hãy bổ sung ghi chú tại đây</h4>
-                        </div>
-                        <form ng-submit="submitNote(activedItem.data.id)">
-                           <div class="input_chat">
-                             <textarea ng-model="noteData.text" class="input-msg width-full" id="fb_info_message" name="input_message" placeholder="Nội dung ghi chú." autocomplete="on" comment-enter=""></textarea>
-                           </div>
-                           <div>
-                             <button class="btn btn-sm btn-primary" ng-click="submitNote(activedItem.data.id)">Tạo ghi chú</button>
-                           </div>
+                        </div> -->
+                        <form ng-submit="submitNote(activeKey)">
+                           <div class="input-group">
+                              <input type="text" ng-model="noteData.text" class="form-control" placeholder="Nhập nội dung ghi chú và Enter để thêm..." aria-label="Username"><span class="input-group-button">
+                              <button class="btn" type="submit" aria-label="Copy to clipboard"><span><svg version="1.1" width="14" height="16" viewBox="0 0 14 16" class="octicon octicon-clippy" aria-hidden="true" name="clippy">
+                              <path fill-rule="evenodd" d="M12 5.5l-8 8-4-4L1.5 8 4 10.5 10.5 4 12 5.5z"></path>
+                           </svg></span></button></span></div>
                         </form>
                      </div>
                 </div>
-                  <div data-reactroot="" ng-if="activedItem.data.customerData.customerNote">
-                     <div class="mb-2">
-                        <div class="flash flash-warn">
-                           <!-- <button type="submit" class="btn btn-sm primary flash-action">OK</button> -->
-                           <strong>Ghi chú tạo đơn: </strong>
-                           {{activedItem.data.note.text}}
+                  <div data-reactroot="" ng-if="activedItem.note">
+                     <div class="mb-2" style="border-left: 4px solid #e36209;margin: 15px 0;padding-left: 15px;color: #86181d;">
+                        <div class="">
+                           <strong>Ghi chú của người tạo đơn: </strong>
+                           {{activedItem.note.text}}
                         </div>
+                        
                      </div>
                   </div>
+                  <div class="flash flash-warn mb-2" ng-if="activedItem.data.customerData.customerNote">
+                           <!-- <button type="submit" class="btn btn-sm primary flash-action">OK</button> -->
+                           <strong>Ghi chú của Telesale: </strong>
+                           {{activedItem.data.customerData.customerNote}}
+                        </div>
                   <span ng-if="activedItem.is_cancel !== true">Bấm <a ng-click="cancelCurrentShippingItem()">vào đây </a>nếu bạn muốn hủy đơn này trên hệ thống Meovn</span>
                   <!-- <form accept-charset="UTF-8"> -->
                   <div style="display: block;">
