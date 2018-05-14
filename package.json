@@ -28,11 +28,13 @@
     "angular-filter": "^0.5.17",
     "angular-loading-bar": "^0.9.0",
     "angular-moment": "^1.2.0",
+    "angular-moment-picker": "^0.10.2",
     "angular-perfect-scrollbar": "0.0.5",
     "angular-resource": "^1.6.7",
     "angular-route": "^1.6.7",
     "angular-sanitize": "^1.6.8",
     "angular-sc-select": "^0.2.0",
+    "angular-slick-carousel": "^3.1.7",
     "angular-toastr": "^2.1.1",
     "angular-ui-router": "^0.4.3",
     "angular-ui-scroll": "^1.7.0",
@@ -74,6 +76,7 @@
     "phone-validate-vn": "0.0.6",
     "primer": "^10.1.0",
     "primer-css": "^9.6.0",
+    "slick-carousel": "^1.8.1",
     "ui-select": "^0.19.8"
   }
 }

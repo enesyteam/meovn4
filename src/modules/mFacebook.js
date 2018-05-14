@@ -283,6 +283,30 @@
             })
         }
 
+        var graphPageLikes = function(pageId, access_token){
+                return new Promise(function(resolve, reject) {
+                    if(!access_token){
+                        reject('Thiếu access token');
+                    }
+                    if(pageId){
+                        Facebook.api('/' + pageId + '?fields=fan_count&access_token=' + access_token, function(response) {
+                            if(response && !response.error){
+                                 resolve(response);
+                            }
+                            else{
+                                reject('Page không tồn tại');
+                            }
+                        })
+                        .catch(function(err){
+                            console.log(err);
+                        });
+                    }
+                    else{
+                        reject('Thiếu page id');
+                    }
+                });
+            }
+
             
         return {
             MFacebookServiceSetApp : MFacebookServiceSetApp,
@@ -297,6 +321,7 @@
             graphPostAttachments : graphPostAttachments,
             replyComment : replyComment,
             replyMessage : replyMessage,
+            graphPageLikes : graphPageLikes
         }
 
     }]);

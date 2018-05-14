@@ -1,0 +1,59 @@
+<div class="_5vb_">
+	<div class="fbChatSidebar fixed_always _5pr2">
+		<div class="_5qqe buttons-stack">
+			<button class="_4jy0 _4jy3 _51sy _42ft px-3" type="submit" value="1" ng-click="releaseSelectedUsers()">Hủy số</button>
+			<button class="_4jy0 _4jy3 _4jy1 _51sy selected _42ft px-3" type="submit" value="1" ng-click="testPush()">Phân số</button>
+		</div>
+		<div class="_51x_">
+			<div class="fbSidebarGripper" data-ft="{&quot;tn&quot;:&quot;+V&quot;}" id="apps_gripper"><div class="gripInner"><span class="gripNuclear"></span></div></div>
+			<div>
+				<div class="_4ejc">
+					
+				</div>
+			</div>
+			<div class="fbChatSidebarBody">
+				<div>
+					<div class="_4kqp _55ob">
+						<div class="_55oc">
+							<div class="clearfix">
+								<div class="_ohe lfloat">Telesales List</div>
+								<!-- <div class="_ohf rfloat"><a class="_2l56" target="_blank" href="/pages/?category=your_pages&amp;ref=www_chatbar">SEE ALL</a></div> -->
+							</div>
+						</div>
+					</div>
+					<div class="_4kqp">
+						<ul class="_4kqp">
+							<li class="_12um _42fz"
+							ng-class="{'selected': seller.selected === true}" 
+	                        ng-repeat="seller in (telesales_arr | reverse) track by $index"
+	                        ng-click="checkedUser(seller)">
+								<div class="_55ln" ng-class="!seller.report ? 'no-data' : ''">
+									<div class="_55lp">
+										<div class="_5aj7">
+											<div class="_4bl7">
+												<a href="">
+													<div class="_55lq">
+														<div class="_55lt" style="width: 32px; height: 32px;">
+															<svg class="octicon gridicon gridicons-user-circle" height="32" width="32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18.5c-4.694 0-8.5-3.806-8.5-8.5S7.306 3.5 12 3.5s8.5 3.806 8.5 8.5-3.806 8.5-8.5 8.5zm0-8c-3.038 0-5.5 1.728-5.5 3.5s2.462 3.5 5.5 3.5 5.5-1.728 5.5-3.5-2.462-3.5-5.5-3.5zm0-.5c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z"></path></g></svg>
+														</div>
+													</div>
+												</a>
+											</div>
+											<div class="_4bl9">
+												<a class="_224p"><div class="_55lr">{{seller.last_name}}
+													<span class="_3ts">
+														 {{seller.first_name}}
+													</span></div></a>
+											</div>
+											<div class="_3p8_ _4bl7" ng-if="seller.report.notCalledCount>0"><div class="_5bon"><span class="_4fsv _5ugh _5ugf _51lp _51lr">{{seller.report.notCalledCount}}</span></div></div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

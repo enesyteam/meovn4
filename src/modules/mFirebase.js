@@ -2029,18 +2029,44 @@
                     return new Promise(function(resolve, reject){
                         firebase.database().ref().child('report').limitToLast(30).once('value', function (snapshot) {
                             // console.log(snapshot.val());
-                            var res = [];
-                            var new_customer = [], success = [], user_report = [];
+                            // var res = [];
+                            var new_customer = [], success = [], user_report = [],
+                             called = [], notCalled = [], missCall = [], callLater = [],
+                             pendding = [], cancel = [];
 
 
                             angular.forEach(snapshot.val(), function(item){
                                 new_customer.push({
-                                    'date' : item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3'),
+                                    'date' : new Date(item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')),
                                     'value' : item.today
                                 });
                                 success.push({
-                                    'date': item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3'),
+                                    'date': new Date(item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')),
                                     'value' : item.successCount
+                                });
+                                called.push({
+                                    'date': new Date(item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')),
+                                    'value' : item.calledCount
+                                });
+                                notCalled.push({
+                                    'date': new Date(item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')),
+                                    'value' : item.notCalledCount
+                                });
+                                missCall.push({
+                                    'date': new Date(item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')),
+                                    'value' : item.missedCount
+                                });
+                                callLater.push({
+                                    'date': new Date(item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')),
+                                    'value' : item.callLaterCount
+                                });
+                                pendding.push({
+                                    'date': new Date(item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')),
+                                    'value' : item.penddingCount
+                                });
+                                cancel.push({
+                                    'date': new Date(item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')),
+                                    'value' : item.cancelCount
                                 });
                                 // if(page_report.length>0){
                                 //    angular.forEach(page_report, function(page_data){
@@ -2064,12 +2090,18 @@
                                 // })
 
                             })
-                            res.push(new_customer);
-                            res.push(success);
+                            // res.push(new_customer);
+                            // res.push(success);
 
                             resolve({
-                                system_report: res,
-                                user_report: null
+                                success: success,
+                                new_customer: new_customer,
+                                called: called,
+                                notCalled: notCalled,
+                                missCall: missCall,
+                                callLater: callLater,
+                                pendding: pendding,
+                                cancel: cancel,
                             });
                         });
                     })
@@ -2112,6 +2144,23 @@
                                     if (member.is_seller == 1) {
                                         res.push(member);
                                     }
+                                })
+                            })
+                            .then(function () {
+                                resolve(res);
+                            })
+                            .catch(function () {
+                                resolve(null)
+                            });
+                    })
+                }
+                var getAllMembers = function () {
+                    return new Promise(function (resolve, reject) {
+                        var res = [];
+                        firebase.database().ref().child('members')
+                            .once('value', function (snapshot) {
+                                angular.forEach(snapshot.val(), function (member) {
+                                        res.push(member);
                                 })
                             })
                             .then(function () {
@@ -2214,6 +2263,7 @@
                     findReplyByKey : findReplyByKey,
 
                     addShippingNote: addShippingNote,
+                    getAllMembers:getAllMembers
                 }
 
             }

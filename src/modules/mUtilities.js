@@ -13,6 +13,16 @@
                 var configToastr = function() {
                     toastrConfig.closeButton = true;
                     toastrConfig.timeOut = 3000;
+                    toastrConfig.toastClass = 'notice';
+                    toastrConfig.containerId = 'global-notices';
+                    toastrConfig.iconClasses = {
+                        error: 'is-error',
+                        info: 'is-info',
+                        success: 'is-success',
+                        warning: 'is-warning'
+                      };
+                    // toastrConfig.positionClass = 'toast-top-right';
+                    toastrConfig.positionClass = "toast-bottom-right";
                 }
 
                 configToastr();
@@ -67,6 +77,7 @@
                     return new Promise(function(resolve, reject) {
                         ngDialog.openConfirm({
                                 template: html,
+                                disableAnimation : true,
                                 plain: true
                             })
                             .then(function(confirm) {
@@ -765,6 +776,14 @@
                     })
                 };
 
+                var checkTwoDatesEqual = function(date1, date2){
+                    date1 = new Date(date1);
+                    date2 = new Date(date2);
+                    return date1.getDate() == date2.getDate() && 
+                        date1.getMonth() ==  date2.getMonth() && 
+                        date1.getFullYear() ==  date2.getFullYear();
+                }
+
                 return {
                     AlertError: AlertError,
                     AlertSuccessful: AlertSuccessful,
@@ -779,6 +798,7 @@
                     validatePhoneNumber : validatePhoneNumber,
                     showChatBox : showChatBox,
                     showDublicateConfirm: showDublicateConfirm,
+                    checkTwoDatesEqual: checkTwoDatesEqual,
                 }
             }
         ]);

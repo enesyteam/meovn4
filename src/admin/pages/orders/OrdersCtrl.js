@@ -9,7 +9,8 @@ function($rootScope, $scope, $filter, MFirebaseService, MUtilitiesService, teles
         return $filter("filter")(sources, {
             id: id
         })[0];
-    }	
+    }
+    
 
     $rootScope.showChatBox = function(order){
       	MUtilitiesService.showChatBox(function(){

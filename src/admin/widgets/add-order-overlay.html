@@ -1,0 +1,95 @@
+<div class="_5vb_ add-order-overlay" ng-class="isShowAddOrderOverlay ? '' : 'hidden_elem'">
+
+	<div class="fbChatSidebar fixed_always _5pr2" style="display: flex;flex-direction: column;" 
+	ng-class="isSubmittingOrder ? 'isSubmittingOrder' : ''">
+		<div class="add" style="display: flex;flex-direction: column;flex: 1;">
+			<div class="_4kqp _55ob">
+				<div class="_55oc">
+					<div class="clearfix">
+						<div class="_ohe lfloat">Add new order</div>
+						<div class="_ohf rfloat">
+							<a ng-click="closeAddOrderOverlay()">
+								<span tabindex="0" class="notice__dismiss">
+									<svg class="gridicon gridicons-cross" height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M18.36 19.78L12 13.41l-6.36 6.37-1.42-1.42L10.59 12 4.22 5.64l1.42-1.42L12 10.59l6.36-6.36 1.41 1.41L13.41 12l6.36 6.36z"></path></g>
+									</svg>
+								</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div style="height:100%;position: relative">
+				<div class="_3vre pt-0" id="NEW_ROLE">
+				   <div>
+				      <div class="_3nmg">
+				         <div id="u_fetchstream_18_5">
+				            <div>
+				               <div class="_5qu_ mb-2">
+				                  <div class="_5aj7">
+				                     <div class="_5qw1 _4bl9">
+				                     	<span class="_wrn _213j _4ehf _1fmg _1fmg">
+					                     	<label class="_55r1 _55r2 _58ak _3ct8">
+					                     		<input class="_58al" type="text" placeholder="Paste link hội thoại từ Pancake" ng-model="conversationLink.text" graph-enter="" ng-change="onConversationLinkChange()"></label>
+					                     </span>
+					                 </div>
+				                  </div>
+				               </div>
+				               <div class="_5qu_ mb-2">
+				                  <div class="_5aj7">
+				                     <div class="_5qw1 _4bl9 pr-2">
+				                     	<span class="_wrn _213j _4ehf _1fmg _1fmg">
+					                     	<label class="_55r1 _55r2 _58ak _3ct8">
+					                     		<input class="_58al" type="text" aria-autocomplete="list" aria-controls="js_4rv" aria-expanded="false" role="combobox" placeholder="Số điện thoại khách hàng" autocomplete="off" autocorrect="off" ng-model="orderData.customer_mobile" add-order-enter="submitOrder()"></label>
+					                     </span>
+					                 </div>
+					                 <div class="_5qw1 _4bl9">
+				                     	<span class="_wrn _213j _4ehf _1fmg _1fmg">
+					                     	<label class="_55r1 _55r2 _58ak _3ct8">
+					                     		<input class="_58al" type="text" aria-autocomplete="list" aria-controls="js_4rv" aria-expanded="false" role="combobox" placeholder="Tên khách hàng" autocomplete="off" autocorrect="off" ng-model="orderData.customer_name" add-order-enter="submitOrder()"></label>
+					                     </span>
+					                 </div>
+				                  </div>
+				               </div>
+				               <div class="_5qu_ mb-2">
+				                  <div class="_5aj7">
+				                     <div class="_5qw1 _4bl9 _4vhi">
+				                     	<textarea rows="2" class="width-full" name="impressum" placeholder="Ghi chú dành cho telesale" maxlength="2000"  add-order-enter="submitOrder()" ng-model="orderData.admin_note"></textarea>
+					                 </div>
+				                  </div>
+				               </div>
+				               <div class="_5qu_ mb-2 rfloat">
+				               		<div><div display="block" class="uiInputLabel clearfix"><label class="uiInputLabelInput _55sg _kv1"><input id="js_74z" type="checkbox"  ng-model="sendThanks" ng-checked="sendThanks"><span class="_66ul"></span></label><label class="_4wb4 uiInputLabelLabel" for="js_74z"><div>Gửi tin nhắn cảm ơn khách hàng</div></label></div></div>
+				               </div>
+				               <div class="_5qu_ mb-3 mt-3">
+					               	<div class="_449e _4xef">
+									   <table cols="2" class="uiGrid _51mz" cellspacing="0" cellpadding="0">
+									      <tbody>
+									         <tr class="_51mx">
+									            <td class="_51m- vTop hLeft"><button class="_4jy0 _4jy3 _4jy1 _51sy selected _42ft" type="submit" value="1" ng-click="submitOrder()">
+									            	<span class="_52tg img _55ym _55yq _55yo mr-1" role="progressbar" aria-valuetext="Loading..." aria-busy="true" aria-valuemin="0" aria-valuemax="100" ng-if="isSubmittingOrder"></span>Thêm Order</button>
+									            	<span class="_52tg img _55ym _55yq _55yo" role="progressbar" aria-valuetext="Loading..." aria-busy="true" aria-valuemin="0" aria-valuemax="100" ng-if="isGraphing"></span>
+									            </td>
+									            <td class="_51mw _51m- vTop hLeft">
+									               <a ng-click="resetOrder()">
+									                  <div class="_449f">Cancel</div>
+									               </a>
+									            </td>
+									         </tr>
+									      </tbody>
+									   </table>
+									</div>
+				               </div>
+				            </div>
+				         </div>
+				      </div>
+				   </div>
+				</div>
+			</div>
+			<!-- Chat -->
+		</div>
+		<div class="_5qu_ mb-3 mt-3" style="display: flex;flex: 2;overflow-y: auto;border-top: 1px solid #ccd0db;box-shadow: inset 0 1px #fafafa;">
+       	<!-- <pre>{{orderData | json}}</pre> -->
+           <div ng-include="'/src/admin/widgets/chat-box.html'"></div>
+       </div>
+	</div>
+</div>

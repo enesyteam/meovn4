@@ -45,6 +45,10 @@ mPrinting.controller('PrintCtrl',
             MUtilitiesService.AlertError('Đã có lỗi xảy ra, vui lòng reload (F5) lại', 'Lỗi');
         }
 
+        var page = $filter("filter")(fanpages, {
+                        id: $scope.activedItem.data.orderData.page_id
+                    })[0];
+
         var hubId = $filter("filter")(fanpages, {
                         id: $scope.activedItem.data.orderData.page_id
                     })[0].HubID;

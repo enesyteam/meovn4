@@ -120,8 +120,10 @@ mNavigation.controller('ReportCtrl',
 	            	}
 
 	            })
-                $scope.isGettingData = false;
-	            $scope.result = response;
+                $scope.$apply(function(){
+                    $scope.isGettingData = false;
+                    $scope.result = response;
+                })
                 console.log(response);
 	    	})
 	    	.catch(function(){
@@ -170,6 +172,7 @@ mNavigation.controller('ReportCtrl',
                         product3 = $scope.filterById($scope.aProducts, order.data.customerData.products[2].id);
                     }
                     var date = new Date(order.data.created_time);
+                    var x = $scope.filterById($scope.telesales, order.data.orderData.seller_will_call_id);
                     res.push({
                         name: order.customer_name,
                         mobile: '0' + order.customer_mobile,
@@ -179,7 +182,7 @@ mNavigation.controller('ReportCtrl',
                         code: order.orderCode,
                         cod: order.cod_amount,
                         shipping_fee: order.service_fee,
-                        by: $scope.filterById($scope.telesales, order.data.orderData.seller_will_call_id).last_name,
+                        by: x ? x.last_name : 'Không rõ',
                         current_status: 
                         order.logs ? $scope.getStatus(order.logs[order.logs.length -1].CurrentStatus).text : 'Không rõ',
                         product1: product1 ? product1.name + ' (' + order.data.customerData.products[0].note + ')' : '',

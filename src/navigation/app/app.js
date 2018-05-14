@@ -43,7 +43,7 @@ var mNavigation = angular.module('mNavigation', [
                       });
                     },
                   telesales: function(MFirebaseService){
-                    return MFirebaseService.getAllSellers().then(function(response){
+                    return MFirebaseService.getAllMembers().then(function(response){
                       return response;
                     })
                   },

@@ -4,6 +4,7 @@ mPrinting.controller('MainCtrl',
         MFacebookService, MFirebaseService, 
         MUtilitiesService, fanpages, ngDialog, telesales, PrintService) {
 
+        toastrConfig.positionClass = "toast-bottom-right";
 
         PrintService.addOrderToPrint({
             id : '1',

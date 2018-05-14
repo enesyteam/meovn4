@@ -5388,7 +5388,7 @@ kbd {
     padding-top: 20px;
     padding-bottom: 20px;
     margin-bottom: 20px;
-    border-bottom: 1px solid #e1e4e8
+    border-bottom: #dddfe2 1px solid;
 }
 .pagehead.admin {
     background: url("/images/modules/pagehead/background-yellowhatch-v3.png") 0 0 repeat-x
@@ -11767,7 +11767,7 @@ h2.ghead::after {
     border-color: #8ec2fd
 }
 .Header {
-    z-index: 1;
+    z-index: 10;
     padding-top: 12px;
     padding-bottom: 12px;
     color: rgba(255, 255, 255, 0.75);

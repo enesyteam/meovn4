@@ -22,7 +22,8 @@ angular.module('metricsgraphics', []).directive('chart', function() {
         title: null,
         width: element[0].parentElement.clientWidth || 300,
         x_accessor: null,
-        y_accessor: null
+        y_accessor: null,
+        area: true,
       };
       // override default options with values from the scope
       if (scope.options) {

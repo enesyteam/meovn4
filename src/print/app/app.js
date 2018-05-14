@@ -48,12 +48,12 @@ var mPrinting = angular.module('mPrinting', [
                         return response;
                       });
                     },
-                  // ghn_districs: function(MGHNService, ghn_token){
-                  //     MGHNService.setAccessToken(ghn_token);
-                  //     return MGHNService.getDistricts().then(function(response){
-                  //         return response.data.data;
-                  //     })
-                  //   },
+                  ghn_districs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getDistricts().then(function(response){
+                          return response.data.data;
+                      })
+                    },
                   telesales: function(MFirebaseService){
                     return MFirebaseService.getAllSellers().then(function(response){
                       return response;
@@ -67,12 +67,12 @@ var mPrinting = angular.module('mPrinting', [
                         return response;
                       });
                     },
-                    // ghn_hubs: function(MGHNService, ghn_token){
-                    //   MGHNService.setAccessToken(ghn_token);
-                    //   return MGHNService.getHubs().then(function(response){
-                    //       return response.data.data;
-                    //   })
-                    // }
+                    ghn_hubs: function(MGHNService, ghn_token){
+                      MGHNService.setAccessToken(ghn_token);
+                      return MGHNService.getHubs().then(function(response){
+                          return response.data.data;
+                      })
+                    }
                 },
             })
             .state('home.detail', {

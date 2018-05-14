@@ -165,12 +165,16 @@ var adminSources = gulp.src([
         // 'node_modules/angular-resource/angular-resource.min.js',
         // 'node_modules/angular-route/angular-route.min.js',
         // 'node_modules/angular-ui-router/release/angular-ui-router.min.js',
+        './assets/js/angular-slick.js',
+        './assets/js/angular-table.js',
 
         // modules
         'src/modules/mGHN.js',
         'src/modules/mFirebase.js',
         'src/modules/mFacebook.js',
         'src/modules/mUtilities.js',
+
+        // 'src/modules/mScrollToTop.js',
 
         'src/modules/metrics-graphics.js',
         
@@ -179,7 +183,7 @@ var adminSources = gulp.src([
         'node_modules/phone-validate-vn/build/chotot.validators.phone.min.js',
         'node_modules/angular-loading-bar/build/loading-bar.min.js',
         'node_modules/angular-filter/dist/angular-filter.min.js', // angular filter
-        'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
+        'node_modules/angular-toastr/dist/angular-toastr.tpls.js',
         'node_modules/angularjs-datepicker/dist/angular-datepicker.min.js', // date picker
         'node_modules/ng-file-upload/dist/ng-file-upload.min.js',
 
@@ -187,6 +191,10 @@ var adminSources = gulp.src([
 
         'node_modules/ng-dialog/js/ngDialog.min.js',
         'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
+
+        'node_modules/moment/min/moment-with-locales.min.js',
+        'node_modules/angular-moment/angular-moment.min.js',
+        'node_modules/angular-moment-picker/dist/angular-moment-picker.min.js',
 
 
         // app
@@ -311,6 +319,7 @@ var shippingSources = gulp.src([
     'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
     'node_modules/moment/min/moment.min.js',
     'node_modules/angular-moment/angular-moment.min.js',
+
 
     /*app*/
     'src/shipping/app/app.js',

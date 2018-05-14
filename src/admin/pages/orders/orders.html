@@ -1,34 +1,12 @@
 <div class="container new-discussion-timeline experiment-repo-nav">
    <div class="repository-content">
-      
-      <div class="columns">
-         <div class="column one-fourth" role="navigation" data-pjax="">
-            <nav class="menu">
-               <a ui-sref="home.orders.create" ui-sref-active="selected" class="js-selected-navigation-item selected menu-item">
-                  <span><svg version="1.1" width="16" height="16" viewBox="0 0 16 16" class="octicon octicon-tools" aria-hidden="true" name="tools">
-                     <path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5v2z"></path>
-                  </svg></span>
-               Thêm mới Order</a>
-               <!-- <a ui-sref="home.orders.list" ui-sref-active="selected" class="js-selected-navigation-item menu-item">Danh sách Orders</a> -->
-               <a ui-sref="home.orders.push" ui-sref-active="selected" class="js-selected-navigation-item menu-item">
-                  <span><svg version="1.1" width="16" height="16" viewBox="0 0 16 16" class="octicon octicon-tools" aria-hidden="true" name="tools">
-                     <path fill-rule="evenodd" d="M2 13c0 .59 0 1-.59 1H.59C0 14 0 13.59 0 13c0-.59 0-1 .59-1h.81c.59 0 .59.41.59 1H2zm2.59-9h6.81c.59 0 .59-.41.59-1 0-.59 0-1-.59-1H4.59C4 2 4 2.41 4 3c0 .59 0 1 .59 1zM1.41 7H.59C0 7 0 7.41 0 8c0 .59 0 1 .59 1h.81c.59 0 .59-.41.59-1 0-.59 0-1-.59-1h.01zm0-5H.59C0 2 0 2.41 0 3c0 .59 0 1 .59 1h.81c.59 0 .59-.41.59-1 0-.59 0-1-.59-1h.01zm10 5H4.59C4 7 4 7.41 4 8c0 .59 0 1 .59 1h6.81c.59 0 .59-.41.59-1 0-.59 0-1-.59-1h.01zm0 5H4.59C4 12 4 12.41 4 13c0 .59 0 1 .59 1h6.81c.59 0 .59-.41.59-1 0-.59 0-1-.59-1h.01z"></path>
-                  </svg></span>
-                  Quản lý Orders
-               </a>
-               <!-- <a ui-sref="home.orders.collections" ui-sref-active="selected" class="js-selected-navigation-item menu-item">
-                  <span><svg version="1.1" width="16" height="16" viewBox="0 0 16 16" class="octicon octicon-tools" aria-hidden="true" name="tools">
-                     <path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"></path>
-                  </svg></span>
-                  Collections
-                  <span class="Label bg-blue ml-1 float-right">NEW</span>
-               </a> -->
-            </nav>
-         </div>
-         <div class="column three-fourths">
-            <div ui-view></div>
-         </div>
+   	<div class="columns m-0"  infinite-scroll='loadMoreOrders()' infinite-scroll-disabled="isLoaddingOrder"
+        infinite-scroll-distance="1">
+         <div ui-view></div>
+         <!-- <div ui-view></div> -->
       </div>
+      
+      
    </div>
-   <div class="modal-backdrop js-touch-events"></div>
+   <!-- <div class="modal-backdrop js-touch-events"></div> -->
 </div>

@@ -7,7 +7,7 @@
 
   angular.module('m_admin.orders', [])
       .config(function($stateProvider, $urlRouterProvider){
-        $urlRouterProvider.when('/admin/orders','/admin/orders/create');
+        $urlRouterProvider.when('/admin/orders','/admin/orders/push');
         $urlRouterProvider.when('/admin/orders/create','/admin/orders/create/byComment');
         $urlRouterProvider.when('/admin/orders/push','/admin/orders/push/all');
         $stateProvider

@@ -7,6 +7,7 @@ m_admin.controller('PushOrderCtrl',
         }
 
         $rootScope.currentUserId = $stateParams.uid;
+        // console.log($stateParams.uid);
 
         $rootScope.selectedOrders = [];
 
@@ -24,8 +25,8 @@ m_admin.controller('PushOrderCtrl',
         $scope.canAsignOrders = [];
         $scope.newlyOrderKey = null;
         $scope.lastOrderKey = null;
-        $scope.canLoadMore = true;
-        $scope.isLoaddingOrder = true;
+        $rootScope.canLoadMore = true;
+        $scope.isLoaddingOrder = false;
 
         // tét
         // MFirebaseService.getOrdersByStatusId(9, 15).then(function(response) {
@@ -33,6 +34,8 @@ m_admin.controller('PushOrderCtrl',
         // })
 
         function getOrders() {
+            $scope.isLoaddingOrder = true;
+            $scope.searchMode = null;
             $scope.canAsignOrders = [];
             MFirebaseService.getOrders(pageSize).then(function(response) {
                 response.reverse().map(function(order) {
@@ -67,7 +70,7 @@ m_admin.controller('PushOrderCtrl',
                 // trigger when new order added
                 let newOrdersRef = firebase.database().ref().child('newOrders').orderByChild('publish_date').limitToLast(1);
                 newOrdersRef.on('child_added', snapshot => {
-                    if (snapshot.key !== $scope.newlyOrderKey) {
+                    if (snapshot.key !== $scope.newlyOrderKey && snapshot.val().status_id !== 6) {
                         var item = {
                             customer_name: snapshot.val().customer_name,
                             customer_mobile: snapshot.val().customer_mobile,
@@ -99,35 +102,43 @@ m_admin.controller('PushOrderCtrl',
         getOrders();
 
         firebase.database().ref().child('newOrders').on('child_changed', snapshot => {
-	        // console.log(snapshot.val());
-	        // find item in array
-	        $timeout(function() {
-	            $scope.$apply(function() {
-	                var itemChanged = $filter('filter')($scope.canAsignOrders, {
-	                    'id': snapshot.val().id
-	                });
-	                if(itemChanged[0]){
-	                    if (itemChanged[0].status_id !== snapshot.val().status_id) {
-	                        itemChanged[0].status_id = snapshot.val().status_id;
-	                    }
-	                    if (itemChanged[0].seller_will_call_id !== snapshot.val().seller_will_call_id) {
-	                        itemChanged[0].seller_will_call_id = snapshot.val().seller_will_call_id;
-	                    }
-	                    if(snapshot.val().is_bad_number == 1){
-	                        itemChanged[0].is_bad_number = 1;
-	                    }
-	                }
-	                else{
-	                    console.log('order ' + snapshot.val().id + ' đã thay đổi trạng thái nhưng không được hiển thị ở đây nên không cần cập nhật view...');
-	                }
-	                
-	            })
-	        }, 10);
 
+            var itemChanged = $filter('filter')($scope.canAsignOrders, {
+                        'id': snapshot.key
+            });
+            if(itemChanged[0]){
+                // find item in array
+                $timeout(function() {
+                    $scope.$apply(function() {
+                        itemChanged[0].seller_will_call_id = snapshot.val().seller_will_call_id;
+                        itemChanged[0].status_id = snapshot.val().status_id;
+                        itemChanged[0].is_bad_number = snapshot.val().is_bad_number;
+                        itemChanged[0].active_log = snapshot.val().activeLog;
+                        itemChanged[0].admin_note = snapshot.val().admin_note;
+                    })
+                }, 10);
+
+                itemChanged[0].is_changing = true;
+                $timeout(function() {
+                    itemChanged[0].is_changing = false;
+                }, 3000);
+            }
+            else{
+                console.log('order ' + snapshot.val().id + ' đã thay đổi trạng thái nhưng không được hiển thị ở đây nên không cần cập nhật view...');
+            }
 	    });
 
-
+        var current_pagination = 1;
         $scope.getNextOrders = function() {
+            if(!$scope.lastOrderKey) return;
+            if($scope.isLoaddingOrder) return;
+
+            if(current_pagination == 15){
+                // MUtilitiesService.AlertError('sdfsdf');
+                return;
+            }
+
+            
             $scope.isLoaddingOrder = true;
             MFirebaseService.getNextOrders($scope.lastOrderKey, pageSize).then(function(response) {
                 response.reverse().slice(1).map(function(order) {
@@ -155,13 +166,20 @@ m_admin.controller('PushOrderCtrl',
                 $scope.$apply(function() {
                     $scope.lastOrderKey = response[response.length - 1].key;
                     $scope.isLoaddingOrder = false;
-                    // console.log(response);
+
+                    console.log('Đã tải thêm ' + response.length + ' orders.');
+                    current_pagination++;
                     if (response.length == 1) { // item bị trùng
-                        $scope.canLoadMore = false;
+                        $rootScope.canLoadMore = false;
                     }
                 })
             })
         }
+
+        $rootScope.loadMoreOrders = function(){
+            $scope.getNextOrders();
+        }
+
 
         var date = new Date();
 
@@ -170,16 +188,9 @@ m_admin.controller('PushOrderCtrl',
         MFirebaseService.getUsersReportForDate(dateToDisplay).then(function(snapshot) {
             $scope.$apply(function() {
                 $scope.usersReport = snapshot.val();
-                angular.forEach($rootScope.telesales_arr, function(seller) {
-                    angular.forEach(snapshot.val(), function(report) {
-                        if (report.id == seller.id) {
-                            // console.log(report);
-                            seller.report = report;
-                        }
-                    })
-                })
             });
         })
+        // ng-click="showChatBox(order); $event.stopPropagation();"
 
         $rootScope.searchQuery = {
             text: null
@@ -208,6 +219,7 @@ m_admin.controller('PushOrderCtrl',
                         return;
                     }
                     $scope.$apply(function() {
+                        $scope.searchMode = true;
                         $scope.canAsignOrders = response
                     })
                 });
@@ -218,6 +230,7 @@ m_admin.controller('PushOrderCtrl',
                         return;
                     }
                     $scope.$apply(function() {
+                        $scope.searchMode = true;
                         $scope.canAsignOrders = response
                     })
                 });
@@ -268,7 +281,7 @@ m_admin.controller('PushOrderCtrl',
             var res = [];
             angular.forEach($scope.canAsignOrders, function(order) {
                 if (order.selected == true) {
-                    res.push(s);
+                    res.push(order);
                 }
             });
             return res;
@@ -278,12 +291,6 @@ m_admin.controller('PushOrderCtrl',
             // get demo user ID for test
             // alert($rootScope.selectedOrders);
             var uid = null;
-            var selectedUser = [];
-            angular.forEach($rootScope.telesales_arr, function(s) {
-                if (s.selected == true) {
-                    selectedUser.push(s);
-                }
-            });
 
             // var selectedOrders = selectedOrders;
             var selectedUsers = [];
@@ -291,23 +298,16 @@ m_admin.controller('PushOrderCtrl',
             // lấy danh sách orders để phân bổ
             var count = 0;
             angular.forEach($scope.canAsignOrders, function(order) {
-                // console.log(order);
-                if (order.seller_will_call_id || order.seller_will_call_id !== 'undefined') {
-                    if (order.selected == true) {
-                        order.notAllowPush = true;
-                        order.selected = false;
-                        count++;
-                    }
-                } else {
-                    if (order.selected == true) {
-                        // alert(order);
-                        // selectedOrders.push(order);
-                    }
+                if (order.selected == true && order.seller_will_call_id) {
+                    // order.notAllowPush = true;
+                    order.selected = false;
+                    count++;
                 }
             })
 
             if (count > 0) {
                 MUtilitiesService.AlertError(count + ' orders được chọn không cho phép phân bổ vì đã được phân bổ trước đó.');
+                return;
             }
 
             // lấy danh sách user id để phân bổ
@@ -320,7 +320,7 @@ m_admin.controller('PushOrderCtrl',
             if (!selectedUsers || selectedUsers.length == 0) {
                 // $scope.toggleShowUserPane();
                 // MUtilitiesService.AlertError('users: ' + selectedUsers.length);
-                MUtilitiesService.AlertError('Vui lòng chọn user trước khi phân bổ', 'Lỗi');
+                MUtilitiesService.AlertError('Vui lòng chọn telesale(s) trước khi phân bổ', 'Lỗi');
                 return;
             }
 
@@ -331,6 +331,10 @@ m_admin.controller('PushOrderCtrl',
             }
 
             // chú ý: sửa validate orders và users trước khi gọi waiting dialog
+            if(selectedUsers.length > $rootScope.selectedOrders.length){
+                MUtilitiesService.AlertError('Không thể phân bổ ' + $rootScope.selectedOrders.length + ' order(s) cho ' + selectedUsers.length + ' telesale(s)');
+                return;
+            }
 
             MUtilitiesService.showWaitingDialog('Đang phân bổ Orders, vui lòng chờ...', function() {
                 var init = function() {
@@ -458,18 +462,19 @@ m_admin.controller('PushOrderCtrl',
             var orders = [];
             var users = [];
 
-            if ($rootScope.currentUserId) {
-                angular.forEach($scope.canAsignOrders, function(order) {
-                    if (order.seller_will_call_id == $rootScope.currentUserId) {
-                        orders.push(order);
-                    }
-                })
-            } else {
+            // if ($rootScope.currentUserId) {
+            //     angular.forEach($scope.canAsignOrders, function(order) {
+            //         if (order.seller_will_call_id == $rootScope.currentUserId) {
+            //             orders.push(order);
+            //         }
+            //     })
+            // } else {
 
-                orders = getOrdersArrayToRelease();
-            }
+            //     orders = getOrdersArrayToRelease();
+            // }
 
             users = getUsersArrayToRelease();
+            orders = getSelectedOrders();
 
             if (orders.length > 0 && users.length > 0) {
                 onReleaseOrder(orders, users);
@@ -477,7 +482,7 @@ m_admin.controller('PushOrderCtrl',
                 MUtilitiesService.AlertError('Vui lòng chọn Orders để hủy', 'Thông báo');
             }
             else if(users.length == 0){
-            	MUtilitiesService.AlertError('Vui lòng chọn Users để hủy', 'Thông báo');
+            	MUtilitiesService.AlertError('Vui lòng chọn telesale(s) để hủy', 'Thông báo');
             }
         }
 
@@ -499,7 +504,7 @@ m_admin.controller('PushOrderCtrl',
         function onReleaseOrder(orders, users) {
             // console.log(users);
             if (!users || users.length == 0) {
-                MUtilitiesService.AlertError('Vui lòng chọn user trước khi hủy', 'Lỗi');
+                MUtilitiesService.AlertError('Vui lòng chọn telesale(s) trước khi hủy', 'Lỗi');
                 return;
             }
 
@@ -616,6 +621,18 @@ m_admin.controller('PushOrderCtrl',
                 $rootScope.filterStatus = null;
             }
             // alert($scope.filterStatus.id);
+        }
+        // filter
+        $rootScope.resetFilterStatus = function() {
+            $rootScope.filterStatus = null;
+        }
+
+        $scope.findById = function(sources, id) {
+            if(!id) return null;
+            var res = $filter("filter")(sources, {
+                id: id
+            });
+            return res ? res[0] : null;
         }
 
     });

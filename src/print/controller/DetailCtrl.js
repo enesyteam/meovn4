@@ -3,6 +3,7 @@ mPrinting.controller('DetailCtrl',
         Facebook, toastr, toastrConfig, moment,
         MFacebookService, MFirebaseService, 
         MUtilitiesService, fanpages, ngDialog, activeItem) {
+        // alert('dsfsfd');
         
         angular.forEach(activeItem, function(value, key) {
             // console.log(value);

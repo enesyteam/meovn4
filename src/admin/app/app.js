@@ -1,7 +1,9 @@
 var m_admin = angular.module('m_admin', [
   'ui.router', 
   'ngAnimate',
+  'ngSanitize',
   'angular-loading-bar',
+  'slick',
   // 'localytics.directives', // chosen
   'firebase',
   'angular.filter',
@@ -11,6 +13,10 @@ var m_admin = angular.module('m_admin', [
   'ngDialog',
   'ngFileUpload',
   'infinite-scroll',
+  // 'infinite-scroll',
+  'angularMoment',
+  'moment-picker',
+  'angular-table',
   
   'mGHN',
   'mFacebook',
@@ -25,7 +31,7 @@ var m_admin = angular.module('m_admin', [
   'm_admin.orders',
   'm_admin.mix',
   ])
-  .constant('appVersion', '4.2.0')
+  .constant('appVersion', '4.3.0')
   .constant('releaseDate', 'Nov-20, 2017')
   .constant('access_token', 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD')
   .config(function($stateProvider, $locationProvider, $urlRouterProvider, cfpLoadingBarProvider, FacebookProvider){
@@ -67,9 +73,14 @@ var m_admin = angular.module('m_admin', [
                       return MFirebaseService.getStatuses().then(function(response){
                         return response;
                       })
+                    },
+                    reportData: function(MFirebaseService){
+                      return MFirebaseService.getReportForChart().then(function(response){
+                          return response;
+                      })
                     }
                 }
-              });
+              });   
 
     })
   .run(themeRun);
@@ -98,7 +109,8 @@ angular.module('m_admin').filter('cut', function () {
         };
     });
 
-function themeRun($rootScope, appVersion, releaseDate, access_token, cfpLoadingBar){
+function themeRun($rootScope, appVersion, releaseDate, access_token, cfpLoadingBar, moment){
+    moment.locale('vi');
     $rootScope.access_token = access_token;
     $rootScope.appVersion = appVersion;
     $rootScope.releaseDate = releaseDate;
