@@ -7,6 +7,7 @@ m_admin.controller('MainCtrl',
         // console.log(telesales);
         $rootScope.sellers = [];
         $rootScope.telesales = telesales;
+        $rootScope.telesales_arr = telesales;
         $rootScope.statuses = statuses;
 
         var date = new Date();

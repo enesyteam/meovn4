@@ -14,7 +14,7 @@ m_admin.controller('PushOrderCtrl',
         $scope.can_release_statuses = can_release_statuses;
         // console.log(can_release_statuses);
 
-        $rootScope.telesales_arr = telesales;
+        
 
         angular.forEach($rootScope.telesales_arr, function(tls) {
             tls.selected = false;
