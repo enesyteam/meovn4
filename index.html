@@ -37,14 +37,31 @@
     <!-- Header -->
     <div class="position-relative js-header-wrapper">
      <a href="#start-of-content" tabindex="1" class="bg-black text-white p-3 show-on-focus js-skip-to-content">Skip to content</a>
-     <div id="loading-bar">
-        <!-- <div class="bar"></div> -->
+     <div class="page-loader">
+          <div class="ytp-spinner" data-layer="4" style="position: fixed;height: 100%;display: block;z-index: 99999;top: 50%;" ng-if="!finishLoadFullData">
+             <div>
+                <div class="ytp-spinner-container">
+                   <div class="ytp-spinner-rotator">
+                      <div class="ytp-spinner-left">
+                         <div class="ytp-spinner-circle"></div>
+                      </div>
+                      <div class="ytp-spinner-right">
+                         <div class="ytp-spinner-circle"></div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="ytp-spinner-message" style="display: block;">
+                  Loading data from server, please wait...
+              </div>
+          </div>
       </div>
      <div ng-include="'/src/admin/widgets/header.html'"></div>
+
   </div>
     <!-- /Header -->
     <div ui-view class="main-view"></div>
-    <div class="Overlay js-box-overlay-container transition-in-out ng-scope" style="{{isShowOverlay ? 'opacity:1;visibility: visible;' : 'opacity:0;visibility:hidden;';}}">
+    <div class="Overlay js-box-overlay-container transition-in-out ng-scope" style="{{isShowOverlay && !position_left ? 'opacity:1;visibility: visible;' : 'opacity:0;visibility:hidden;';}}">
       <div class="Overlay-table-full bg-transparent-dark"></div>
     </div>
     <div scroll-to-top=""></div>
@@ -96,7 +113,7 @@
 
   <!-- inject:js -->
   <script src="/assets/js/angular-slick.js"></script>
-  <script src="/assets/js/angular-table.js"></script>
+  <script src="/assets/js/angular-spinners.js"></script>
   <script src="/src/modules/mGHN.js"></script>
   <script src="/src/modules/mFirebase.js"></script>
   <script src="/src/modules/mFacebook.js"></script>

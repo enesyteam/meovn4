@@ -2027,7 +2027,7 @@
                 var getReportForChart = function () {
                     // date = 2018-07-03
                     return new Promise(function(resolve, reject){
-                        firebase.database().ref().child('report').limitToLast(30).once('value', function (snapshot) {
+                        firebase.database().ref().child('report').limitToLast(10).once('value', function (snapshot) {
                             // console.log(snapshot.val());
                             // var res = [];
                             var new_customer = [], success = [], user_report = [],
@@ -2036,6 +2036,7 @@
 
 
                             angular.forEach(snapshot.val(), function(item){
+                                // console.log(item);
                                 new_customer.push({
                                     'date' : new Date(item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')),
                                     'value' : item.today
@@ -2088,6 +2089,15 @@
                                 // angular.forEach(item.userReport, function(userData){
 
                                 // })
+                                // if(item.userReport){
+                                //     angular.forEach(item.userReport, function(userReport){
+                                //         console.log(userReport);
+                                //     })
+                                // }
+                                user_report.push({
+                                    'date': item.date,
+                                    'value': item.userReport
+                                })
 
                             })
                             // res.push(new_customer);
@@ -2102,6 +2112,7 @@
                                 callLater: callLater,
                                 pendding: pendding,
                                 cancel: cancel,
+                                user_report: user_report
                             });
                         });
                     })

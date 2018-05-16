@@ -313,16 +313,54 @@ function($rootScope, $scope, $filter, $timeout, cfpLoadingBar, firebaseService, 
         }
     });
 
+    $rootScope.seller_chart_data = {
+        102: 'dsf',
+        104: '111'
+    };
+
     function buildUsersChartData(){
         $rootScope.isBuildingUsersChartData = true;
+
+        // console.log(reportData.user_report);
+        // if(reportData.user_report){
+        //     angular.forEach(reportData.user_report, function(date_report){
+        //         var d = date_report.date;
+        //         angular.forEach(date_report.value, function(user_report){
+        //             // console.log('date: ' + d + ' id: ' + user_report.id);
+
+        //             if($rootScope.seller_chart_data.hasOwnProperty(user_report.id)){
+        //                 console.log('record ' + user_report.id + ' đã tồn tại và không cần khởi tạo');
+        //                 // $rootScope.seller_chart_data.
+        //                 console.log('not');
+        //             }   
+        //         })
+        //     })
+        //     $rootScope.isBuildingUsersChartData = false;
+        // }
+        // console.log($rootScope.seller_chart_data);
+
         // reportData
-        $timeout(function() {
-            $rootScope.isBuildingUsersChartData = false;
-            $scope.userTest.chart_type = 'line';
-            // $scope.userTest.data = test_data;
-            console.log('succcess....');
-        }, 3000);
+        // $timeout(function() {
+        //     $rootScope.isBuildingUsersChartData = false;
+        //     $scope.userTest.chart_type = 'line';
+        //     // $scope.userTest.data = test_data;
+        //     console.log('succcess....');
+        //     console.log($rootScope.seller_chart_data);
+        // }, 3000);
+
+        MUtilitiesService.buildUsersChartData(reportData.user_report).then(function(response){
+
+            console.log(response);
+            angular.forEach(response, function(user_report, key){
+                console.log('key: ' + key + ' value: ' + user_report)
+            })
+            $scope.$apply(function(){
+                $rootScope.isBuildingUsersChartData = false;
+            })
+        })
     }
-    buildUsersChartData();
+    // buildUsersChartData();
+
+    $rootScope.finishLoadFullData = true;
 
 });

@@ -34,6 +34,7 @@ m_admin.controller('PushOrderCtrl',
         // })
 
         function getOrders() {
+            $rootScope.finishLoadFullData = null;
             $scope.isLoaddingOrder = true;
             $scope.searchMode = null;
             $scope.canAsignOrders = [];
@@ -65,6 +66,7 @@ m_admin.controller('PushOrderCtrl',
                     $scope.newlyOrderKey = response[0].key;
                     $scope.lastOrderKey = response[response.length - 1].key;
                     $scope.isLoaddingOrder = false;
+                    $rootScope.finishLoadFullData = true;
                 })
 
                 // trigger when new order added
@@ -179,7 +181,6 @@ m_admin.controller('PushOrderCtrl',
         $rootScope.loadMoreOrders = function(){
             $scope.getNextOrders();
         }
-
 
         var date = new Date();
 
@@ -627,6 +628,8 @@ m_admin.controller('PushOrderCtrl',
             $rootScope.filterStatus = null;
         }
 
+        
+
         $scope.findById = function(sources, id) {
             if(!id) return null;
             var res = $filter("filter")(sources, {
@@ -634,5 +637,7 @@ m_admin.controller('PushOrderCtrl',
             });
             return res ? res[0] : null;
         }
+
+
 
     });

@@ -784,6 +784,33 @@
                         date1.getFullYear() ==  date2.getFullYear();
                 }
 
+                var buildUsersChartData = function(input_data){
+                    console.log(input_data);
+                    var seller_chart_data = {
+                        102: 'dsf',
+                        104: '111'
+                    };
+                    return new Promise(function(resolve, reject){
+                        if(input_data.user_report){
+                            angular.forEach(input_data.user_report, function(date_report){
+                                var d = date_report.date;
+                                angular.forEach(date_report.value, function(user_report){
+                                    // console.log('date: ' + d + ' id: ' + user_report.id);
+                                    if(seller_chart_data.hasOwnProperty(user_report.id)){
+                                        console.log('record ' + user_report.id + ' đã tồn tại và không cần khởi tạo');
+                                        // $rootScope.seller_chart_data.
+                                        console.log('not');
+                                        // seller_chart_data.push({
+                                        //     id: user_report.id
+                                        // })
+                                    }   
+                                })
+                            })
+                        }
+                        resolve(seller_chart_data)
+                    })
+                }
+
                 return {
                     AlertError: AlertError,
                     AlertSuccessful: AlertSuccessful,
@@ -799,6 +826,7 @@
                     showChatBox : showChatBox,
                     showDublicateConfirm: showDublicateConfirm,
                     checkTwoDatesEqual: checkTwoDatesEqual,
+                    buildUsersChartData: buildUsersChartData,
                 }
             }
         ]);

@@ -1,6 +1,7 @@
 m_admin.controller('MainCtrl',
     function($rootScope, $window, $scope, $http, $filter, $timeout, firebaseService,  
-        cfpLoadingBar, Facebook, MFirebaseService, MFacebookService, MUtilitiesService, fanpages, telesales, statuses, access_token) {
+        cfpLoadingBar, Facebook, MFirebaseService, MFacebookService, MUtilitiesService, 
+        fanpages, telesales, statuses, access_token, spinnerService) {
 // checkTwoDatesEqual
         // listen for order change
         // $rootScope.todayReport = [];
@@ -9,6 +10,23 @@ m_admin.controller('MainCtrl',
         $rootScope.telesales = telesales;
         $rootScope.telesales_arr = telesales;
         $rootScope.statuses = statuses;
+        $rootScope.assigned_to = null;
+
+        $rootScope.changeAssignedTo = function(telesale){
+            $rootScope.assigned_to = telesale;
+            $scope.orderData.seller_will_call_id = telesale.id;
+        }
+        $rootScope.toggle_left = function(){
+            $rootScope.position_left = true;
+        }
+        $rootScope.toggle_right = function(){
+            $rootScope.position_left = null;
+        }
+
+        $rootScope.resetTelesale = function(argument) {
+             $rootScope.assigned_to = null;
+             $scope.orderData.seller_will_call_id = null;
+        }
 
         var date = new Date();
 
@@ -20,6 +38,9 @@ m_admin.controller('MainCtrl',
             $rootScope.todayReport = null;
             $rootScope.todayUsersReport = null;
             $rootScope.finishLoading = false;
+
+            // spinnerService.show('booksSpinner');
+
             MFirebaseService.getReportForDate(date).then(function(snapshot){
                 $scope.$apply(function(){
                     $rootScope.todayReport = snapshot.val();
@@ -919,5 +940,7 @@ m_admin.controller('MainCtrl',
         // $timeout(function() {
         //     console.log($rootScope.telesales_arr);
         // }, 5000);
+
+
 
     });

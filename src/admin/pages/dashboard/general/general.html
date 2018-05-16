@@ -1,19 +1,4 @@
-<div class="">
-   <div class="graph-canvas is-graph-loading" ng-if="!finishLoading">
-      <div class="activity">
-         <img class="graph-loading dots" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-128.gif" width="64" alt="">
-         <div class="graph-loading msg">
-            <p>Đang tải dữ liệu báo cáo…</p>
-         </div>
-         <div ng-show="todayReport.today.length == 0" class="graph-empty msg mt-6">
-            <h4>We don’t have enough data to show anything useful.</h4>
-            <p>It usually takes about a week to populate this graph.</p>
-         </div>
-         <div class="graph-no-usable-data msg mt-6">
-            <p>We need at least one non-empty commit with an email to generate this graph.</p>
-         </div>
-      </div>
-   </div>
+<div class="" ng-if="finishLoadFullData">
    <!-- Restyle -->
    <div class="dashboard-report" >
       <!-- Report item -->

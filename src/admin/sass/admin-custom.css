@@ -3229,3 +3229,92 @@ label._4wb4 {
 ._1gda:hover .show-chat-log{
     display: block;
 }
+.graph-canvas.is-graph-loading{
+        position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    bottom: 0;
+    display: table;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+.add-order-overlay .fbChatSidebar.left{
+    left: 0;
+}
+._3tj, ._3tk {
+    display: inline;
+    height: 12px;
+    position: absolute;
+    top: 20px;
+    width: 8px;
+    z-index: 4;
+}
+._53qx {
+    background-image: url(/assets/images/B3fULUFPNMS.png);
+    background-repeat: no-repeat;
+    background-size: 50px 450px;
+    background-position: -36px -356px;
+}
+/*._3tj {
+    left: 5px;
+}*/
+._3tl {
+    height: 38px;
+    left: 5px;
+    position: absolute;
+    /* top: -25px; */
+    width: 40px;
+}
+._3tj, ._3tk {
+        display: inline;
+    height: 12px;
+    position: absolute;
+    top: 10px;
+    width: 8px;
+    z-index: 4;
+    right: 45px;
+}
+
+._53qy {
+    background-image: url(/assets/images/B3fULUFPNMS.png);
+    background-repeat: no-repeat;
+    background-size: 50px 450px;
+    background-position: -36px -384px;
+}
+
+.add-order-overlay .fbChatSidebar:hover ._53qx{
+    background-image:url(/assets/images/B3fULUFPNMS.png);
+    background-repeat:no-repeat;
+    background-size:50px 450px;
+    background-position:-36px -370px
+}
+.add-order-overlay .fbChatSidebar:hover ._53qy{
+    background-image:url(/assets/images/B3fULUFPNMS.png);
+    background-repeat:no-repeat;
+    background-size:50px 450px;
+    background-position:-36px -398px
+}
+._gu1{
+    margin-left:-6px;
+    margin-right:-6px
+}
+
+._53qy{
+    background-image:url(/assets/images/B3fULUFPNMS.png);
+    background-repeat:no-repeat;
+    background-size:50px 450px;
+    background-position:-36px -384px
+}
+._53qx{
+    background-image:url(/assets/images/B3fULUFPNMS.png);
+    background-repeat:no-repeat;
+    background-size:50px 450px;
+    background-position:-36px -356px
+}
+._3qrt{
+    display:none
+}

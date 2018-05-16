@@ -16,7 +16,7 @@ var m_admin = angular.module('m_admin', [
   // 'infinite-scroll',
   'angularMoment',
   'moment-picker',
-  'angular-table',
+  'angularSpinners',
   
   'mGHN',
   'mFacebook',

@@ -166,7 +166,7 @@ var adminSources = gulp.src([
         // 'node_modules/angular-route/angular-route.min.js',
         // 'node_modules/angular-ui-router/release/angular-ui-router.min.js',
         './assets/js/angular-slick.js',
-        './assets/js/angular-table.js',
+        './assets/js/angular-spinners.js',
 
         // modules
         'src/modules/mGHN.js',

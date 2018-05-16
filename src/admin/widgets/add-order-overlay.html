@@ -1,13 +1,28 @@
 <div class="_5vb_ add-order-overlay" ng-class="isShowAddOrderOverlay ? '' : 'hidden_elem'">
 
-	<div class="fbChatSidebar fixed_always _5pr2" style="display: flex;flex-direction: column;" 
+	<div class="fbChatSidebar fixed_always _5pr2 {{position_left ? 'left' : ''}}" style="display: flex;flex-direction: column;" 
 	ng-class="isSubmittingOrder ? 'isSubmittingOrder' : ''">
-		<div class="add" style="display: flex;flex-direction: column;flex: 1;">
+		<div class="add" style="display: flex;flex-direction: column;">
 			<div class="_4kqp _55ob">
 				<div class="_55oc">
 					<div class="clearfix">
 						<div class="_ohe lfloat">Add new order</div>
 						<div class="_ohf rfloat">
+							<!-- <a ng-click="toggle_left()" ng-if="!position_left">
+								<span tabindex="0" class="notice__dismiss">
+									<svg height="16" class="octicon octicon-chevron-left" viewBox="0 0 8 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M5.5 3L7 4.5 3.25 8 7 11.5 5.5 13l-5-5 5-5z"></path></svg>
+								</span>
+							</a> -->
+							<a aria-label="Previous" class="_2xx _3tj _53qx" role="button"
+							 ng-click="toggle_left()" ng-if="!position_left"><div class="_3tl"></div></a>
+							<a aria-label="Next" class="_2xw _3tk _53qy" role="button" ng-click="toggle_right()" ng-if="position_left"><div class="_3tl"></div></a>
+							<!-- <a ng-click="toggle_right()" ng-if="position_left">
+								<span tabindex="0" class="notice__dismiss">
+									<svg height="16" class="octicon octicon-chevron-left" viewBox="0 0 8 16" version="1.1" width="16" aria-hidden="true">
+										<path fill-rule="evenodd" d="M7.5 8l-5 5L1 11.5 4.75 8 1 4.5 2.5 3l5 5z"></path>
+									</svg>
+								</span>
+							</a> -->
 							<a ng-click="closeAddOrderOverlay()">
 								<span tabindex="0" class="notice__dismiss">
 									<svg class="gridicon gridicons-cross" height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M18.36 19.78L12 13.41l-6.36 6.37-1.42-1.42L10.59 12 4.22 5.64l1.42-1.42L12 10.59l6.36-6.36 1.41 1.41L13.41 12l6.36 6.36z"></path></g>
@@ -57,7 +72,77 @@
 					                 </div>
 				                  </div>
 				               </div>
-				               <div class="_5qu_ mb-2 rfloat">
+				               <div class="_ohf rfloat">
+		                           <div class="_53wl">
+		                              <div class="uiPopover _6a _6b dropdown js-menu-container js-select-menu js-transitionable">
+		                                 <a class="_3-99 _p _55pi _2agf _4o_4 _4jy0 _4jy3 _517h _51sy _42ft dropdown-toggle js-menu-target" aria-haspopup="true" role="button" aria-controls="js_1mg" tabindex="-1" style="max-width: 200px;">
+		                                    <span class="_55pe">
+		                                       <span class=" _6a pl-2" ng-if="assigned_to">
+		                                          <span>
+			                                         <span style="padding-top: 2px">
+			                                            <svg class="octicon gridicon gridicons-user-circle" height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18.5c-4.694 0-8.5-3.806-8.5-8.5S7.306 3.5 12 3.5s8.5 3.806 8.5 8.5-3.806 8.5-8.5 8.5zm0-8c-3.038 0-5.5 1.728-5.5 3.5s2.462 3.5 5.5 3.5 5.5-1.728 5.5-3.5-2.462-3.5-5.5-3.5zm0-.5c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z"></path></g></svg>
+			                                         </span>
+		                                            <span style="margin-left: -2px !important;">
+		                                               {{assigned_to.last_name }}
+		                                            </span>
+		                                            
+		                                         </span>
+		                                       </span>
+		                                       <span ng-if="!assigned_to">
+		                                          Telesale
+		                                       </span>
+		                                       
+		                                    </span>
+		                                       <span alt="" class="_3-99 _4o_3">
+		                                          <i alt="" class="img sp_VdIIRowKJa-_1_5x sx_3b4b2d"></i>
+		                                       </span>
+		                                 </a>
+		                                 <div class="dropdown-menu-content js-menu-content" aria-expanded="false">
+		                                     <div class="dropdown-menu dropdown-menu-sw right-0 mt-2" style="width: 225px;">
+		                                       <div class="dropdown-header text-bold text-gray-dark pb-0">
+		                                         Chọn telesale
+		                                         
+		                                       </div>
+		                                         <div class="dropdown-divider mb-2" role="separator"></div>
+		                                         <div style="padding: 0" class=" pt-0">
+		                                             <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket selected" data-tab-filter="branches" role="menu">
+		                                                <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
+		                                                   <a class="select-menu-item js-navigation-item js-navigation-open selected last-visible navigation-focus" data-name="master" data-skip-pjax="true" rel="nofollow"
+		                                                   ng-click="resetTelesale()">
+		                                                      <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"
+		                                                      ng-if="!assigned_to">
+		                                                         <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path>
+		                                                      </svg>
+		                                                      <span class="select-menu-item-text css-truncate-target js-select-menu-filter-text pl-2">
+		                                                         N/A
+		                                                      </span>
+		                                                   </a>
+		                                                   <a class="select-menu-item js-navigation-item js-navigation-open selected last-visible navigation-focus" data-name="master" data-skip-pjax="true" rel="nofollow"
+		                                                   ng-repeat="seller in (telesales_arr | reverse) track by $index"
+		                                                   ng-click="changeAssignedTo(seller)">
+		                                                      <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"
+		                                                      ng-if="seller.id == assigned_to.id">
+		                                                         <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path>
+		                                                      </svg>
+		                                                      <span class="select-menu-item-text css-truncate-target js-select-menu-filter-text pl-2">
+		                                                      {{seller.last_name}}
+		                                                      <span class="_1rus">
+		                                                          <small>{{seller.first_name}}</small>
+		                                                     </span>
+		                                                      <span class="Counter float-right" ng-if="seller.report.notCalledCount">{{seller.report.notCalledCount}}</span>
+		                                                      </span>
+		                                                   </a>
+		                                                </div>
+		                                             </div>
+		                                         </div>
+		                                         
+		                                     </div>
+		                                   </div>
+		                              </div>
+		                              <!-- <div class="_3-9a _51xa  _6a"><button class="_4jy0 _4jy3 _517h _51sy _42ft ml-1" ng-click="releaseSelectedUsers()" type="submit" value="1"><i alt="" class="img sp_C5ZIe9IlKoO_1_5x sx_92fef1"></i><span class="accessible_elem">Hủy số</span></button><button class="_4jy0 _4jy3 _517h _51sy _42ft ml-1" type="submit" value="1" ng-click="testPush()"><i alt="" class="img sp_v9KMcXDNWLt_1_5x sx_ab8b10"></i><span class="accessible_elem">Phân số</span></button></div> -->
+		                           </div>
+		                        </div>
+				               <div class="_5qu_ mb-2">
 				               		<div><div display="block" class="uiInputLabel clearfix"><label class="uiInputLabelInput _55sg _kv1"><input id="js_74z" type="checkbox"  ng-model="sendThanks" ng-checked="sendThanks"><span class="_66ul"></span></label><label class="_4wb4 uiInputLabelLabel" for="js_74z"><div>Gửi tin nhắn cảm ơn khách hàng</div></label></div></div>
 				               </div>
 				               <div class="_5qu_ mb-3 mt-3">
@@ -87,9 +172,9 @@
 			</div>
 			<!-- Chat -->
 		</div>
-		<div class="_5qu_ mb-3 mt-3" style="display: flex;flex: 2;overflow-y: auto;border-top: 1px solid #ccd0db;box-shadow: inset 0 1px #fafafa;">
+		<div class="_5qu_ mb-3 mt-3" style="display: flex;flex: 2;overflow-y: auto;border-top: 1px solid #ccd0db;box-shadow: inset 0 1px #fafafa;padding: 15px 10px;">
        	<!-- <pre>{{orderData | json}}</pre> -->
-           <div ng-include="'/src/admin/widgets/chat-box.html'"></div>
+           <div ng-include="'/src/admin/widgets/chat-box.html'" style="width: 100%;"></div>
        </div>
 	</div>
 </div>

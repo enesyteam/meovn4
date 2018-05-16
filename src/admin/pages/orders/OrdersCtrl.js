@@ -4,6 +4,8 @@ function($rootScope, $scope, $filter, MFirebaseService, MUtilitiesService, teles
 	$rootScope.telesales = telesales;
     $rootScope.telesales_arr = telesales;
 	$rootScope.statuses = statuses;
+
+    $rootScope.finishLoadFullData = null;
 	
 	$rootScope.filterById = function(sources, id) {
         if(!id) return null;

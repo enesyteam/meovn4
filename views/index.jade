@@ -57,14 +57,25 @@ html(lang='en', ng-app='m_admin')
     .position-relative.js-header-wrapper
       a.bg-black.text-white.p-3.show-on-focus.js-skip-to-content(href='#start-of-content', tabindex='1') Skip to content
       |      
-      #loading-bar
-        // <div class="bar"></div>
+      .page-loader
+        .ytp-spinner(data-layer='4', style='position: fixed;height: 100%;display: block;z-index: 99999;top: 50%;', ng-if='!finishLoadFullData')
+          div
+            .ytp-spinner-container
+              .ytp-spinner-rotator
+                .ytp-spinner-left
+                  .ytp-spinner-circle
+                |                       
+                .ytp-spinner-right
+                  .ytp-spinner-circle
+          |              
+          .ytp-spinner-message(style='display: block;')
+            | Loading data from server, please wait...
       |      
       div(ng-include="'/src/admin/widgets/header.html'")
     // /Header
     .main-view(ui-view='')
     |     
-    .Overlay.js-box-overlay-container.transition-in-out.ng-scope(style="{{isShowOverlay ? 'opacity:1;visibility: visible;' : 'opacity:0;visibility:hidden;';}}")
+    .Overlay.js-box-overlay-container.transition-in-out.ng-scope(style="{{isShowOverlay && !position_left ? 'opacity:1;visibility: visible;' : 'opacity:0;visibility:hidden;';}}")
       .Overlay-table-full.bg-transparent-dark
     |     
     div(scroll-to-top='')
@@ -123,7 +134,7 @@ html(lang='en', ng-app='m_admin')
     // inject:js
     script(src='/assets/js/angular-slick.js')
     |   
-    script(src='/assets/js/angular-table.js')
+    script(src='/assets/js/angular-spinners.js')
     |   
     script(src='/src/modules/mGHN.js')
     |   
