@@ -28,6 +28,24 @@ m_admin.controller('MainCtrl',
              $scope.orderData.seller_will_call_id = null;
         }
 
+        $rootScope.updateMemberMask = function(member, current_mask){
+
+            var is_mask = null;
+            if(!current_mask){
+                is_mask = true;
+            }
+            else{
+               is_mask = null; 
+            }
+            MFirebaseService.updateMemberMask(member.id, is_mask).then(function(response){
+                MUtilitiesService.AlertSuccessful(response);
+                // member.is_mask = is_mask;
+            })
+            .catch(function(err){
+                MUtilitiesService.AlertError(err);
+            })
+        }
+
         var date = new Date();
 
         var dateToDisplay = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
@@ -246,7 +264,27 @@ m_admin.controller('MainCtrl',
                         }
                     }
                 })
+
+                
+
             });
+
+        // also listen for mask changing
+        firebase.database().ref().child('members/')
+        .on('child_changed', snapshot => {
+            // console.log(snapshot.val());
+            var change_id = snapshot.val().id;
+            angular.forEach($rootScope.telesales_arr, function(seller) {
+                if (change_id == seller.id) {
+                    // console.log(seller);
+                    $timeout(function() {
+                        $scope.$apply(function(){
+                            seller.is_mask = snapshot.val().is_mask;
+                        })
+                    }, 100);
+                }
+            })
+        })
 
         // listen for page report change
         angular.forEach(fanpages, function(page){
@@ -472,8 +510,18 @@ m_admin.controller('MainCtrl',
             $scope.commentData = null;
             $scope.isGraphing = true;
             $scope.orderData.customer_mobile = null;
+
+            $scope.user_name = {
+                text: null
+            };
             // alert($rootScope.conversationLink);
             // graph page
+            if($rootScope.conversationLink.text.indexOf('messages') !== -1){
+                // $scope.show_user_name_input = true;
+                $scope.orderData.customer_name = null;
+                MUtilitiesService.AlertError('Vui lòng paste tên khách hàng vào ô dưới');
+                return;
+            }
             if($rootScope.conversationLink.text.indexOf('threadid') !== -1){
                 // message
                 var l = $rootScope.conversationLink.text.split('/').pop(); // ?threadid=144606886204668&folder=inbox
@@ -482,6 +530,7 @@ m_admin.controller('MainCtrl',
                 var y = x.split('&');
                 var thread_id = y[0];
                 // page id
+                // https://facebook.com/261147674417633/manager/messages/?folder=inbox
                 var page_name_or_id = $rootScope.conversationLink.text.split('/')[3];
 
                 MFacebookService.graphPage(page_name_or_id, $rootScope.access_token).then(function(response){
@@ -498,6 +547,7 @@ m_admin.controller('MainCtrl',
                         var t_id = null;
                         var limit = 10;
                         MFacebookService.findThreadInPageId(response.id, thread_id, token, limit).then(function(r){
+                            console.log(r)
                             MFacebookService.graphMessages(r, token).then(function(response){
                                 console.log(response);
                                 $scope.$apply(function(){
@@ -682,6 +732,127 @@ m_admin.controller('MainCtrl',
             
         }
 
+        $scope.graph_message = function(){
+            if(!$rootScope.conversationLink.text || $rootScope.conversationLink.text.length == 0){
+                return;
+            }
+            if($rootScope.conversationLink.text.indexOf('messages') == -1){
+                // $scope.show_user_name_input = true;
+                // MUtilitiesService.AlertError('Vui lòng paste tên khách hàng vào ô dưới');
+                return;
+            }
+
+            if(!$scope.orderData.customer_name || $scope.orderData.customer_name < 1){
+                    MUtilitiesService.AlertError('Vui lòng nhập User name');
+                    return;
+                }
+                var user_name = $scope.orderData.customer_name;
+                // findThreadByUserName
+                var page_name_or_id = $rootScope.conversationLink.text.split('/')[3];
+                MFacebookService.graphPage(page_name_or_id, $rootScope.access_token).then(function(response){
+                    // console.log(response);
+                    $scope.$apply(function(){
+                        $scope.pageData = response;
+                    })
+                    getToken(response.id).then(function(token){
+                        $scope.$apply(function(){
+                                $scope.current_token = token;
+                            })
+                        // console.log(token);
+                        // tìm kiếm trong 100 tin nhắn mới nhất
+                        var t_id = null;
+                        var limit = 10;
+                        MFacebookService.findThreadByUserName(response.id, user_name, token, limit).then(function(r){
+                            console.log(r)
+                            MFacebookService.graphMessages(r[0].threadId, token).then(function(response){
+                                console.log(response);
+                                $scope.$apply(function(){
+                                    $scope.messageData = response;
+                                    // make order Data
+                                    makeOrderDataFromMessage(response);
+                                    $scope.orderData.conversation_id = response.id;
+                                    $scope.isGraphing = false;
+                                })
+                            })
+                        })
+                        .catch(function(err){
+                            console.log(err);
+                            // tìm trong 50 tin nhắn mới nhất
+                            limit = 50;
+                            MFacebookService.findThreadByUserName(response.id, user_name, token, limit).then(function(r){
+                                MFacebookService.graphMessages(r[0].threadId, token).then(function(response){
+                                    console.log(response);
+                                    $scope.$apply(function(){
+                                        $scope.messageData = response;
+                                        // make order Data
+                                        makeOrderDataFromMessage(response);
+                                        $scope.orderData.conversation_id = response.id;
+                                        $scope.isGraphing = false;
+                                    })
+                                })
+                            })
+                            .catch(function(err){
+                                console.log(err);
+                                limit = 100;
+                                MFacebookService.findThreadByUserName(response.id, user_name, token, limit).then(function(r){
+                                    MFacebookService.graphMessages(r[0].threadId, token).then(function(response){
+                                        console.log(response);
+                                        $scope.$apply(function(){
+                                            $scope.messageData = response;
+                                            // make order Data
+                                            makeOrderDataFromMessage(response);
+                                            $scope.orderData.conversation_id = response.id;
+                                            $scope.isGraphing = false;
+                                        })
+                                    })
+                                })
+                                .catch(function(err){
+                                    console.log(err);
+                                    MUtilitiesService.showWaitingDialog('Đang tìm trong 1000 tin nhắn mới nhất...', function(){
+                                        var init = function(){
+                                            return new Promise(function(resolve, reject){
+                                                var not_found = true;
+                                                limit = 1000;
+
+                                                MFacebookService.findThreadByUserName(response.id, user_name, token, limit).then(function(r){
+                                                    MFacebookService.graphMessages(r[0].threadId, token).then(function(response){
+                                                        console.log(response);
+                                                        $scope.$apply(function(){
+                                                            $scope.messageData = response;
+                                                            // make order Data
+                                                            makeOrderDataFromMessage(response);
+                                                            $scope.orderData.conversation_id = response.id;
+                                                            $scope.isGraphing = false;
+                                                        })
+                                                    })
+                                                    resolve(true);
+                                                })
+                                                .catch(function(err){
+                                                    // console.log(err);
+                                                    MUtilitiesService.AlertError(err);
+                                                    resolve(false);
+                                                })
+                                            })
+                                        }
+                                        return {
+                                            init : init,
+                                        }
+                                    });
+                                })
+                            })
+                        })
+
+                    })
+                    .catch(function(err){
+                        MUtilitiesService.AlertError(err);
+                        return;
+                    });
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
+        }
+
         $scope.usersCount = 1;
         var makeOrderDataFromMessage = function(data){
             angular.forEach(data.participants.data, function(p) {
@@ -789,6 +960,7 @@ m_admin.controller('MainCtrl',
                 admin_note: null,
                 status_id: 1,
                 publish_date: null,
+                seller_will_call_id: $rootScope.assigned_to ? $rootScope.assigned_to.id : null,
             }
             $scope.usersCount = 1;
         }
@@ -830,7 +1002,7 @@ m_admin.controller('MainCtrl',
                             if(response == true){
                                 // alert('Vẫn thêm số trùng');
                                 // tuy nhiên sẽ bổ sung thêm ghi chú phần admin note
-                                $scope.orderData.admin_note = 'Khách hàng đã từng để lại số ĐT, vui lòng sử dụng chức năng tìm kiếm để xem lịch sử để lại số.';
+                                $scope.orderData.admin_note += '. Khách hàng đã từng để lại số ĐT, vui lòng sử dụng chức năng tìm kiếm để xem lịch sử để lại số.';
                                 doSubmitOrder();
                             }
                             else{
@@ -856,7 +1028,7 @@ m_admin.controller('MainCtrl',
             MFirebaseService.onAddNewOrder($rootScope.currentMember, $scope.orderData, $rootScope.sellers)
                 .then(function(response) {
                     MUtilitiesService.AlertSuccessful(response, 'Thông báo');
-                    if(!isTestMode && $scope.sendThanks){
+                    if($scope.sendThanks){
                         // $scope.current_token
                         if($scope.orderData.type == 1){
                             // reply message

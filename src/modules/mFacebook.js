@@ -63,6 +63,10 @@
                         Facebook.api('/' + thread_id + '?fields=messages.limit(100){message,from,created_time,attachments,sticker,shares{link,description,name}},snippet,link,participants&access_token=' + access_token, function(response) {
                             if(response && !response.error){
                                  resolve(response);
+                                 console.log(response);
+                            }
+                            else{
+                                reject('Không tìm thấy thông tin hội thoại');
                             }
                         })
                         .catch(function(err){
@@ -211,6 +215,52 @@
             }
 
             /*
+            * tìm thread id trong limit tin nhắn của một page id từ user name
+            */
+            var findThreadByUserName = function(pageId, user_name, access_token, limit){
+                console.log(user_name);
+                return new Promise(function(resolve, reject){
+                    // tìm trong 100 tin nhắn mới nhất
+                    console.log('đang tìm trong ' + limit + ' tin nhắn mới nhất...');
+                    Facebook.api('/' + pageId + '/conversations?fields=id,senders&limit='+limit+'&access_token=' + access_token, function(response) {
+                        if (response && !response.error) {
+                            // console.log(response.data);
+                            var found = [];
+                            angular.forEach(response.data, function(data) {
+                                // console.log(data)
+                                // console.log(link.split('/'));
+                                // console.log(data.link.split('/'));
+                                angular.forEach(data.senders.data, function(sender){
+                                    // console.log(sender);
+                                    if (sender.name == user_name) {
+                                        console.log('tìm thấy: ' + data.id);
+                                        found.push({
+                                            from: {
+                                                id: sender.id,
+                                                name: sender.name
+                                            },
+                                            threadId: data.id
+                                        });
+                                        // return;
+                                    }
+                                })
+                                
+                            });
+                            if(found.length > 0){
+                                resolve(found);
+                            }
+                            else{
+                                reject('Không tìm thấy');
+                            }
+                        }
+                        else{
+                            reject('Lỗi. Vui lòng kiểm tra lại');
+                        }
+                    });
+                })
+            }
+
+            /*
             * photoId: 1803964422949390
             */
             var graphPhoto = function(photoId, access_token){
@@ -321,7 +371,8 @@
             graphPostAttachments : graphPostAttachments,
             replyComment : replyComment,
             replyMessage : replyMessage,
-            graphPageLikes : graphPageLikes
+            graphPageLikes : graphPageLikes,
+            findThreadByUserName: findThreadByUserName
         }
 
     }]);

@@ -1358,6 +1358,9 @@
                                 canPushOrders.push(order);
                                 updates['/newOrders/' + order.id + '/seller_will_call_id'] = user.id;
                             }
+                            if(order.status_id !== 1){
+                                updates['/newOrders/' + order.id + '/is_old'] = true;
+                            }
                         });
 
                         // update firebase database
@@ -1487,6 +1490,9 @@
                         // tạo mảng dữ liệu sẽ updates
                         var updates = {};
                         angular.forEach(orders, function (order) {
+                            if(order.seller_will_call_id){
+                                updates['/newOrders/' + order.id + '/previous_seller_id'] = order.seller_will_call_id;
+                            }
                             updates['/newOrders/' + order.id + '/seller_will_call_id'] = null;
                         });
 
@@ -2203,6 +2209,36 @@
 
                 }
 
+                var updateMemberMask = function(member_id, is_mask = null){
+                    return new Promise(function (resolve, reject) {
+                        // find this member
+                        firebase.database().ref().child('members').orderByChild('id')
+                        .equalTo(member_id)
+                        .once('value', function (snapshot) {
+                            var member_key = null;
+                            angular.forEach(snapshot.val(), function (value, key) {
+                                    // console.log(key);
+                                    if(key){
+                                        member_key = key;
+                                    }
+                                });
+
+                            if(!member_key){
+                                reject('Không thể cập nhật mask cho user');
+                            }
+                            var updates = {};
+                            updates['/members/' + member_key + '/is_mask'] = is_mask;
+                            return firebase.database().ref().update(updates).then(function () {
+                                var title = is_mask? 'Gắn ' : 'Gỡ ';
+                                resolve(title + 'Mask cho user thành công!');
+                            })
+                            .catch(function (error) {
+                                reject('Không thể cập nhật mask cho user. Lỗi: ' + error);
+                            });
+                        });
+                    });
+                }
+
                 return {
                     getCanReleaseStatusIds: getCanReleaseStatusIds,
                     getOrders: getOrders,
@@ -2274,7 +2310,8 @@
                     findReplyByKey : findReplyByKey,
 
                     addShippingNote: addShippingNote,
-                    getAllMembers:getAllMembers
+                    getAllMembers:getAllMembers,
+                    updateMemberMask: updateMemberMask,
                 }
 
             }

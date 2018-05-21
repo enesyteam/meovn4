@@ -99,6 +99,9 @@
                   <div class="chat-system-message window__chatSystemMessage">
                      Nội dung tin nhắn
                   </div>
+                  <div class="p-4" ng-if="!messageData.messages.data"><div class="flash flash-error">
+                     Hiện tại facebook đang cập nhật và đã khóa chức năng đọc tin nhắn của ứng dụng MEOVN. Vui lòng truy cập pancake để xem nội dung tin nhắn từ khách hàng này!
+                  </div></div>
                   <div ng-class="message.from.id == pageData.id ? 'chat-visitor window__chatVisitor clearfix' : 'window__chatAgent clearfix'" ng-repeat="message in messageData.messages.data | reverse">
                      <div class="agentMessage__avatar" ng-if="message.from.id !== pageData.id">
                         <img ng-src="{{'//graph.facebook.com/' + message.from.id + '/picture?width=50&amp;height=50'}}" class="agentMessage__avatarImg">

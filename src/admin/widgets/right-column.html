@@ -24,17 +24,18 @@
 					</div>
 					<div class="_4kqp">
 						<ul class="_4kqp">
-							<li class="_12um _42fz"
+							<li class="_12um _42fz _seller"
 							ng-class="{'selected': seller.selected === true}" 
 	                        ng-repeat="seller in (telesales_arr | reverse) track by $index"
-	                        ng-click="checkedUser(seller)">
+	                        ng-click="checkedUser(seller)"
+	                        style="position: relative;">
 								<div class="_55ln" ng-class="!seller.report ? 'no-data' : ''">
 									<div class="_55lp">
 										<div class="_5aj7">
 											<div class="_4bl7">
 												<a href="">
 													<div class="_55lq">
-														<div class="_55lt" style="width: 32px; height: 32px;">
+														<div class="_55lt {{seller.is_mask ? 'is_mask' : ''}}" style="width: 32px; height: 32px;">
 															<svg class="octicon gridicon gridicons-user-circle" height="32" width="32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18.5c-4.694 0-8.5-3.806-8.5-8.5S7.306 3.5 12 3.5s8.5 3.806 8.5 8.5-3.806 8.5-8.5 8.5zm0-8c-3.038 0-5.5 1.728-5.5 3.5s2.462 3.5 5.5 3.5 5.5-1.728 5.5-3.5-2.462-3.5-5.5-3.5zm0-.5c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z"></path></g></svg>
 														</div>
 													</div>
@@ -50,6 +51,8 @@
 										</div>
 									</div>
 								</div>
+								<button class="_4jy0 _4jy3 _51sy _42ft px-3 tooltipped tooltipped-multiline tooltipped-sw tooltipped-align-right-2 _mask {{seller.is_mask ? 'is_mask' : ''}}" aria-label="{{seller.is_mask ? 'Bỏ ' : ''}} Mask cho {{seller.last_name}}" type="submit" value="1" ng-click="updateMemberMask(seller, seller.is_mask); $event.stopPropagation();"
+								style="    position: absolute;    top: 25%;left: 65%;padding: 0 5px !important;font-size: 10px;line-height: 12px;height: 18px;">{{seller.is_mask ? 'Unmask' : 'Mask'}}</button>
 							</li>
 						</ul>
 					</div>

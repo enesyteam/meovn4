@@ -2880,6 +2880,25 @@ a {
 }
 ._4mq3 ._55ln:focus,._4mq3 ._55ln:hover,._4mq3 li.selected ._55ln{background-color:#e9ebee}
 ._55ln:focus,._55ln:hover{background-color:#dddfe2;}
+._mask{
+    opacity: 0;
+    visibility: hidden;
+}
+._seller:hover ._mask,
+._mask.is_mask{
+    opacity: 1;
+    visibility: visible;
+}
+._55lt.is_mask,
+._qea.is_mask{
+    color: #ef5350;
+}
+._qea .svg_mask{
+    display: none;
+}
+._qea.is_mask .svg_mask{
+    display: inline-block;
+}
 li.selected ._55ln{
     background-color: #577fbc
 }

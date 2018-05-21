@@ -60,7 +60,7 @@
 					                 <div class="_5qw1 _4bl9">
 				                     	<span class="_wrn _213j _4ehf _1fmg _1fmg">
 					                     	<label class="_55r1 _55r2 _58ak _3ct8">
-					                     		<input class="_58al" type="text" aria-autocomplete="list" aria-controls="js_4rv" aria-expanded="false" role="combobox" placeholder="Tên khách hàng" autocomplete="off" autocorrect="off" ng-model="orderData.customer_name" add-order-enter="submitOrder()"></label>
+					                     		<input class="_58al" type="text" aria-autocomplete="list" aria-controls="js_4rv" aria-expanded="false" role="combobox" placeholder="Tên khách hàng" autocomplete="off" autocorrect="off" ng-model="orderData.customer_name" add-order-enter="submitOrder()" ng-change="graph_message()"></label>
 					                     </span>
 					                 </div>
 				                  </div>
@@ -143,7 +143,7 @@
 		                           </div>
 		                        </div>
 				               <div class="_5qu_ mb-2">
-				               		<div><div display="block" class="uiInputLabel clearfix"><label class="uiInputLabelInput _55sg _kv1"><input id="js_74z" type="checkbox"  ng-model="sendThanks" ng-checked="sendThanks"><span class="_66ul"></span></label><label class="_4wb4 uiInputLabelLabel" for="js_74z"><div>Gửi tin nhắn cảm ơn khách hàng</div></label></div></div>
+				               		<div><div display="block" class="uiInputLabel clearfix"><label class="uiInputLabelInput _55sg _kv1"><input id="js_74z" type="checkbox"  ng-model="sendThanks"><span class="_66ul"></span></label><label class="_4wb4 uiInputLabelLabel" for="js_74z"><div>Gửi tin nhắn cảm ơn khách hàng</div></label></div></div>
 				               </div>
 				               <div class="_5qu_ mb-3 mt-3">
 					               	<div class="_449e _4xef">
@@ -174,6 +174,7 @@
 		</div>
 		<div class="_5qu_ mb-3 mt-3" style="display: flex;flex: 2;overflow-y: auto;border-top: 1px solid #ccd0db;box-shadow: inset 0 1px #fafafa;padding: 15px 10px;">
        	<!-- <pre>{{orderData | json}}</pre> -->
+
            <div ng-include="'/src/admin/widgets/chat-box.html'" style="width: 100%;"></div>
        </div>
 	</div>

@@ -1,0 +1,197 @@
+<div class="blankslate blankslate-clean-background" ng-if="!showEditOrderForm">
+   <h3>Order này đã được chốt</h3>
+   <button class="btn-link btn-sm mt-3 mb-3" ng-click="showEditOrder()" aria-expanded="false" aria-label="Nếu sản phẩm không có trong danh mục">
+      <svg aria-hidden="true" class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg>
+      Chỉnh sửa thông tin
+   </button>
+</div>
+<div class="clone-options https-clone-options" ng-if="showEditOrderForm">
+      <!-- '"` --><!-- </textarea></xmp> -->
+      <div class="orderData" style="max-height: 450px;overflow-y: auto;overflow-x: hidden;margin-right: -15px">
+         <div style="padding-right: 15px;padding-left: 5px">
+            <div class="flash flash-error" ng-if="editData.orderCode"><strong>Chú ý: </strong>Order này đã chốt và tạo đơn thành công với mã vận đơn <strong>{{editData.orderCode}}</strong>. Thông tin thay đổi ở đây có thể sẽ không được cập nhật lên dữ liệu GHN.</div>
+            <div style="display: block;">
+               <nav class="UnderlineNav"  style="float: none;clear: both;">
+                  <div class="UnderlineNav-body">
+                     <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+                        <svg height="16" class="octicon octicon-person" viewBox="0 0 12 16" version="1.1" width="14" aria-hidden="true">
+                           <path fill-rule="evenodd" d="M12 14.002a.998.998 0 0 1-.998.998H1.001A1 1 0 0 1 0 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path>
+                        </svg>
+                        Khách hàng
+                     </a>
+                  </div>
+                  <div class="UnderlineNav-actions">
+                     <span class="tooltipped tooltipped-sw tooltipped-no-delay" aria-label="Thông tin về khách hàng">
+                        <svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                           <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                        </svg>
+                     </span>
+                  </div>
+               </nav>
+               <div style="display: flex;">
+                  <dl class="form-group">
+                     <div class="one-third column pr-0 pl-0">
+                        <div class="">
+                           <dt><label>Tên khách hàng</label></dt>
+                           <input type="text" class="form-control input-sm" id="example-text" placeholder="Nhập tên khách" ng-model="editData.data.customerData.realName">
+                        </div>
+                     </div>
+                     <div class="two-thirds column pr-0 pl-0">
+                        <div class="two-thirds column">
+                           <dt><label>Số điện thoại</label></dt>
+                           <input type="text" class="form-control input-sm" title="Chỉ thêm nếu khách cho số điện thoại khác" id="example-text" placeholder="Số điện thoại nhận hàng"  ng-model="editData.data.customerData.recievedPhone">
+                        </div>
+                        <div class="one-third column pl-0">
+                           <dt><label>Năm sinh</label></dt>
+                           <input type="text" class="form-control input-sm" id="example-text" placeholder="Năm sinh"  ng-model="editData.data.customerData.birthDay">
+                        </div>
+                     </div>
+                  </dl>
+               </div>
+               <dl class="form-group">
+                  <div class="two-thirds column pl-0">
+                     <dt><label>Địa chỉ nhận hàng</label></dt>
+                     <input type="text" class="form-control input-sm" id="example-text" placeholder="Địa chỉ" ng-model="editData.data.customerData.addresss">
+                  </div>
+                  <div class="one-third column pr-0 pl-0">
+                     <dt><label>Giá trị đơn hàng</label></dt>
+                     <input type="number" class="form-control input-sm" id="example-text" placeholder="Nhập số tiền"  ng-model="editData.data.customerData.cod">
+                  </div>
+               </dl>
+            </div>
+            <div style="display: block;">
+               <nav class="UnderlineNav"  style="float: none;clear: both;">
+                  <div class="UnderlineNav-body">
+                     <a role="tab" title="Item 1" class="UnderlineNav-item selected">
+                        <svg height="16" class="octicon octicon-file-text" viewBox="0 0 12 16" version="1.1" width="15" aria-hidden="true">
+                           <path d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path>
+                        </svg>
+                        Sản phẩm
+                     </a>
+                  </div>
+                  <div class="UnderlineNav-actions">
+                     <span class="tooltipped tooltipped-sw tooltipped-no-delay" aria-label="Danh sách các sản phẩm mà khách đặt hàng">
+                        <svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                           <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                        </svg>
+                     </span>
+                  </div>
+               </nav>
+               <div class="row" style="display: flex;" ng-repeat="p in editData.data.customerData.products track by $index">
+                  <dl class="form-group">
+                     <div class="one-half column pl-0 chosen-sm">
+                        <dt>
+                           <label>Sản phẩm {{$index+1}}</label>
+                           <span class="d-inline-block mr-1">
+                              <div class="commit-build-statuses">
+                                 <a class="text-red tooltipped tooltipped-e tooltipped-no-delay" aria-label="Xóa sản phẩm này" ng-click="deleteProductOnEdit($index)" style="cursor: pointer;">
+                                    <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                       <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                    </svg>
+                                 </a>
+                              </div>
+                           </span>
+                        </dt>
+                        <select class="form-control input-sm" select2 ng-model="p.id" data-placeholder="Pick a number" ng-options="s.id as s.name for s in aProducts" style="width: 100%">
+                          <option value=""></option>
+                        </select>
+                     </div>
+                     <div class="one-half column pr-0 pl-0">
+                        <div class="one-fourth column">
+                           <dt><label>S.L</label></dt>
+                           <input type="number" class="form-control input-sm" id="example-text" placeholder="Số lượng" ng-model="p.count">
+                        </div>
+                        <div class="three-fourths column pl-0">
+                           <dt><label>Ghi chú</label></dt>
+                           <input type="text" class="form-control input-sm" id="example-text" placeholder="vd: 14 hạt/12mm"  ng-model="p.note">
+                        </div>
+                     </div>
+                  </dl>
+               </div>
+               <div class="mt-2 mb-2">
+                  <div>
+                     <button class="btn btn-default btn-primary btn-purple btn-sm" ng-click="addProductOnEdit()">
+                        <svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 12 16" width="12" class="octicon octicon-plus float-left mr-2">
+                           <path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5z"></path>
+                        </svg>
+                        Thêm
+                     </button>
+                     <button class="btn-link btn-sm tooltipped tooltipped-se tooltipped-no-delay" data-box-overlay-id="add-new-product-to-list" aria-expanded="false" aria-label="Nếu sản phẩm không có trong danh mục">
+                     Thêm sản phẩm mới vào cơ sở dữ liệu.
+                     </button>
+                     <div class="Overlay js-box-overlay-container transition-in-out" id="add-new-product-to-list" hidden="" aria-modal="true" role="dialog" aria-label="Thêm sản phẩm mới vào danh mục?" aria-describedby="__9efa967a575401481604d4204fb717f9-description">
+                        <div class="Overlay-table-full bg-transparent-dark">
+                           <div class="Overlay-cell-middle">
+                              <div class="Box Box--overlay js-box-overlay-content">
+                                 <div class="Box-header">
+                                    <button type="button" class="Box-btn-octicon btn-octicon float-right js-box-overlay-close">
+                                       <svg aria-label="Close" class="octicon octicon-x" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12">
+                                          <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+                                       </svg>
+                                    </button>
+                                    <h3 class="Box-title">
+                                       Thêm sản phẩm mới vào cơ sở dữ liệu.
+                                    </h3>
+                                 </div>
+                                 <div class="Box-body" id="__9efa967a575401481604d4204fb717f9-description">
+                                    <p>Vui lòng nhập tên sản phẩm vào ô dưới đây. Tên sản phẩm phải mô tả chủng loại và đặc tính của sản phẩm (màu sắc, ...). Nếu sản phẩm có nhiều kích cỡ thì chỉ cần tạo một loại.</p>
+                                    <!-- '"` --><!-- </textarea></xmp> -->
+                                    <form accept-charset="UTF-8" class="js-normalize-submit">
+                                       <p>
+                                          <input type="text" class="form-control input-block" ng-model="newProduct.name" placeholder="Nhập tên sản phẩm">
+                                       </p>
+                                       <button type="submit" class="btn btn-block btn-danger" data-disable-invalid="" ng-click="onAddNewProduct()">
+                                       Thêm sản phẩm
+                                       </button>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- {{selectedProducts}} -->
+            <div style="display: block;">
+               <div class="one-half column pl-0">
+                  <dl class="form-group">
+                     <dt><label for="user_profile_bio">Ghi chú đóng hàng/tạo đơn</label></dt>
+                     <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
+                        <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input input-sm" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="user_profile_bio" rows="20" ng-model="editData.data.customerData.customerNote" placeholder="Ghi chú này sẽ được hiển thị cho bộ phận đóng hàng"></textarea>
+                        <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
+                        <div class="suggester-container">
+                           <div class="suggester js-suggester js-navigation-container">
+                           </div>
+                        </div>
+                     </dd>
+                  </dl>
+               </div>
+               <div class="one-half column pr-0">
+                  <dl class="form-group">
+                     <dt><label for="user_profile_bio">Ghi chú giao hàng</label></dt>
+                     <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
+                        <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input input-sm" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="user_profile_bio" rows="20" ng-model="editData.data.customerData.orderNote" placeholder="Ghi chú sẽ hiển thị trên phiếu giao hàng"></textarea>
+                        <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
+                        <div class="suggester-container">
+                           <div class="suggester js-suggester js-navigation-container">
+                           </div>
+                        </div>
+                     </dd>
+                  </dl>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="mt-2" style="text-align: right;border-top: 1px solid #dddfe2;">
+         <!-- <a href="github-windows://openRepo/https://github.com/iamkdev/ng-frappe-charts" class="btn btn-outline get-repo-btn tooltipped tooltipped-s tooltipped-multiline" aria-label="Clone iamkdev/ng-frappe-charts to your computer and use it in GitHub Desktop.">
+            Open in Desktop
+            </a> -->
+         <a class="btn btn-default btn-primary btn-purple mt-3 mb-3" rel="nofollow" ng-click="submitEditOrder()" style="cursor: pointer;box-shadow: none">
+            <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+               <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+            </svg>
+            Cập nhật thông tin
+         </a>
+      </div>
+   </div>

@@ -266,6 +266,7 @@ var realtimeSources = gulp.src([
     'node_modules/ng-dialog/js/ngDialog.min.js',
 
     'node_modules/angular-facebook/angular-facebook.js',
+    // 'node_modules/angular-clipboard/angular-clipboard.js',
     // 'node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js',
     // 'node_modules/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js',
     // 'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
@@ -274,7 +275,7 @@ var realtimeSources = gulp.src([
     // 'assets/js/snackbar.js', //snackbar
     'node_modules/ng-file-upload/dist/ng-file-upload.min.js',
     // 'node_modules/angular-chosen-localytics/dist/angular-chosen.js',
-    'node_modules/angular-toastr/dist/angular-toastr.tpls.min.js',
+    'node_modules/angular-toastr/dist/angular-toastr.tpls.js',
 
 
     /*app*/

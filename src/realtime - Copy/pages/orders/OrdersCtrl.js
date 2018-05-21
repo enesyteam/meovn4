@@ -411,38 +411,34 @@ mRealtime.controller('OdersCtrl',
             })
         }
 
-        $scope.alertToCustomer = function(){
-            if(!isTestMode){
-                if($stateParams.type == 1){
-                    MFacebookService.replyMessage($stateParams.conversation_id,
-                            $scope.currentAccessToken, null, 'Chào Anh/chị, nhân viên CSKH đã liên hệ với anh/chị nhưng anh/chị chưa nghe máy. Anh/chị vui lòng để ý điện thoại giúp bên em ạ!').then(function(response){
-                            MUtilitiesService.AlertSuccessful(response)
-                        })
-                        .catch(function(err){
-                            MUtilitiesService.AlertError(err, 'Lỗi')
-                        })
-                }
-                else{
-                    MFacebookService.replyComment($stateParams.conversation_id,
-                        $scope.currentAccessToken, null, 'Chào Anh/chị, nhân viên CSKH đã liên hệ với anh/chị nhưng anh/chị chưa nghe máy. Anh/chị vui lòng để ý điện thoại giúp bên em ạ!').then(function(response){
-                        MUtilitiesService.AlertSuccessful(response)
-                    })
-                    .catch(function(err){
-                        MUtilitiesService.AlertError(err, 'Lỗi')
-                    })
-                }
-            }
-            else{
-                MUtilitiesService.AlertSuccessful('Bạn đang sử dụng ở chế độ Test. Ở chế độ hoạt động hệ thống sẽ gửi một thông báo nhắc nhở khách hàng nghe máy!')
-            }
-        }
-
         $scope.changeStatus = function(status){
             updateStatus(status).then(function(response){
                 MUtilitiesService.AlertSuccessful(response,'Thông báo');
                 // gửi tin nhắn đến khách hàng nếu không nghe máy
                 if(status.id == 9){ // chưa nghe máy
-                    $scope.alertToCustomer();
+                    if(!isTestMode){
+                        if($stateParams.type == 1){
+                            MFacebookService.replyMessage($stateParams.conversation_id,
+                                    $scope.currentAccessToken, null, 'Chào Anh/chị, nhân viên CSKH đã liên hệ với anh/chị nhưng anh/chị chưa nghe máy. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
+                                    MUtilitiesService.AlertSuccessful(response)
+                                })
+                                .catch(function(err){
+                                    MUtilitiesService.AlertError(err, 'Lỗi')
+                                })
+                        }
+                        else{
+                            MFacebookService.replyComment($stateParams.conversation_id,
+                                $scope.currentAccessToken, null, 'Chào Anh/chị, nhân viên CSKH đã liên hệ với anh/chị nhưng anh/chị chưa nghe máy. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
+                                MUtilitiesService.AlertSuccessful(response)
+                            })
+                            .catch(function(err){
+                                MUtilitiesService.AlertError(err, 'Lỗi')
+                            })
+                        }
+                    }
+                    else{
+                        MUtilitiesService.AlertSuccessful('Bạn đang sử dụng ở chế độ Test. Ở chế độ hoạt động hệ thống sẽ gửi một thông báo nhắc nhở khách hàng nghe máy!')
+                    }
                 }
 
                 // if(status.id == 6){
@@ -745,13 +741,6 @@ mRealtime.controller('OdersCtrl',
             });
             // begin update
             
-        }
-
-        $scope.success_coppied = function(){
-            MUtilitiesService.AlertSuccessful('Coppied to clipboard!');
-        }
-        $scope.fail_coppied = function(err){
-            MUtilitiesService.AlertError('Can not coppy to clipboard. Error: ' + err);
         }
 
 	});

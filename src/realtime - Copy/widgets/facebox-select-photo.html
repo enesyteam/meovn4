@@ -1,0 +1,138 @@
+<div class="facebox transition-in-out" id="facebox" style="top: 73.4px; left: {{(windowsWidth - faceboxWidth)/2}}px; {{!isFaceboxShowing ? 'display: none;' : '';}}">
+   <div class="facebox-popup">
+      <div class="facebox-content" role="dialog" style="width: {{faceboxWidth}}px;">
+         <h2 class="facebox-header pb-0 border-bottom-0 mb-1" data-facebox-id="facebox-header" tabindex="-1" id="facebox-header">
+            Thư viện ảnh
+         </h2>
+         <div class="flash flash-warn">Chức năng gửi ảnh cho khách hàng sẽ được bổ sung vào lần release tiếp theo</div>
+         <div class="subnav" data-pjax="">
+            <div class="float-left subnav-spacer-right" role="search">
+               <div class="float-left select-menu js-menu-container js-select-menu subnav-search-context js-transitionable">
+                  <button class="btn select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false">
+                  Filters
+                  </button>
+                  <div class="select-menu-modal-holder js-menu-content js-navigation-container" aria-expanded="false">
+                     <div class="select-menu-modal">
+                        <div class="select-menu-list">
+                           <a class="select-menu-item js-navigation-item">
+                              <div class="select-menu-item-text">
+                                 Page: Đá Quý Phong Thủy Tràng An
+                              </div>
+                           </a>
+                           <a class="select-menu-item js-navigation-item">
+                              <div class="select-menu-item-text">
+                                 Page: Trang Sức Phong Thủy Tràng An
+                              </div>
+                           </a>
+                           <a class="select-menu-item js-navigation-item">
+                              <div class="select-menu-item-text">
+                                 Page: HT Shop - Trang Sức Phong Thủy Sinh Mệnh
+                              </div>
+                           </a>
+                           <a class="select-menu-item js-navigation-item">
+                              <div class="select-menu-item-text">
+                                 Page: Trang Sức Phong Thủy Vici
+                              </div>
+                           </a>
+                           <a class="select-menu-item js-navigation-item">
+                              <div class="select-menu-item-text">
+                                 Page: Phong Thủy Hồng Trang
+                              </div>
+                           </a>
+                           <a class="select-menu-item js-navigation-item" target="_blank">
+                              <svg aria-hidden="true" class="octicon octicon-link-external select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                                 <path fill-rule="evenodd" d="M11 10h1v3c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h3v1H1v10h10v-3zM6 2l2.25 2.25L5 7.5 6.5 9l3.25-3.25L12 8V2H6z"></path>
+                              </svg>
+                              <div class="select-menu-item-text">
+                                 <strong>Tất cả ảnh</strong>
+                              </div>
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- '"` --><!-- </textarea></xmp> -->
+               <form accept-charset="UTF-8" class="subnav-search float-left ng-pristine ng-valid" data-pjax="true" method="get">
+                  <input aria-label="Tìm kiếm" class="form-control form-control subnav-search-input input-contrast ng-pristine ng-untouched ng-valid ng-empty" data-hotkey="/" id="js-issues-search" name="q" placeholder="Tìm theo tên ảnh" type="text" style="width: 200px" ng-model="filterName">
+                  <svg aria-hidden="true" class="octicon octicon-search subnav-search-icon" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                     <path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path>
+                  </svg>
+               </form>
+            </div>
+            <div class="subnav-links float-left" role="navigation">
+               <a ng-click="toggleFilterGender(gender.id)" class="js-selected-navigation-item subnav-item {{gender.selected==true ? 'selected' : ''}}" ng-repeat="gender in genders  track by $index">{{gender.name}}</a>
+            </div>
+            <div class="subnav-links float-right" role="navigation">
+               <a ng-click="toggleFilterDestiny(destiny.id)" class="js-selected-navigation-item subnav-item {{destiny.selected==true ? 'selected' : ''}}" ng-repeat="destiny in destinies track by $index">{{destiny.name}}</a>
+            </div>
+         </div>
+         <div class="photos">
+            <div ng-repeat="photo in (imageFiles | photosFilter:filterPageId:genders:destinies) | reverse" class="photo" ng-click="selectedPhoto(photo)">
+               <div class="pinned"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="2em" width="2em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m19.8 29.1l-9.8 5.9 2.6-11.1-8.6-7.5 11.3-0.9 4.5-10.5 4.4 10.5 11.4 0.9-8.6 7.5 2.5 11.1z"></path></g></svg></div>
+               <img width="100" height="100" ng-src="{{photo.fileName}}">
+               <span class="text">
+                  <ul>
+                     <li>
+                        Upload: {{photo.date | date: 'dd/MM'}}
+                     </li>
+                     <li>
+                        Bởi: {{photo.uploadBy || 'Admin'}}
+                     </li>
+                     <li>
+                        Giới tính: <span ng-repeat="gender in photo.genders" ng-if="gender.selected == true">[{{gender.name}}] </span>
+                     </li>
+                     <li>
+                        Mệnh: <span ng-repeat="destiny in photo.destinies" ng-if="destiny.selected == true">[{{destiny.name}}] </span>
+                     </li>
+                  </ul>
+                  <button class="btn-link settings-remove-email settings-disabled-remove-email tooltipped tooltipped-nw" type="submit" aria-label="Xóa ảnh này">
+                  <svg aria-hidden="true" class="octicon octicon-trashcan" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                     <path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"></path>
+                  </svg>
+               </button>
+               </span>
+            </div>
+         </div>
+         <div class="facebox-footer">
+            <!-- <input id="upload-profile-picture" type="file" class="height-full ml-0" style="float:left;" ngf-select="onFileSelect($files)" multiple=""> -->
+            <div class="avatar-upload float-left" style="display: inline-block;display: none">
+               <label class="position-relative btn button-change-avatar text-center">
+               Tải ảnh lên
+               <input id="upload-profile-picture" type="file" class="manual-file-chooser height-full ml-0 js-manual-file-chooser" ngf-select="onFileSelect($files)" multiple="">
+               </label>
+               <div class="upload-state loading">
+                  <button type="button" class="btn text-center" disabled="">
+                  <img alt="" class="v-align-text-bottom" height="16" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-32.gif" width="16"> Uploading...
+                  </button>
+               </div>
+               <div class="upload-state text-red file-empty">
+                  This file is empty.
+               </div>
+               <div class="upload-state text-red too-big">
+                  Please upload a picture smaller than 1 MB.
+               </div>
+               <div class="upload-state text-red bad-dimensions">
+                  Please upload a picture smaller than 10,000x10,000.
+               </div>
+               <div class="upload-state text-red bad-file">
+                  We only support PNG, GIF, or JPG pictures.
+               </div>
+               <div class="upload-state text-red failed-request">
+                  Something went really wrong and we can’t process that picture.
+               </div>
+               <div class="upload-state text-red bad-format">
+                  File contents don't match the file extension.
+               </div>
+            </div>
+            <button type="submit" class="btn btn-primary">
+            Gửi ảnh
+            </button>
+         </div>
+      </div>
+      <button type="button" class="facebox-close js-facebox-close" aria-label="Close modal" ng-click="hideSelectPhotoFacebox()">
+         <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+            <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path>
+         </svg>
+      </button>
+   </div>
+</div>

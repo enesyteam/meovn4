@@ -92,31 +92,6 @@ mRealtime.controller('MainCtrl',
         });
       }
     });
-
-
-    // also listen for mask changing
-    firebase.database().ref().child('members/')
-        .on('child_changed', snapshot => {
-            // console.log(snapshot.val());
-            var change_id = snapshot.val().id;
-            angular.forEach($scope.telesales, function(seller) {
-                if (change_id == seller.id) {
-                    // console.log(seller);
-                    $timeout(function() {
-                        $scope.$apply(function(){
-                            seller.is_mask = snapshot.val().is_mask;
-                        })
-                    }, 100);
-                }
-                if(change_id == $rootScope.currentMember.id){
-                    $timeout(function() {
-                        $scope.$apply(function(){
-                            $rootScope.currentMember.is_mask = snapshot.val().is_mask;
-                        })
-                    }, 100);
-                }
-            })
-        })
     
     $rootScope.getNextOrders = function() {
         $rootScope.isLoaddingOrder = true;
