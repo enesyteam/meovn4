@@ -1,5 +1,5 @@
 mPrinting.controller('PrintCtrl',
-    function($rootScope, $scope, $http, $filter, fanpages, telesales, activeItem, MUtilitiesService, ghn_hubs) {
+    function($rootScope, $scope, $http, $filter, fanpages, telesales, activeItem, MUtilitiesService) {
 
         angular.forEach(activeItem, function(value, key) {
             // console.log(value);
@@ -49,12 +49,12 @@ mPrinting.controller('PrintCtrl',
                         id: $scope.activedItem.data.orderData.page_id
                     })[0];
 
-        var hubId = $filter("filter")(fanpages, {
-                        id: $scope.activedItem.data.orderData.page_id
-                    })[0].HubID;
+        // var hubId = $filter("filter")(fanpages, {
+        //                 id: $scope.activedItem.data.orderData.page_id
+        //             })[0].HubID;
 
-        $scope.current_hub = $filter("filter")(ghn_hubs, {
-                        HubID: hubId
-                    })[0];
+        // $scope.current_hub = $filter("filter")(ghn_hubs, {
+        //                 HubID: hubId
+        //             })[0];
 
     });
