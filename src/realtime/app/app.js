@@ -9,7 +9,7 @@ var mRealtime = angular.module('mRealtime', [
   'firebase',
   'angular.filter',
   'facebook',
-  'angular-clipboard',
+  // 'angular-clipboard',
   // 'infinite-scroll',
   'ngDialog',
   // 'ui.scroll',
