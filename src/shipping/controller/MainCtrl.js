@@ -2,6 +2,7 @@ mShipping.controller('MainCtrl',
     function($rootScope, $scope, $http, $window, $document, $filter, $timeout, cfpLoadingBar,
         cfpLoadingBar, Facebook, firebaseService, MFirebaseService, MUtilitiesService,
         fanpages, ghn_hubs, ghn_token, ghn_districs, telesales) {
+        
 
         // console.log(ghn_districs);
         // if(!ghn_districs || !ghn_hubs){

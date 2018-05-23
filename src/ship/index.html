@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="mShip">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>M-Ship</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" href="/src/ship/assets/bootstrap.css"> -->
+  <link rel="stylesheet" href="/node_modules/angular-toastr/dist/angular-toastr.css">
+  <link rel="stylesheet" href="/src/admin/sass/chat-box.css">
+  <link rel="stylesheet" href="/src/admin/sass/chat-box-custom.css">
+  
+	<link rel="stylesheet" href="/src/ship/assets/styles.css">
+	<link rel="stylesheet" href="/src/ship/assets/open-iconic.css">
+	<link rel="stylesheet" href="/src/ship/assets/main.css">
+  <link rel="stylesheet" href="/src/admin/sass/notice.css">
+
+
+
+	<script src='http://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/javascript/jquery.min.js'></script>
+	<script src='http://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/javascript/popper.min.js'></script>
+	<script src='http://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/javascript/bootstrap.min.js'></script>
+	<script src='http://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/javascript/scripts.js'></script>
+
+</head>
+<body>
+	<div ui-view></div>
+
+	<!-- Script -->
+	<script src="/assets/js/scripts-angular.min.js"></script>
+    <script src="/node_modules/angular-animate/angular-animate.min.js"></script>
+    <script src="/node_modules/angular-resource/angular-resource.min.js"></script>
+    <script src="/node_modules/angular-route/angular-route.min.js"></script>
+    <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script>
+    <script src="/assets/js/select2.min.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+      apiKey: "AIzaSyD7LUAvgwADpNZqzvm_-4Um7aBMXh7Ed1M",
+      authDomain: "meo4-f0335.firebaseapp.com",
+      databaseURL: "https://meo4-f0335.firebaseio.com",
+      projectId: "meo4-f0335",
+      storageBucket: "meo4-f0335.appspot.com",
+      messagingSenderId: "155610084230"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <script src="/assets/js/angularfire.min.js"></script>
+    <script src="/node_modules/angular-facebook/angular-facebook.js"></script>
+    <script src="/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js"></script>
+    <script src="/node_modules/angular-toastr/dist/angular-toastr.tpls.js"></script>
+    <!-- <script src="/src/realtime/service/firebase.service.js"></script> -->
+    <!-- <script src="/src/realtime/service/firebase.storage.service.js"></script> -->
+    <script src="/node_modules/ng-dialog/js/ngDialog.min.js"></script>
+    <script src="/node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js"></script>
+
+    
+    <script src="/src/modules/mFirebase.js"></script>
+    <script src="/src/modules/mFacebook.js"></script>
+    <script src="/src/ship/assets/js/mUtilities.js"></script>
+    <!-- <script src="/src/modules/mUtilities.js"></script> -->
+
+
+    <!-- App -->
+    <script src="src/ship/assets/js/app.js"></script>
+    <script src="src/ship/assets/js/MainCtrl.js"></script>
+
+</body>
+</html>

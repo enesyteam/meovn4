@@ -37,6 +37,7 @@ app.get('/admin',  routes.index);
 app.get('/sale',  routes.realtime);
 app.get('/login',  routes.login);
 app.get('/shipping',  routes.shipping);
+app.get('/ship',  routes.ship);
 app.get('/printing',  routes.printing);
 app.get('/tracking',  routes.orderManager);
 app.get('/permissions',  routes.permissions);

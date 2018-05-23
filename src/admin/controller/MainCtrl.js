@@ -49,6 +49,7 @@ m_admin.controller('MainCtrl',
         var date = new Date();
 
         var dateToDisplay = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
+        var pancake_date = ("0" + date.getDate()).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
         // alert(dateToDisplay);
         // GET REPORT FOR TODAY
         $rootScope.finishLoading = false;
@@ -71,23 +72,9 @@ m_admin.controller('MainCtrl',
                     // console.log(snapshot.val());
                 });
             })
-            MFirebaseService.getPagesReportForDate(date).then(function(snapshot){
-                $rootScope.todayPagesReport = [];
-                $scope.$apply(function(){
-                    // $rootScope.finishLoading = true;
-                    angular.forEach(snapshot.val(), function(value, key){
-
-                        var page = {
-                            id: key,
-                            totalCustomers : value.totalCustomers,
-                            totalsuccess : value.totalsuccess
-                        }
-                        // console.log(page);
-                        $rootScope.todayPagesReport.push(page);
-                    })
-                    // console.log($rootScope.todayPagesReport);
-                });
-            })
+            
+            // page report
+            getPageReport(date);
 
             MFirebaseService.getShippingReportForDate(date).then(function(snapshot){
                 $scope.$apply(function(){
@@ -96,7 +83,77 @@ m_admin.controller('MainCtrl',
                 });
             })
         }
-        getReport(dateToDisplay);
+        // getReport(dateToDisplay);
+
+        function getPageReport(_date){
+            MFirebaseService.getPagesReportForDate(_date).then(function(snapshot){
+                $rootScope.todayPagesReport = [];
+                $scope.$apply(function(){
+                    // $rootScope.finishLoading = true;
+                    angular.forEach(snapshot.val(), function(value, key){
+
+                        var page = {
+                            id: key,
+                            totalCustomers : value.totalCustomers,
+                            totalsuccess : value.totalsuccess,
+                            pancake_data: []
+                        }
+
+                        
+                        MFirebaseService.getPancakeReport(page.id, pancake_date, pancake_date).then(function(response){
+                            // console.log(response.data.data.by_hour);
+                            // angular.forEach(response.data.data.by_hour.categories, (item) => {
+                            //   // Todo...
+                            //   console.log(item);
+
+                            // })
+                            var temp_arr = [];
+
+                            page.pancake_data.push(response.data.data.by_hour.categories.reverse());
+                            angular.forEach(response.data.data.by_hour.series, function(serie){
+                                var new_serie = [];
+                                if(serie.name == "newCustomer" || serie.name == "phoneNumberCount"){
+                                    // page.pancake_data.push(serie);
+                                    // console.log(serie.data);
+                                    var val = 0;
+                                    // angular.forEach(serie.data, (item) => {
+                                      
+                                    // })
+
+                                    for (i = 0; i < serie.data.length; i++) {
+                                        val = val + serie.data[i];
+                                        new_serie.push(val);
+                                    }
+
+                                    page.pancake_data.push({
+                                        'value': new_serie
+                                    });
+
+                                    temp_arr.push(new_serie);
+                                }
+                            })
+
+                            // console.log(temp_arr);
+
+                            var percent_arr = [];
+                            for (i = 0; i < temp_arr[0].length; i++) {
+                                percent_arr.push(temp_arr[1][i]/temp_arr[0][i]);
+                            }
+                            page.pancake_data.push({
+                                'value': percent_arr
+                            });
+                        });
+                        console.log(page);
+                        $rootScope.todayPagesReport.push(page);
+                    })
+                    // console.log($rootScope.todayPagesReport);
+                });
+            })
+        }
+
+        $scope.updatePageReport = function(){
+            getPageReport();
+        }
         
         $rootScope.isUpdating = false;
         function isUpdateReport(){
@@ -166,6 +223,18 @@ m_admin.controller('MainCtrl',
             else{
                 console.log('Something changing...');
             }
+        });
+
+
+        let newOrdersRef = firebase.database().ref().child('shippingItems').orderByChild('created_time').limitToLast(1);
+        newOrdersRef.on('child_added', snapshot => {
+            // console.log(snapshot.key);
+            // if (snapshot.key !== $rootScope.newlyOrderKey) {
+            //     var checked_by = $rootScope.filterById(telesales, snapshot.val().data.orderData.seller_will_call_id).last_name;
+            //     MUtilitiesService.AlertSuccessful(checked_by + ' vừa chốt 1 đơn hàng.');
+            // }
+            var checked_by = $scope.filterById(telesales, snapshot.val().data.orderData.seller_will_call_id).last_name;
+                MUtilitiesService.AlertSuccessful(checked_by + ' vừa chốt 1 đơn hàng.');
         });
 
         // listen for user report add
@@ -304,6 +373,7 @@ m_admin.controller('MainCtrl',
                         }
                     }
                 })
+
             });
 
 
@@ -391,10 +461,9 @@ m_admin.controller('MainCtrl',
             // var today = new Date();
             $rootScope.currentDate = new Date(newDate);
 
-            // if(checkTwoDatesEqual((new Date(newDate)), new Date())){
-            //     alert('Ngày không thay đổi');
-            //     return;
-            // }
+            
+
+
             // alert('Date changed from: ' + oldDate + ' to: ' + newDate)
             if(!date){
                 getReport(dateToDisplay);
@@ -403,6 +472,11 @@ m_admin.controller('MainCtrl',
             var d = new Date(newDate);
             var dd = d.getFullYear() + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + ("0" + d.getDate()).slice(-2);
             getReport(dd);
+            if(!MUtilitiesService.checkTwoDatesEqual((new Date(newDate)), new Date())){
+                MUtilitiesService.AlertSuccessful('Hiển thị báo cáo cho ngày: ' + $rootScope.currentDate.getDate() + 
+                '/' + ($rootScope.currentDate.getMonth() + 1) + $rootScope.currentDate.getFullYear());
+            }
+            
         }
         $rootScope.toggleUpdating();
 
@@ -1113,6 +1187,9 @@ m_admin.controller('MainCtrl',
         //     console.log($rootScope.telesales_arr);
         // }, 5000);
 
+        $scope.fixDate = function(date){
+            return new Date(date);
+        }
 
 
     });

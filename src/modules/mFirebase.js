@@ -1023,17 +1023,34 @@
                 }
 
                 var addShippingNote = function(id, data){
-                    var updates = {};
+                    console.log(id)
+                    // var updates = {};
                         
-                    updates['/shippingItems/' + id + '/note'] = data;
+                    // updates['/shippingItems/' + id + '/note'] = data;
 
                     return new Promise(function(resolve, reject){
                         // update firebase database
-                        firebase.database().ref().update(updates).then(function (response) {
-                                resolve('Thêm ghi chú thành công');
-                            })
-                            .catch(function (err) {
-                                reject(err)
+                        // firebase.database().ref().update(updates).then(function (response) {
+                        //         resolve('Thêm ghi chú thành công');
+                        //     })
+                            // .catch(function (err) {
+                            //     reject(err)
+                            // })
+                            // resolve('dd')
+                            firebase.database().ref().child('shippingItems').child(id).once('value', function(snapshot){
+                                if (snapshot.val() !== null) {
+                                    
+                                    firebase.database().ref().child('shippingItems').child(id).child('notes').push(data)
+                                    .then(function(){
+                                       resolve('Thêm ghi chú thành công'); 
+                                    })
+                                    .catch(function(err){
+                                       reject('Không thể thêm ghi chú đơn hàng. Lỗi ' + err); 
+                                    })
+                                }
+                                else{
+                                    reject('Không thể thêm ghi chú đơn hàng. Lỗi không tìm thấy đơn hàng.');
+                                }
                             })
                     })
                 }
@@ -1936,7 +1953,8 @@
                                 if (snapshot.val().status_id !== 0)
                                     result.push({
                                         key: snapshot.key,
-                                        data: snapshot.val()
+                                        data: snapshot.val(),
+                                        notes: []
                                     });
                                 resolve(result);
                             })
@@ -1955,7 +1973,8 @@
                                 if (snapshot.val().status_id !== 0)
                                     result.push({
                                         key: snapshot.key,
-                                        data: snapshot.val()
+                                        data: snapshot.val(),
+                                        notes: []
                                     });
                                 // console.log(snapshot.val());
                                 // console.log(snapshot.key);
@@ -1976,7 +1995,8 @@
                                 angular.forEach(snapshot.val(), function (value, key) {
                                     result.push({
                                         key: key,
-                                        data: value
+                                        data: value,
+                                        notes: []
                                     });
                                 })
                                 // console.log(snapshot.val());
@@ -1995,7 +2015,8 @@
                                 angular.forEach(snapshot.val(), function (value, key) {
                                     result.push({
                                         key: key,
-                                        data: value
+                                        data: value,
+                                        notes: []
                                     });
                                 })
                                 resolve(result);
@@ -2188,6 +2209,10 @@
                             });
                     })
                 }
+                var getAllActiveMembers = function(){
+                    return firebase.database().ref().child('members').orderByChild('status').equalTo(1).once('value', function(snapshot) {
+                    });
+                }
                 var getStatuses = function () {
                     return new Promise(function (resolve, reject) {
                         var res = [];
@@ -2237,6 +2262,31 @@
                             });
                         });
                     });
+                }
+
+                /*
+                * get Pancake Token from page ID: 261147674417633
+                */
+                var getPancakeReport = function(page_id, from_date, to_date){
+                    var pancake_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJlMjBmNzJiNi0yMjc2LTQ0MDUtYjY2MC0xOGJiMzlkYjYzZjQiLCJpYXQiOjE1MjcwMzg2NjYsImZiX25hbWUiOiJOZ3V54buFbiBWxINuIEPDtG5nIiwiZmJfaWQiOiIxMjM0NDY3MDg2NjA1MjM4IiwiZXhwIjoxNTM0ODE0NjY2fQ.Dt3d_iQi2bCgfHu6rreVcgEeyv_Kib95vR2J8BvxIvQ';
+                    var url = 'https://pages.fm/api/v1/pages/' + page_id + '/statistics?date_range=' +  from_date + '%20-%20' + to_date + '&is_detail=true&access_token=' + pancake_token;
+
+                    return new Promise(function(resolve, reject){
+                        // var config = {
+                        // headers: {
+                        //     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                        //     }
+                        //   }
+
+                        $http.get(url)
+                            .then(function(response) {
+                                // console.log(response);
+                                resolve(response);
+                            })
+                            .catch(function(err){
+                                reject('Can not get categories data. Erorr: ' + err);
+                            })
+                    })
                 }
 
                 return {
@@ -2312,6 +2362,8 @@
                     addShippingNote: addShippingNote,
                     getAllMembers:getAllMembers,
                     updateMemberMask: updateMemberMask,
+                    getAllActiveMembers: getAllActiveMembers,
+                    getPancakeReport: getPancakeReport
                 }
 
             }

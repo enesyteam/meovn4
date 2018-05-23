@@ -5,14 +5,14 @@
 
     angular.module('mUtilities')
         .service('MUtilitiesService', ['$document', '$timeout', '$filter', 'toastr', 'toastrConfig', 'ngDialog', 
-            'firebaseStorageService', 'MFacebookService',
-            function($document, $timeout, $filter, toastr, toastrConfig, ngDialog, firebaseStorageService, 
+             'MFacebookService',
+            function($document, $timeout, $filter, toastr, toastrConfig, ngDialog, 
                 MFacebookService) {
                 // console.log(MFirebaseService);
                 // TOASTR
                 var configToastr = function() {
                     toastrConfig.closeButton = true;
-                    toastrConfig.timeOut = 3000;
+                    toastrConfig.timeOut = 6000;
                     toastrConfig.toastClass = 'notice';
                     toastrConfig.containerId = 'global-notices';
                     toastrConfig.iconClasses = {
@@ -22,7 +22,7 @@
                         warning: 'is-warning'
                       };
                     // toastrConfig.positionClass = 'toast-top-right';
-                    toastrConfig.positionClass = "toast-bottom-right";
+                    toastrConfig.positionClass = "toast-top-right";
                 }
 
                 configToastr();
@@ -575,25 +575,25 @@
                                     fileName: null
                                 }
 
-                                $scope.onFileSelect = function($files) {
-                                    // console.log($files);
-                                    angular.forEach($files, function(file) {
-                                        // make file name
-                                        var d = Date.now();
-                                        var file_name = 'image_' + d;
-                                        // console.log(file_name);
-                                        firebaseStorageService.upload(file, 1, file_name).then(function(response) {
-                                            // response = file link
-                                            $scope.imageData.fileName = response;
-                                            // console.log(response);
-                                            // create image item on firebase
-                                        })
-                                        .catch(function(err){
-                                            console.log(err);
-                                        });
-                                    });
-                                    // $files = null;
-                                };
+                                // $scope.onFileSelect = function($files) {
+                                //     // console.log($files);
+                                //     angular.forEach($files, function(file) {
+                                //         // make file name
+                                //         var d = Date.now();
+                                //         var file_name = 'image_' + d;
+                                //         // console.log(file_name);
+                                //         firebaseStorageService.upload(file, 1, file_name).then(function(response) {
+                                //             // response = file link
+                                //             $scope.imageData.fileName = response;
+                                //             // console.log(response);
+                                //             // create image item on firebase
+                                //         })
+                                //         .catch(function(err){
+                                //             console.log(err);
+                                //         });
+                                //     });
+                                //     // $files = null;
+                                // };
 
                                 $scope.submit = function() {
                                     if(!$scope.imageData.name || $scope.imageData.name.length == 0){
@@ -811,8 +811,6 @@
                     })
                 }
 
-                
-
                 return {
                     AlertError: AlertError,
                     AlertSuccessful: AlertSuccessful,
@@ -829,7 +827,6 @@
                     showDublicateConfirm: showDublicateConfirm,
                     checkTwoDatesEqual: checkTwoDatesEqual,
                     buildUsersChartData: buildUsersChartData,
-                    
                 }
             }
         ]);

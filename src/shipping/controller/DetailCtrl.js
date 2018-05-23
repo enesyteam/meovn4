@@ -1004,6 +1004,7 @@ mShipping.controller('DetailCtrl',
                 }
             })
             .catch(function(err){
+                console.log(err);
                 MUtilitiesService.AlertError(err, 'Lỗi')
             })
         }

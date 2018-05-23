@@ -393,10 +393,14 @@
                </div>
             </div>
       </div>
-      <div class="content _5y1o">
+      <div class="content _5y1o page-report">
          <div class="clearfix">
             <div class="_ohe lfloat">
-               <div class="_5y1c"><button class="_4jy0 _4jy3 _4jy1 _51sy selected _42ft" type="submit" value="1">Add Pages</button></div>
+               <div class="_5y1c">
+                  <button class="_4jy0 _4jy3 _4jy1 _51sy selected _42ft" type="submit" value="1"
+                  ng-click="updatePageReport()">
+                     Cập nhật dữ liệu
+                  </button></div>
             </div>
             <div class="_ohf rfloat">
                <div class="_5y1b">
@@ -415,7 +419,7 @@
             <thead>
                <tr class="_5k47">
                   <th class="_5k3-"><span class="_5k44"><span class="_5k43">Page</span></span></th>
-                  <th class="_5k3-">
+                  <!-- <th class="_5k3-">
                      <span class="_5k44">
                         <span class="_5k43">
                            <div class="_2ewk">Số mới</div>
@@ -428,11 +432,11 @@
                            <div class="_2ewj">Đã chốt</div>
                         </span>
                      </span>
-                  </th>
+                  </th> -->
                   <th class="_5k3-">
                      <span class="_5k44">
                         <span class="_5k43">
-                           <div class="_2ewl">Last 30 days chart</div>
+                           <div class="_2ewl">Tỷ lệ để lại số trên pages <small style="font-size: 12px;font-weight: 300">[Dữ liệu truy xuất từ Pancake]</small></div>
                         </span>
                      </span>
                   </th>
@@ -444,12 +448,11 @@
                      <div class="_5y1j">
                         <div class="">
                            <div direction="left" class="clearfix">
-                              <div class="_ohe lfloat">
+                              <!-- <div class="_ohe lfloat">
                                  <div class="_5y1f" tabindex="0" role="button">
-                                    <!-- <div class="_5y1e">YOU</div> -->
                                     <div class="_5y1g">{{$index+1}}</div>
                                  </div>
-                              </div>
+                              </div> -->
                               <div class="">
                                  <div class="_4tg1 _5xdw clearfix" direction="left">
                                     <div class="_ohe lfloat"><img class="_5y1h img _8o _8t img" ng-src="{{'//graph.facebook.com/' + page.id + '/picture?width=100&amp;height=100'}}" alt=""></div>
@@ -457,6 +460,11 @@
                                        <div class="_42ef">
                                           <div class="_5y1i ellipsis">
                                              {{findPageById(page.id).name}}
+                                          </div>
+                                          <div class="_meta">
+                                             Số mới: <strong>{{page.totalCustomers}}</strong> Đã chốt: <strong>{{page.totalsuccess}}</strong> <span class="_5cup" style="color:#43a735;font-weight: 700">
+                                                {{(page.totalsuccess/page.totalCustomers)*100 | number: 2}}%
+                                             </span>
                                           </div>
                                        </div>
                                     </div>
@@ -466,7 +474,7 @@
                         </div>
                      </div>
                   </td>
-                  <td class="_5k49" colspan="1">
+                  <!-- <td class="_5k49" colspan="1">
                      <div class="_5y1m _2ewk">{{page.totalCustomers}}</div>
                   </td>
                   <td class="_5k49" colspan="1">
@@ -479,11 +487,63 @@
                            </span>
                         </div>
                      </div>
-                  </td>
+                  </td> -->
                   <td class="_5k49" colspan="1">
                      <div class="_5y1n _2ewl">
-                        <div class="_5kmz _5km_">
-                           <!-- <div class="_5kn3 ellipsis">0</div> -->
+                        <!-- {{page.pancake_data}} -->
+                        <!-- <div class="pancake_header">
+                           <span ng-repeat="date in page.pancake_data[0] track by $index" class="pancake-cell">
+                              {{fixDate(date) | date: 'hh:MM'}}
+                           </span>
+                        </div>
+                        <div class="pancake_header">
+                           <span ng-repeat="newCustomer in page.pancake_data[1].data track by $index" class="pancake-cell">{{newCustomer}}</span>
+                        </div>
+                        <div class="pancake_header">
+                           <span ng-repeat="newPhoneNumber in page.pancake_data[2].data track by $index" class="pancake-cell">{{newPhoneNumber}}</span>
+                        </div> -->
+
+                        <table class="pancake_data_table">
+                           <thead>
+                              <tr>
+                                 <td>
+                                    TIME
+                                 </td>
+                                 <td ng-repeat="date in page.pancake_data[0] track by $index">
+                                    <span style="font-weight: 700">{{fixDate(date) | date: 'H'}}h</span>
+                                    <!-- <span hidden="">{{count++}}</span> -->
+                                 </td>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    NEW
+                                 </td>
+                                 <td ng-repeat="newCustomer in page.pancake_data[1].value track by $index">
+                                    {{newCustomer}}
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    PHONE
+                                 </td>
+                                 <td ng-repeat="newPhoneNumber in page.pancake_data[2].value track by $index">
+                                    {{newPhoneNumber}}
+                                 </td>
+                              </tr>
+                               <tr>
+                                 <td>
+                                    %
+                                 </td>
+                                 <td ng-repeat="percent in page.pancake_data[3].value track by $index">
+                                    <span style="color:#43a735;font-weight: 700">{{percent*100 | number: 1}}</span>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <!-- {{count}} -->
+                        <!-- <div class="_5kmz _5km_">
                            <div class="_5kn4 _11uq">
                               <div class="_5abm" style="width: 0%;">
                                  <div class="_5abn" style="background-color: rgb(208, 148, 171); width: 0px;"></div>
@@ -492,11 +552,10 @@
                               <div class="_5kn5">
                                  <div class="_5kn0">
                                     <div class="_5kn1"></div>
-                                    <!-- <div class="_5kn2">0</div> -->
                                  </div>
                               </div>
                            </div>
-                        </div>
+                        </div> -->
                      </div>
                   </td>
                </tr>

@@ -1706,11 +1706,10 @@ table {
 }
 ._5y1j {
     height: 52px;
-    margin-left: -8px;
-    width: 323px;
+    /*margin-left: -8px;*/
+    /*width: 323px;*/
 }
 
-user agent stylesheet
 div {
     display: block;
 }
@@ -1840,7 +1839,7 @@ img {
     color: #4267b2;
     font-size: 15px;
     font-weight: bold;
-    padding: 16px 0;
+    padding: 4px 0 0;
 }
 ._5km_ {
     padding: 5px 0 0 0;
@@ -3336,4 +3335,24 @@ label._4wb4 {
 }
 ._3qrt{
     display:none
+}
+.page-report .pancake_header{
+    width: 100%;
+    height: 24px;
+    /*display: flex;*/
+}
+.page-report .pancake-cell{
+    width: 5%;
+    padding: 2px;
+    flex: 1
+}
+table.pancake_data_table{
+    width: 100%;
+    color: #666;
+    font-size: 11px;
+}
+table.pancake_data_table td, table.pancake_data_table td.label{
+    text-align: right;
+    background: #f9f9f9;
+    padding: 2px;
 }

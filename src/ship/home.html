@@ -1,0 +1,194 @@
+<div class="app">
+		
+		<aside class="app-aside">
+      <div class="filter-bar">
+          
+        </div>
+   <!-- .aside-content -->
+   <div class="aside-content">
+      <!-- .aside-header -->
+      <header class="aside-header d-block aside-search">
+         <div class="top-bar-search">
+            <div class="input-group input-group-search {{isSearchBoxSelect ? 'focus' : ''}}">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <span class="oi oi-magnifying-glass"></span>
+                </span>
+              </div>
+              <input type="text" class="form-control" aria-label="Search" placeholder="Search..."
+              ng-model="searchQuery.text" search-enter="searchOrder()" ng-focus="focusSearch()" ng-blur="blurSearch()"> </div>
+          </div>
+      </header>
+      <!-- /.aside-header -->
+      <!-- .aside-menu -->
+      <section class="aside-menu ps ps--active-y shipping-list">
+        
+         <!-- .stacked-menu -->
+         <nav id="stacked-menu" class="stacked-menu shippings-list stacked-menu-has-collapsible" infinite-scroll='loadMoreOrders()' infinite-scroll-disabled="isLoaddingOrder"
+        infinite-scroll-distance="1" infinite-scroll-container='".shipping-list"'>
+            <!-- .shipping items -->
+            <div class="shipping-item" ng-repeat="order in availableShippingItems track by $index"
+            ng-if="order.data.id"
+            ng-click="onClickOrder(order)">
+            	<div class="item-container {{order.selected == true ? 'selected' : ''}}">
+            		<div class="item-avatar">
+            			<div class="avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212 212" width="42" height="42"><path fill="#DFE5E7" d="M106.251.5C164.653.5 212 47.846 212 106.25S164.653 212 106.25 212C47.846 212 .5 164.654.5 106.25S47.846.5 106.251.5z"></path><g fill="#FFF"><path d="M173.561 171.615a62.767 62.767 0 0 0-2.065-2.955 67.7 67.7 0 0 0-2.608-3.299 70.112 70.112 0 0 0-3.184-3.527 71.097 71.097 0 0 0-5.924-5.47 72.458 72.458 0 0 0-10.204-7.026 75.2 75.2 0 0 0-5.98-3.055c-.062-.028-.118-.059-.18-.087-9.792-4.44-22.106-7.529-37.416-7.529s-27.624 3.089-37.416 7.529c-.338.153-.653.318-.985.474a75.37 75.37 0 0 0-6.229 3.298 72.589 72.589 0 0 0-9.15 6.395 71.243 71.243 0 0 0-5.924 5.47 70.064 70.064 0 0 0-3.184 3.527 67.142 67.142 0 0 0-2.609 3.299 63.292 63.292 0 0 0-2.065 2.955 56.33 56.33 0 0 0-1.447 2.324c-.033.056-.073.119-.104.174a47.92 47.92 0 0 0-1.07 1.926c-.559 1.068-.818 1.678-.818 1.678v.398c18.285 17.927 43.322 28.985 70.945 28.985 27.678 0 52.761-11.103 71.055-29.095v-.289s-.619-1.45-1.992-3.778a58.346 58.346 0 0 0-1.446-2.322zM106.002 125.5c2.645 0 5.212-.253 7.68-.737a38.272 38.272 0 0 0 3.624-.896 37.124 37.124 0 0 0 5.12-1.958 36.307 36.307 0 0 0 6.15-3.67 35.923 35.923 0 0 0 9.489-10.48 36.558 36.558 0 0 0 2.422-4.84 37.051 37.051 0 0 0 1.716-5.25c.299-1.208.542-2.443.725-3.701.275-1.887.417-3.827.417-5.811s-.142-3.925-.417-5.811a38.734 38.734 0 0 0-1.215-5.494 36.68 36.68 0 0 0-3.648-8.298 35.923 35.923 0 0 0-9.489-10.48 36.347 36.347 0 0 0-6.15-3.67 37.124 37.124 0 0 0-5.12-1.958 37.67 37.67 0 0 0-3.624-.896 39.875 39.875 0 0 0-7.68-.737c-21.162 0-37.345 16.183-37.345 37.345 0 21.159 16.183 37.342 37.345 37.342z"></path></g></svg>
+            				<!-- <img ng-src="{{'//graph.facebook.com/'+ order.data.data.orderData.customer_id  + '/picture?width=50&height=50'}}" class="Qgzj8 gqwaM"> -->
+                    <!-- <span data-icon="default-user" class=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212 212" width="42" height="42"><path fill="#DFE5E7" d="M106.251.5C164.653.5 212 47.846 212 106.25S164.653 212 106.25 212C47.846 212 .5 164.654.5 106.25S47.846.5 106.251.5z"></path><g fill="#FFF"><path d="M173.561 171.615a62.767 62.767 0 0 0-2.065-2.955 67.7 67.7 0 0 0-2.608-3.299 70.112 70.112 0 0 0-3.184-3.527 71.097 71.097 0 0 0-5.924-5.47 72.458 72.458 0 0 0-10.204-7.026 75.2 75.2 0 0 0-5.98-3.055c-.062-.028-.118-.059-.18-.087-9.792-4.44-22.106-7.529-37.416-7.529s-27.624 3.089-37.416 7.529c-.338.153-.653.318-.985.474a75.37 75.37 0 0 0-6.229 3.298 72.589 72.589 0 0 0-9.15 6.395 71.243 71.243 0 0 0-5.924 5.47 70.064 70.064 0 0 0-3.184 3.527 67.142 67.142 0 0 0-2.609 3.299 63.292 63.292 0 0 0-2.065 2.955 56.33 56.33 0 0 0-1.447 2.324c-.033.056-.073.119-.104.174a47.92 47.92 0 0 0-1.07 1.926c-.559 1.068-.818 1.678-.818 1.678v.398c18.285 17.927 43.322 28.985 70.945 28.985 27.678 0 52.761-11.103 71.055-29.095v-.289s-.619-1.45-1.992-3.778a58.346 58.346 0 0 0-1.446-2.322zM106.002 125.5c2.645 0 5.212-.253 7.68-.737a38.272 38.272 0 0 0 3.624-.896 37.124 37.124 0 0 0 5.12-1.958 36.307 36.307 0 0 0 6.15-3.67 35.923 35.923 0 0 0 9.489-10.48 36.558 36.558 0 0 0 2.422-4.84 37.051 37.051 0 0 0 1.716-5.25c.299-1.208.542-2.443.725-3.701.275-1.887.417-3.827.417-5.811s-.142-3.925-.417-5.811a38.734 38.734 0 0 0-1.215-5.494 36.68 36.68 0 0 0-3.648-8.298 35.923 35.923 0 0 0-9.489-10.48 36.347 36.347 0 0 0-6.15-3.67 37.124 37.124 0 0 0-5.12-1.958 37.67 37.67 0 0 0-3.624-.896 39.875 39.875 0 0 0-7.68-.737c-21.162 0-37.345 16.183-37.345 37.345 0 21.159 16.183 37.342 37.345 37.342z"></path></g></svg></span> -->
+            			</div>
+            		</div>
+            		<div class="item-content">
+            			<div class="title">
+            				<div class="title-text">
+            					<span dir="auto" title="12A.Hieu Cham" class="customer-name">
+                        {{order.data.data.customerData.realName}}     
+                      </span>
+            				</div>
+            				<div class="created-time"><span class="time caps">
+                        {{ order.data.created_time | date:'HH:mm dd/MM'}}    
+                    </span></div>
+            			</div>
+            			<div class="item-info">
+            				<div class="info-text">
+            					<span dir="auto" title="Xóm 9 - Nghi Kiều - Nghi Lộc - Nghệ An" class="customer-info">
+            					{{order.data.data.customerData.addresss}}
+            				</span>
+            				</div>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+            <div class="shipping-item load-more">
+              <button class="btn btn-primary" ng-click="getNextShippingItems()">Tải thêm đơn hàng</button>
+            </div>
+            
+            <!-- /.shipping items -->
+         </nav>
+
+         <!-- /.stacked-menu -->
+      </section>
+      <!-- /.aside-menu -->
+   </div>
+   <!-- /.aside-content -->
+</aside>
+<main class="app-main" ng-if="activeOrder">
+	<div class="wrapper">
+		<div class="page">
+			<div class="sidebar-backdrop"></div>
+			<div class="order-col">
+        <div class="header">
+          header
+        </div>
+        <div class="chat-body">
+          <div class="chat-content" style="height: {{windowsHeight-(60+80)}}px;overflow-y: auto;">
+            <div ng-include="'/src/ship/partials/chat-log.html'"></div>
+            <pre>
+              {{activeOrder | json}}
+            </pre>
+          </div>
+          <div class="write-chat {{isChatSelect ? 'focus' : ''}}">
+            <div class="input-chat">
+              <textarea ng-model="noteData.text" class="input-msg ng-pristine ng-valid ng-empty ng-touched" id="fb_info_message" name="input_message" placeholder="Nhập ghi chú đơn hàng và Enter để thêm" autocomplete="on" style="" ng-focus="focusChat()" ng-blur="blurChat()" comment-enter="submitComment(activeOrder.key)"></textarea>
+            </div>
+            <div class="function_message">
+              <ul class="list_action">
+                    <li id="open_image_" class="open_image_post">
+                       <div>
+                          <a class="open_file btn btn-link" ng-click="submitComment(activeOrder.key)">
+                             <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#263238" fill-opacity=".45" d="M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"></path></svg>
+                          </a>
+                       </div>
+                    </li>
+                    
+                 </ul>
+            </div>
+          </div>
+        </div>
+				<!-- {{activeOrder.key}} -->
+        
+			</div>
+      <div class="customer-col">
+        <div class="header">
+          <!-- {{currentMember}} -->
+          Header
+        </div>
+          <div class="customer-information customer-pane" ng-if="activeOrder">
+            <div class="threadChat__avatar ">
+              <div class="avatar avatar--sl">
+                <div class="avatar-img ">
+                  <!-- <img ng-src="//graph.facebook.com/{{activeOrder.data.data.orderData.customer_id}}/picture?width=100&height=100" class="img"> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212 212" width="62" height="62"><path fill="#DFE5E7" d="M106.251.5C164.653.5 212 47.846 212 106.25S164.653 212 106.25 212C47.846 212 .5 164.654.5 106.25S47.846.5 106.251.5z"></path><g fill="#FFF"><path d="M173.561 171.615a62.767 62.767 0 0 0-2.065-2.955 67.7 67.7 0 0 0-2.608-3.299 70.112 70.112 0 0 0-3.184-3.527 71.097 71.097 0 0 0-5.924-5.47 72.458 72.458 0 0 0-10.204-7.026 75.2 75.2 0 0 0-5.98-3.055c-.062-.028-.118-.059-.18-.087-9.792-4.44-22.106-7.529-37.416-7.529s-27.624 3.089-37.416 7.529c-.338.153-.653.318-.985.474a75.37 75.37 0 0 0-6.229 3.298 72.589 72.589 0 0 0-9.15 6.395 71.243 71.243 0 0 0-5.924 5.47 70.064 70.064 0 0 0-3.184 3.527 67.142 67.142 0 0 0-2.609 3.299 63.292 63.292 0 0 0-2.065 2.955 56.33 56.33 0 0 0-1.447 2.324c-.033.056-.073.119-.104.174a47.92 47.92 0 0 0-1.07 1.926c-.559 1.068-.818 1.678-.818 1.678v.398c18.285 17.927 43.322 28.985 70.945 28.985 27.678 0 52.761-11.103 71.055-29.095v-.289s-.619-1.45-1.992-3.778a58.346 58.346 0 0 0-1.446-2.322zM106.002 125.5c2.645 0 5.212-.253 7.68-.737a38.272 38.272 0 0 0 3.624-.896 37.124 37.124 0 0 0 5.12-1.958 36.307 36.307 0 0 0 6.15-3.67 35.923 35.923 0 0 0 9.489-10.48 36.558 36.558 0 0 0 2.422-4.84 37.051 37.051 0 0 0 1.716-5.25c.299-1.208.542-2.443.725-3.701.275-1.887.417-3.827.417-5.811s-.142-3.925-.417-5.811a38.734 38.734 0 0 0-1.215-5.494 36.68 36.68 0 0 0-3.648-8.298 35.923 35.923 0 0 0-9.489-10.48 36.347 36.347 0 0 0-6.15-3.67 37.124 37.124 0 0 0-5.12-1.958 37.67 37.67 0 0 0-3.624-.896 39.875 39.875 0 0 0-7.68-.737c-21.162 0-37.345 16.183-37.345 37.345 0 21.159 16.183 37.342 37.345 37.342z"></path></g></svg>
+                </div>
+              </div>
+            </div>
+            <div class="threadChat__info">
+              <div class="name threadChat__item">
+                {{activeOrder.data.data.customerData.realName}}
+              </div>
+              <div class="phone threadChat__item">
+                <span class="phone-number">{{activeOrder.data.data.customerData.recievedPhone}}
+                </span>
+                <span style="padding-left: 15px;text-transform: uppercase;font-weight: 300;">
+                  Năm sinh: <span style="color: #00a1f2;">{{activeOrder.data.data.customerData.birthDay}}</span>
+                </span>
+              </div>
+              <div class="address threadChat__item">
+                <!-- <span>
+                  <svg height="18" class="octicon octicon-calendar" viewBox="0 0 14 16" version="1.1" width="18" aria-hidden="true"><path fill-rule="evenodd" d="M13 2h-1v1.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5V2H6v1.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5V2H2c-.55 0-1 .45-1 1v11c0 .55.45 1 1 1h11c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm0 12H2V5h11v9zM5 3H4V1h1v2zm6 0h-1V1h1v2zM6 7H5V6h1v1zm2 0H7V6h1v1zm2 0H9V6h1v1zm2 0h-1V6h1v1zM4 9H3V8h1v1zm2 0H5V8h1v1zm2 0H7V8h1v1zm2 0H9V8h1v1zm2 0h-1V8h1v1zm-8 2H3v-1h1v1zm2 0H5v-1h1v1zm2 0H7v-1h1v1zm2 0H9v-1h1v1zm2 0h-1v-1h1v1zm-8 2H3v-1h1v1zm2 0H5v-1h1v1zm2 0H7v-1h1v1zm2 0H9v-1h1v1z"></path></svg>
+                </span> -->
+                <span>
+                  {{activeOrder.data.data.customerData.addresss}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="scrollable" style="height: {{windowsHeight-(60+110)}}px;">
+            <div class="seller-info customer-pane">
+            Chốt bởi <strong>{{filterById(telesales, activeOrder.data.data.orderData.seller_will_call_id).last_name}}</strong> lúc {{activeOrder.data.data.created_time | date: 'h:mma dd-MM-yyyy'}}
+          </div>
+          <div class="order-info customer-pane">
+            <!-- {{activeOrder.data.data.customerData.products}} -->
+            <div class="table100 ver2 m-b-110">
+              <div class="table100-body js-pscroll ps ps--active-y">
+                <table>
+                  <thead>
+                    <tr class="row100 head">
+                      <th class="cell100 column1">Tên sản phẩm ({{activeOrder.data.data.customerData.products.length}})</th>
+                      <th class="cell100 column2">SL</th>
+                      <th class="cell100 column3">Ghi chú</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="row100 body" ng-repeat="product in activeOrder.data.data.customerData.products">
+                      <td class="cell100 column1">{{findProduct(product.id).name || 'Không rõ'}}</td>
+                      <td class="cell100 column2">{{product.count}}</td>
+                      <td class="cell100 column3">{{product.note}}</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+          </div>
+            </div>
+          </div>
+          <div class="packing-note customer-pane" ng-if="activeOrder.data.data.customerData.customerNote">
+            <strong style="font-size: 14px;font-weight: 500;">Ghi chú đóng hàng: </strong>
+            <span class="note-content">{{activeOrder.data.data.customerData.customerNote}}</span>
+          </div>
+          <div class="packing-note customer-pane" ng-if="activeOrder.data.data.customerData.orderNote">
+            <strong style="font-size: 14px;font-weight: 500;">Ghi chú giao hàng: </strong>
+            <span class="note-content">{{activeOrder.data.data.customerData.orderNote}}</span>
+          </div>
+          <div class="packing-cod customer-pane">
+            <div class="cod-title">Giá trị đơn hàng: </div>
+            <div class="cod">
+              {{activeOrder.data.data.customerData.cod | number: 0}}
+            </div>
+          </div>
+          </div>
+        </div>
+		</div>
+	</div>
+</main>
+<div class="app-backdrop"></div>
+	</div>
