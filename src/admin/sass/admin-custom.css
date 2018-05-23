@@ -1933,7 +1933,8 @@ img {
     width: 54px;
 }
 ._5y1o ._5k49 {
-    padding: 9px 8px;
+    /*padding: 9px 8px;*/
+    padding: 0;
 }
 ._5k49:first-child {
     border-left: 0;

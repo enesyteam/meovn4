@@ -49,23 +49,23 @@ m_admin.controller('MainCtrl',
         var date = new Date();
 
         var dateToDisplay = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
-        var pancake_date = ("0" + date.getDate()).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
+        
         // alert(dateToDisplay);
         // GET REPORT FOR TODAY
         $rootScope.finishLoading = false;
-        var getReport = function(date){
+        var getReport = function(_date){
             $rootScope.todayReport = null;
             $rootScope.todayUsersReport = null;
             $rootScope.finishLoading = false;
 
             // spinnerService.show('booksSpinner');
 
-            MFirebaseService.getReportForDate(date).then(function(snapshot){
+            MFirebaseService.getReportForDate(_date).then(function(snapshot){
                 $scope.$apply(function(){
                     $rootScope.todayReport = snapshot.val();
                 });
             })
-            MFirebaseService.getUsersReportForDate(date).then(function(snapshot){
+            MFirebaseService.getUsersReportForDate(_date).then(function(snapshot){
                 $scope.$apply(function(){
                     // $rootScope.finishLoading = true;
                     $rootScope.todayUsersReport = snapshot.val();
@@ -74,9 +74,9 @@ m_admin.controller('MainCtrl',
             })
             
             // page report
-            getPageReport(date);
+            getPageReport(_date);
 
-            MFirebaseService.getShippingReportForDate(date).then(function(snapshot){
+            MFirebaseService.getShippingReportForDate(_date).then(function(snapshot){
                 $scope.$apply(function(){
                     $rootScope.finishLoading = true;
                     $rootScope.todayShippingReport = snapshot.val();
@@ -86,6 +86,7 @@ m_admin.controller('MainCtrl',
         // getReport(dateToDisplay);
 
         function getPageReport(_date){
+            // alert(new Date(_date))
             MFirebaseService.getPagesReportForDate(_date).then(function(snapshot){
                 $rootScope.todayPagesReport = [];
                 $scope.$apply(function(){
@@ -99,7 +100,9 @@ m_admin.controller('MainCtrl',
                             pancake_data: []
                         }
 
-                        
+                        var _d = new Date(_date);
+
+                        var pancake_date = ("0" + _d.getDate()).slice(-2) + '/' + ("0" + (_d.getMonth() + 1)).slice(-2) + '/' + _d.getFullYear();
                         MFirebaseService.getPancakeReport(page.id, pancake_date, pancake_date).then(function(response){
                             // console.log(response.data.data.by_hour);
                             // angular.forEach(response.data.data.by_hour.categories, (item) => {
@@ -152,7 +155,7 @@ m_admin.controller('MainCtrl',
         }
 
         $scope.updatePageReport = function(){
-            getPageReport();
+            getPageReport($rootScope.currentDate);
         }
         
         $rootScope.isUpdating = false;
@@ -462,11 +465,11 @@ m_admin.controller('MainCtrl',
             $rootScope.currentDate = new Date(newDate);
 
             
-
+            var _d = $rootScope.currentDate.getFullYear() + '-' + ("0" + ($rootScope.currentDate.getMonth() + 1)).slice(-2) + '-' + ("0" + $rootScope.currentDate.getDate()).slice(-2);
 
             // alert('Date changed from: ' + oldDate + ' to: ' + newDate)
             if(!date){
-                getReport(dateToDisplay);
+                getReport(_d);
                 return;
             }
             var d = new Date(newDate);
