@@ -1,0 +1,135 @@
+<p>{{vm.modalPreConfirmContent}}</p>
+<div class="container mb-1">
+   <div style="text-align: left;">
+      <fieldset>
+         <div class="row">
+            <div class="col-md-7 pr-4">
+               <div class="form-row">
+                  <div class="form-group col-md-6">
+                     <label for="country">Tên người nhận</label>
+                     <!-- <label for="customer_name">Tên người nhận</label> -->
+                     <input type="text" class="form-control" id="customer_name" placeholder="Tên người nhận" ng-model="vm.activeOrder.data.data.customerData.realName">
+                  </div>
+                  <div class="form-group col-md-6">
+                     <label for="country">Số điện thoại</label>
+                     <!-- <label for="customer_mobile">Số ĐT người nhận</label> -->
+                     <input type="text" class="form-control" id="customer_mobile" placeholder="Số ĐT người nhận" ng-model="vm.activeOrder.data.data.customerData.recievedPhone">
+                  </div>
+               </div>
+               <div class="form-row">
+                  <div class="form-group col-md-12">
+                     <label for="country">Địa chỉ</label>
+                     <!-- <label for="customer_address">Địa chỉ nhận hàng</label> -->
+                     <input type="text" class="form-control" id="customer_address" placeholder="Địa chỉ nhận hàng" ng-model="vm.activeOrder.data.data.customerData.addresss">
+                  </div>
+               </div>
+               <div class="form-row">
+                  <div class="form-group col-md-6">
+                     <label for="country">Quận/huyện</label>
+                     <select class="form-control form-select" select2 ng-model="ghn_hub_data.DistrictID" data-placeholder="Pick a number" 
+                        ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in vm.ghn_districs">
+                        <option value=""></option>
+                     </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                     <label for="country">Phường/Xã</label>
+                     <select class="form-control form-select" select2 ng-model="ghn_hub_data.DistrictID" data-placeholder="Pick a number" 
+                        ng-options="s.DistrictID as (s.DistrictName + ' - ' + s.ProvinceName) for s in vm.ghn_districs">
+                        <option value=""></option>
+                     </select>
+                  </div>
+               </div>
+               <div  class="form-row">
+                  <div class="form-group col-md-12">
+                     <label for="country">Ghi chú giao hàng</label>
+                     <!-- <input type="text" class="form-control" id="customer_name" placeholder="Ghi chú giao hàng"> -->
+                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Các yêu cầu khi giao hàng"></textarea>
+                  </div>
+               </div>
+               <hr>
+               <div class="form-row">
+                  <div class="form-group col-md-12">
+                     
+                     <div class="row">
+                        <div class="form-group col-md-3" style="padding-right: 0">
+                        	<label for="country">Dài (cm)</label>
+                           <input type="text" class="form-control" id="customer_name">
+                        </div>
+                        <div class="form-group col-md-3" style="padding-right: 0">
+                        	<label for="country">Rộng (cm)</label>
+                           <input type="text" class="form-control" id="customer_name">
+                        </div>
+                        <div class="form-group col-md-3" style="padding-right: 0">
+                        	<label for="country">Cao (cm)</label>
+                           <input type="text" class="form-control" id="customer_name">
+                        </div>
+                        <div class="form-group col-md-3">
+                        	<label for="country">T.L (gram)</label>
+                           <input type="text" class="form-control" id="customer_name">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-5 pl-4" style="border-left: 1px solid #eee;">
+               <div class="form-row">
+                  <div class="form-group col-md-12">
+                     <label for="country">Dịch vụ chuyển phát</label>
+                     <select class="form-control form-select" select2 ng-model="ghn_hub_data.services" data-placeholder="Pick a number" 
+                        ng-options="s.id as (s.short_name + ' - ' + s.name) for s in vm.services">
+                        <option value=""></option>
+                     </select>
+                  </div>
+               </div>
+               <div class="form-row">
+                  <div class="form-group col-md-12">
+                     <label for="country">Tiền thu hộ (COD)</label>
+                     <input type="text" class="form-control" id="customer_name" placeholder="Nhập số tiền thu hộ">
+                  </div>
+               </div>
+               <hr>
+               <div class="form-row">
+                  <div class="form-group col-md-12">
+                     <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="pick_at_hub" checked="">
+                        <label class="custom-control-label" for="pick_at_hub">Gửi hàng tại bưu cục</label>
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+						  Giảm 10% cước phí gửi hàng
+						</small>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-row">
+                  <div class="form-group col-md-12">
+                     <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customer_check" checked="">
+                        <label class="custom-control-label" for="customer_check">Cho khách xem hàng</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-row">
+                  <div class="form-group col-md-12">
+                     <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customer_pay">
+                        <label class="custom-control-label" for="customer_pay">Khách hàng thanh toán cước</label>
+                     </div>
+                  </div>
+               </div>
+               <hr>
+               <div style="float:right">
+               	<div class="has-shipping-fee">
+               		<span>Cước phí gửi hàng </span>
+               		<span class="badge badge-success">{{20000 | number: 0}}</span>
+               	</div>
+               	<div class="calculating-shipping-fee">
+               		<span>Đang tính cước phí gửi hàng...</span>
+               	</div>
+               	<div class="missing-shipping-fee">
+               		<span></span>
+               	</div>
+               </div>
+            </div>
+         </div>
+      </fieldset>
+   </div>
+</div>

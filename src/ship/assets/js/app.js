@@ -7,6 +7,7 @@ var mShip = angular.module('mShip', [
   'infinite-scroll',
   'toastr',
   'ngDialog',
+  'angular-sweet-alert',
   'mFacebook',
   'mFirebase',
   'mUtilities'
@@ -43,7 +44,7 @@ var mShip = angular.module('mShip', [
 
 
 function themeRun($rootScope, appVersion, releaseDate) {
-  
+  $.fn.modal.Constructor.prototype.enforceFocus = function() {};
 }
 
 
@@ -88,4 +89,46 @@ mShip.directive('commentEnter', function () {
         });
     };
 });
+
+mShip.directive("select2", ["$timeout", "$parse", function(c, b) {
+    return {
+        restrict: "AC",
+        require: "ngModel",
+        link: function(i, e, d) {
+            c(function() {
+                e.select2({
+                    width: "100%"
+                });
+                e.select2Initialized = true
+            });
+            var h = function() {
+                if (!e.select2Initialized) {
+                    return
+                }
+                c(function() {
+                    e.trigger("change")
+                })
+            };
+            var g = function() {
+                if (!e.select2Initialized) {
+                    return
+                }
+                c(function() {
+                    e.select2("destroy");
+                    e.select2({
+                        width: "100%"
+                    })
+                })
+            };
+            i.$watch(d.ngModel, h);
+            if (d.ngOptions) {
+                var f = d.ngOptions.match(/ in ([^ ]*)/)[1];
+                i.$watch(f, g)
+            }
+            if (d.ngDisabled) {
+                i.$watch(d.ngDisabled, h)
+            }
+        }
+    }
+}]);
 

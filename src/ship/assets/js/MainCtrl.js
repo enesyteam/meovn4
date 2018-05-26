@@ -1,6 +1,8 @@
 mShip.controller('MainCtrl',
   function($rootScope, $scope, $http, $window, $document, $filter, $timeout, MFirebaseService, MUtilitiesService,
-  telesales ) {
+  telesales, sweetAlert, $q) {
+
+    console.log(sweetAlert);
 
     /*
     * Auth
@@ -132,6 +134,15 @@ mShip.controller('MainCtrl',
                                 notes: snapshot.val().notes,
                             })
                 });
+                // // listen for this order changing
+                // firebase.database().ref().child('shippingItems/' + snapshot.key + '/notes')
+                // .on('child_added', snapshot => {
+                //     $timeout(function() {
+                //         $scope.$apply(function() {
+                //             order.notes.push(snapshot.val());
+                //         })
+                //     }, 100);
+                // })
             }
         });
 
@@ -341,6 +352,62 @@ mShip.controller('MainCtrl',
             .catch(function(err){
                 MUtilitiesService.AlertError(err, 'Lỗi')
             })
+        }
+
+        
+
+
+        $scope.testSweetAlert = function(){
+            // sweetAlert.alert("Look out, I'm about to close!", {timer: 2000});
+
+            // sweetAlert.confirm("Are you sure you want to take the red pill?");
+
+            // sweetAlert.success("Great job!");
+
+            $http.get('../assets/ghn-districs.json').
+              then(function onSuccess(districs_data) {
+                // console.log(response.data.data);
+                 // return response.data.data;
+
+                 sweetAlert.open({
+                    title: "Tạo đơn hàng Viettel Post",
+                    htmlTemplate: "src/ship/partials/create-ship.html",
+                    confirmButtonText: 'Tạo đơn',
+                    customClass: 'swal-wide',
+                    showCancelButton: true,
+                    showCloseButton: true,
+                    allowOutsideClick: false,
+                    preConfirm: 'preConfirm',
+                    showLoaderOnConfirm: true,
+                    controller: 'ShipCtrl',
+                    controllerAs: 'vm',
+                    resolve: {
+                        activeOrder: function() {
+                            return angular.copy($scope.activeOrder);
+                        },
+                        ghn_districs: function(){
+                            return districs_data.data.data;
+                        }
+                    }
+                }).then(function(response){
+                    if(response.value){
+                        sweetAlert.success(response.value, {timer: 2500})
+                        .then(function(){
+                            MUtilitiesService.AlertSuccessful('Tạo đơn thành công!')
+                        });
+                    }
+                })
+                .catch(function(err){
+                    sweetAlert.alert(err, {title: 'Lỗi!'})
+                    .then(function(){
+                        MUtilitiesService.AlertError('Tạo đơn không thành công!')
+                    });
+                });
+              }).
+              catch(function onError(response) {
+                // console.log(response);
+                sweetAlert.alert(response.status + ': ' + response.statusText, {title: 'Lỗi!'});
+              });
         }
 
   });

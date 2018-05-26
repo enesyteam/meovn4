@@ -2289,6 +2289,24 @@
                     })
                 }
 
+                var getMemberByEmail = function (email) {
+                    return new Promise(function (resolve, reject) {
+                        // kiểm tra xem tổ hợp phím tắt đã tồn tại chưa
+                        firebase.database().ref().child('members').orderByChild('email')
+                        .equalTo(email)
+                            .once('value', function (snapshot) {
+                                if (snapshot.val() !== null) {
+                                    angular.forEach(snapshot.val(), function(value, key){
+                                        resolve(value);
+                                    })
+                                }
+                                else{
+                                   reject('Can not found member with email: ' + email);
+                                }
+                            });
+                    });
+                }
+
                 return {
                     getCanReleaseStatusIds: getCanReleaseStatusIds,
                     getOrders: getOrders,
@@ -2363,7 +2381,8 @@
                     getAllMembers:getAllMembers,
                     updateMemberMask: updateMemberMask,
                     getAllActiveMembers: getAllActiveMembers,
-                    getPancakeReport: getPancakeReport
+                    getPancakeReport: getPancakeReport,
+                    getMemberByEmail: getMemberByEmail
                 }
 
             }

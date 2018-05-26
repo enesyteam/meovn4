@@ -28,6 +28,10 @@ exports.ship = function (req, res) {
 	res.sendFile(path.join(__dirname, '../src/ship/index.html'));
 };
 
+exports.sale = function (req, res) {
+	res.sendFile(path.join(__dirname, '../src/sale/index.html'));
+};
+
 exports.orderManager = function (req, res) {
 	res.render('orderManager');
 };
