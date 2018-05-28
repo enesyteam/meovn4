@@ -10,7 +10,9 @@ var mShip = angular.module('mShip', [
   'angular-sweet-alert',
   'mFacebook',
   'mFirebase',
-  'mUtilities'
+  'mUtilities',
+  'utils',
+  'mViettel',
 	])
     .constant('appVersion', '4.4.0')
     .constant('releaseDate', 'May-20, 2018')
@@ -36,6 +38,37 @@ var mShip = angular.module('mShip', [
                       return response;
                     })
                   },
+                  fanpages: function(MFirebaseService){
+                      return MFirebaseService.get_fanpages().then(function(response){
+                        return response;
+                      });
+                    },
+                  viettel_provinces: function(MVIETTELService){
+                    return MVIETTELService.get_viettel_provinces().then(function(response){
+                        return response;
+                    })
+                  },
+                  viettel_districs: function(MVIETTELService){
+                    return MVIETTELService.get_viettel_districs().then(function(response){
+                        return response;
+                    })
+                  },
+                  viettel_wards: function(MVIETTELService){
+                    return MVIETTELService.get_viettel_wards().then(function(response){
+                        return response;
+                    })
+                  },
+                  viettel_services: function(MVIETTELService){
+                    return MVIETTELService.get_services({ "TYPE": 1 }).then(function(response){
+                        return response;
+                    })
+                  },
+                  viettel_extra_services: function(MVIETTELService){
+                    return MVIETTELService.get_extra_services().then(function(response){
+                        return response;
+                    })
+                  },
+
                 }
                 }
             );
@@ -43,8 +76,65 @@ var mShip = angular.module('mShip', [
     .run(themeRun);
 
 
-function themeRun($rootScope, appVersion, releaseDate) {
-  $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+function themeRun($window, $rootScope, appVersion, $timeout, releaseDate, MFirebaseService) {
+
+    // $timeout(function() {
+    //     console.log('hehhe');
+    // }, 10000);
+    /*
+    * Auth
+    */
+    // $rootScope.members = [];
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (!user) {
+            // alert('Bạn chưa đăng nhập!');
+            $window.location = '/login';
+            // return;
+        } else {
+            // console.log(user);
+            MFirebaseService.getMemberByEmail(user.email).then(function(member){
+                $rootScope.currentMember = member;
+            });
+
+            // 
+            // firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+            //     // console.log(idToken);
+            //     firebase.auth().verifyIdToken(idToken)
+            //       .then(function(decodedToken) {
+            //         var uid = decodedToken.uid;
+            //         console(uid)
+            //         // ...
+            //       }).catch(function(error) {
+            //         // Handle error
+            //       });
+            //   // ...
+            // }).catch(function(error) {
+            //   // Handle error
+            // });
+
+
+            // $rootScope.current_member = user;
+            // MFirebaseService.getAllActiveMembers().then(function(members) {
+
+            //     // $scope.$apply(function() {
+            //     //     $rootScope.members = members.val();
+            //     // });
+
+            //     // console.log($rootScope.sellers);
+
+            //     angular.forEach(members.val(), function(value) {
+            //         $rootScope.members.push(value);
+            //         if (value.email == user.email) {
+
+            //             // console.log(value);
+            //             $scope.$apply(function() {
+            //                 $rootScope.currentMember = value;
+            //             });
+            //         }
+            //     });
+            // });
+        }
+    });
 }
 
 

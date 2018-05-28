@@ -1,41 +1,59 @@
 mShip.controller('MainCtrl',
   function($rootScope, $scope, $http, $window, $document, $filter, $timeout, MFirebaseService, MUtilitiesService,
-  telesales, sweetAlert, $q) {
+  telesales, sweetAlert, $q, fanpages, MVIETTELService, viettel_provinces, viettel_districs, viettel_wards,
+  viettel_services, viettel_extra_services) {
 
-    console.log(sweetAlert);
+    // console.log(fanpages)
 
-    /*
-    * Auth
-    */
-    $rootScope.members = [];
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (!user) {
-            // console.log('Bạn chưa đăng nhập!');
-            $window.location = '/login';
-        } else {
+    // console.log(sweetAlert);
 
-            $rootScope.firebaseUser = user;
-            MFirebaseService.getAllActiveMembers().then(function(members) {
+    $scope.loadMoreOrders = function(){
+        console.log('dđ');
+    }
 
-                // $scope.$apply(function() {
-                //     $rootScope.members = members.val();
-                // });
+    $scope.viettel_data = {
+        provinces: viettel_provinces,
+        districs: viettel_districs,
+        wards: viettel_wards,
+        services: viettel_services,
+        extraServices: viettel_extra_services,
+        fanpages: fanpages
+    }
 
-                // console.log($rootScope.sellers);
+    // console.log($scope.viettel_data);
 
-                angular.forEach(members.val(), function(value) {
-                    $rootScope.members.push(value);
-                    if (value.email == user.email) {
+    // /*
+    // * Auth
+    // */
+    // $rootScope.members = [];
+    // firebase.auth().onAuthStateChanged(function(user) {
+    //     if (!user) {
+    //         // console.log('Bạn chưa đăng nhập!');
+    //         $window.location = '/login';
+    //     } else {
 
-                        // console.log(value);
-                        $scope.$apply(function() {
-                            $rootScope.currentMember = value;
-                        });
-                    }
-                });
-            });
-        }
-    });
+    //         $rootScope.firebaseUser = user;
+    //         MFirebaseService.getAllActiveMembers().then(function(members) {
+
+    //             // $scope.$apply(function() {
+    //             //     $rootScope.members = members.val();
+    //             // });
+
+    //             // console.log($rootScope.sellers);
+
+    //             angular.forEach(members.val(), function(value) {
+    //                 $rootScope.members.push(value);
+    //                 if (value.email == user.email) {
+
+    //                     // console.log(value);
+    //                     $scope.$apply(function() {
+    //                         $rootScope.currentMember = value;
+    //                     });
+    //                 }
+    //             });
+    //         });
+    //     }
+    // });
 
     /*
     * window size
@@ -81,7 +99,7 @@ mShip.controller('MainCtrl',
         return $filter("filter")($scope.aProducts, {id: id})[0];
     }
 
-    var pageSize = 30;
+    var pageSize = 10;
     $rootScope.availableShippingItems = [];
     $rootScope.newlyOrderKey = null;
     $rootScope.lastOrderKey = null;
@@ -354,60 +372,82 @@ mShip.controller('MainCtrl',
             })
         }
 
-        
+
+        var login_data = {
+                'USERNAME' : 'phudv.meo@gmail.com',
+                'PASSWORD' : 'nguyenthiphu',
+                'SOURCE' : 0
+            }
+
+        MVIETTELService.get_access_token(login_data).then(function(response){
+            if(response.error == true){
+                MUtilitiesService.AlertError('Lỗi đăng nhập Viettel Post: ' + response.message);
+            }
+            console.log(response);
+            $scope.$apply(function(){
+                $scope.viettel_login_data = response;
+            })
+            // get all hubs
+            MVIETTELService.get_hubs({'Token': $scope.viettel_login_data.TokenKey}).then(function(response){
+                    $scope.$apply(function(){
+                        // $scope.hubs = response;
+                        $scope.viettel_data.hubs = response;
+                        console.log(response);
+                    })
+                     console.log($scope.hubs);
+                })
+        })
+        .catch(function(err){
+            MUtilitiesService.AlertError(err);
+        })
+
+
 
 
         $scope.testSweetAlert = function(){
-            // sweetAlert.alert("Look out, I'm about to close!", {timer: 2000});
+            
 
-            // sweetAlert.confirm("Are you sure you want to take the red pill?");
-
-            // sweetAlert.success("Great job!");
-
-            $http.get('../assets/ghn-districs.json').
-              then(function onSuccess(districs_data) {
-                // console.log(response.data.data);
-                 // return response.data.data;
-
-                 sweetAlert.open({
-                    title: "Tạo đơn hàng Viettel Post",
-                    htmlTemplate: "src/ship/partials/create-ship.html",
-                    confirmButtonText: 'Tạo đơn',
-                    customClass: 'swal-wide',
-                    showCancelButton: true,
-                    showCloseButton: true,
-                    allowOutsideClick: false,
-                    preConfirm: 'preConfirm',
-                    showLoaderOnConfirm: true,
-                    controller: 'ShipCtrl',
-                    controllerAs: 'vm',
-                    resolve: {
-                        activeOrder: function() {
-                            return angular.copy($scope.activeOrder);
-                        },
-                        ghn_districs: function(){
-                            return districs_data.data.data;
-                        }
+            sweetAlert.open({
+                title: "Tạo đơn hàng Viettel Post",
+                htmlTemplate: "src/ship/partials/create-ship.html",
+                confirmButtonText: 'Tạo đơn',
+                customClass: 'swal-wide',
+                showCancelButton: true,
+                showCloseButton: true,
+                allowOutsideClick: false,
+                preConfirm: 'preConfirm',
+                showLoaderOnConfirm: true,
+                controller: 'ShipCtrl',
+                controllerAs: 'vm',
+                resolve: {
+                    activeOrder: function() {
+                        return angular.copy($scope.activeOrder);
+                    },
+                    viettel_data: function(){
+                        return $scope.viettel_data;
+                    },
+                    viettel_login_data: function(){
+                        return $scope.viettel_login_data;
+                    },
+                    fanpages: function(){
+                        return fanpages;
                     }
-                }).then(function(response){
-                    if(response.value){
-                        sweetAlert.success(response.value, {timer: 2500})
-                        .then(function(){
-                            MUtilitiesService.AlertSuccessful('Tạo đơn thành công!')
-                        });
-                    }
-                })
-                .catch(function(err){
-                    sweetAlert.alert(err, {title: 'Lỗi!'})
-                    .then(function(){
-                        MUtilitiesService.AlertError('Tạo đơn không thành công!')
-                    });
-                });
-              }).
-              catch(function onError(response) {
-                // console.log(response);
-                sweetAlert.alert(response.status + ': ' + response.statusText, {title: 'Lỗi!'});
-              });
+                }
+            })
+            .then(function(response){
+                if(response.value){
+                    sweetAlert.success(response.value, {timer: 2500})
+                    // .then(function(){
+                    //     MUtilitiesService.AlertSuccessful('Tạo đơn thành công!')
+                    // });
+                }
+            })
+            .catch(function(err){
+                sweetAlert.alert(err, {title: 'Lỗi!'})
+                // .then(function(){
+                //     MUtilitiesService.AlertError('Tạo đơn không thành công!')
+                // });
+            });
         }
 
   });

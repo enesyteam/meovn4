@@ -17,6 +17,8 @@ const PORT = process.env.PORT || 5000
 
 routes = require('./routes');
 
+var viettelAPI = require('./routes/viettelAPI');
+
 var app = express();
 
 
@@ -43,6 +45,34 @@ app.get('/printing',  routes.printing);
 app.get('/tracking',  routes.orderManager);
 app.get('/permissions',  routes.permissions);
 app.get('/versions',  routes.versions);
+
+
+app.use('/viettelAPI', viettelAPI);
+
+
+
+// router.post('/viettel-api/getToken', function(req, res) {
+//   console.log('aâ');
+//      request(options, function (error, response, body) {
+//           if (!error && response.statusCode == 200) {
+//               // Print out the response body
+//               console.log(body)
+//           }
+//       }) 
+// });
+
+// app.get('/viettel-api',  routes.viettelAPI);
+
+// var post_options = {
+//       host: 'closure-compiler.appspot.com',
+//       port: '80',
+//       path: '/compile',
+//       method: 'POST',
+//       headers: {
+//           'Content-Type': 'application/x-www-form-urlencoded',
+//           'Content-Length': Buffer.byteLength(post_data)
+//       }
+//   };
 
 // var env = process.env.NODE_ENV || 'development';
 

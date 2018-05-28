@@ -6856,19 +6856,7 @@ iframe {
     background: #eeeeee;
     height: 60px
 }
-.app-aside .filter-bar{
-    padding-top: 100px;
-    padding-bottom: 6px;
-    width: 60px;
-    height: 101vh;
-    flex: none;
-    box-sizing: border-box;
-    background-image: linear-gradient(#48c6ef, #6f86d6);
-    contain: style layout size;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    position: relative;
-    background-image: linear-gradient(rgb(72, 198, 239), rgb(111, 134, 214));
-}
+
 .aside-menu:not(.has-scrollable) {
     overflow-y: auto
 }
@@ -10282,4 +10270,94 @@ a.metric:hover {
 .message-publisher .input-group.focus {
     -webkit-box-shadow: none;
     box-shadow: none
+}
+
+.app-aside .filter-bar{
+    padding-top: 100px;
+    padding-bottom: 6px;
+    width: 60px;
+    height: 101vh;
+    flex: none;
+    box-sizing: border-box;
+    background-image: linear-gradient(#48c6ef, #6f86d6);
+    contain: style layout size;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+    background-image: linear-gradient(rgb(72, 198, 239), rgb(111, 134, 214));
+}
+.filter-bar .user-nav{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    flex: none;
+    top: 50px;
+}
+.clickable, .txt-clickable, .chat-message__actions__btn, .chat-resend, .sticker-selector__menu__item {
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+.avatar {
+    position: relative;
+    color: white;
+    contain: layout size style;
+}
+.avatar--xs {
+    width: 40px;
+    height: 40px;
+    font-size: 17px;
+}
+.avatar--xs > .avatar-img {
+    width: 40px;
+    height: 40px;
+    background-color: #c9d4e5;
+}
+.bg-center, .link-thumb, .avatar-img, .avatar-img.avatar-number-m, #zalo, .thumb-img-suggest, .chat-input__img-preview__thumb, .card--link-img, .message-view__blur, .sticker-selector__menu__item, .gif__thumb {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50%;
+}
+.flx{
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row nowrap;
+}
+.flx-col, .snippet, .card-content, .modal, .tab-content {
+    flex-flow: column nowrap;
+}
+.flx-al-c, .item-setting-action, header {
+    align-items: center;
+}
+.main-tab-btn {
+    color: rgba(255, 255, 255, 0.8);
+    height: 60px;
+    justify-content: center;
+}
+.main-tab-btn.selected, .main-tab-btn.chat-message.first-selected, .main-tab-btn.chat-message.last-selected {
+    color: white;
+    background: rgba(0, 0, 0, 0.12);
+}
+.ring-container {
+    position: absolute;
+    top: 9px;
+}
+.ringring {
+    position: absolute;
+    top: -8px;
+    left: 92px;
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+    background: #96d2e8;
+    animation: pulsate 1.2s ease-out infinite;
+    -webkit-animation: pulsate 1.2s ease-out infinite;
+    opacity: 0;
+}
+.circle {
+    position: absolute;
+    top: 7px;
+    left: 107px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #6f86d6;
 }

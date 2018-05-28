@@ -188,7 +188,8 @@
                                 id: snapshot.val().id,
                                 name: snapshot.val().name,
                                 access_token: snapshot.val().access_token,
-                                HubID: snapshot.val().HubID
+                                HubID: snapshot.val().HubID,
+                                GROUPADDRESS_ID: snapshot.val().GROUPADDRESS_ID
                             });
                         });
                         resolve(result);

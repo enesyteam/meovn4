@@ -593,12 +593,12 @@ m_admin.controller('MainCtrl',
             };
             // alert($rootScope.conversationLink);
             // graph page
-            // if($rootScope.conversationLink.text.indexOf('messages') !== -1){
-            //     // $scope.show_user_name_input = true;
-            //     $scope.orderData.customer_name = null;
-            //     MUtilitiesService.AlertError('Vui lòng paste tên khách hàng vào ô dưới');
-            //     return;
-            // }
+            if($rootScope.conversationLink.text.indexOf('inbox') !== -1){
+                // $scope.show_user_name_input = true;
+                $scope.orderData.customer_name = null;
+                MUtilitiesService.AlertError('Vui lòng paste tên khách hàng vào ô dưới');
+                return;
+            }
             if($rootScope.conversationLink.text.indexOf('threadid') !== -1){
                 // message
                 var l = $rootScope.conversationLink.text.split('/').pop(); // ?threadid=144606886204668&folder=inbox
@@ -813,7 +813,7 @@ m_admin.controller('MainCtrl',
             if(!$rootScope.conversationLink.text || $rootScope.conversationLink.text.length == 0){
                 return;
             }
-            if($rootScope.conversationLink.text.indexOf('messages') == -1){
+            if($rootScope.conversationLink.text.indexOf('selected_item_id') == -1){
                 // $scope.show_user_name_input = true;
                 // MUtilitiesService.AlertError('Vui lòng paste tên khách hàng vào ô dưới');
                 return;

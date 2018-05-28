@@ -1,8 +1,15 @@
-<div class="app">
+<div class="app"   id="xxx">
 		
-		<aside class="app-aside">
+		<aside class="app-aside" infinite-scroll='loadMoreOrders()' infinite-scroll-disabled="isLoaddingOrder"
+        infinite-scroll-distance="1" infinite-scroll-parent ='#xxx'>
       <div class="filter-bar">
-          
+          <div class="user-nav">
+            <div class="avatar avatar--xs clickable"><div class="avatar-img " style="background-image: url(&quot;//s120.avatar.talk.zdn.vn/3/6/5/8/6/120/875f0e87c0daaf99d2c2d26030f82242.jpg&quot;);"></div></div>
+          </div>
+          <div class="nav__tabs__top">
+            <div id="message-tab" class="clickable main-tab-btn main-tab-btn__icon-message flx flx-col flx-al-c  selected" data-translate-title="STR_TAB_MESSAGE" title="Tin nhắn (Alt+1)" style="position: relative;"><i class="fa #main-tab   fa-tab-message-selected" style="font-size: 23px;"></i><img class="tab-red-dot" src="https://zalo-chat-static.zadn.vn/message_notification_3.png" style="top: 12px; right: 11px; position: absolute;"></div>
+
+          </div>
         </div>
    <!-- .aside-content -->
    <div class="aside-content">
@@ -29,8 +36,7 @@
       <section class="aside-menu ps ps--active-y shipping-list">
         
          <!-- .stacked-menu -->
-         <nav id="stacked-menu" class="stacked-menu shippings-list stacked-menu-has-collapsible" infinite-scroll='loadMoreOrders()' infinite-scroll-disabled="isLoaddingOrder"
-        infinite-scroll-distance="1" infinite-scroll-container='".shipping-list"'>
+         <nav id="stacked-menu" class="stacked-menu shippings-list stacked-menu-has-collapsible">
             <!-- .shipping items -->
             <div class="shipping-item" ng-repeat="order in availableShippingItems track by $index"
             ng-if="order.data.id"
@@ -56,7 +62,7 @@
             			</div>
             			<div class="item-info">
             				<div class="info-text">
-            					<span dir="auto" title="Xóm 9 - Nghi Kiều - Nghi Lộc - Nghệ An" class="customer-info">
+            					<span dir="auto" title="{{order.data.data.customerData.addresss}}">
             					{{order.data.data.customerData.addresss}}
             				</span>
             				</div>
@@ -86,7 +92,8 @@
           <div class="container fill">
             <div class="row fill">
               <div class="col-md-4">
-                <span class="header-title">THÔNG TIN ĐƠN HÀNG</span>
+                <span class="header-title">THÔNG TIN ĐƠN HÀNG {{hubs.length}}</span>
+                <div class="ring-container"><div class="ringring"></div><div class="circle"></div></div>
               </div>
               <div class="col-md-8">
                 <div class="actions">

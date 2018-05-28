@@ -24,6 +24,7 @@ exports.printing = function (req, res) {
 	res.render('printing');
 };
 
+
 exports.ship = function (req, res) {
 	res.sendFile(path.join(__dirname, '../src/ship/index.html'));
 };

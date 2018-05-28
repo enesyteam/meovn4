@@ -8,6 +8,9 @@
 *::-webkit-scrollbar-track {
     background: rgba(255,255,255,0.08);
 }
+body{
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+}
 
 .shippings-list{
     overflow-x: hidden;
@@ -730,4 +733,7 @@ th, td {
 }
 .swal2-popup .swal2-title{
   font-weight: 300;
+}
+.swal2-popup .swal2-title{
+  margin: 0 !important 
 }

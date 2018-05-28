@@ -56,7 +56,7 @@ function themeRun($window, $rootScope, appVersion, $timeout, releaseDate, MFireb
     firebase.auth().onAuthStateChanged(function(user) {
         if (!user) {
             // alert('Bạn chưa đăng nhập!');
-            $window.location = '/permissions';
+            $window.location = '/login';
             // return;
         } else {
             // console.log(user);

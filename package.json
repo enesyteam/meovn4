@@ -77,6 +77,7 @@
     "phone-validate-vn": "0.0.6",
     "primer": "^10.1.0",
     "primer-css": "^9.6.0",
+    "request": "^2.81.0",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^7.20.8",
     "ui-select": "^0.19.8"
