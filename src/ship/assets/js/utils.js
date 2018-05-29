@@ -20,7 +20,7 @@
                     q = p_validPhone;
                     y = p_validHomePhone;
 
-                    console.log(l);
+                    // console.log(l);
                     // console.log(j);
 
                     return new Promise(function(resolve, reject){

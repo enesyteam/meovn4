@@ -149,6 +149,36 @@
                 })
             }
 
+            /*
+            * Create Order item
+            */
+            var create_order = function(data){
+                return new Promise(function(resolve, reject){
+                    $http.post('/viettelAPI/createOrder', data)
+                        .then(function(response) {
+                            resolve(response.data);
+                        })
+                        .catch(function(err){
+                            reject(err);
+                        })
+                })
+            }
+
+            /*
+            * Cancel Order item
+            */
+            var cancel_order = function(data){
+                return new Promise(function(resolve, reject){
+                    $http.post('/viettelAPI/cancelOrder', data)
+                        .then(function(response) {
+                            resolve(response.data);
+                        })
+                        .catch(function(err){
+                            reject(err);
+                        })
+                })
+            }
+
             return {
               get_access_token: get_access_token,
               get_viettel_provinces: get_viettel_provinces,
@@ -158,6 +188,8 @@
               get_extra_services: get_extra_services,
               get_hubs: get_hubs,
               calculate_shipping_fee: calculate_shipping_fee,
+              create_order: create_order,
+              cancel_order: cancel_order,
             }
 
         }]);

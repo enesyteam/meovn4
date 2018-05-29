@@ -9,10 +9,14 @@ t_100000185744717?fields=messages{message,from,created_time},snippet,link,unread
 // reply message
 t_100008409105289/messages
 
+
+994349830740410?fields=access_token
+
 // get never expires token
 https://graph.facebook.com/oauth/access_token?client_id=1085772744867580&client_secret=14bd07d4734343c6faaf885863902bca&grant_type=fb_exchange_token&fb_exchange_token=
 
 
 //
 https://github.com/firebase/firebase-angular-starter-pack/blob/master/angularFire-seed/app/js/module.routeSecurity.js
+
 

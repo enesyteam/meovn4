@@ -8,6 +8,9 @@ var mShip = angular.module('mShip', [
   'toastr',
   'ngDialog',
   'angular-sweet-alert',
+  'ngPrint',
+  'AngularPrint',
+  // 'dynamicNumber',
   'mFacebook',
   'mFirebase',
   'mUtilities',
@@ -34,7 +37,7 @@ var mShip = angular.module('mShip', [
                 templateUrl: "/src/ship/home.html",
                 resolve: {
                   telesales: function(MFirebaseService){
-                    return MFirebaseService.getAllSellers().then(function(response){
+                    return MFirebaseService.getAllMembers().then(function(response){
                       return response;
                     })
                   },
@@ -158,6 +161,26 @@ mShip.directive('searchEnter', function () {
         });
     };
 });
+
+mShip.filter('reverse', function() {
+      function toArray(list) {
+         var k, out = [];
+         if( list ) {
+            if( angular.isArray(list) ) {
+               out = list;
+            }
+            else if( typeof(list) === 'object' ) {
+               for (k in list) {
+                  if (list.hasOwnProperty(k)) { out.push(list[k]); }
+               }
+            }
+         }
+         return out;
+      }
+      return function(items) {
+         return toArray(items).slice().reverse();
+      };
+   });
 
 mShip.directive('commentEnter', function () {
     return function (scope, element, attrs) {

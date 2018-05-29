@@ -1,3 +1,7 @@
+<div class="p-5" ng-if="activeOrder.data.viettel_post_code">
+   <button class="btn btn-danger btn-block btn-lg" ng-click="cancelOrder()">Hủy đơn hàng trên Viettel Post</button>
+</div>
+<hr>
 <div class="embedded-window">
    <div class="window--bio window--animated window--circle">
       <div id="main" class="main-container">
@@ -5,7 +9,7 @@
             <div>
                <div>
                   <div class="chat-system-message window__chatSystemMessage">
-                     {{activeOrder.notes.length > 0 ? 'Ghi chú về đơn hàng' : 'Hiện chưa có ghi chú nào về đơn hàng'}}
+                     {{activeOrder.notes.length > 0 ? 'Nhật ký hoạt động trên đơn hàng và các ghi chú' : 'Chưa có ghi chú nào về đơn hàng. Bạn có thể thêm ghi chú về đơn hàng này ngay bên dưới.'}}
                   </div>
                   <div class="window__chatAgent clearfix" ng-repeat="comment in activeOrder.notes" ng-click="setCustomer(comment.from)" style="cursor: pointer;">
                      <div class="agentMessage__avatar">
@@ -14,7 +18,7 @@
                      <div class="chat-operator-message window__chatAgentMessage">
                         {{comment.text}}
                         <small style="display: block;font-size: 10px;color: #999;">
-                        Note bởi: {{filterById(members, comment.uid).last_name}}
+                        Lúc: {{comment.created_at | date:'dd/MM HH:mm'}} bởi: <strong>{{filterById(telesales, comment.uid).last_name}}</strong>
                         </small>
                         <div ng-if="comment.attachment">
                            <a href="" ng-click="showImageDialog(comment.attachment.media.image.src)">

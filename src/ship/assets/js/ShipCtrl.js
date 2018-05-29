@@ -7,29 +7,31 @@
 
 //      //    var vm = this;
 
-// 	    // vm.content = "This string was injected from modalcontroller";
-// 	    // vm.modalPreConfirmContent = "";
+// 	    // $scope.content = "This string was injected from modalcontroller";
+// 	    // $scope.modalPreConfirmContent = "";
 
-// 	    // vm.preConfirm = function () {
-// 	    //     vm.modalPreConfirmContent = "This string was injected by preConfirm";
+// 	    // $scope.preConfirm = function () {
+// 	    //     $scope.modalPreConfirmContent = "This string was injected by preConfirm";
 // 	    //     // return new $q.resolve();
 // 	    // };
 // });
 
-mShip.controller('ShipCtrl', ['$q', '$scope', '$timeout', '$filter', 'activeOrder', 'viettel_login_data', 
+mShip.controller('ShipCtrl', ['$q',  '$timeout', '$scope', '$filter', 'activeOrder', 'viettel_login_data', 
     'viettel_data', 'MFirebaseService', 'utils', 'MVIETTELService', 'MUtilitiesService',
 	function ($q, $timeout, $scope, $filter, activeOrder, viettel_login_data, viettel_data, 
         MFirebaseService, utils,  MVIETTELService, MUtilitiesService) {
+
+        // console.log($scope);
 
     // console.log(activeOrder);
 
     var vm = this;
     // console.log(viettel_data);
-    vm.activeOrder = activeOrder;
-    vm.viettel_districs = viettel_data.districs;
-    vm.viettel_login_data = viettel_login_data;
+    $scope.activeOrder = activeOrder;
+    $scope.viettel_districs = viettel_data.districs;
+    $scope.viettel_login_data = viettel_login_data;
     // get the province name for each district
-    angular.forEach(vm.viettel_districs, (item) => {
+    angular.forEach($scope.viettel_districs, (item) => {
       // Todo...
       item.PROVINCE_NAME = getProvince(item.PROVINCE_ID).PROVINCE_NAME;
     })
@@ -37,43 +39,43 @@ mShip.controller('ShipCtrl', ['$q', '$scope', '$timeout', '$filter', 'activeOrde
     angular.forEach(viettel_data.fanpages, (item) => {
         // console.log(item);
       if(item.id == activeOrder.data.data.orderData.page_id){
-        vm.activeOrder.page = item;
+        $scope.activeOrder.page = item;
         angular.forEach(viettel_data.hubs, (hub) => {
           // Todo...
           if(hub.GROUPADDRESS_ID == item.GROUPADDRESS_ID){
             // console.log(hub);
-            vm.current_hub = hub;
+            $scope.current_hub = hub;
           }
         })
       }
     })
-    // console.log(vm.viettel_districs);
-    // vm.viettel_wards = null;
+    // console.log($scope.viettel_districs);
+    // $scope.viettel_wards = null;
 
-    vm.onDistrictChange = function(district){
-        console.log(district);
+    $scope.onDistrictChange = function(district){
+        // console.log(district);
         // angular.forEach(, function(district){
-        //     vm.orderData.RECEIVER_DISTRICT
+        //     $scope.orderData.RECEIVER_DISTRICT
         // })
-        vm.orderData.RECEIVER_PROVINCE = district.PROVINCE_ID;
-        vm.orderData.RECEIVER_DISTRICT = district.DISTRICT_ID;
+        $scope.orderData.RECEIVER_PROVINCE = district.PROVINCE_ID;
+        $scope.orderData.RECEIVER_DISTRICT = district.DISTRICT_ID;
 
-        vm.viettel_wards = [];
+        $scope.viettel_wards = [];
         // var wards = $filter("filter")(viettel_data.wards, {
-        //     DISTRICT_ID: vm.orderData.RECEIVER_DISTRICT
+        //     DISTRICT_ID: $scope.orderData.RECEIVER_DISTRICT
         // });
         angular.forEach(viettel_data.wards, (item) => {
           // Todo...
-          if(item.DISTRICT_ID == vm.orderData.RECEIVER_DISTRICT){
-            vm.viettel_wards.push(item);
+          if(item.DISTRICT_ID == $scope.orderData.RECEIVER_DISTRICT){
+            $scope.viettel_wards.push(item);
           }
         })
 
-        // vm.viettel_wards = wards ? wards : null;
-        vm.calculateShippingFee();
+        // $scope.viettel_wards = wards ? wards : null;
+        $scope.calculateShippingFee();
 
     }
-    // vm.calculateShippingFee();
+    // $scope.calculateShippingFee();
 
     function getProvince(province_id){
         var province = $filter("filter")(viettel_data.provinces, {
@@ -86,36 +88,38 @@ mShip.controller('ShipCtrl', ['$q', '$scope', '$timeout', '$filter', 'activeOrde
         width: 10,
         length: 10,
         height: 5,
-        weight: 100,
+        weight: 50,
     }
 
-    vm.orderData = {
+    $scope.pick_at_hub = true;
+
+    $scope.orderData = {
         "ORDER_NUMBER": "", //Mã đơn hàng/ Oder code
-        "GROUPADDRESS_ID": vm.current_hub.GROUPADDRESS_ID, //Mã kho/ Warehouse Id
-        "CUS_ID": vm.current_hub.CUS_ID, //Mã khách hàng/ Customer id
-        "DELIVERY_DATE":"01/10/2017 18:45:23", //dd/MM/yyyy H:m:s
-        "SENDER_FULLNAME": vm.current_hub.NAME, //Họ tên người gửi/ sender fullname
-        "SENDER_ADDRESS": vm.current_hub.ADDRESS, //Địa chỉ người gửi/ sender address
-        "SENDER_PHONE": vm.current_hub.PHONE, //Điện thoại người gửi/ sender phone
-        "SENDER_EMAIL": vm.viettel_login_data.UserName, //Email người gửi/ sender email
-        "SENDER_WARD": vm.current_hub.WARDS_ID, //Mã phường xã gửi/ sender wards
-        "SENDER_DISTRICT": vm.current_hub.DISTRICT_ID, //Mã Quận/huyện người gửi/ sender district code
-        "SENDER_PROVINCE": vm.current_hub.PROVINCE_ID, //Mã Tỉnh người gửi/ sender province code
+        "GROUPADDRESS_ID": $scope.current_hub.GROUPADDRESS_ID, //Mã kho/ Warehouse Id
+        "CUS_ID": $scope.current_hub.CUS_ID, //Mã khách hàng/ Customer id
+        "DELIVERY_DATE": $filter('date')(Date.now(), "dd/MM/yyyy H:m:s"), //dd/MM/yyyy H:m:s
+        "SENDER_FULLNAME": $scope.current_hub.NAME, //Họ tên người gửi/ sender fullname
+        "SENDER_ADDRESS": $scope.current_hub.ADDRESS, //Địa chỉ người gửi/ sender address
+        "SENDER_PHONE": $scope.current_hub.PHONE, //Điện thoại người gửi/ sender phone
+        "SENDER_EMAIL": $scope.viettel_login_data.UserName, //Email người gửi/ sender email
+        "SENDER_WARD": $scope.current_hub.WARDS_ID, //Mã phường xã gửi/ sender wards
+        "SENDER_DISTRICT": $scope.current_hub.DISTRICT_ID, //Mã Quận/huyện người gửi/ sender district code
+        "SENDER_PROVINCE": $scope.current_hub.PROVINCE_ID, //Mã Tỉnh người gửi/ sender province code
         "SENDER_LATITUDE": 0, //Tọa độ gửi hàng/ sender latitude
         "SENDER_LONGITUDE": 0, //Tọa độ gửi hàng/ sender longitude
-        "RECEIVER_FULLNAME": vm.activeOrder.data.data.customerData.realName, //Họ tên người nhận/ receiver fullname
-        "RECEIVER_ADDRESS": vm.activeOrder.data.data.customerData.addresss,
-        "RECEIVER_PHONE": vm.activeOrder.data.data.customerData.recievedPhone,
+        "RECEIVER_FULLNAME": $scope.activeOrder.data.data.customerData.realName, //Họ tên người nhận/ receiver fullname
+        "RECEIVER_ADDRESS": $scope.activeOrder.data.data.customerData.addresss,
+        "RECEIVER_PHONE": $scope.activeOrder.data.data.customerData.recievedPhone,
         "RECEIVER_EMAIL": null,
         "RECEIVER_WARD": null,
-        "RECEIVER_DISTRICT": vm.currentDistrict ? vm.currentDistrict.DISTRICT_ID : null,
+        "RECEIVER_DISTRICT": $scope.currentDistrict ? $scope.currentDistrict.DISTRICT_ID : null,
         "RECEIVER_PROVINCE": null,
         "RECEIVER_LATITUDE": 0,
         "RECEIVER_LONGITUDE": 0,
-        "PRODUCT_NAME": "Vật phẩm phong thủy", 
+        "PRODUCT_NAME": "VẬT PHẨM PHONG THỦY - HÀNG DỄ VỠ", 
         "PRODUCT_DESCRIPTION": "",
         "PRODUCT_QUANTITY": 1,
-        "PRODUCT_PRICE": null,
+        "PRODUCT_PRICE": $scope.activeOrder.data.data.customerData.cod,
         "PRODUCT_WEIGHT": pack_size.weight,
         "PRODUCT_LENGTH": pack_size.length,
         "PRODUCT_WIDTH": pack_size.width,
@@ -129,11 +133,11 @@ mShip.controller('ShipCtrl', ['$q', '$scope', '$timeout', '$filter', 'activeOrde
             3: Thu hộ tiền hàng/ Collect price of goods
             4: Thu hộ tiền cước/ Collect express fee.
         */
-        "ORDER_SERVICE": "SCOD",
-        "ORDER_SERVICE_ADD": "GHG",
+        "ORDER_SERVICE": "VCN",
+        "ORDER_SERVICE_ADD": $scope.pick_at_hub ? "GNG" : null,
         "ORDER_VOUCHER": "",
-        "ORDER_NOTE": vm.activeOrder.data.data.customerData.orderNote,
-        "MONEY_COLLECTION": vm.activeOrder ? vm.activeOrder.data.data.customerData.cod : 0,
+        "ORDER_NOTE": $scope.activeOrder.data.data.customerData.orderNote,
+        "MONEY_COLLECTION": $scope.activeOrder.data.data.customerData.cod,
         "MONEY_TOTALFEE": 0,
         "MONEY_FEECOD": 0,
         "MONEY_FEEVAS": 0,
@@ -144,51 +148,161 @@ mShip.controller('ShipCtrl', ['$q', '$scope', '$timeout', '$filter', 'activeOrde
         "MONEY_TOTAL": 0
     }
 
-    vm.content = "This string was injected from modalcontroller";
-    vm.modalPreConfirmContent = vm.orderData.SENDER_FULLNAME;
-    vm.phone = '0943312354';
-    vm.services = viettel_data.services;
+    $scope.customer_paid = false;
+    $scope.customer_check = true;
+    $scope.onCustomerCheckChange = function(){
+        rebuild_received_name();
+    }
+
+    function rebuild_received_name(){
+        if($scope.customer_check == true){
+            $scope.orderData.RECEIVER_FULLNAME = $scope.orderData.RECEIVER_FULLNAME
+            + '-' + parseInt($scope.orderData.MONEY_COLLECTION)/1000 + 'K' + ' CHO XEM HÀNG';
+        }
+        else{
+            $scope.activeOrder.data.data.customerData.realName
+            + '-' + parseInt($scope.orderData.MONEY_COLLECTION)/1000 + 'K';
+        }
+    }
+    $scope.onCustomerPaidChange = function(){
+        if($scope.customer_paid == true){
+            $scope.orderData.MONEY_COLLECTION = parseInt($scope.activeOrder.data.data.customerData.cod) + 
+            parseInt($scope.orderData.MONEY_TOTALFEE)
+        }
+        else{
+            $scope.orderData.MONEY_COLLECTION = parseInt($scope.activeOrder.data.data.customerData.cod)
+        }
+    }
+
+    $scope.content = "This string was injected from modalcontroller";
+    $scope.modalPreConfirmContent = $scope.orderData.SENDER_FULLNAME;
+    $scope.phone = '0943312354';
+    $scope.services = viettel_data.services;
+
+    $scope.onPickAtHubChange = function(){
+        console.log($scope.pick_at_hub);
+        if($scope.pick_at_hub == true){
+            $scope.orderData.ORDER_SERVICE_ADD = 'GNG';
+        }
+        else{
+            $scope.orderData.ORDER_SERVICE_ADD = null;
+        }
+        $scope.calculateShippingFee();
+    }
 
     // console.log(MVIETTELService);
-    vm.calculateShippingFee = function(){
-        if(!vm.orderData.RECEIVER_DISTRICT){
+    $scope.calculateShippingFee = function(){
+
+        if(!$scope.orderData.RECEIVER_DISTRICT){
             return;
         }
-        vm.is_calculating_price = true;
-        MVIETTELService.calculate_shipping_fee({
-            data: {
-                "SENDER_PROVINCE": vm.orderData.SENDER_PROVINCE,
-                "SENDER_DISTRICT": vm.orderData.SENDER_DISTRICT,
-                "RECEIVER_PROVINCE": 25,
-                "RECEIVER_DISTRICT": vm.orderData.RECEIVER_DISTRICT,
+        var shipping_fee_data = {
+                "SENDER_PROVINCE": $scope.orderData.SENDER_PROVINCE,
+                "SENDER_DISTRICT": $scope.orderData.SENDER_DISTRICT,
+                "RECEIVER_PROVINCE": $scope.orderData.RECEIVER_PROVINCE,
+                "RECEIVER_DISTRICT": $scope.orderData.RECEIVER_DISTRICT,
                 "PRODUCT_TYPE": "HH",
-                "ORDER_SERVICE": vm.orderData.ORDER_SERVICE,
-                "ORDER_SERVICE_ADD": "",
-                "PRODUCT_WEIGHT": vm.orderData.PRODUCT_WEIGHT,
-                "PRODUCT_PRICE": vm.activeOrder.data.data.customerData.cod,
-                "MONEY_COLLECTION": vm.orderData.MONEY_COLLECTION,
+                "ORDER_SERVICE": $scope.orderData.ORDER_SERVICE,
+                "ORDER_SERVICE_ADD": $scope.orderData.ORDER_SERVICE_ADD,
+                "PRODUCT_WEIGHT": $scope.orderData.PRODUCT_WEIGHT,
+                "PRODUCT_PRICE": $scope.activeOrder.data.data.customerData.cod,
+                "MONEY_COLLECTION": $scope.orderData.MONEY_COLLECTION,
                 "PRODUCT_QUANTITY":1,
                 "NATIONAL_TYPE": 1
-            }, 
-            token: vm.viettel_login_data.TokenKey
+            };
+        // console.log(shipping_fee_data);
+        $scope.is_calculating_price = true;
+        MVIETTELService.calculate_shipping_fee({
+            data: shipping_fee_data, 
+            token: $scope.viettel_login_data.TokenKey
         }).then(function(response){
-            if(response){
-                // console.log(response)
-                MUtilitiesService.AlertError(response[0].PRICE);
-                vm.orderData.MONEY_TOTALFEE = response[0].PRICE;
-                    vm.is_calculating_price = false;
+            if(response && response.error == true){
+                swal.showValidationError(response.message)
+                $scope.$apply(function(){
+                    $scope.is_calculating_price = null;
+                    $scope.orderData.MONEY_TOTALFEE = 0;
+                    $scope.fee_data = null;
+                })
+            }
+            else{
+                console.log(response)
+                swal.resetValidationError();
+                // MUtilitiesService.AlertError(response[0].PRICE);
+                
+                $scope.$apply(function(){
+                    $scope.orderData.MONEY_TOTALFEE = response[0].PRICE;
+                    $scope.fee_data = response;
+                    $scope.is_calculating_price = null;
+                })
             }
         })
-        .catch(function(){
-            vm.is_calculating_price = false;
+        .catch(function(err){
+            console.log(err);
+            $scope.is_calculating_price = null;
+            swal.showValidationError(err.statusText)
+        })
+        .finally(function(){
+            $scope.$apply(function(){
+                if($scope.customer_paid == true){
+                    $scope.orderData.MONEY_COLLECTION = parseInt($scope.activeOrder.data.data.customerData.cod) + 
+                    parseInt($scope.orderData.MONEY_TOTALFEE)
+                }
+                else{
+                    $scope.orderData.MONEY_COLLECTION = parseInt($scope.activeOrder.data.data.customerData.cod)
+                }
+            })
         })
     }
-    // vm.calculateShippingFee();
+    // $scope.calculateShippingFee();
 
     function validateOrderData(){
         // validate phone number
+        swal.resetValidationError();
         return new Promise(function(resolve, reject){
-            utils.validatePhoneNumber(false, 'Số điện thoại khách hàng', vm.orderData.RECEIVER_PHONE).then(function(){
+            utils.validatePhoneNumber(false, 'Số điện thoại khách hàng', $scope.orderData.RECEIVER_PHONE).then(function(){
+                if(!$scope.orderData.GROUPADDRESS_ID || $scope.orderData.GROUPADDRESS_ID == 'undefinded'){
+                    reject('Thông tin người gửi không tồn tại. Vui lòng liên hệ quản trị để được trợ giúp.');
+                }
+                if(!$scope.orderData.CUS_ID || $scope.orderData.CUS_ID == 'undefinded'){
+                    reject('Thông tin người gửi không tồn tại. Vui lòng liên hệ quản trị để được trợ giúp.');
+                }
+                if(!$scope.orderData.SENDER_FULLNAME || $scope.orderData.SENDER_FULLNAME == 'undefinded'){
+                    reject('Thông tin người gửi không tồn tại. Vui lòng liên hệ quản trị để được trợ giúp.');
+                }
+                if(!$scope.orderData.SENDER_ADDRESS || $scope.orderData.SENDER_ADDRESS == 'undefinded'){
+                    reject('Thông tin người gửi không tồn tại. Vui lòng liên hệ quản trị để được trợ giúp.');
+                }
+                if(!$scope.orderData.SENDER_PHONE || $scope.orderData.SENDER_PHONE == 'undefinded'){
+                    reject('Thông tin người gửi không tồn tại. Vui lòng liên hệ quản trị để được trợ giúp.');
+                }
+                if(!$scope.orderData.SENDER_WARD || $scope.orderData.SENDER_WARD == 'undefinded'){
+                    reject('Thông tin người gửi không tồn tại. Vui lòng liên hệ quản trị để được trợ giúp.');
+                }
+                if(!$scope.orderData.SENDER_DISTRICT || $scope.orderData.SENDER_DISTRICT == 'undefinded'){
+                    reject('Thông tin người gửi không tồn tại. Vui lòng liên hệ quản trị để được trợ giúp.');
+                }
+                if(!$scope.orderData.SENDER_PROVINCE || $scope.orderData.SENDER_PROVINCE == 'undefinded'){
+                    reject('Thông tin người gửi không tồn tại. Vui lòng liên hệ quản trị để được trợ giúp.');
+                }
+                if(!$scope.orderData.RECEIVER_FULLNAME || $scope.orderData.RECEIVER_FULLNAME == 'undefinded'){
+                    reject('Vui lòng nhập tên người nhận!');
+                }
+                if(!$scope.orderData.RECEIVER_ADDRESS || $scope.orderData.RECEIVER_ADDRESS == 'undefinded'){
+                    reject('Vui lòng nhập địa chỉ người nhận!');
+                } 
+                if(!$scope.orderData.RECEIVER_DISTRICT || $scope.orderData.RECEIVER_DISTRICT == 'undefinded'){
+                    reject('Vui lòng chọn Quận/Huyện của người nhận!');
+                }
+                if(!$scope.orderData.RECEIVER_WARD || $scope.orderData.RECEIVER_WARD == 'undefinded'){
+                    reject('Vui lòng chọn Phường/Xã của người nhận!');
+                }
+                if(!$scope.orderData.ORDER_SERVICE || $scope.orderData.ORDER_SERVICE == 'undefinded'){
+                    reject('Vui lòng chọn dịch vụ vận chuyển');
+                }
+                if(!$scope.orderData.MONEY_COLLECTION || $scope.orderData.MONEY_COLLECTION == 'undefinded' 
+                    || parseInt($scope.orderData.MONEY_COLLECTION) <= 0 || !angular.isNumber($scope.orderData.MONEY_COLLECTION)){
+                    reject('Vui lòng nhập số tiền thu hộ!');
+                }
                 resolve('pass');
             })
             .catch(function(err){
@@ -199,20 +313,23 @@ mShip.controller('ShipCtrl', ['$q', '$scope', '$timeout', '$filter', 'activeOrde
 
     vm.preConfirm = function () {
         return new Promise(function(resolve, reject){
-            // vm.modalPreConfirmContent = "Kiểm tra dữ liệu...";
+            // $scope.modalPreConfirmContent = "Kiểm tra dữ liệu...";
             validateOrderData().then(function(){
-                // create order
-                // vm.modalPreConfirmContent = "Đang khởi tạo đơn hàng, vui lòng chờ...";
-                console.log(vm.orderData);
-                $timeout(function() {
-                    if(vm.orderData.RECEIVER_PHONE !== '0943312354'){
-                        // các lỗi không thể tạo đơn do API của Logistics
-                        reject('Đã có lỗi xảy ra khi kết nối với API của đơn vị vận chuyển. Mã lỗi #A11C142-8');
-                    }
-                    else{
-                        resolve('Đã tạo thành công đơn hàng của ' + vm.orderData.RECEIVER_FULLNAME + '.');
-                    }           
-                }, 3000);
+                rebuild_received_name();
+                MVIETTELService.create_order({
+                    data: $scope.orderData, 
+                    token: $scope.viettel_login_data.TokenKey
+                }).then(function(response){
+                    // console.log(response);
+                    resolve({
+                        data: $scope.orderData,
+                        result: response
+                    })
+                })
+                .catch(function(err){
+                    console.log(err);
+                    reject(err);
+                })
             })
             .catch(function(err){
                 swal.showValidationError(err);

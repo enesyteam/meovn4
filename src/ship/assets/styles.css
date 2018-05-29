@@ -305,7 +305,7 @@ td.hljs-ln-code {
     box-shadow: 0 7px 8px -4px rgba(61, 70, 79, .2), 0 12px 17px 2px rgba(61, 70, 79, .14), 0 5px 22px 4px rgba(61, 70, 79, .12)!important
 }
 
-.btn-primary {
+/*.btn-primary {
     border-color: #2b5a92
 }
 
@@ -510,7 +510,7 @@ td.hljs-ln-code {
 .btn-reset.text-muted:hover {
     color: #28313b!important
 }
-
+*/
 .btn-account {
     position: relative;
     display: -webkit-box;

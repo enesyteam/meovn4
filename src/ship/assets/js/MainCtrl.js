@@ -3,9 +3,10 @@ mShip.controller('MainCtrl',
   telesales, sweetAlert, $q, fanpages, MVIETTELService, viettel_provinces, viettel_districs, viettel_wards,
   viettel_services, viettel_extra_services) {
 
-    // console.log(fanpages)
+    console.log(fanpages)
 
     // console.log(sweetAlert);
+    $scope.fanpages = fanpages;
 
     $scope.loadMoreOrders = function(){
         console.log('dđ');
@@ -75,6 +76,44 @@ mShip.controller('MainCtrl',
             id: id
         })[0];
     }
+    $scope.findWard = function(ward_id){
+        // if(!ward_id) return null;
+        // var w = $filter('filter')(viettel_wards, { WARDS_ID: ward_id});
+        // return w && w[0] ? w[0] : null;
+        angular.forEach(viettel_wards, (item) => {
+          if(item.WARDS_ID == ward_id){
+            return item;
+          }
+        })
+        return null;
+    }
+    $scope.findDistrict = function(district_id){
+        // console.log(parseInt(district_id));
+        if(!district_id) return null;
+        var w = $filter('filter')(viettel_districs, {DISTRICT_ID: parseInt(district_id)})[0];
+        return w && w[0] ? w[0] : null;
+        // console.log()
+        // angular.forEach(viettel_districs, (item) => {
+        //     console.log(parseInt(item.DISTRICT_ID));
+        //   if(parseInt(item.DISTRICT_ID) == parseInt(district_id)){
+        //     return item;
+        //   }
+        // })
+        // return null;
+    }
+    $scope.findProvince = function(province_id){
+        // console.log(province_id);
+        // if(!province_id) return null;
+        // var w = $filter('filter')(viettel_provinces, { PROVINCE_ID: province_id});
+        // return w && w[0] ? w[0] : null;
+        angular.forEach(viettel_provinces, (item) => {
+            // console.log(item)
+          if(item.PROVINCE_ID == province_id){
+            return item;
+          }
+        })
+        return null;
+    }
     $scope.fixAva = function(avatar_url){
         console.log(avatar_url);
         if(avatar_url.indexOf('.jpg') == -1){
@@ -99,7 +138,7 @@ mShip.controller('MainCtrl',
         return $filter("filter")($scope.aProducts, {id: id})[0];
     }
 
-    var pageSize = 10;
+    var pageSize = 50;
     $rootScope.availableShippingItems = [];
     $rootScope.newlyOrderKey = null;
     $rootScope.lastOrderKey = null;
@@ -128,7 +167,7 @@ mShip.controller('MainCtrl',
                     
                 })
                 $scope.$apply(function() {
-                    console.log($rootScope.availableShippingItems[0]);
+                    // console.log($rootScope.availableShippingItems[0]);
                     $rootScope.newlyOrderKey = $rootScope.availableShippingItems[0].key;
                     $rootScope.lastOrderKey = response[response.length - 1].key;
                     $rootScope.isLoaddingOrder = false;
@@ -140,27 +179,28 @@ mShip.controller('MainCtrl',
 
     let newOrdersRef = firebase.database().ref().child('shippingItems').orderByChild('created_time').limitToLast(1);
         newOrdersRef.on('child_added', snapshot => {
-            console.log(snapshot.key);
+            // console.log(snapshot.key);
             if (snapshot.key !== $rootScope.newlyOrderKey) {
                 var checked_by = $rootScope.filterById(telesales, snapshot.val().data.orderData.seller_will_call_id).last_name;
                 MUtilitiesService.AlertSuccessful(checked_by + ' vừa chốt 1 đơn hàng.');
+                var order = {
+                    key : snapshot.key,
+                    data : snapshot.val(),
+                    notes: snapshot.val().notes,
+                }
                 $scope.$apply(function() {
                     $rootScope.newlyOrderKey = snapshot.key;
-                    $rootScope.availableShippingItems.unshift({
-                                key : snapshot.key,
-                                data : snapshot.val(),
-                                notes: snapshot.val().notes,
-                            })
+                    $rootScope.availableShippingItems.unshift(order)
                 });
-                // // listen for this order changing
-                // firebase.database().ref().child('shippingItems/' + snapshot.key + '/notes')
-                // .on('child_added', snapshot => {
-                //     $timeout(function() {
-                //         $scope.$apply(function() {
-                //             order.notes.push(snapshot.val());
-                //         })
-                //     }, 100);
-                // })
+                // listen for this order changing
+                firebase.database().ref().child('shippingItems/' + snapshot.key + '/notes')
+                .on('child_added', snapshot => {
+                    $timeout(function() {
+                        $scope.$apply(function() {
+                            order.notes.push(snapshot.val());
+                        })
+                    }, 100);
+                })
             }
         });
 
@@ -202,7 +242,6 @@ mShip.controller('MainCtrl',
         }
 
         $rootScope.searchOrder = function() {
-
             if (!$rootScope.searchQuery.text || $rootScope.searchQuery.text == '') {
                 // reset kết quả về mặc định
                 getShippingItems();
@@ -275,6 +314,56 @@ mShip.controller('MainCtrl',
 
         }
 
+        firebase.database().ref().child('shippingItems').on('child_changed', snapshot => {
+            console.log(snapshot.key + ' đã thay đổi');
+            console.log(snapshot.val());
+            angular.forEach($rootScope.availableShippingItems, function(item){
+                if(item.key == snapshot.key){
+                    // kiểm tra thay đổi về tạo đơn thành công
+                    if(item.data.viettel_post_code !== snapshot.val().viettel_post_code){
+                        // vừa tạo đơn thành công
+                        $timeout(function() {
+                            $scope.$apply(function(){
+                                item.data.viettel_post_code = snapshot.val().viettel_post_code;
+                                item.data.viettel_post_data = snapshot.val().viettel_post_data
+                            })
+                        }, 100);
+                    }
+                    // Kiểm tra thay đổi về in ấn
+                    if(item.data.printed !== snapshot.val().printed){
+                        // vừa in phiếu xuất kho
+                        $timeout(function() {
+                            $scope.$apply(function(){
+                                item.data.printed = snapshot.val().printed;
+                            })
+                        }, 100);
+                    }
+                }
+            })
+            // kiểm tra và cập nhật active item
+            if($scope.activeOrder && $scope.activeOrder.key == snapshot.key){
+                // kiểm tra thay đổi về tạo đơn thành công
+                if($scope.activeOrder.data.viettel_post_code !== snapshot.val().viettel_post_code){
+                    // vừa tạo đơn thành công
+                    $timeout(function() {
+                        $scope.$apply(function(){
+                            $scope.activeOrder.data.viettel_post_code = snapshot.val().viettel_post_code;
+                            $scope.activeOrder.data.viettel_post_data = snapshot.val().viettel_post_data
+                        })
+                    }, 100);
+                }
+                // Kiểm tra thay đổi về in ấn
+                if($scope.activeOrder.data.printed !== snapshot.val().printed){
+                    // vừa in phiếu xuất kho
+                    $timeout(function() {
+                        $scope.$apply(function(){
+                            $scope.activeOrder.data.printed = snapshot.val().printed;
+                        })
+                    }, 100);
+                }
+            }
+        });
+
         $rootScope.toTitleCase = function(str) {
             return str.replace(/\w\S*/g, function(txt){
                 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -289,6 +378,8 @@ mShip.controller('MainCtrl',
                 item.selected = null;
             })
             order.selected = true;
+
+            console.log($scope.activeOrder);
 
             // order.notes = [];
 
@@ -372,6 +463,22 @@ mShip.controller('MainCtrl',
             })
         }
 
+        function addComment(text, item_id){
+            var data = {
+                text: text,
+                uid: $rootScope.currentMember ? $rootScope.currentMember.id : 2,
+                created_at: Date.now()
+            }
+
+            MFirebaseService.addShippingNote(item_id, data)
+            .then(function(response){
+                MUtilitiesService.AlertSuccessful(response);
+            })
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Lỗi')
+            })
+        }
+
 
         var login_data = {
                 'USERNAME' : 'phudv.meo@gmail.com',
@@ -383,7 +490,7 @@ mShip.controller('MainCtrl',
             if(response.error == true){
                 MUtilitiesService.AlertError('Lỗi đăng nhập Viettel Post: ' + response.message);
             }
-            console.log(response);
+            // console.log(response);
             $scope.$apply(function(){
                 $scope.viettel_login_data = response;
             })
@@ -392,21 +499,16 @@ mShip.controller('MainCtrl',
                     $scope.$apply(function(){
                         // $scope.hubs = response;
                         $scope.viettel_data.hubs = response;
-                        console.log(response);
+                        // console.log(response);
                     })
-                     console.log($scope.hubs);
+                     // console.log($scope.hubs);
                 })
         })
         .catch(function(err){
             MUtilitiesService.AlertError(err);
         })
 
-
-
-
-        $scope.testSweetAlert = function(){
-            
-
+        $scope.createViettelPost = function(){
             sweetAlert.open({
                 title: "Tạo đơn hàng Viettel Post",
                 htmlTemplate: "src/ship/partials/create-ship.html",
@@ -428,26 +530,201 @@ mShip.controller('MainCtrl',
                     },
                     viettel_login_data: function(){
                         return $scope.viettel_login_data;
-                    },
-                    fanpages: function(){
-                        return fanpages;
                     }
                 }
             })
             .then(function(response){
-                if(response.value){
-                    sweetAlert.success(response.value, {timer: 2500})
+                // console.log(response);
+                if(response && !response.dismiss && response.value.result && response.value.result.error == false){
+                    if(response.value.result.message == "SUCCESS"){
+                        sweetAlert.success('Tạo đơn hàng thành công.', {timer: 2500});
+                        addComment('[Auto log] Tạo đơn hàng thành công.', $scope.activeOrder.key);
+                        // console.log({
+                        //     order_key: $scope.activeOrder.key,
+                        //     order_success_date: $scope.activeOrder.data.created_time,
+                        //     order_data: response.value.data,
+                        //     order_code: response.value.result.data.ORDER_NUMBER,
+                        //     date_string: MFirebaseService.convertDate(new Date($scope.activeOrder.data.created_time))
+                        // });
+                        // 1 - cập nhật thông tin của shipping item
+                        // 2 - cập nhật báo cáo ngày
+                        // 3 - cập nhật log dành cho shipping item
+                        MFirebaseService.onCreateViettelPostSuccess($scope.activeOrder.key, $scope.activeOrder.data.created_time,
+                            response.value.data, response.value.result.data.ORDER_NUMBER).then(function(response){
+                            MUtilitiesService.AlertSuccessful(response);
+                        })
+                        .catch(function(err){
+                            console.log(err);
+                            MUtilitiesService.AlertError(err);
+                            addComment('[Auto log] Tạo đơn hàng thất bại. Lỗi ' + err, $scope.activeOrder.key);
+                        })
+                    }
+                    // console.log('Tạo đơn thành công, cập nhật Order number = ' + response.value.data.ORDER_NUMBER);
                     // .then(function(){
                     //     MUtilitiesService.AlertSuccessful('Tạo đơn thành công!')
                     // });
+
+                    console.log(response);
                 }
             })
             .catch(function(err){
-                sweetAlert.alert(err, {title: 'Lỗi!'})
+                console.log(err);
+                sweetAlert.alert(err, {title: 'Lỗi!'});
+                addComment('[Auto log] Tạo đơn hàng thất bại. Lỗi ' + err, $scope.activeOrder.key);
                 // .then(function(){
                 //     MUtilitiesService.AlertError('Tạo đơn không thành công!')
                 // });
             });
+        }
+
+        $scope.createGHN = function(){
+            sweetAlert.alert('Hệ thống chưa hỗ trợ tích hợp nhà vận chuyển này!')
+        }
+        $scope.createShip = function(){
+            sweetAlert.alert('Hệ thống chưa hỗ trợ tích hợp nhà vận chuyển này!')
+        }
+
+        $scope.cancelOrder = function(){
+            // console.log($scope.activeOrder.data.viettel_post_code);
+            sweetAlert.confirm('Bạn có muốn hủy đơn hàng không?', {title: 'Cảnh báo', 
+                confirmButtonText: 'Hủy đơn', cancelButtonText: 'Bỏ qua', showCancelButton: true}).then(function(response){
+                if(response && response.value == true){
+                    MVIETTELService.cancel_order({
+                        data: {
+                            "TYPE": 4,
+                            "ORDER_NUMBER": $scope.activeOrder.data.viettel_post_code,
+                            "NOTE": "Hủy đơn hàng",
+                            "DATE": $filter('date')(Date.now(), "dd/MM/yyyy H:m:s"),
+                        },
+                        token: $scope.viettel_login_data.TokenKey
+                    })
+                    .then(function(response){
+                        console.log(response);
+                        if(response.error == false){
+                            sweetAlert.success(response.message);
+                            // 1 - cập nhật thông tin của shipping item
+                            // 2 - cập nhật báo cáo ngày
+                            // 3 - cập nhật log dành cho shipping item
+                            MFirebaseService.onCancelViettelPostSuccess($scope.activeOrder.key, 
+                                $scope.activeOrder.data.created_time,
+                                $scope.activeOrder.data.viettel_post_data, $scope.activeOrder.data.viettel_post_code).then(function(response){
+                                MUtilitiesService.AlertSuccessful(response);
+                                addComment('[Auto log] Hủy đơn hàng thành công.', $scope.activeOrder.key);
+                            })
+                            .catch(function(err){
+                                console.log(err);
+                                MUtilitiesService.AlertError(err);
+                            })
+                        }
+                        else{
+                            addComment('[Auto log] Hủy đơn hàng thất bại. Lý do: ' + response.message, $scope.activeOrder.key);
+                            sweetAlert.alert('Không thể hủy đơn hàng. Lý do: ' + response.message, {title: 'Lỗi!'})
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(response);
+                        addComment('[Auto log] Lỗi xảy ra khi hủy đơn hàng. ' + err.message, $scope.activeOrder.key);
+                        sweetAlert.alert(err.message)
+                    })
+                }
+            })
+            .catch(function(err){
+                console.log(err);
+            })
+        }
+
+        // print
+        $scope.print = function(){
+            angular.forEach($rootScope.availableShippingItems, (item) => {
+              if(item.key == $scope.activeOrder.key){
+                item.printed = true;
+              }
+              else{
+                item.printed = false;
+              }
+            })
+            sweetAlert.open({
+                title: "In phiếu xuất kho",
+                htmlTemplate: "src/ship/partials/create-print.html",
+                confirmButtonText: 'Tạo trang in',
+                // customClass: 'swal-wide',
+                showCancelButton: true,
+                showCloseButton: true,
+                allowOutsideClick: false,
+                preConfirm: 'preConfirm',
+                showLoaderOnConfirm: true,
+                controller: 'PrintCtrl',
+                controllerAs: 'vm',
+                resolve: {
+                    activeOrder: function() {
+                        return angular.copy($scope.activeOrder);
+                    },
+                    pages: function(){
+                        return fanpages;
+                    },
+                    products: function(){
+                        return $scope.aProducts;
+                    },
+                    telesales: function(){
+                        return telesales;
+                    }
+                }
+            })
+            .then(function(response){
+                console.log(response);
+                if(response && !response.dismiss){
+                    sweetAlert.open({
+                        title: "Xem trước bản in",
+                        htmlTemplate: "src/ship/partials/print-preview.html",
+                        confirmButtonText: 'In phiếu',
+                        customClass: 'swal-wide',
+                        showCancelButton: true,
+                        showCloseButton: true,
+                        allowOutsideClick: false,
+                        preConfirm: 'printConfirm',
+                        showLoaderOnConfirm: true,
+                        controller: 'PrintCtrl',
+                        controllerAs: 'vm',
+                        resolve: {
+                            activeOrder: function() {
+                                return angular.copy($scope.activeOrder);
+                            },
+                            pages: function(){
+                                return fanpages;
+                            },
+                            products: function(){
+                                return $scope.aProducts;
+                            },
+                            telesales: function(){
+                                return telesales;
+                            }
+                        }
+                    })
+                    .then(function(response){
+                        // console.log(response);
+                        if(response && !response.dismiss){
+                            sweetAlert.success('Thao tác thành công.');
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                        sweetAlert.alert(err, {title: 'Lỗi!'})
+                    });
+                }
+            })
+            .catch(function(err){
+                console.log(err);
+                sweetAlert.alert(err, {title: 'Lỗi!'})
+            });
+        }
+
+        $scope.togglePrintedItem = function(item_key, is_printed){
+            MFirebaseService.toggleMaskPrintedShippingItem(item_key, is_printed).then(function(response){
+                console.log(response);
+            })
+            .catch(function(err){
+                console.log(err);
+            })
         }
 
   });

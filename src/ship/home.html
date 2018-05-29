@@ -3,13 +3,13 @@
 		<aside class="app-aside" infinite-scroll='loadMoreOrders()' infinite-scroll-disabled="isLoaddingOrder"
         infinite-scroll-distance="1" infinite-scroll-parent ='#xxx'>
       <div class="filter-bar">
-          <div class="user-nav">
+          <!-- <div class="user-nav">
             <div class="avatar avatar--xs clickable"><div class="avatar-img " style="background-image: url(&quot;//s120.avatar.talk.zdn.vn/3/6/5/8/6/120/875f0e87c0daaf99d2c2d26030f82242.jpg&quot;);"></div></div>
           </div>
           <div class="nav__tabs__top">
             <div id="message-tab" class="clickable main-tab-btn main-tab-btn__icon-message flx flx-col flx-al-c  selected" data-translate-title="STR_TAB_MESSAGE" title="Tin nhắn (Alt+1)" style="position: relative;"><i class="fa #main-tab   fa-tab-message-selected" style="font-size: 23px;"></i><img class="tab-red-dot" src="https://zalo-chat-static.zadn.vn/message_notification_3.png" style="top: 12px; right: 11px; position: absolute;"></div>
 
-          </div>
+          </div> -->
         </div>
    <!-- .aside-content -->
    <div class="aside-content">
@@ -52,19 +52,37 @@
             		<div class="item-content">
             			<div class="title">
             				<div class="title-text">
-            					<span dir="auto" title="12A.Hieu Cham" class="customer-name">
+            					<span dir="auto" class="customer-name">
                         {{order.data.data.customerData.realName}}     
                       </span>
             				</div>
-            				<div class="created-time"><span class="time caps">
+            				<div class="created-time">
+                      <button class="btn btn-sm btn-link toggle-printed" ng-click="togglePrintedItem(order.key, order.data.printed); $event.stopPropagation();" title="Đánh dấu In/Chưa in">
+                        <span class="{{order.data.printed == true ? 'printed' : ''}} print-icon">
+                        <svg viewBox="0 0 24 24" id="gridicons-print" class="actions-icon" fill="currentColor" width="12" height="12"><g><path d="M9 16h6v2H9v-2zm13 1h-3v3c0 1.105-.895 2-2 2H7c-1.105 0-2-.895-2-2v-3H2V9c0-1.105.895-2 2-2h1V5c0-1.105.895-2 2-2h10c1.105 0 2 .895 2 2v2h1c1.105 0 2 .895 2 2v8zM7 7h10V5H7v2zm10 7H7v6h10v-6zm3-3.5c0-.828-.672-1.5-1.5-1.5s-1.5.672-1.5 1.5.672 1.5 1.5 1.5 1.5-.672 1.5-1.5z"></path></g></svg>
+                      </span>
+                      </button>
+                      <span class="time caps">
                         {{ order.data.created_time | date:'HH:mm dd/MM'}}    
                     </span></div>
             			</div>
             			<div class="item-info">
             				<div class="info-text">
-            					<span dir="auto" title="{{order.data.data.customerData.addresss}}">
+            					<span dir="auto" title="{{order.data.data.customerData.addresss}}" ng-if="!order.data.viettel_post_code">
             					{{order.data.data.customerData.addresss}}
             				</span>
+                    <div ng-if="order.data.viettel_post_code">
+                      <div class="row">
+                        <div class="col-md-7" style="font-size:12px;">
+                          <span>COD: {{order.data.viettel_post_data.MONEY_COLLECTION | number:0}}</span>
+                          <span> FEE: {{order.data.viettel_post_data.MONEY_TOTALFEE | number:0}}</span>
+                        </div>
+                        <div class="col-md-5">
+                          <div class="row viettel-post-flag"></div>
+                        </div>
+                        
+                      </div>
+                    </div>
             				</div>
             			</div>
             		</div>
@@ -99,17 +117,17 @@
                 <div class="actions">
                   <ul>
                     <li>
-                      <button class="btn btn-link logistics viettel-post" ng-click="testSweetAlert()" data-toggle="tooltip" data-placement="bottom" title="Tạo đơn hàng Viettel Post">
+                      <button class="btn btn-link logistics viettel-post" ng-click="createViettelPost()" data-toggle="tooltip" data-placement="bottom" title="Tạo đơn hàng Viettel Post">
                         <span class="viettel-post"></span>
                       </button>
                     </li>
                     <li>
-                      <button class="btn btn-link logistics ghn" ng-click="testSweetAlert()">
+                      <button class="btn btn-link logistics ghn" ng-click="createGHN()">
                         <span class="ghn"></span>
                       </button>
                     </li>
                     <li>
-                      <button class="btn btn-link logistics shipper" ng-click="testSweetAlert()">
+                      <button class="btn btn-link logistics shipper" ng-click="createShip()">
                         <span class="shipper"></span>
                       </button>
                     </li>
@@ -121,10 +139,107 @@
         </div>
         <div class="chat-body">
           <div class="chat-content" style="height: {{windowsHeight-(60+80)}}px;overflow-y: auto;">
-            <div ng-include="'/src/ship/partials/chat-log.html'"></div>
-            <pre>
+            
+            <!-- <pre>
               {{activeOrder | json}}
-            </pre>
+            </pre> -->
+            
+            <div ng-if="activeOrder.data.viettel_post_data" class="p-3 pt-0 pb-5">
+              <!-- <hr> -->
+              <h5>Chi tiết đơn hàng đã tạo</h5>
+              <table class="table table-hover mt-2">
+                <!-- <thead>
+                  <tr>
+                    <th>Người gửi</th>
+                    <th>{{activeOrder.data.viettel_post_data.SENDER_FULLNAME}}</th>
+                  </tr>
+                </thead> -->
+                <tbody>
+                  <tr>
+                    <td style="width: 20%"><strong>Mã vận đơn:</strong></td>
+                    <td>{{activeOrder.data.viettel_post_code}}</td>
+                  </tr>
+                  <tr>
+                    <td style="width: 20%"><strong>Người gửi:</strong></td>
+                    <td>{{activeOrder.data.viettel_post_data.SENDER_FULLNAME}}</td>
+                  </tr>
+                  <tr>
+                    <td style="width: 20%"><strong>Địa chỉ:</strong></td>
+                    <td>{{activeOrder.data.viettel_post_data.SENDER_ADDRESS}}</td>
+                  </tr>
+                  <tr>
+                    <td style="width: 20%"></td>
+                    <td>Phường: {{activeOrder.data.viettel_post_data.SENDER_WARD}} - 
+                    Quận: {{activeOrder.data.viettel_post_data.SENDER_DISTRICT}} - 
+                    TP: {{activeOrder.data.viettel_post_data.SENDER_PROVINCE}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width: 20%"><strong>SĐT:</strong></td>
+                    <td>{{activeOrder.data.viettel_post_data.SENDER_PHONE}}</td>
+                  </tr>
+                </tbody>
+              </table>
+               <table class="table table-hover mt-2">
+                <!-- <thead>
+                  <tr>
+                    <th>Người gửi</th>
+                    <th>{{activeOrder.data.viettel_post_data.SENDER_FULLNAME}}</th>
+                  </tr>
+                </thead> -->
+                <tbody>
+                  <tr>
+                    <td style="width: 20%"><strong>Người nhận:</strong></td>
+                    <td>{{activeOrder.data.viettel_post_data.RECEIVER_FULLNAME}}</td>
+                  </tr>
+                  <tr>
+                    <td style="width: 20%"><strong>Địa chỉ:</strong></td>
+                    <td>{{activeOrder.data.viettel_post_data.RECEIVER_ADDRESS}}</td>
+                  </tr>
+                  <tr>
+                    <td style="width: 20%"></td>
+                    <td>Phường: {{activeOrder.data.viettel_post_data.RECEIVER_WARD}} - 
+                    Quận: {{activeOrder.data.viettel_post_data.RECEIVER_DISTRICT}} - 
+                    TP: {{activeOrder.data.viettel_post_data.RECEIVER_PROVINCE}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width: 20%"><strong>SĐT:</strong></td>
+                    <td>{{activeOrder.data.viettel_post_data.RECEIVER_PHONE}}</td>
+                  </tr>
+                </tbody>
+              </table>
+               <table class="table table-hover mt-2">
+                <!-- <thead>
+                  <tr>
+                    <th>Người gửi</th>
+                    <th>{{activeOrder.data.viettel_post_data.SENDER_FULLNAME}}</th>
+                  </tr>
+                </thead> -->
+                <tbody>
+                  <tr>
+                    <td style="width: 20%"><strong>Ghi chú giao hàng:</strong></td>
+                    <td>{{activeOrder.data.viettel_post_data.ORDER_NOTE || 'Không có ghi chú'}}</td>
+                  </tr>
+                  <tr>
+                    <td style="width: 20%"><strong>COD:</strong></td>
+                    <td>{{activeOrder.data.viettel_post_data.MONEY_COLLECTION | number: 0}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- {{activeOrder | json}} -->
+            </div>
+            <div ng-if="!activeOrder.data.viettel_post_data" class="mb-5 pb-3">
+              <div class="empty-content">
+                <img src="/assets/images/illustration-empty-results.svg" width="400" class="empty-content__illustration">
+                <!-- <h2 class="empty-content__title">Đơn hàng chưa được tạo</h2> -->
+                <h3 class="empty-content__line">Đơn hàng chưa được tạo</h3>
+                <button class="btn btn-primary btn-lg" ng-click="createViettelPost()">Tạo đơn Viettel Post</button>
+                <button class="btn btn-secondary btn-lg" ng-click="print()">In phiếu xuất kho</button>
+                <!-- <a class="empty-content__action btn btn-secondary" href="/discover">Secondary action</a> -->
+              </div>
+            </div>
+            <div ng-include="'/src/ship/partials/chat-log.html'"></div>
           </div>
           <div class="write-chat {{isChatSelect ? 'focus' : ''}}">
             <div class="input-chat">
@@ -159,7 +274,7 @@
                 <div class="actions">
                   <ul>
                     <li>
-                      <button class="btn btn-link">
+                      <button class="btn btn-link" ng-click="print()">
                         <svg viewBox="0 0 24 24" id="gridicons-print" class="actions-icon" fill="currentColor" width="24" height="24"><g><path d="M9 16h6v2H9v-2zm13 1h-3v3c0 1.105-.895 2-2 2H7c-1.105 0-2-.895-2-2v-3H2V9c0-1.105.895-2 2-2h1V5c0-1.105.895-2 2-2h10c1.105 0 2 .895 2 2v2h1c1.105 0 2 .895 2 2v8zM7 7h10V5H7v2zm10 7H7v6h10v-6zm3-3.5c0-.828-.672-1.5-1.5-1.5s-1.5.672-1.5 1.5.672 1.5 1.5 1.5 1.5-.672 1.5-1.5z"></path></g></svg>
                       </button>
                     </li>
@@ -226,22 +341,23 @@
                 </table>
           </div>
             </div> -->
-            <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between lh-condensed"
-            ng-repeat="product in activeOrder.data.data.customerData.products">
-              <div>
-                <h6 class="my-0">{{findProduct(product.id).name || 'Không rõ'}}</h6>
+            <h6>Danh sách sản phẩm ({{activeOrder.data.data.customerData.products.length}})</h6>
+            <ul class="pl-0 mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-condensed {{$index % 2 == 0 ? 'bg-light' : ''}}"
+            ng-repeat="product in activeOrder.data.data.customerData.products track by $index">
+              <div class="{{$index % 2 == 0 ? 'text-success' : ''}}">
+                <span class="my-0">{{findProduct(product.id).name || 'Không rõ'}}</span>
                 <span class="text-muted">{{product.note}}</span>
               </div>
-              <span class="text-muted">{{product.count}}</span>
+              <span class="{{$index % 2 == 0 ? 'text-success' : 'text-muted'}}">{{product.count}}</span>
             </li>
-            <li class="list-group-item d-flex justify-content-between bg-light">
+            <!-- <li class="list-group-item d-flex justify-content-between bg-light">
               <div class="text-success">
                 <h6 class="my-0">Promo code</h6>
                 <small>EXAMPLECODE</small>
               </div>
               <span class="text-success">-$5</span>
-            </li>
+            </li> -->
           </ul>
           </div>
           <div class="packing-note customer-pane" ng-if="activeOrder.data.data.customerData.customerNote">

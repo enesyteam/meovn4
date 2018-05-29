@@ -2064,7 +2064,7 @@
 
 
                             angular.forEach(snapshot.val(), function(item){
-                                // console.log(item);
+                                console.log(item);
                                 new_customer.push({
                                     'date' : new Date(item.date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')),
                                     'value' : item.today
@@ -2308,6 +2308,222 @@
                     });
                 }
 
+                // viettel post
+                var onCreateViettelPostSuccess = function (order_key, order_success_date, order_data, order_code) {
+                    return new Promise(function (resolve, reject) {
+
+                        var _d = new Date(order_success_date);
+                        var reportDateString = convertDate(_d); // yyyyMMdd
+
+                        // cập nhật firebase
+                        var updates = {};
+                            
+                        updates['/shippingItems/' + order_key + '/viettel_post_data'] = order_data;
+                        updates['/shippingItems/' + order_key + '/viettel_post_code'] = order_code;
+
+                        // update firebase database
+                        // order chốt ngày nào sẽ cập nhật vào báo cáo của ngày đó
+                        firebase.database().ref().update(updates).then(function (response) {
+                            // cập nhật tổng số đơn đã tạo
+                            firebase.database().ref().child('report').child(reportDateString)
+                            .child('shippingReport').child('total_created_items')
+                            .transaction(function (oldValue) {
+                                return oldValue + 1;
+                            })
+                            .then(function(){
+                                // giảm tổng số đơn chưa tạo
+                                firebase.database().ref().child('report').child(reportDateString)
+                                .child('shippingReport').child('total_not_created_items')
+                                .transaction(function (oldValue) {
+                                    if(oldValue >= 1){
+                                        return oldValue - 1;
+                                    }
+                                    else{
+                                        return oldValue;
+                                    }
+                                })
+                                .then(function(){
+                                    firebase.database().ref().child('report').child(reportDateString)
+                                    .child('shippingReport').child('total_cod')
+                                    .transaction(function (oldValue) {
+                                        return oldValue + parseInt(order_data.MONEY_COLLECTION);
+                                    })
+                                    .then(function(){
+                                        firebase.database().ref().child('report').child(reportDateString)
+                                        .child('shippingReport').child('total_shipping_costs')
+                                        .transaction(function (oldValue) {
+                                            return oldValue + parseInt(order_data.MONEY_TOTALFEE);
+                                        })
+                                        .then(function(){
+                                            firebase.database().ref().child('report').child(reportDateString)
+                                            .child('shippingReport').child('viettel_post_items')
+                                            .transaction(function (oldValue) {
+                                                return oldValue + 1;
+                                            })
+                                            .then(function(){
+                                                firebase.database().ref().child('report').child(reportDateString)
+                                                .child('shippingReport').child('viettel_post_cod')
+                                                .transaction(function (oldValue) {
+                                                    return oldValue + parseInt(order_data.MONEY_COLLECTION);
+                                                })
+                                                .then(function(){
+                                                    firebase.database().ref().child('report').child(reportDateString)
+                                                    .child('shippingReport').child('viettel_post_shipping_costs')
+                                                    .transaction(function (oldValue) {
+                                                        return oldValue + parseInt(order_data.MONEY_TOTALFEE);
+                                                    })
+                                                    .then(function(){
+                                                        resolve('Cập nhật đơn hàng và báo cáo thành công!');
+                                                    })
+                                                })
+                                            })
+                                        })
+                                    })
+                                });
+                            })
+                            .catch(function(err){
+                                reject(err)
+                            });
+                        })
+                        .catch(function (err) {
+                            reject(err)
+                        })
+                    })   
+                }
+                var onCancelViettelPostSuccess = function (order_key, order_success_date, order_data, order_code) {
+                    return new Promise(function (resolve, reject) {
+                        var _d = new Date(order_success_date);
+                        var reportDateString = convertDate(_d); // yyyyMMdd
+
+                        // cập nhật firebase
+                        var updates = {};
+                            
+                        updates['/shippingItems/' + order_key + '/viettel_post_data'] = null;
+                        updates['/shippingItems/' + order_key + '/viettel_post_code'] = null;
+
+                        // update firebase database
+                        // order chốt ngày nào sẽ cập nhật vào báo cáo của ngày đó
+                        firebase.database().ref().update(updates).then(function (response) {
+                            // cập nhật tổng số đơn đã tạo
+                            firebase.database().ref().child('report').child(reportDateString)
+                            .child('shippingReport').child('total_created_items')
+                            .transaction(function (oldValue) {
+                                return oldValue - 1;
+                            })
+                            .then(function(){
+                                // giảm tổng số đơn chưa tạo
+                                firebase.database().ref().child('report').child(reportDateString)
+                                .child('shippingReport').child('total_not_created_items')
+                                .transaction(function (oldValue) {
+                                    return oldValue + 1;
+                                })
+                                .then(function(){
+                                    firebase.database().ref().child('report').child(reportDateString)
+                                    .child('shippingReport').child('total_cod')
+                                    .transaction(function (oldValue) {
+                                        if(oldValue > 0){
+                                            return oldValue - parseInt(order_data.MONEY_COLLECTION);
+                                        }
+                                        else{
+                                            return oldValue;
+                                        }
+                                        
+                                    })
+                                    .then(function(){
+                                        firebase.database().ref().child('report').child(reportDateString)
+                                        .child('shippingReport').child('total_shipping_costs')
+                                        .transaction(function (oldValue) {
+                                            if(oldValue > 0){
+                                                return oldValue - parseInt(order_data.MONEY_TOTALFEE);
+                                            }
+                                            else{
+                                                return oldValue;
+                                            }
+                                        })
+                                        .then(function(){
+                                            firebase.database().ref().child('report').child(reportDateString)
+                                            .child('shippingReport').child('viettel_post_items')
+                                            .transaction(function (oldValue) {
+                                                if(oldValue >= 1){
+                                                    return oldValue - 1;
+                                                }
+                                                else{
+                                                    return oldValue;
+                                                }
+                                            })
+                                            .then(function(){
+                                                firebase.database().ref().child('report').child(reportDateString)
+                                                .child('shippingReport').child('viettel_post_cod')
+                                                .transaction(function (oldValue) {
+                                                    if(oldValue > 0){
+                                                        return oldValue - parseInt(order_data.MONEY_COLLECTION);
+                                                    }
+                                                    else{
+                                                        return oldValue;
+                                                    }
+                                                })
+                                                .then(function(){
+                                                    firebase.database().ref().child('report').child(reportDateString)
+                                                    .child('shippingReport').child('viettel_post_shipping_costs')
+                                                    .transaction(function (oldValue) {
+                                                        if(oldValue > 0){
+                                                            return oldValue - parseInt(order_data.MONEY_TOTALFEE);
+                                                        }
+                                                        else{
+                                                            return oldValue;
+                                                        }
+                                                    })
+                                                    .then(function(){
+                                                        resolve('Cập nhật đơn hàng và báo cáo thành công!');
+                                                    })
+                                                })
+                                            })
+                                        })
+                                    })
+                                });
+                            })
+                            .catch(function(err){
+                                reject(err)
+                            });
+                        })
+                        .catch(function (err) {
+                            reject(err)
+                        })
+                    })   
+                }
+
+                var maskShippingItemsPrinted = function (item_keys) {
+                    return new Promise(function (resolve, reject) {
+                        var updates = {};
+                        angular.forEach(item_keys, (item) => {
+                            updates['/shippingItems/' + item + '/printed'] = true;
+                        })
+
+                        // update firebase database
+                        firebase.database().ref().update(updates).then(function (response) {
+                                resolve('Đã cập nhật dữ liệu Order thành công');
+                            })
+                            .catch(function (err) {
+                                reject(err)
+                            })
+                    })
+                }
+
+                var toggleMaskPrintedShippingItem = function(item_key, is_printed){
+                    return new Promise(function (resolve, reject) {
+                        var updates = {};
+                        updates['/shippingItems/' + item_key + '/printed'] = !is_printed;
+
+                        // update firebase database
+                        firebase.database().ref().update(updates).then(function (response) {
+                                resolve('Đã cập nhật dữ liệu Order thành công');
+                            })
+                            .catch(function (err) {
+                                reject(err)
+                            })
+                    })
+                }
+
                 return {
                     getCanReleaseStatusIds: getCanReleaseStatusIds,
                     getOrders: getOrders,
@@ -2383,7 +2599,13 @@
                     updateMemberMask: updateMemberMask,
                     getAllActiveMembers: getAllActiveMembers,
                     getPancakeReport: getPancakeReport,
-                    getMemberByEmail: getMemberByEmail
+                    getMemberByEmail: getMemberByEmail,
+
+                    // viettel post
+                    onCreateViettelPostSuccess: onCreateViettelPostSuccess,
+                    onCancelViettelPostSuccess: onCancelViettelPostSuccess,
+                    maskShippingItemsPrinted: maskShippingItemsPrinted,
+                    toggleMaskPrintedShippingItem: toggleMaskPrintedShippingItem
                 }
 
             }

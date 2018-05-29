@@ -650,6 +650,7 @@ th, td {
   vertical-align:middle;
   display: block;
   line-height: 60px;
+  font-size: 16px;
 }
 .actions ul{
   margin:0;
@@ -680,6 +681,7 @@ th, td {
   vertical-align:middle;
   display: block;
   line-height: 60px;
+  font-size: 16px;
 }
 .btn-link.logistics{
   background-image: url(/assets/images/logo-logistics.png);
@@ -714,6 +716,17 @@ th, td {
 .btn-link.logistics.shipper:active{
   background-position: 0px -120px;
 }
+.viettel-post-flag{
+    background-image: url(/assets/images/logo-logistics.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 90px;
+    height: 14px;
+    background-position: 0px -16px;
+    background-size: cover;
+    float: right;
+    margin-right: 0;
+}
 .swal-wide{
     width:780px !important;
 }
@@ -737,3 +750,490 @@ th, td {
 .swal2-popup .swal2-title{
   margin: 0 !important 
 }
+._55ym {
+    animation: rotateSpinner 1.2s steps(20, end) infinite;
+    display: inline-block;
+    vertical-align: middle;
+}
+._55yq {
+    background-image: url(/assets/images/WgFKRx0VFOG.png);
+    height: 16px;
+    width: 16px;
+    background-size: 16px 16px;
+}
+ul.fee-data-list{
+      font-size: 12px;
+    margin-top: 5px;
+    margin-left: 0;
+    padding: 5px 15px;
+    float: right;
+    text-align: right;
+    border-radius: 5px;
+    background: #f1f1f1;
+}
+ul.fee-data-list li{
+  list-style: none
+}
+.has-shipping-fee{
+  float: right;
+}
+.swal2-popup .swal2-validationerror{
+  background: #fff3cd;
+}
+.list-group-item{
+  padding: 5px 10px;
+}
+.empty-content {
+    max-width: 960px;
+    overflow: hidden;
+    margin: 35px auto 0;
+    padding-top: 20px;
+    text-align: center;
+}
+.empty-content__title {
+    color: #2e4453;
+    font-size: 34px;
+    font-weight: 300;
+}
+.empty-content__line {
+    color: #4f748e;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 40px;
+}
+.window__chatAgent, .window__chatVisitor{
+      animation: none !important;
+}
+.shipping-item .item-container.printed {
+    background-color: #d6d8d9;
+}
+.print-pages{
+  max-height: 450px;overflow-y: scroll;
+}
+
+@media screen {
+  /*#printSection {
+      display: none;
+  }*/
+}
+
+@media print {
+  body *{
+        visibility:hidden;
+    }
+    body {
+        /*margin:0 !important;*/
+        /*-webkit-print-color-adjust:exact;*/
+        background: none !important;
+        /*width: 100% !important;*/
+        /*height: 100% !important;*/
+        /*max-height: 100% !important;*/
+         /*height:100%; */
+        /*margin: 0 !important; 
+        padding: 0 !important;*/
+        /*overflow: visible !important;*/
+        /*overflow: hidden;*/
+    }
+  #printSection, #printSection * {
+    visibility:visible;
+    /*display: block !important;*/
+    /*margin: 0;
+    padding: 0;*/
+    /*height: 100% !important;*/
+    /*overflow: visible !important;*/
+  }
+  /*#printSection {
+    position:absolute;
+    left:0;
+    top:0;
+  }*/
+
+  .swal-wide,
+  .swal2-popup .swal2-content{
+    /*visibility: visible;*/
+    display: flex !important;
+    margin: 0;
+    padding: 0;
+    width: 100% !important;
+/*    height: 98% !important;*/
+    /*max-height: 20000px;*/
+    /*overflow-y: visible;*/
+     /*position:relative !important;*/
+  }
+  .print-pages{
+    /*visibility: visible;*/
+    max-height: none;
+    /*height: 100% !important;
+    widows: 100% !important;*/
+    /*overflow-y: visible;*/
+/*    display: flex;
+    flex-direction: column;
+    overflow: visible !important;*/
+    /*position:absolute;*/
+  }
+  /*.swal2-container{
+    position: relative !important;
+  }*/
+  .page-break {
+      /*display: block;*/
+      /*display: flex !important;*/
+      /*overflow: hidden;*/
+      page-break-after: always;
+       /*position:absolute;*/
+       /*width: 100% !important;
+      height: 100% !important;*/
+  }
+  /*.swal2-popup{
+        display: flex;
+    width: 100% !important;
+    margin: 0;
+    padding: 0;
+  }*/
+  /*.print-pages{
+    max-height: none;
+    overflow-y: auto;
+  }*/
+  .company-name{
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .company-name span{
+    text-transform: uppercase;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #000
+  }
+
+}
+
+
+#memo .company-name {
+  background: #8BA09E url("/assets/images/arrows.png") 560px center no-repeat;
+  background-size: 100px auto;
+  padding: 10px 20px;
+  position: relative;
+  margin-bottom: 15px;
+}
+#memo .company-name span {
+  color: white;
+  display: inline-block;
+  min-width: 20px;
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 1em;
+}
+#memo .company-name .right-arrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100px;
+  background: url("/assets/images/right-arrow.png") right center no-repeat;
+  background-size: auto 60px;
+}
+#memo .logo {
+  float: left;
+  clear: left;
+  margin-left: 20px;
+}
+#memo .logo img {
+  /*width: 150px;*/
+  height: 100px;
+}
+#memo .company-info {
+  margin-left: 20px;
+  float: left;
+  font-size: 12px;
+  color: #8b8b8b;
+  max-width: 70%;
+}
+#memo .company-info div {
+  margin-bottom: 3px;
+  min-width: 20px;
+}
+#memo .company-info span {
+  display: inline-block;
+  min-width: 20px;
+}
+#memo:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+#invoice-info {
+  float: left;
+  margin: 25px 0 0 20px;
+}
+#invoice-info > div {
+  float: left;
+}
+#invoice-info > div > span {
+  display: block;
+  min-width: 20px;
+  min-height: 18px;
+  margin-bottom: 3px;
+}
+#invoice-info > div:last-child {
+  margin-left: 20px;
+}
+#invoice-info:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+#client-info {
+  float: right;
+  margin: 5px 20px 0 0;
+  min-width: 220px;
+  text-align: right;
+}
+#client-info > div {
+  margin-bottom: 3px;
+  min-width: 20px;
+}
+#client-info span {
+  display: block;
+  min-width: 20px;
+}
+
+#invoice-title-number {
+  text-align: center;
+  margin: 20px 0;
+}
+#invoice-title-number span {
+  display: inline-block;
+  min-width: 20px;
+}
+#invoice-title-number #title {
+  margin-right: 15px;
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+}
+#invoice-title-number #number {
+  font-size: 15px;
+  text-align: left;
+}
+
+table {
+  table-layout: fixed;
+}
+table th, table td {
+  vertical-align: top;
+  word-break: keep-all;
+  word-wrap: break-word;
+}
+
+#items {
+  margin: 20px 0 35px 0;
+}
+#items .first-cell, #items table th:first-child, #items table td:first-child {
+  width: 45px;
+  text-align: right;
+}
+#items table {
+  border-collapse: separate;
+  width: 100%;
+}
+#items table th {
+  padding: 12px 10px;
+  text-align: right;
+  background: #E6E7E7;
+  border-bottom: 4px solid #487774;
+}
+#items table th:nth-child(2) {
+  width: 30%;
+  text-align: left;
+}
+#items table th:last-child {
+  text-align: right;
+  padding-right: 20px !important;
+}
+#items table td {
+  padding: 15px 10px;
+  text-align: right;
+  border-right: 1px solid #CCCCCF;
+}
+#items table td:first-child {
+  text-align: left;
+  border-right: 0 !important;
+}
+#items table td:nth-child(2) {
+  text-align: left;
+}
+#items table td:last-child {
+  border-right: 0 !important;
+  padding-right: 20px !important;
+}
+
+.currency {
+  border-bottom: 4px solid #487774;
+  padding: 0 20px;
+}
+.currency span {
+  font-size: 11px;
+  font-style: italic;
+  color: #111;
+  display: inline-block;
+  min-width: 20px;
+}
+
+#sums {
+  float: right;
+  background: #8BA09E url("/assets/images/left-arrow.png") -17px bottom no-repeat;
+  background-size: auto 100px;
+  color: white;
+}
+#sums table tr th, #sums table tr td {
+  min-width: 100px;
+  padding: 8px 20px 8px 35px;
+  text-align: right;
+  font-weight: 600;
+}
+#sums table tr th {
+  text-align: left;
+  padding-right: 25px;
+}
+#sums table tr.amount-total th {
+  text-transform: uppercase;
+}
+#sums table tr.amount-total th, #sums table tr.amount-total td {
+  font-size: 16px;
+  font-weight: bold;
+}
+#sums table tr:last-child th {
+  text-transform: uppercase;
+}
+#sums table tr:last-child th, #sums table tr:last-child td {
+  font-size: 16px;
+  font-weight: bold;
+  padding-top: 20px !important;
+  padding-bottom: 40px !important;
+}
+
+#terms {
+  margin: 50px 20px 10px 20px;
+}
+#terms > span {
+  display: inline-block;
+  min-width: 20px;
+  font-weight: bold;
+}
+#terms > div {
+  margin-top: 10px;
+  min-height: 50px;
+  min-width: 50px;
+}
+
+.payment-info {
+  margin: 0 20px;
+}
+.payment-info div {
+  font-size: 12px;
+  color: #111;
+  display: inline-block;
+  min-width: 20px;
+}
+
+.ib_bottom_row_commands {
+  margin: 10px 0 0 20px !important;
+}
+
+.ibcl_tax_value:before {
+  color: white !important;
+}
+
+/**
+ * If the printed invoice is not looking as expected you may tune up
+ * the print styles (you can use !important to override styles)
+ */
+
+/*html body {
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,Sans-serif;
+    background: white;
+    width: 100% !important;
+    max-width: 820px !important;
+    min-height: 1158px !important;
+    margin: 105px auto 30px auto !important;
+    -moz-box-shadow: 0px 0px 20px rgba(80,80,80,0.7) !important;
+    -webkit-box-shadow: 0px 0px 20px rgba(80,80,80,0.7) !important;
+    box-shadow: 0px 0px 20px rgba(80,80,80,0.7) !important;
+}*/
+/*.page-break {
+    display: block;
+    page-break-after: always;
+}*/
+
+/*@media screen{
+    .printOnly{
+        display:none;
+    }
+}
+@media print {
+    body *{
+        visibility:hidden;
+    }
+    body {
+        margin:0mm !important;
+        -webkit-print-color-adjust:exact;
+    }
+    .printOnly, .printOnly *{
+        visibility:visible;
+        display:initial;
+    }
+    .printOnly.printRemove{
+        display:none;
+    }
+    .printSection, .printSection * {
+        visibility:visible;
+    }
+    .printRemove, .printRemove *{
+        display:none;
+    }
+    .printHide, .printHide *{
+        visibility:hidden;
+    }
+    .printHide .printSection *{
+        visibility:visible;
+    }
+    .printRemove .printSection *{
+        visibility:visible;
+    }
+    .avoidPageBreak{
+        page-break-inside:avoid;
+    }
+    td div{
+        page-break-inside:avoid;
+    }
+    thead {
+        display: table-header-group;
+    }
+    .noPrintMargin{
+        margin:0px !important;
+        padding:0px !important;
+    }
+    @page { margin:0cm }
+    @page :first {
+      margin-top:0cm;
+    }
+    @page :left {
+      margin-left:0cm;
+      margin-right:0cm;
+    }
+    @page :right {
+      margin-left:0cm;
+      margin-right:0cm;
+    }
+}*/
+.toggle-printed .print-icon{
+  opacity: 0.35
+}
+.toggle-printed .printed.print-icon{
+  opacity: 1;
+  color: #28a745!important
+}
+/*.toggle-printed .printed.print-icon .gridicons-print{
+  color: #28a745!important
+}*/

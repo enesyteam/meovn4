@@ -1,0 +1,124 @@
+<div id="printSection">
+   <div id="container" class="content print-pages">
+      <div ng-repeat="shipItem in availableShippingItems" ng-if="shipItem.printed" 
+         class="page-break">
+         <section id="memo">
+               <div class="company-name">
+                  <span>Phiếu xuất kho</span>
+                  <div class="right-arrow"></div>
+               </div>
+               <div class="logo">
+                  <img ng-src="{{'//graph.facebook.com/' + shipItem.data.data.orderData.page_id  + '/picture?width=100&amp;height=100'}}" />
+               </div>
+               <div class="company-info">
+                  <div>
+                     <span>Page: <strong>{{filterById(pages, shipItem.data.data.orderData.page_id).name}}</strong></span>
+                  </div>
+                  <div>
+                     <span>
+                        Tên người gửi: 
+                        <strong>
+                           Thông tin đã được ẩn vì mục đích bảo mật
+                        </strong>
+                     </span>
+                  </div>
+                  <div>
+                     <span>
+                        Địa chỉ: 
+                        <strong>
+                           Thông tin đã được ẩn vì mục đích bảo mật
+                        </strong>
+                     </span>
+                  </div>
+                  <div>
+                     Số điện thoại: 
+                     <strong>
+                        Thông tin đã được ẩn vì mục đích bảo mật
+                     </strong>
+                  </div>
+               </div>
+            </section>
+            <section id="invoice-info">
+               <div>
+                  <span>Người bán hàng</span>
+                  <span>Thời gian</span>
+                  <span>Ghi chú đóng hàng</span>
+                  <span>Ghi chú giao hàng</span>
+               </div>
+               <div>
+                  <span>{{findTelesale(shipItem.data.data.orderData.seller_will_call_id).last_name || 'Không rõ'}}</span>
+                  <span>{{shipItem.data.data.created_time | date: 'HH:mm dd/MM/yyyy'}}</span>
+                  <span><strong>{{shipItem.data.data.customerData.customerNote || 'Không có'}}</strong></span>
+                  <span>{{shipItem.data.data.customerData.orderNote || 'Không có'}}</span>
+               </div>
+            </section>
+            <section id="client-info">
+               <!-- <span>Thông tin người nhận</span> -->
+               <div>
+                  <span class="bold">Tên người nhận: <strong>{{shipItem.data.data.customerData.realName}}</strong></span>
+               </div>
+               <div>
+                  <span>Số điện thoại: <strong>{{shipItem.data.data.customerData.recievedPhone}}</strong></span>
+               </div>
+               <div>
+                  <span>Địa chỉ: <strong>{{shipItem.data.data.customerData.addresss}}</strong></span>
+               </div>
+            </section>
+            <div class="clearfix"></div>
+            <section id="invoice-title-number">
+               <span id="title">Mã phiếu xuất kho: </span>
+               <span id="number">{{shipItem.data.data.orderData.customer_id}}</span>
+               <div>Thời gian: {{currentTime | date: 'HH:mm dd/MM/yyyy'}}</div>
+            </section>
+            <div class="clearfix"></div>
+            <section id="items">
+               <table cellpadding="0" cellspacing="0">
+                  <tr>
+                     <th>TT</th>
+                     <!-- Dummy cell for the row number and row commands -->
+                     <th>Tên sản phẩm</th>
+                     <th>Số lượng</th>
+                     <th>Đơn giá</th>
+                     <th>Giảm giá</th>
+                     <th>Thành tiền</th>
+                     <th>Ghi chú</th>
+                  </tr>
+                  <tr data-iterate="item" ng-repeat="product in shipItem.data.data.customerData.products track by $index">
+                     <td>{{$index+1}}</td>
+                     <!-- Don't remove this column as it's needed for the row commands -->
+                     <td>{{findProduct(product.id).name}}</td>
+                     <td>{{product.count}}</td>
+                     <td>-</td>
+                     <td>-</td>
+                     <td>-</td>
+                     <td>{{product.note || '-'}}</td>
+                  </tr>
+               </table>
+            </section>
+            <div class="currency">
+               <span>Đơn giá</span> <span>VNĐ</span>
+            </div>
+            <section id="sums">
+               <table cellpadding="0" cellspacing="0">
+                  <tr>
+                     <th>Tổng cộng tiền hàng</th>
+                     <td>{{shipItem.data.data.customerData.cod | number}}</td>
+                  </tr>
+                  <tr data-iterate="tax">
+                     <th>Phí vận chuyển</th>
+                     <td>-</td>
+                  </tr>
+                  <tr data-hide-on-quote="true">
+                     <th>Tổng cộng</th>
+                     <td>{{shipItem.data.data.customerData.cod | number}}</td>
+                  </tr>
+               </table>
+            </section>
+            <div class="clearfix"></div>
+            <section id="terms">
+               <span>Người xuất hàng</span>
+               <div>-</div>
+            </section>
+      </div>
+   </div>
+</div>

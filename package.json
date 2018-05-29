@@ -24,6 +24,7 @@
     "angular-chosen-localytics": "^1.8.0",
     "angular-clipboard": "^1.6.2",
     "angular-css": "^1.0.8",
+    "angular-dynamic-number": "^2.5.1",
     "angular-facebook": "0.0.2",
     "angular-file-input": "^1.0.2",
     "angular-filter": "^0.5.17",

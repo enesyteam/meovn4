@@ -1,6 +1,6 @@
 <div class="mb-3">
    <!-- <span><strong>Người gửi: </strong></span> -->
-   <span>{{vm.modalPreConfirmContent}}</span>
+   <span>{{modalPreConfirmContent}}</span>
 </div>
 <div class="container mb-1">
    <div style="text-align: left;">
@@ -11,33 +11,33 @@
                   <div class="form-group col-md-6">
                      <label for="country">Tên người nhận</label>
                      <!-- <label for="customer_name">Tên người nhận</label> -->
-                     <input type="text" class="form-control" id="customer_name" placeholder="Tên người nhận" ng-model="vm.orderData.RECEIVER_FULLNAME">
+                     <input type="text" class="form-control" id="customer_name" placeholder="Tên người nhận" ng-model="orderData.RECEIVER_FULLNAME">
                   </div>
                   <div class="form-group col-md-6">
                      <label for="country">Số điện thoại</label>
                      <!-- <label for="customer_mobile">Số ĐT người nhận</label> -->
-                     <input type="text" class="form-control" id="customer_mobile" placeholder="Số ĐT người nhận" ng-model="vm.orderData.RECEIVER_PHONE">
+                     <input type="text" class="form-control" id="customer_mobile" placeholder="Số ĐT người nhận" ng-model="orderData.RECEIVER_PHONE">
                   </div>
                </div>
                <div class="form-row">
                   <div class="form-group col-md-12">
                      <label for="country">Địa chỉ</label>
                      <!-- <label for="customer_address">Địa chỉ nhận hàng</label> -->
-                     <input type="text" class="form-control" id="customer_address" placeholder="Địa chỉ nhận hàng" ng-model="vm.orderData.RECEIVER_ADDRESS">
+                     <input type="text" class="form-control" id="customer_address" placeholder="Địa chỉ nhận hàng" ng-model="orderData.RECEIVER_ADDRESS">
                   </div>
                </div>
                <div class="form-row">
                   <div class="form-group col-md-7">
                      <label for="country">Quận/huyện</label>
-                      <select class="form-control form-select" select2 ng-model="vm.currentDistrict" placeholder="Pick a number" 
-                        ng-options="s as (s.DISTRICT_NAME + ' - ' + s.PROVINCE_NAME) for s in vm.viettel_districs" ng-change="vm.onDistrictChange(vm.currentDistrict)">
+                      <select class="form-control form-select" select2 ng-model="currentDistrict" placeholder="Pick a number" 
+                        ng-options="s as (s.DISTRICT_NAME + ' - ' + s.PROVINCE_NAME) for s in viettel_districs" ng-change="onDistrictChange(currentDistrict)">
                         <option value=""></option>
                      </select>
                   </div>
                   <div class="form-group col-md-5">
                      <label for="country">Phường/Xã</label>
-                     <select class="form-control form-select" select2 ng-model="vm.orderData.RECEIVER_WARD" placeholder="Pick a number" 
-                        ng-options="s.WARDS_ID as s.WARDS_NAME for s in vm.viettel_wards">
+                     <select class="form-control form-select" select2 ng-model="orderData.RECEIVER_WARD" placeholder="Pick a number" 
+                        ng-options="s.WARDS_ID as s.WARDS_NAME for s in viettel_wards">
                         <option value=""></option>
                      </select>
                   </div>
@@ -46,7 +46,7 @@
                   <div class="form-group col-md-12">
                      <label for="country">Ghi chú giao hàng</label>
                      <!-- <input type="text" class="form-control" id="customer_name" placeholder="Ghi chú giao hàng"> -->
-                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Các yêu cầu khi giao hàng" ng-model="vm.orderData.ORDER_NOTE"></textarea>
+                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Các yêu cầu khi giao hàng" ng-model="orderData.ORDER_NOTE"></textarea>
                   </div>
                </div>
                <hr>
@@ -56,19 +56,19 @@
                      <div class="row">
                         <div class="form-group col-md-3" style="padding-right: 0">
                         	<label for="country">Dài (cm)</label>
-                           <input type="text" class="form-control" id="customer_name" ng-model="vm.orderData.PRODUCT_LENGTH">
+                           <input type="text" class="form-control" id="customer_name" ng-model="orderData.PRODUCT_LENGTH">
                         </div>
                         <div class="form-group col-md-3" style="padding-right: 0">
                         	<label for="country">Rộng (cm)</label>
-                           <input type="text" class="form-control" id="customer_name" ng-model="vm.orderData.PRODUCT_WIDTH">
+                           <input type="text" class="form-control" id="customer_name" ng-model="orderData.PRODUCT_WIDTH">
                         </div>
                         <div class="form-group col-md-3" style="padding-right: 0">
                         	<label for="country">Cao (cm)</label>
-                           <input type="text" class="form-control" id="customer_name" ng-model="vm.orderData.PRODUCT_HEIGHT">
+                           <input type="text" class="form-control" id="customer_name" ng-model="orderData.PRODUCT_HEIGHT">
                         </div>
                         <div class="form-group col-md-3">
                         	<label for="country">T.L (gram)</label>
-                           <input type="text" class="form-control" id="customer_name" ng-model="vm.orderData.PRODUCT_WEIGHT" ng-blur="vm.calculateShippingFee()">
+                           <input type="text" class="form-control" id="customer_name" ng-model="orderData.PRODUCT_WEIGHT" ng-blur="calculateShippingFee()">
                         </div>
                      </div>
                   </div>
@@ -78,8 +78,8 @@
                <div class="form-row">
                   <div class="form-group col-md-12">
                      <label for="country">Dịch vụ chuyển phát</label>
-                     <select class="form-control form-select" select2 ng-model="vm.orderData.ORDER_SERVICE" data-placeholder="Pick a number" ng-change="vm.calculateShippingFee()"
-                        ng-options="s.SERVICE_CODE as s.SERVICE_NAME for s in vm.services">
+                     <select class="form-control form-select" select2 ng-model="orderData.ORDER_SERVICE" data-placeholder="Pick a number" ng-change="calculateShippingFee()"
+                        ng-options="s.SERVICE_CODE as s.SERVICE_NAME for s in services">
                         <option value=""></option>
                      </select>
                   </div>
@@ -88,14 +88,14 @@
                   <div class="form-group col-md-12">
                      <label for="country">Tiền thu hộ (COD)</label>
                      <input type="text" class="form-control" id="customer_name" placeholder="Nhập số tiền thu hộ"
-                     ng-model="vm.orderData.MONEY_COLLECTION">
+                     ng-model="orderData.MONEY_COLLECTION">
                   </div>
                </div>
                <hr>
                <div class="form-row">
                   <div class="form-group col-md-12">
                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="pick_at_hub" checked="">
+                        <input type="checkbox" class="custom-control-input" id="pick_at_hub" ng-model="pick_at_hub" ng-change="onPickAtHubChange()">
                         <label class="custom-control-label" for="pick_at_hub">Gửi hàng tại bưu cục</label>
                         <small id="passwordHelpBlock" class="form-text text-muted">
 						  Giảm 10% cước phí gửi hàng
@@ -106,7 +106,7 @@
                <div class="form-row">
                   <div class="form-group col-md-12">
                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customer_check" checked="">
+                        <input type="checkbox" class="custom-control-input" id="customer_check" ng-model="customer_check">
                         <label class="custom-control-label" for="customer_check">Cho khách xem hàng</label>
                      </div>
                   </div>
@@ -114,23 +114,30 @@
                <div class="form-row">
                   <div class="form-group col-md-12">
                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customer_pay">
+                        <input type="checkbox" class="custom-control-input" id="customer_pay" ng-model="customer_paid" ng-change="onCustomerPaidChange()">
                         <label class="custom-control-label" for="customer_pay">Khách hàng thanh toán cước</label>
                      </div>
                   </div>
                </div>
                <hr>
                <div style="float:right">
-               	<div class="has-shipping-fee" ng-if="vm.is_calculating_price !== true">
+               	<div class="has-shipping-fee">
+                     
                		<span>Cước phí gửi hàng </span>
-               		<span class="badge badge-success">{{vm.orderData.MONEY_TOTALFEE | number: 0}}</span>
-                     <span> VNĐ</span>
+                     <span class="_52tg img _55ym _55yq _55yo" role="progressbar" aria-valuetext="Loading..." aria-busy="true" aria-valuemin="0" aria-valuemax="100" ng-if="is_calculating_price"></span>
+               		<span class="badge badge-success" ng-if="!is_calculating_price">{{orderData.MONEY_TOTALFEE | number: 0}}</span>
+                     <!-- <span> VNĐ</span> -->
                	</div>
-               	<div class="calculating-shipping-fee" ng-if="vm.is_calculating_price == true">
-               		<span>Đang tính cước phí gửi hàng... {{vm.orderData.RECEIVER_DISTRICT}}</span>
-               	</div>
-               	<div class="missing-shipping-fee">
-               		<!-- <pre>{{vm.orderData | json}}</pre> -->
+               	<!-- <div class="calculating-shipping-fee" ng-if="is_calculating_price == true">
+               		<span>Đang tính cước phí gửi hàng... {{orderData.RECEIVER_DISTRICT}}</span>
+               	</div> -->
+               	<div class="missing-shipping-fee" ng-if="fee_data">
+               		<!-- <pre>{{orderData | json}}</pre> -->
+                     <ul class="fee-data-list">
+                        <li ng-repeat="feeItem in fee_data | reverse" ng-if="feeItem.PRICE > 0">
+                           <span>{{feeItem.SERVICE_NAME}} : <strong>{{feeItem.PRICE | number: 0}}</strong></span>
+                        </li>
+                     </ul>
                	</div>
                </div>
             </div>

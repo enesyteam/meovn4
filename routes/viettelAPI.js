@@ -121,5 +121,39 @@ router.post('/calculateShippingFee', (req, res, next) => {
 	});
 })
 
+router.post('/createOrder', (req, res, next) => {
+	// console.log(req.body.data);
+  	request.post({
+	    url: 'https://api.viettelpost.vn/api/tmdt/InsertOrder',
+	    headers: {
+	        "content-type": "application/json",
+	        "Token": req.body.token
+	    },
+	    json: req.body.data
+	}, function (error, response, body){
+	    if (!error && response.statusCode == 200) {
+	            // console.log(body)
+	            res.send(body);
+	        }
+	});
+})
+
+router.post('/cancelOrder', (req, res, next) => {
+	// console.log(req.body.data);
+  	request.post({
+	    url: 'https://api.viettelpost.vn/api/tmdt/UpdateOrder',
+	    headers: {
+	        "content-type": "application/json",
+	        "Token": req.body.token
+	    },
+	    json: req.body.data
+	}, function (error, response, body){
+	    if (!error && response.statusCode == 200) {
+	            // console.log(body)
+	            res.send(body);
+	        }
+	});
+})
+
 
 module.exports = router;
