@@ -315,8 +315,8 @@ mShip.controller('MainCtrl',
         }
 
         firebase.database().ref().child('shippingItems').on('child_changed', snapshot => {
-            console.log(snapshot.key + ' đã thay đổi');
-            console.log(snapshot.val());
+            // console.log(snapshot.key + ' đã thay đổi');
+            // console.log(snapshot.val());
             angular.forEach($rootScope.availableShippingItems, function(item){
                 if(item.key == snapshot.key){
                     // kiểm tra thay đổi về tạo đơn thành công
@@ -326,6 +326,16 @@ mShip.controller('MainCtrl',
                             $scope.$apply(function(){
                                 item.data.viettel_post_code = snapshot.val().viettel_post_code;
                                 item.data.viettel_post_data = snapshot.val().viettel_post_data
+                            })
+                        }, 100);
+                    }
+                    // kiểm tra thay đổi về station
+                    if(item.data.viettel_post_station_id !== snapshot.val().viettel_post_station_id){
+                        // vừa tạo đơn thành công
+                        $timeout(function() {
+                            $scope.$apply(function(){
+                                item.data.viettel_post_station_id = snapshot.val().viettel_post_station_id;
+                                item.data.viettel_post_station_name = snapshot.val().viettel_post_station_name
                             })
                         }, 100);
                     }
@@ -340,6 +350,7 @@ mShip.controller('MainCtrl',
                     }
                 }
             })
+            
             // kiểm tra và cập nhật active item
             if($scope.activeOrder && $scope.activeOrder.key == snapshot.key){
                 // kiểm tra thay đổi về tạo đơn thành công
@@ -358,6 +369,16 @@ mShip.controller('MainCtrl',
                     $timeout(function() {
                         $scope.$apply(function(){
                             $scope.activeOrder.data.printed = snapshot.val().printed;
+                        })
+                    }, 100);
+                }
+                // kiểm tra thay đổi về station
+                if($scope.activeOrder.data.viettel_post_station_id !== snapshot.val().viettel_post_station_id){
+                    // vừa tạo đơn thành công
+                    $timeout(function() {
+                        $scope.$apply(function(){
+                            $scope.activeOrder.data.viettel_post_station_id = snapshot.val().viettel_post_station_id;
+                            $scope.activeOrder.data.viettel_post_station_name = snapshot.val().viettel_post_station_name
                         })
                     }, 100);
                 }
