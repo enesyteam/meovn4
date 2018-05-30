@@ -1,0 +1,11 @@
+<div class="container">
+	<div class="form-row">
+	  <div class="form-group col-md-12 mt-2 mb-2">
+	     <label for="country">Lựa chọn bưu cục để tạo đơn hàng</label>
+	     <select class="form-control form-select" select2 ng-model="selected_station" data-placeholder="Pick a number" ng-change="onStationChange()"
+	        ng-options="s as s.name for s in viettel_stations">
+	        <option value=""></option>
+	     </select>
+	  </div>
+	</div>
+</div>

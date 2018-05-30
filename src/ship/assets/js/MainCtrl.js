@@ -1,9 +1,9 @@
 mShip.controller('MainCtrl',
   function($rootScope, $scope, $http, $window, $document, $filter, $timeout, MFirebaseService, MUtilitiesService,
   telesales, sweetAlert, $q, fanpages, MVIETTELService, viettel_provinces, viettel_districs, viettel_wards,
-  viettel_services, viettel_extra_services) {
+  viettel_services, viettel_extra_services, viettel_stations) {
 
-    console.log(fanpages)
+    // console.log(fanpages)
 
     // console.log(sweetAlert);
     $scope.fanpages = fanpages;
@@ -378,8 +378,9 @@ mShip.controller('MainCtrl',
                 item.selected = null;
             })
             order.selected = true;
+            $scope.findStation($scope.activeOrder.data.viettel_post_station_id);
 
-            console.log($scope.activeOrder);
+            // console.log($scope.activeOrder.data.viettel_post_station_id);
 
             // order.notes = [];
 
@@ -480,101 +481,136 @@ mShip.controller('MainCtrl',
         }
 
 
-        var login_data = {
-                'USERNAME' : 'phudv.meo@gmail.com',
-                'PASSWORD' : 'nguyenthiphu',
-                'SOURCE' : 0
-            }
+        // var login_data = {
+        //         'USERNAME' : 'phudv.meo@gmail.com',
+        //         'PASSWORD' : 'nguyenthiphu',
+        //         'SOURCE' : 0
+        //     }
 
-        MVIETTELService.get_access_token(login_data).then(function(response){
-            if(response.error == true){
-                MUtilitiesService.AlertError('Lỗi đăng nhập Viettel Post: ' + response.message);
-            }
-            // console.log(response);
-            $scope.$apply(function(){
-                $scope.viettel_login_data = response;
-            })
-            // get all hubs
-            MVIETTELService.get_hubs({'Token': $scope.viettel_login_data.TokenKey}).then(function(response){
-                    $scope.$apply(function(){
-                        // $scope.hubs = response;
-                        $scope.viettel_data.hubs = response;
-                        // console.log(response);
-                    })
-                     // console.log($scope.hubs);
-                })
-        })
-        .catch(function(err){
-            MUtilitiesService.AlertError(err);
-        })
+        // MVIETTELService.get_access_token(login_data).then(function(response){
+        //     if(response.error == true){
+        //         MUtilitiesService.AlertError('Lỗi đăng nhập Viettel Post: ' + response.message);
+        //     }
+        //     // console.log(response);
+        //     $scope.$apply(function(){
+        //         $scope.viettel_login_data = response;
+        //     })
+        //     // get all hubs
+        //     MVIETTELService.get_hubs({'Token': $scope.viettel_login_data.TokenKey}).then(function(response){
+        //             $scope.$apply(function(){
+        //                 // $scope.hubs = response;
+        //                 $scope.viettel_data.hubs = response;
+        //                 // console.log(response);
+        //             })
+        //              // console.log($scope.hubs);
+        //         })
+        // })
+        // .catch(function(err){
+        //     MUtilitiesService.AlertError(err);
+        // })
 
         $scope.createViettelPost = function(){
             sweetAlert.open({
-                title: "Tạo đơn hàng Viettel Post",
-                htmlTemplate: "src/ship/partials/create-ship.html",
-                confirmButtonText: 'Tạo đơn',
-                customClass: 'swal-wide',
+                title: "Lựa chọn bưu cục",
+                htmlTemplate: "src/ship/partials/select-hub.html",
+                confirmButtonText: 'Tiếp tục',
+                // customClass: 'swal-wide',
                 showCancelButton: true,
                 showCloseButton: true,
                 allowOutsideClick: false,
-                preConfirm: 'preConfirm',
+                preConfirm: 'selectHub',
                 showLoaderOnConfirm: true,
-                controller: 'ShipCtrl',
+                controller: 'HubCtrl',
                 controllerAs: 'vm',
                 resolve: {
-                    activeOrder: function() {
-                        return angular.copy($scope.activeOrder);
-                    },
-                    viettel_data: function(){
-                        return $scope.viettel_data;
-                    },
-                    viettel_login_data: function(){
-                        return $scope.viettel_login_data;
+                    viettel_stations: function(MFirebaseService) {
+                        return viettel_stations;
                     }
                 }
             })
-            .then(function(response){
-                // console.log(response);
-                if(response && !response.dismiss && response.value.result && response.value.result.error == false){
-                    if(response.value.result.message == "SUCCESS"){
-                        sweetAlert.success('Tạo đơn hàng thành công.', {timer: 2500});
-                        addComment('[Auto log] Tạo đơn hàng thành công.', $scope.activeOrder.key);
-                        // console.log({
-                        //     order_key: $scope.activeOrder.key,
-                        //     order_success_date: $scope.activeOrder.data.created_time,
-                        //     order_data: response.value.data,
-                        //     order_code: response.value.result.data.ORDER_NUMBER,
-                        //     date_string: MFirebaseService.convertDate(new Date($scope.activeOrder.data.created_time))
-                        // });
-                        // 1 - cập nhật thông tin của shipping item
-                        // 2 - cập nhật báo cáo ngày
-                        // 3 - cập nhật log dành cho shipping item
-                        MFirebaseService.onCreateViettelPostSuccess($scope.activeOrder.key, $scope.activeOrder.data.created_time,
-                            response.value.data, response.value.result.data.ORDER_NUMBER).then(function(response){
-                            MUtilitiesService.AlertSuccessful(response);
-                        })
-                        .catch(function(err){
-                            console.log(err);
-                            MUtilitiesService.AlertError(err);
-                            addComment('[Auto log] Tạo đơn hàng thất bại. Lỗi ' + err, $scope.activeOrder.key);
-                        })
+            .then(function(station_data){
+                console.log(station_data);
+                $scope.station_data = station_data;
+                sweetAlert.open({
+                    title: "Tạo đơn hàng " + station_data.value.station.name,
+                    htmlTemplate: "src/ship/partials/create-ship.html",
+                    confirmButtonText: 'Tạo đơn',
+                    customClass: 'swal-wide',
+                    showCancelButton: true,
+                    showCloseButton: true,
+                    allowOutsideClick: false,
+                    preConfirm: 'preConfirm',
+                    showLoaderOnConfirm: true,
+                    controller: 'ShipCtrl',
+                    controllerAs: 'vm',
+                    resolve: {
+                        activeOrder: function() {
+                            return angular.copy($scope.activeOrder);
+                        },
+                        viettel_data: function(){
+                            return {
+                                provinces: viettel_provinces,
+                                districs: viettel_districs,
+                                wards: viettel_wards,
+                                services: viettel_services,
+                                extraServices: viettel_extra_services,
+                                fanpages: fanpages,
+                                hubs: station_data.value.hubs,
+                            };
+                        },
+                        viettel_login_data: function(){
+                            return station_data.value.login_data;
+                        }
                     }
-                    // console.log('Tạo đơn thành công, cập nhật Order number = ' + response.value.data.ORDER_NUMBER);
-                    // .then(function(){
-                    //     MUtilitiesService.AlertSuccessful('Tạo đơn thành công!')
-                    // });
+                })
+                .then(function(response){
+                    // console.log(response);
+                    if(response && !response.dismiss && response.value.result && response.value.result.error == false){
+                        if(response.value.result.message == "SUCCESS"){
+                            sweetAlert.success('Tạo đơn hàng thành công.', {timer: 2500});
+                            addComment('[Auto log] Tạo đơn hàng thành công.', $scope.activeOrder.key);
+                            // console.log({
+                            //     order_key: $scope.activeOrder.key,
+                            //     order_success_date: $scope.activeOrder.data.created_time,
+                            //     order_data: response.value.data,
+                            //     order_code: response.value.result.data.ORDER_NUMBER,
+                            //     date_string: MFirebaseService.convertDate(new Date($scope.activeOrder.data.created_time))
+                            // });
+                            // 1 - cập nhật thông tin của shipping item
+                            // 2 - cập nhật báo cáo ngày
+                            // 3 - cập nhật log dành cho shipping item
+                            MFirebaseService.onCreateViettelPostSuccess($scope.activeOrder.key,
+                                $scope.activeOrder.data.created_time,
+                                response.value.data, response.value.result.data.ORDER_NUMBER,
+                                station_data.value.station).then(function(response){
+                                MUtilitiesService.AlertSuccessful(response);
+                            })
+                            .catch(function(err){
+                                console.log(err);
+                                MUtilitiesService.AlertError(err);
+                                addComment('[Auto log] Tạo đơn hàng thất bại. Lỗi ' + err, $scope.activeOrder.key);
+                            })
+                        }
+                        // console.log('Tạo đơn thành công, cập nhật Order number = ' + response.value.data.ORDER_NUMBER);
+                        // .then(function(){
+                        //     MUtilitiesService.AlertSuccessful('Tạo đơn thành công!')
+                        // });
 
-                    console.log(response);
-                }
+                        console.log(response);
+                    }
+                })
+                .catch(function(err){
+                    console.log(err);
+                    sweetAlert.alert(err, {title: 'Lỗi!'});
+                    addComment('[Auto log] Tạo đơn hàng thất bại. Lỗi ' + err, $scope.activeOrder.key);
+                    // .then(function(){
+                    //     MUtilitiesService.AlertError('Tạo đơn không thành công!')
+                    // });
+                });
             })
             .catch(function(err){
                 console.log(err);
-                sweetAlert.alert(err, {title: 'Lỗi!'});
-                addComment('[Auto log] Tạo đơn hàng thất bại. Lỗi ' + err, $scope.activeOrder.key);
-                // .then(function(){
-                //     MUtilitiesService.AlertError('Tạo đơn không thành công!')
-                // });
-            });
+            })
         }
 
         $scope.createGHN = function(){
@@ -584,52 +620,106 @@ mShip.controller('MainCtrl',
             sweetAlert.alert('Hệ thống chưa hỗ trợ tích hợp nhà vận chuyển này!')
         }
 
+        $scope.findStation = function(station_id){
+            if(station_id){
+                angular.forEach(viettel_stations, function(station){
+                    if(station_id == station.id){
+                        $scope.currentSattion = station;
+                        return;
+                    }
+                })
+            }
+            else{
+                return getDefaultStation();
+            }
+        }
+
+        function getDefaultStation(){
+            angular.forEach(viettel_stations, function(station){
+                if(station.id == 1){
+                    $scope.currentSattion = station;
+                    return;
+                }
+            })
+        }
+
         $scope.cancelOrder = function(){
-            // console.log($scope.activeOrder.data.viettel_post_code);
-            sweetAlert.confirm('Bạn có muốn hủy đơn hàng không?', {title: 'Cảnh báo', 
-                confirmButtonText: 'Hủy đơn', cancelButtonText: 'Bỏ qua', showCancelButton: true}).then(function(response){
-                if(response && response.value == true){
-                    MVIETTELService.cancel_order({
-                        data: {
-                            "TYPE": 4,
-                            "ORDER_NUMBER": $scope.activeOrder.data.viettel_post_code,
-                            "NOTE": "Hủy đơn hàng",
-                            "DATE": $filter('date')(Date.now(), "dd/MM/yyyy H:m:s"),
-                        },
-                        token: $scope.viettel_login_data.TokenKey
-                    })
-                    .then(function(response){
-                        console.log(response);
-                        if(response.error == false){
-                            sweetAlert.success(response.message);
-                            // 1 - cập nhật thông tin của shipping item
-                            // 2 - cập nhật báo cáo ngày
-                            // 3 - cập nhật log dành cho shipping item
-                            MFirebaseService.onCancelViettelPostSuccess($scope.activeOrder.key, 
-                                $scope.activeOrder.data.created_time,
-                                $scope.activeOrder.data.viettel_post_data, $scope.activeOrder.data.viettel_post_code).then(function(response){
-                                MUtilitiesService.AlertSuccessful(response);
-                                addComment('[Auto log] Hủy đơn hàng thành công.', $scope.activeOrder.key);
+            // get station of active order
+            // các order cũ đã tạo với station == null => Viettel Post Hạ Đình (ID = 1)
+            var station_id = 1;
+            if($scope.activeOrder.data.viettel_post_station_id){
+                station_id = $scope.activeOrder.data.viettel_post_station_id;
+            }
+            var current_station = null;
+            angular.forEach(viettel_stations, function(station){
+                if(station_id == station.id){
+                    current_station = station;
+                }
+            })
+
+            var login_data = {
+                'USERNAME' : current_station.email,
+                'PASSWORD' : current_station.password,
+                'SOURCE' : 0
+            }
+
+            MVIETTELService.get_access_token(login_data).then(function(response){
+                if(response.error == true){
+                    MUtilitiesService.AlertError('Lỗi đăng nhập Viettel Post: ' + response.message);
+                }
+                // console.log(response);
+                // get all hubs
+                MVIETTELService.get_hubs({'Token': response.TokenKey}).then(function(r){
+                        // console.log($scope.activeOrder.data.viettel_post_code);
+                    sweetAlert.confirm('Bạn có muốn hủy đơn hàng không?', {title: 'Cảnh báo', 
+                        confirmButtonText: 'Hủy đơn', cancelButtonText: 'Bỏ qua', showCancelButton: true}).then(function(response){
+                        if(response && response.value == true){
+                            MVIETTELService.cancel_order({
+                                data: {
+                                    "TYPE": 4,
+                                    "ORDER_NUMBER": $scope.activeOrder.data.viettel_post_code,
+                                    "NOTE": "Hủy đơn hàng",
+                                    "DATE": $filter('date')(Date.now(), "dd/MM/yyyy H:m:s"),
+                                },
+                                token: $scope.viettel_login_data.TokenKey
+                            })
+                            .then(function(response){
+                                console.log(response);
+                                if(response.error == false){
+                                    sweetAlert.success(response.message);
+                                    // 1 - cập nhật thông tin của shipping item
+                                    // 2 - cập nhật báo cáo ngày
+                                    // 3 - cập nhật log dành cho shipping item
+                                    MFirebaseService.onCancelViettelPostSuccess($scope.activeOrder.key, 
+                                        $scope.activeOrder.data.created_time,
+                                        $scope.activeOrder.data.viettel_post_data, $scope.activeOrder.data.viettel_post_code).then(function(response){
+                                        MUtilitiesService.AlertSuccessful(response);
+                                        addComment('[Auto log] Hủy đơn hàng thành công.', $scope.activeOrder.key);
+                                    })
+                                    .catch(function(err){
+                                        console.log(err);
+                                        MUtilitiesService.AlertError(err);
+                                    })
+                                }
+                                else{
+                                    addComment('[Auto log] Hủy đơn hàng thất bại. Lý do: ' + response.message, $scope.activeOrder.key);
+                                    sweetAlert.alert('Không thể hủy đơn hàng. Lý do: ' + response.message, {title: 'Lỗi!'})
+                                }
                             })
                             .catch(function(err){
-                                console.log(err);
-                                MUtilitiesService.AlertError(err);
+                                console.log(response);
+                                addComment('[Auto log] Lỗi xảy ra khi hủy đơn hàng. ' + err.message, $scope.activeOrder.key);
+                                sweetAlert.alert(err.message)
                             })
-                        }
-                        else{
-                            addComment('[Auto log] Hủy đơn hàng thất bại. Lý do: ' + response.message, $scope.activeOrder.key);
-                            sweetAlert.alert('Không thể hủy đơn hàng. Lý do: ' + response.message, {title: 'Lỗi!'})
                         }
                     })
                     .catch(function(err){
-                        console.log(response);
-                        addComment('[Auto log] Lỗi xảy ra khi hủy đơn hàng. ' + err.message, $scope.activeOrder.key);
-                        sweetAlert.alert(err.message)
+                        console.log(err);
                     })
-                }
+                })
             })
             .catch(function(err){
-                console.log(err);
+                MUtilitiesService.AlertError(err);
             })
         }
 

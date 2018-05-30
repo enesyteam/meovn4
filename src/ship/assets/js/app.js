@@ -46,6 +46,12 @@ var mShip = angular.module('mShip', [
                         return response;
                       });
                     },
+                  viettel_stations: function(MFirebaseService) {
+                        return MFirebaseService.get_viettel_stations().then(function(response){
+                            // console.log(response);
+                            return response;
+                        })
+                    },
                   viettel_provinces: function(MVIETTELService){
                     return MVIETTELService.get_viettel_provinces().then(function(response){
                         return response;

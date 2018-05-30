@@ -189,7 +189,8 @@
                                 name: snapshot.val().name,
                                 access_token: snapshot.val().access_token,
                                 HubID: snapshot.val().HubID,
-                                GROUPADDRESS_ID: snapshot.val().GROUPADDRESS_ID
+                                GROUPADDRESS_ID: snapshot.val().GROUPADDRESS_ID,
+                                VIETTEL_STATION_ID: snapshot.val().VIETTEL_STATION_ID,
                             });
                         });
                         resolve(result);
@@ -2309,7 +2310,7 @@
                 }
 
                 // viettel post
-                var onCreateViettelPostSuccess = function (order_key, order_success_date, order_data, order_code) {
+                var onCreateViettelPostSuccess = function (order_key, order_success_date, order_data, order_code, station) {
                     return new Promise(function (resolve, reject) {
 
                         var _d = new Date(order_success_date);
@@ -2320,6 +2321,8 @@
                             
                         updates['/shippingItems/' + order_key + '/viettel_post_data'] = order_data;
                         updates['/shippingItems/' + order_key + '/viettel_post_code'] = order_code;
+                        updates['/shippingItems/' + order_key + '/viettel_post_station_id'] = station.id;
+                        updates['/shippingItems/' + order_key + '/viettel_post_station_name'] = station.name;
 
                         // update firebase database
                         // order chốt ngày nào sẽ cập nhật vào báo cáo của ngày đó
@@ -2524,6 +2527,21 @@
                     })
                 }
 
+                var get_viettel_stations = function(){
+                    return new Promise(function (resolve, reject) {
+                        var result = [];
+                        firebase.database().ref().child('settings/viettel_hubs').on('child_added', snapshot => {
+                            result.push({
+                                id: snapshot.val().id,
+                                name: snapshot.val().name,
+                                email: snapshot.val().email,
+                                password: snapshot.val().password
+                            });
+                        });
+                        resolve(result);
+                    })
+                }
+
                 return {
                     getCanReleaseStatusIds: getCanReleaseStatusIds,
                     getOrders: getOrders,
@@ -2605,7 +2623,8 @@
                     onCreateViettelPostSuccess: onCreateViettelPostSuccess,
                     onCancelViettelPostSuccess: onCancelViettelPostSuccess,
                     maskShippingItemsPrinted: maskShippingItemsPrinted,
-                    toggleMaskPrintedShippingItem: toggleMaskPrintedShippingItem
+                    toggleMaskPrintedShippingItem: toggleMaskPrintedShippingItem,
+                    get_viettel_stations : get_viettel_stations 
                 }
 
             }

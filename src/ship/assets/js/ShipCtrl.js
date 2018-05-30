@@ -20,9 +20,6 @@ mShip.controller('ShipCtrl', ['$q',  '$timeout', '$scope', '$filter', 'activeOrd
     'viettel_data', 'MFirebaseService', 'utils', 'MVIETTELService', 'MUtilitiesService',
 	function ($q, $timeout, $scope, $filter, activeOrder, viettel_login_data, viettel_data, 
         MFirebaseService, utils,  MVIETTELService, MUtilitiesService) {
-
-        // console.log($scope);
-
     // console.log(activeOrder);
 
     var vm = this;
@@ -42,7 +39,7 @@ mShip.controller('ShipCtrl', ['$q',  '$timeout', '$scope', '$filter', 'activeOrd
         $scope.activeOrder.page = item;
         angular.forEach(viettel_data.hubs, (hub) => {
           // Todo...
-          if(hub.GROUPADDRESS_ID == item.GROUPADDRESS_ID){
+          if(hub.GROUPADDRESS_ID == item.GROUPADDRESS_ID || hub.GROUPADDRESS_ID == item.VIETTEL_STATION_ID){
             // console.log(hub);
             $scope.current_hub = hub;
           }
@@ -339,6 +336,4 @@ mShip.controller('ShipCtrl', ['$q',  '$timeout', '$scope', '$filter', 'activeOrd
             })
         })
     };
-
-
 }]);
