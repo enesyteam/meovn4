@@ -193,6 +193,8 @@ mNavigation.controller('ReportCtrl',
 
                         product3: product3 ? product3.name + ' (' + order.data.customerData.products[2].note + ')' : '',
                         product3_count: product3 ? order.data.customerData.products[2].count : null,
+                        page_id: order.data.orderData.page_id,
+                        page: $filter('filter')(fanpages, {id: order.data.orderData.page_id})[0].name
                     });
                 }
             })

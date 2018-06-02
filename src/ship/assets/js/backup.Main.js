@@ -145,7 +145,7 @@ mShip.controller('MainCtrl',
     $rootScope.canLoadMore = true;
     $rootScope.isLoaddingOrder = true;
 
-    function getShippingItems() {
+  	function getShippingItems() {
             $rootScope.availableShippingItems = [];
             MFirebaseService.getShippingItems(pageSize).then(function(response) {
                 response.reverse().map(function(order) {
@@ -164,6 +164,7 @@ mShip.controller('MainCtrl',
                     //         })
                     //     }, 100);
                     // })
+                    listenShippingItemChange(order);
                     
                 })
                 $scope.$apply(function() {
@@ -236,9 +237,8 @@ mShip.controller('MainCtrl',
 
     let newOrdersRef = firebase.database().ref().child('shippingItems').orderByChild('created_time').limitToLast(1);
         newOrdersRef.on('child_added', snapshot => {
-            var exist = findAvailbleItemByKey(snapshot.key) != null;
             // console.log(snapshot.key);
-            if (!exist) {
+            if (snapshot.key !== $rootScope.newlyOrderKey) {
                 var checked_by = $rootScope.filterById(telesales, snapshot.val().data.orderData.seller_will_call_id).last_name;
                 MUtilitiesService.AlertSuccessful(checked_by + ' vừa chốt 1 đơn hàng.');
                 var order = {
@@ -259,7 +259,7 @@ mShip.controller('MainCtrl',
                 //         })
                 //     }, 100);
                 // })
-                // listenShippingItemChange(order);
+                listenShippingItemChange(order);
             }
         });
 
@@ -280,7 +280,7 @@ mShip.controller('MainCtrl',
                     //         })
                     //     }, 100);
                     // })
-                    // listenShippingItemChange(order);
+                    listenShippingItemChange(order);
                 })
                 $scope.$apply(function() {
                     $rootScope.lastOrderKey = response[response.length - 1].key;
@@ -376,76 +376,76 @@ mShip.controller('MainCtrl',
 
         
 
-        firebase.database().ref().child('shippingItems').on('child_changed', snapshot => {
-            // console.log(snapshot.key + ' đã thay đổi');
-            // console.log(snapshot.val());
-            angular.forEach($rootScope.availableShippingItems, function(item){
-                if(item.key == snapshot.key){
-                    // kiểm tra thay đổi về tạo đơn thành công
-                    if(item.data.viettel_post_code !== snapshot.val().viettel_post_code){
-                        // vừa tạo đơn thành công
-                        $timeout(function() {
-                            $scope.$apply(function(){
-                                item.data.viettel_post_code = snapshot.val().viettel_post_code;
-                                // item.data.viettel_post_data = snapshot.val().viettel_post_data
-                            })
-                        }, 100);
-                    }
-                    // kiểm tra thay đổi về station
-                    if(item.data.viettel_post_station_id !== snapshot.val().viettel_post_station_id){
-                        // vừa tạo đơn thành công
-                        $timeout(function() {
-                            $scope.$apply(function(){
-                                item.data.viettel_post_station_id = snapshot.val().viettel_post_station_id;
-                                // item.data.viettel_post_station_name = snapshot.val().viettel_post_station_name
-                            })
-                        }, 100);
-                    }
-                    // Kiểm tra thay đổi về in ấn
-                    if(item.data.printed !== snapshot.val().printed){
-                        // vừa in phiếu xuất kho
-                        $timeout(function() {
-                            $scope.$apply(function(){
-                                item.data.printed = snapshot.val().printed;
-                            })
-                        }, 100);
-                    }
-                }
-            })
+        // firebase.database().ref().child('shippingItems').on('child_changed', snapshot => {
+        //     // console.log(snapshot.key + ' đã thay đổi');
+        //     // console.log(snapshot.val());
+        //     angular.forEach($rootScope.availableShippingItems, function(item){
+        //         if(item.key == snapshot.key){
+        //             // kiểm tra thay đổi về tạo đơn thành công
+        //             if(item.data.viettel_post_code !== snapshot.val().viettel_post_code){
+        //                 // vừa tạo đơn thành công
+        //                 $timeout(function() {
+        //                     $scope.$apply(function(){
+        //                         item.data.viettel_post_code = snapshot.val().viettel_post_code;
+        //                         item.data.viettel_post_data = snapshot.val().viettel_post_data
+        //                     })
+        //                 }, 100);
+        //             }
+        //             // kiểm tra thay đổi về station
+        //             if(item.data.viettel_post_station_id !== snapshot.val().viettel_post_station_id){
+        //                 // vừa tạo đơn thành công
+        //                 $timeout(function() {
+        //                     $scope.$apply(function(){
+        //                         item.data.viettel_post_station_id = snapshot.val().viettel_post_station_id;
+        //                         item.data.viettel_post_station_name = snapshot.val().viettel_post_station_name
+        //                     })
+        //                 }, 100);
+        //             }
+        //             // Kiểm tra thay đổi về in ấn
+        //             if(item.data.printed !== snapshot.val().printed){
+        //                 // vừa in phiếu xuất kho
+        //                 $timeout(function() {
+        //                     $scope.$apply(function(){
+        //                         item.data.printed = snapshot.val().printed;
+        //                     })
+        //                 }, 100);
+        //             }
+        //         }
+        //     })
             
-            // kiểm tra và cập nhật active item
-            if($scope.activeOrder && $scope.activeOrder.key == snapshot.key){
-                // kiểm tra thay đổi về tạo đơn thành công
-                if($scope.activeOrder.data.viettel_post_code !== snapshot.val().viettel_post_code){
-                    // vừa tạo đơn thành công
-                    $timeout(function() {
-                        $scope.$apply(function(){
-                            $scope.activeOrder.data.viettel_post_code = snapshot.val().viettel_post_code;
-                            $scope.activeOrder.data.viettel_post_data = snapshot.val().viettel_post_data
-                        })
-                    }, 100);
-                }
-                // Kiểm tra thay đổi về in ấn
-                if($scope.activeOrder.data.printed !== snapshot.val().printed){
-                    // vừa in phiếu xuất kho
-                    $timeout(function() {
-                        $scope.$apply(function(){
-                            $scope.activeOrder.data.printed = snapshot.val().printed;
-                        })
-                    }, 100);
-                }
-                // kiểm tra thay đổi về station
-                if($scope.activeOrder.data.viettel_post_station_id !== snapshot.val().viettel_post_station_id){
-                    // vừa tạo đơn thành công
-                    $timeout(function() {
-                        $scope.$apply(function(){
-                            $scope.activeOrder.data.viettel_post_station_id = snapshot.val().viettel_post_station_id;
-                            $scope.activeOrder.data.viettel_post_station_name = snapshot.val().viettel_post_station_name
-                        })
-                    }, 100);
-                }
-            }
-        });
+        //     // kiểm tra và cập nhật active item
+        //     if($scope.activeOrder && $scope.activeOrder.key == snapshot.key){
+        //         // kiểm tra thay đổi về tạo đơn thành công
+        //         if($scope.activeOrder.data.viettel_post_code !== snapshot.val().viettel_post_code){
+        //             // vừa tạo đơn thành công
+        //             $timeout(function() {
+        //                 $scope.$apply(function(){
+        //                     $scope.activeOrder.data.viettel_post_code = snapshot.val().viettel_post_code;
+        //                     $scope.activeOrder.data.viettel_post_data = snapshot.val().viettel_post_data
+        //                 })
+        //             }, 100);
+        //         }
+        //         // Kiểm tra thay đổi về in ấn
+        //         if($scope.activeOrder.data.printed !== snapshot.val().printed){
+        //             // vừa in phiếu xuất kho
+        //             $timeout(function() {
+        //                 $scope.$apply(function(){
+        //                     $scope.activeOrder.data.printed = snapshot.val().printed;
+        //                 })
+        //             }, 100);
+        //         }
+        //         // kiểm tra thay đổi về station
+        //         if($scope.activeOrder.data.viettel_post_station_id !== snapshot.val().viettel_post_station_id){
+        //             // vừa tạo đơn thành công
+        //             $timeout(function() {
+        //                 $scope.$apply(function(){
+        //                     $scope.activeOrder.data.viettel_post_station_id = snapshot.val().viettel_post_station_id;
+        //                     $scope.activeOrder.data.viettel_post_station_name = snapshot.val().viettel_post_station_name
+        //                 })
+        //             }, 100);
+        //         }
+        //     }
+        // });
 
         $rootScope.toTitleCase = function(str) {
             return str.replace(/\w\S*/g, function(txt){

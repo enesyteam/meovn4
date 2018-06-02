@@ -2512,18 +2512,13 @@
                     })
                 }
 
-                var toggleMaskPrintedShippingItem = function(item_key, is_printed){
+                var toggleMaskPrintedShippingItem = function(item_key){
                     return new Promise(function (resolve, reject) {
-                        var updates = {};
-                        updates['/shippingItems/' + item_key + '/printed'] = !is_printed;
-
-                        // update firebase database
-                        firebase.database().ref().update(updates).then(function (response) {
-                                resolve('Đã cập nhật dữ liệu Order thành công');
-                            })
-                            .catch(function (err) {
-                                reject(err)
-                            })
+                        firebase.database().ref().child('/shippingItems/' + item_key + '/printed')
+                        .transaction(function (oldValue) {
+                            return !oldValue;
+                        });
+                        resolve('Success toggled Printed/Unprinted');
                     })
                 }
 

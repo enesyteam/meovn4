@@ -57,7 +57,7 @@
                       </span>
             				</div>
             				<div class="created-time">
-                      <button class="btn btn-sm btn-link toggle-printed" ng-click="togglePrintedItem(order.key, order.data.printed); $event.stopPropagation();" title="Đánh dấu In/Chưa in">
+                      <button class="btn btn-sm btn-link toggle-printed" ng-click="togglePrintedItem(order.key); $event.stopPropagation();" title="Đánh dấu In/Chưa in">
                         <span class="{{order.data.printed == true ? 'printed' : ''}} print-icon">
                         <svg viewBox="0 0 24 24" id="gridicons-print" class="actions-icon" fill="currentColor" width="12" height="12"><g><path d="M9 16h6v2H9v-2zm13 1h-3v3c0 1.105-.895 2-2 2H7c-1.105 0-2-.895-2-2v-3H2V9c0-1.105.895-2 2-2h1V5c0-1.105.895-2 2-2h10c1.105 0 2 .895 2 2v2h1c1.105 0 2 .895 2 2v8zM7 7h10V5H7v2zm10 7H7v6h10v-6zm3-3.5c0-.828-.672-1.5-1.5-1.5s-1.5.672-1.5 1.5.672 1.5 1.5 1.5 1.5-.672 1.5-1.5z"></path></g></svg>
                       </span>
@@ -246,7 +246,7 @@
               </table>
               <!-- {{activeOrder | json}} -->
             </div>
-            <div ng-if="!activeOrder.data.viettel_post_data" class="mb-5 pb-3">
+            <div ng-if="!activeOrder.data.viettel_post_code" class="mb-5 pb-3">
               <div class="empty-content">
                 <img src="/assets/images/illustration-empty-results.svg" width="400" class="empty-content__illustration">
                 <!-- <h2 class="empty-content__title">Đơn hàng chưa được tạo</h2> -->
