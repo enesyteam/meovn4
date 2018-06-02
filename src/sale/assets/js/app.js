@@ -30,7 +30,7 @@ var mSale = angular.module('mSale', [
             .state('home', {
                 url: '/',
                 controller: 'MainCtrl',
-                templateUrl: "/src/ship/home.html",
+                templateUrl: "/src/sale/home.html",
                 resolve: {
                     telesales: function(MFirebaseService){
                         return MFirebaseService.getAllSellers().then(function(response){

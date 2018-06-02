@@ -43,6 +43,8 @@ mSale.controller('MainCtrl',
     }
     getAllAvailableProducts();
 
+
+
     $scope.findProduct = function(id){
         return $filter("filter")($scope.aProducts, {id: id})[0];
     }
@@ -53,6 +55,49 @@ mSale.controller('MainCtrl',
     $rootScope.lastOrderKey = null;
     $rootScope.canLoadMore = true;
     $rootScope.isLoaddingOrder = true;
+
+    var fake_user = {
+        id: 102,
+        last_name: 'Lợi'
+    }
+
+    $rootScope.myOrders = [];
+
+    MFirebaseService.getOrdersByUser(pageSize, fake_user)
+    .then(function(response){
+        response.reverse().map(function(order) {
+            // console.log(order);
+            $scope.$apply(function() {
+                $rootScope.myOrders.push(order);
+            })
+        })
+
+        $timeout(function() {
+            $scope.$apply(function(){
+                $scope.latestOrderKey = $rootScope.myOrders[$rootScope.myOrders.length - 1].key;
+                console.log($rootScope.myOrders[0]);
+            })
+        }, 100);
+    })
+
+    $rootScope.getMyNextOrders = function(){
+        MFirebaseService.getNextOrdersByUser(pageSize, fake_user, $scope.latestOrderKey)
+        .then(function(response){
+            response.reverse().slice(1).map(function(order) {
+                if(order.data.seller_will_call_id == fake_user.id){
+                    $scope.$apply(function() {
+                        $rootScope.myOrders.push(order);
+                    })
+                }
+            })
+            $scope.$apply(function() {
+                $scope.latestOrderKey = response[response.length - 1].key;
+                $rootScope.isLoaddingOrder = false;
+            })
+        })
+    }
+
+
 
   	function getShippingItems() {
             $rootScope.availableShippingItems = [];
@@ -83,34 +128,34 @@ mSale.controller('MainCtrl',
                 })
             })
         }
-        getShippingItems();
+        // getShippingItems();
         // console.log('sd');
 
-    let newOrdersRef = firebase.database().ref().child('shippingItems').orderByChild('created_time').limitToLast(1);
-        newOrdersRef.on('child_added', snapshot => {
-            console.log(snapshot.key);
-            if (snapshot.key !== $rootScope.newlyOrderKey) {
-                var checked_by = $rootScope.filterById(telesales, snapshot.val().data.orderData.seller_will_call_id).last_name;
-                MUtilitiesService.AlertSuccessful(checked_by + ' vừa chốt 1 đơn hàng.');
-                $scope.$apply(function() {
-                    $rootScope.newlyOrderKey = snapshot.key;
-                    $rootScope.availableShippingItems.unshift({
-                                key : snapshot.key,
-                                data : snapshot.val(),
-                                notes: snapshot.val().notes,
-                            })
-                });
-                // // listen for this order changing
-                // firebase.database().ref().child('shippingItems/' + snapshot.key + '/notes')
-                // .on('child_added', snapshot => {
-                //     $timeout(function() {
-                //         $scope.$apply(function() {
-                //             order.notes.push(snapshot.val());
-                //         })
-                //     }, 100);
-                // })
-            }
-        });
+    // let newOrdersRef = firebase.database().ref().child('shippingItems').orderByChild('created_time').limitToLast(1);
+    //     newOrdersRef.on('child_added', snapshot => {
+    //         console.log(snapshot.key);
+    //         if (snapshot.key !== $rootScope.newlyOrderKey) {
+    //             var checked_by = $rootScope.filterById(telesales, snapshot.val().data.orderData.seller_will_call_id).last_name;
+    //             MUtilitiesService.AlertSuccessful(checked_by + ' vừa chốt 1 đơn hàng.');
+    //             $scope.$apply(function() {
+    //                 $rootScope.newlyOrderKey = snapshot.key;
+    //                 $rootScope.availableShippingItems.unshift({
+    //                             key : snapshot.key,
+    //                             data : snapshot.val(),
+    //                             notes: snapshot.val().notes,
+    //                         })
+    //             });
+    //             // // listen for this order changing
+    //             // firebase.database().ref().child('shippingItems/' + snapshot.key + '/notes')
+    //             // .on('child_added', snapshot => {
+    //             //     $timeout(function() {
+    //             //         $scope.$apply(function() {
+    //             //             order.notes.push(snapshot.val());
+    //             //         })
+    //             //     }, 100);
+    //             // })
+    //         }
+    //     });
 
         // get next items
         $rootScope.getNextShippingItems = function() {
@@ -233,48 +278,10 @@ mSale.controller('MainCtrl',
             // console.log('Order key: ' + order.key);
             $scope.activeOrder = null;
             $scope.activeOrder = order;
-            angular.forEach($rootScope.availableShippingItems, function(item){
+            angular.forEach($rootScope.myOrders, function(item){
                 item.selected = null;
             })
             order.selected = true;
-
-            // order.notes = [];
-
-            // listen for changing
-            // firebase.database().ref().child('shippingItems/' + order.key + '/notes').limitToLast(1)
-            // .on('child_added', snapshot => {
-            //     console.log(snapshot.val());
-            //     $timeout(function() {
-            //         $scope.$apply(function() {
-            //             // order.notes.push(snapshot.val());
-            //             angular.extend(order.notes, {
-            //                 'note' : snapshot.val()
-            //             })
-            //         })
-            //     }, 100);
-            //     console.log(order.notes);
-            //     // console.log(snapshot.val());
-            //     // console.log(snapshot.ref.parent.parent.key);
-            //     // console.log($scope.activeOrder.key);
-            //     // if (snapshot.ref.parent.parent.key !== $scope.activeOrder.key) {
-            //     //     MUtilitiesService.AlertError('đây rồi');
-            //     //     // var checked_by = $rootScope.filterById(telesales, snapshot.val().data.orderData.seller_will_call_id).last_name;
-            //     //     // MUtilitiesService.AlertSuccessful(checked_by + ' vừa chốt 1 đơn hàng.');
-            //     //     // $scope.$apply(function() {
-            //     //     //     $rootScope.newlyOrderKey = snapshot.key;
-            //     //     //     $rootScope.availableShippingItems.unshift({
-            //     //     //                 key : snapshot.key,
-            //     //     //                 data : snapshot.val()
-            //     //     //             })
-            //     //     // });
-
-            //         $timeout(function() {
-            //             $scope.$apply(function() {
-            //                 $scope.activeOrder.notes.push(snapshot.val());
-            //             })
-            //         }, 100);
-            //     // }
-            // });
         }
 
         $scope.focusSearch = function(){

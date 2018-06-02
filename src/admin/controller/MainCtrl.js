@@ -229,16 +229,16 @@ m_admin.controller('MainCtrl',
         });
 
 
-        let newOrdersRef = firebase.database().ref().child('shippingItems').orderByChild('created_time').limitToLast(1);
-        newOrdersRef.on('child_added', snapshot => {
-            // console.log(snapshot.key);
-            // if (snapshot.key !== $rootScope.newlyOrderKey) {
-            //     var checked_by = $rootScope.filterById(telesales, snapshot.val().data.orderData.seller_will_call_id).last_name;
-            //     MUtilitiesService.AlertSuccessful(checked_by + ' vừa chốt 1 đơn hàng.');
-            // }
-            var checked_by = $scope.filterById(telesales, snapshot.val().data.orderData.seller_will_call_id).last_name;
-                MUtilitiesService.AlertSuccessful(checked_by + ' vừa chốt 1 đơn hàng.');
-        });
+        // let newOrdersRef = firebase.database().ref().child('shippingItems').orderByChild('created_time').limitToLast(1);
+        // newOrdersRef.on('child_added', snapshot => {
+        //     // console.log(snapshot.key);
+        //     // if (snapshot.key !== $rootScope.newlyOrderKey) {
+        //     //     var checked_by = $rootScope.filterById(telesales, snapshot.val().data.orderData.seller_will_call_id).last_name;
+        //     //     MUtilitiesService.AlertSuccessful(checked_by + ' vừa chốt 1 đơn hàng.');
+        //     // }
+        //     var checked_by = $scope.filterById(telesales, snapshot.val().data.orderData.seller_will_call_id).last_name;
+        //         MUtilitiesService.AlertSuccessful(checked_by + ' vừa chốt 1 đơn hàng.');
+        // });
 
         // listen for user report add
         firebase.database().ref().child('report/' + todayDateString + '/userReport')

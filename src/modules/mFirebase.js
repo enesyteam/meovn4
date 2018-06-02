@@ -16,8 +16,6 @@
                     return firebase.database().ref().child('shippingItems').orderByChild('id').equalTo(id).once('value', function (snapshot) {
                         // console.log(snapshot.val());
                         // return snapshot.val()
-
-
                     })
                 }
 
@@ -1659,6 +1657,45 @@
                     })
                 }
 
+                /*
+                * get orders by User
+                */
+                var getOrdersByUser = function (pageSize, user) {
+                    return new Promise(function (resolve, reject) {
+                        var result = [];
+                        firebase.database().ref().child('newOrders')
+                            .orderByChild('seller_will_call_id')
+                            .equalTo(user.id)
+                            .limitToLast(pageSize)
+                            .on('child_added', snapshot => {
+                                result.push({
+                                        key: snapshot.key,
+                                        data: snapshot.val()
+                                    });
+                                resolve(result);
+                            })
+                    })
+                }
+
+                var getNextOrdersByUser = function (pageSize, user, fromKey) {
+                    return new Promise(function (resolve, reject) {
+                        var result = [];
+                        firebase.database().ref().child('newOrders')
+                            .orderByKey()
+                            .endAt(fromKey)
+                            .limitToLast(pageSize)
+                            .on('child_added', snapshot => {
+                                result.push({
+                                        key: snapshot.key,
+                                        data: snapshot.val()
+                                    });
+                                resolve(result);
+                            })
+                    })
+                }
+
+
+
                 var getOrdersByDate = function (date) {
                     return new Promise(function (resolve, reject) {
 
@@ -2619,7 +2656,11 @@
                     onCancelViettelPostSuccess: onCancelViettelPostSuccess,
                     maskShippingItemsPrinted: maskShippingItemsPrinted,
                     toggleMaskPrintedShippingItem: toggleMaskPrintedShippingItem,
-                    get_viettel_stations : get_viettel_stations 
+                    get_viettel_stations : get_viettel_stations,
+
+                    // telesale
+                    getOrdersByUser: getOrdersByUser,
+                    getNextOrdersByUser: getNextOrdersByUser
                 }
 
             }
