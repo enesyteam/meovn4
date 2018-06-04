@@ -241,7 +241,7 @@ td.hljs-ln-code {
     padding-left: 1rem
 }
 
-.btn {
+/*.btn {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden
 }
@@ -598,7 +598,7 @@ td.hljs-ln-code {
 .btn-account[aria-expanded=true]>.account-icon>.fa-caret-down {
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg)
-}
+}*/
 
 .close:focus {
     outline: 0

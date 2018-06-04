@@ -1297,6 +1297,9 @@
                  */
                 var onPushOrders = function (orders, users) {
                     var totalOrders = orders.length;
+                    var _d = new Date();
+                    var reportDateString = convertDate(_d); // yyyyMMdd
+
                     return new Promise(function (resolve, reject) {
                         if (orders.length == 0) {
                             reject('Vui lòng chọn Order(s) để phân bổ');
@@ -1320,6 +1323,7 @@
                             console.log('update mảng thứ ' + i + ' cho user id: ' + users[i].id);
                             onUpdateOrdersOwner(chunkArr[i], users[i]).then(function (response) {
                                     console.log(response);
+                                    
                                 })
                                 .catch(function (err) {
                                     reject(err);
@@ -1332,7 +1336,6 @@
                         if (chunkArr.length > users.length) {
                             onUpdateOrdersOwner(chunkArr[chunkArr.length - 1], randomUser).then(function (response) {
                                     console.log(response);
-
                                 })
                                 .catch(function (err) {
                                     reject(err);
@@ -1382,11 +1385,17 @@
 
                         // update firebase database
                         firebase.database().ref().update(updates).then(function (response) {
+
                             // cập nhật báo cáo của user
                             var groupOrders = canPushOrders.groupBy('status_id');
 
                             var today = new Date();
                             var reportDateString = convertDate(today);
+
+                            onAssignedOrderToSeller(reportDateString, canPushOrders, user.id)
+                            .then(function(res){
+                                console.log(res);
+                            });
 
                             // console.log(groupOrders);
                             preparingEmptyReport(user, user, null).then(function (response) {
@@ -2184,6 +2193,23 @@
                     })
                 }
 
+                // get report for month
+                // @param: month = 01 to 12
+                var getMonthReport = function(month){
+                    var fromDate = '2018' + month + '01', toDate = '2018' + month + '31';
+                    return new Promise(function (resolve, reject) {
+                        firebase.database().ref().child('report')
+                        .orderByKey()
+                        .startAt(fromDate)
+                        .endAt(toDate)
+                        .once('value', function(response){
+                            resolve(response.val());
+                        })
+                            
+                    })
+
+                }
+
 
                 /**
                  * Create file item formanager
@@ -2574,6 +2600,59 @@
                     })
                 }
 
+                // rewrite assigned orders
+                function onAssignedOrderToSeller(date, orders, seller_id) {
+                    return new Promise(function (resolve, reject) {
+                        angular.forEach(orders, (order) => {
+                            console.log(order);
+                          firebase.database().ref().child('assigned').child(date).child(seller_id).push({
+                                key: order.id
+                            })
+                            .then(function (response) {
+                                // to do:
+                            })
+                            .catch(function (err) {
+                                reject(err);
+                            })
+                        })
+
+                        resolve('Updated assigned log success!');
+                    })
+                }
+
+                /*
+                * get orders assigned to user_id
+                * @param: date = yyyyMMdd
+                */
+                var getMyOrders = function(user_id, date){
+                    // console.log(user_id);
+                    return new Promise(function(resolve, reject){
+                        var result = [];
+                        // var promises = [];
+                        firebase.database().ref().child('assigned').child(date).child(user_id)
+                        .on('child_added', function(snapshot){
+                            // var order_data = null;
+                            // var deferred = $q.defer();
+                            // firebase.database().ref().child('/newOrders/' + snapshot.val().key)
+                            // .once('value', function(s){
+                            //     // result.push()
+                            //     deferred.resolve({
+                            //         key: snapshot.val().key,
+                            //         data: s.val()
+                            //     });
+                            //     // console.log(deferred);
+                            //     promises.push(deferred.promise);
+                            // })
+                            result.push(snapshot.val().key)
+                        })
+                        resolve(result);
+                        // $q.all(promises).then(function(results){
+                        //     console.log(promises);
+                        //     resolve(promises);
+                        // })
+                    })
+                }
+
                 return {
                     getCanReleaseStatusIds: getCanReleaseStatusIds,
                     getOrders: getOrders,
@@ -2660,7 +2739,11 @@
 
                     // telesale
                     getOrdersByUser: getOrdersByUser,
-                    getNextOrdersByUser: getNextOrdersByUser
+                    getNextOrdersByUser: getNextOrdersByUser,
+
+                    // month report
+                    getMonthReport: getMonthReport,
+                    getMyOrders: getMyOrders,
                 }
 
             }

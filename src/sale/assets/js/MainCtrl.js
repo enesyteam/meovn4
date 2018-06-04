@@ -1,8 +1,51 @@
 mSale.controller('MainCtrl',
-  function($rootScope, $scope, $http, $window, $document, $filter, $timeout, MFirebaseService, MUtilitiesService,
-  telesales, sweetAlert, $q) {
+  function($rootScope, $scope, $q, $http, $window, $document, $filter, $timeout, MFirebaseService, MUtilitiesService,
+  telesales, sweetAlert, orders, fanpages) {
 
-    console.log($rootScope.currentMember);
+    $rootScope.fanpages = fanpages;
+
+    // var myOrders = orders;
+    // angular.forEach(orders, (order) => {
+    //   // Todo...
+    // })
+    // $rootScope.myOrders = orders;
+
+    
+
+    
+
+    ///////////////////////////lấy báo cáo tháng
+    // var totalSuccessMonth = 0;
+    // var user_month_report = [];
+    // angular.forEach(telesales, (telesale) => {
+    //     user_month_report.push({
+    //         name: telesale.last_name,
+    //         id: telesale.id,
+    //         success: 0
+    //     })
+    // })
+    // MFirebaseService.getMonthReport('05').then(function(response){
+    //     angular.forEach(response, (date_report) => {
+    //       totalSuccessMonth += date_report.successCount;
+    //       angular.forEach(date_report.userReport, (user_report) => {
+    //          // find in user_month_report
+    //          var found = $filter("filter")(user_month_report, {id: user_report.id})[0];
+
+    //          if(found){
+    //             found.success += user_report.successCount;
+    //          }
+    //          else{
+    //             console.log(found)
+    //          }
+    //         })
+    //     })
+    //     console.log('Tổng số đơn chốt trong tháng: ' + totalSuccessMonth);
+    //     console.log(user_month_report);
+    // })
+    ///////////////////////////lấy báo cáo tháng
+    
+
+    // console.log($rootScope.currentMember);
     /*
     * window size
     */
@@ -23,15 +66,6 @@ mSale.controller('MainCtrl',
             id: id
         })[0];
     }
-    $scope.fixAva = function(avatar_url){
-        console.log(avatar_url);
-        if(avatar_url.indexOf('.jpg') == -1){
-            return 'assets/images/default-avatar-contact.svg';
-        }
-        else{
-            return avatar_url
-        }
-    }
 
     $scope.aProducts = [];
     var getAllAvailableProducts = function(){
@@ -49,7 +83,7 @@ mSale.controller('MainCtrl',
         return $filter("filter")($scope.aProducts, {id: id})[0];
     }
 
-    var pageSize = 30;
+    var pageSize = 10;
     $rootScope.availableShippingItems = [];
     $rootScope.newlyOrderKey = null;
     $rootScope.lastOrderKey = null;
@@ -61,41 +95,52 @@ mSale.controller('MainCtrl',
         last_name: 'Lợi'
     }
 
-    $rootScope.myOrders = [];
-
-    MFirebaseService.getOrdersByUser(pageSize, fake_user)
-    .then(function(response){
-        response.reverse().map(function(order) {
-            // console.log(order);
-            $scope.$apply(function() {
-                $rootScope.myOrders.push(order);
+    $scope.myOrders = [];
+    function getOrders(){
+        $scope.isGettingOrders = true;
+        var startTime = new Date().getTime();
+        var promises = [];
+        angular.forEach(orders, (item) => {
+          // Todo...
+          var deferred = $q.defer();
+          firebase.database().ref().child('/newOrders/' + item)
+            .once('value', function(s){
+                $scope.$apply(function(){
+                    $scope.myOrders.push({
+                        key: item,
+                        data: s.val()
+                    })
+                    deferred.resolve();
+                    promises.push(deferred.promise);
+                })
             })
         })
-
-        $timeout(function() {
-            $scope.$apply(function(){
-                $scope.latestOrderKey = $rootScope.myOrders[$rootScope.myOrders.length - 1].key;
-                console.log($rootScope.myOrders[0]);
-            })
-        }, 100);
-    })
-
-    $rootScope.getMyNextOrders = function(){
-        MFirebaseService.getNextOrdersByUser(pageSize, fake_user, $scope.latestOrderKey)
-        .then(function(response){
-            response.reverse().slice(1).map(function(order) {
-                if(order.data.seller_will_call_id == fake_user.id){
-                    $scope.$apply(function() {
-                        $rootScope.myOrders.push(order);
-                    })
-                }
-            })
-            $scope.$apply(function() {
-                $scope.latestOrderKey = response[response.length - 1].key;
-                $rootScope.isLoaddingOrder = false;
-            })
+        $q.all(promises).then(function(results){
+            var endTime = new Date().getTime();
+            console.log('đã tải xong dữ liệu orders trong ' + (endTime - startTime) + ' ms');
+            // resolve(promises);
+            $scope.isGettingOrders = false;
         })
     }
+    getOrders();
+    // $scope.myOrders = orders;
+
+
+    // $rootScope.getMyNextOrders = function(){
+    //     MFirebaseService.getNextOrdersByUser(pageSize, fake_user, $scope.latestOrderKey)
+    //     .then(function(response){
+    //         response.reverse().slice(1).map(function(order) {
+    //             if(order.data.seller_will_call_id == fake_user.id){
+    //                 $scope.$apply(function() {
+    //                     $rootScope.myOrders.push(order);
+    //                 })
+    //             }
+    //         })
+    //         $scope.$apply(function() {
+    //             $scope.latestOrderKey = response[response.length - 1].key;
+    //         })
+    //     })
+    // }
 
 
 
@@ -278,7 +323,8 @@ mSale.controller('MainCtrl',
             // console.log('Order key: ' + order.key);
             $scope.activeOrder = null;
             $scope.activeOrder = order;
-            angular.forEach($rootScope.myOrders, function(item){
+            console.log(order);
+            angular.forEach($scope.myOrders, function(item){
                 item.selected = null;
             })
             order.selected = true;
@@ -383,4 +429,6 @@ mSale.controller('MainCtrl',
               });
         }
 
+
+        $rootScope.finishLoadFullData = true;
   });

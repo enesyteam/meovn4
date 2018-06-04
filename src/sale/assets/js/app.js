@@ -32,12 +32,25 @@ var mSale = angular.module('mSale', [
                 controller: 'MainCtrl',
                 templateUrl: "/src/sale/home.html",
                 resolve: {
+                    orders: function(MFirebaseService){
+                        return MFirebaseService.getMyOrders(102, MFirebaseService.convertDate(new Date()))
+                        .then(function(response){
+                            // alert('sdf')
+                            return response;
+                          });
+                    },
                     telesales: function(MFirebaseService){
-                        return MFirebaseService.getAllSellers().then(function(response){
+                        return MFirebaseService.getAllMembers().then(function(response){
                           return response;
                         })
                       },
-                    }
+                    fanpages: function(MFirebaseService){
+                        return MFirebaseService.get_fanpages().then(function(response){
+                            return response;
+                          });
+                        },
+                    },
+                    
                 }
             );
     })
@@ -124,6 +137,21 @@ mSale.directive('searchEnter', function () {
                 });
             }
         });
+    };
+});
+
+mSale.directive('tooltip', function(){
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs){
+            element.hover(function(){
+                // on mouseenter
+                element.tooltip('show');
+            }, function(){
+                // on mouseleave
+                element.tooltip('hide');
+            });
+        }
     };
 });
 
