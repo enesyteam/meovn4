@@ -86,7 +86,32 @@ angular.module('mRealtime').filter('cut', function () {
         };
     });
 
-function themeRun($rootScope, appVersion, releaseDate, access_token, cfpLoadingBar) {
+function themeRun($window, $rootScope, appVersion, releaseDate, access_token, cfpLoadingBar, MFirebaseService, MUtilitiesService) {
+
+  firebase.auth().onAuthStateChanged(function(user) {
+        if (!user) {
+            // alert('Bạn chưa đăng nhập!');
+            $window.location = '/login';
+            // return;
+        } else {
+            // console.log(user);
+            MFirebaseService.getMemberByEmail(user.email).then(function(member){
+                MUtilitiesService.AlertSuccessful('You are logged in as "' + member.email + '"');
+
+                if(!member.is_admin && member.is_seller !== 1){
+                  // MUtilitiesService.AlertWarning('Đang chuyển hướng đến trang tìm kiếm...');
+                  $window.location = '/tim-kiem';
+                }
+
+                $rootScope.currentMember = member;
+                $rootScope.activeFilter = {
+                    filter_status_id: null,
+                    filter_seller_id: $rootScope.currentMember.id,
+                }
+            });
+        }
+    });
+
     $rootScope.access_token = access_token;
     $rootScope.appVersion = appVersion;
     $rootScope.releaseDate = releaseDate;

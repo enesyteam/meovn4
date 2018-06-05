@@ -32,13 +32,7 @@ var mSale = angular.module('mSale', [
                 controller: 'MainCtrl',
                 templateUrl: "/src/sale/home.html",
                 resolve: {
-                    orders: function(MFirebaseService){
-                        return MFirebaseService.getMyOrders(102, MFirebaseService.convertDate(new Date()))
-                        .then(function(response){
-                            // alert('sdf')
-                            return response;
-                          });
-                    },
+                    
                     telesales: function(MFirebaseService){
                         return MFirebaseService.getAllMembers().then(function(response){
                           return response;

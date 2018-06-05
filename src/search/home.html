@@ -1,0 +1,135 @@
+<div class="container container-sm">
+  <div class="row">
+
+    <div class="col-md-6 mt-5">
+      <h4>Tìm kiếm</h4>
+      <div class="input-group mb-3">  
+        <input type="text" class="form-control form-control-lg" aria-label="Text input with dropdown button" placeholder="Tìm trong hơn 20,000 orders" ng-model="searchQuery.text" search-enter="search()">
+        <span class="input-group-btn">
+            <button class="btn btn-link btn-lg" type="button">
+              <span class="fa {{is_searching ? 'fa-spinner fa-pulse fa-fw' : 'fa-search'}}"></span>
+            </button>
+        </span>
+      </div>
+    </div>
+    
+  </div>
+<div class="mt-5 mb-5" ng-if="search_result.length>0">
+  <hr>
+  <div class="table-responsive">
+      <table id="bs-table" class="table table-hover">
+        <thead>
+          <tr>
+            <th class="text-right" data-sort="int">#</th>
+            <th class="col-lg-6 text-left" data-sort="string">Info</th>
+            <th class="col-lg-1 text-right" data-sort="int">Mobile</th>
+            <th class="col-lg-1 text-right" data-sort="int">Status</th>
+            <th class="col-lg-2 text-right" data-sort="int" style="width: 250px;">Page</th>
+            <th class="col-lg-1 text-right" data-sort="int">Telesale</th>
+            <th class="col-lg-1 text-right" data-sort="int">Date</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <td colspan="7">
+              <small class="pull-left text-muted" dir="ltr">
+                Tìm thấy <strong>{{search_result.length}}</strong> kết quả với chuỗi tìm kiếm <em> "{{searched_query}}"</em>
+              </small>
+            </td>
+          </tr>
+        </tfoot>
+        <tbody style="position: relative;">
+          <tr style="background-color: inherit;" ng-repeat="order in search_result track by $index">
+            <td class="text-muted text-right" data-sort-value="2">
+              {{$index+1}}
+            </td><td class="text-left" data-sort-value="icon examples">
+              <div>
+                <a ><strong>
+                  {{order.customer_name}} / {{order.customer_mobile}} / <span ng-if="order.status_id==6">{{order.shipData.data.customerData.cod | number: 0}} {{order.shipData.viettel_post_data ? '(Đã tạo đơn trên Viettel Post)' : ''}}</span>
+                </strong></a>
+              </div>
+              <div class="_55jr text-muted" style="font-size:12px;">
+                                       
+                 <span class="icon">
+                    <svg class="octicon gridicon gridicons-quote" height="12" width="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M11.192 15.757c0-.88-.23-1.618-.69-2.217-.326-.412-.768-.683-1.327-.812-.55-.128-1.07-.137-1.54-.028-.16-.95.1-1.956.76-3.022.66-1.065 1.515-1.867 2.558-2.403L9.373 5c-.8.396-1.56.898-2.26 1.505-.71.607-1.34 1.305-1.9 2.094s-.98 1.68-1.25 2.69-.346 2.04-.217 3.1c.168 1.4.62 2.52 1.356 3.35.735.84 1.652 1.26 2.748 1.26.965 0 1.766-.29 2.4-.878.628-.576.94-1.365.94-2.368l.002.003zm9.124 0c0-.88-.23-1.618-.69-2.217-.326-.42-.77-.692-1.327-.817-.56-.124-1.074-.13-1.54-.022-.16-.94.09-1.95.75-3.02.66-1.06 1.514-1.86 2.557-2.4L18.49 5c-.8.396-1.555.898-2.26 1.505-.708.607-1.34 1.305-1.894 2.094-.556.79-.97 1.68-1.24 2.69-.273 1-.345 2.04-.217 3.1.165 1.4.615 2.52 1.35 3.35.732.833 1.646 1.25 2.742 1.25.967 0 1.768-.29 2.402-.876.627-.576.942-1.365.942-2.368v.01z"></path></g></svg>
+                 </span>
+                 <span ng-repeat="c in order.activeLog">
+                    <span ng-if="c.type == 1">
+                    <strong>{{c.uname}}</strong> đã thay đổi trạng thái "{{filterById(statuses, c.status_after).name}}"
+                   lúc: {{c.updated_at | date: 'hh:MM dd/MM'}}</span>
+                  
+                  <span ng-if="c.type == 2">
+                     <strong>{{c.uname}}</strong>: "{{c.content}}"
+                   </span>
+                  </span>
+                 <span ng-if="order.admin_note">
+                    <span class="">
+                       <svg class="octicon gridicon gridicons-notice" height="14" width="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm1 15h-2v-2h2v2zm0-4h-2l-.5-6h3l-.5 6z"></path></g></svg>
+                    </span>
+                    <span>{{order.admin_note}}</span>
+                 </span>
+              </div>
+              <div  style="font-size:12px;" ng-if="order.shipData">
+                <!-- {{order.shipData}} -->
+                <span>Đ/C: {{order.shipData.data.customerData.addresss}}</span>
+              </div>
+              <div  style="font-size:12px;" ng-if="order.shipData">
+                <!-- {{order.shipData}} -->
+                <!-- <span>Sản phẩm: {{order.shipData.data.customerData.products}}</span> -->
+                <ul class="pl-0 mb-3" style="margin: 5px 0;padding: 0">
+                  <li class="list-group-item d-flex justify-content-between lh-condensed {{$index % 2 == 0 ? 'bg-light' : ''}}"
+                  ng-repeat="product in order.shipData.data.customerData.products track by $index" style="display: inline-block;list-style: none">
+                    <div class="{{$index % 2 == 0 ? 'text-success' : ''}}">
+                      <span class="my-0">{{findProduct(product.id).name || 'Không rõ'}}</span>
+                      <span class="text-muted">{{product.note}}</span>
+                    </div>
+                    <span class="{{$index % 2 == 0 ? 'text-success' : 'text-muted'}}">{{product.count}}</span>
+                  </li>
+                  <!-- <li class="list-group-item d-flex justify-content-between bg-light">
+                    <div class="text-success">
+                      <h6 class="my-0">Promo code</h6>
+                      <small>EXAMPLECODE</small>
+                    </div>
+                    <span class="text-success">-$5</span>
+                  </li> -->
+                </ul>
+              </div>
+              <div class="info-actions">
+                <ul>
+                  <li ng-if="order.shipData.viettel_post_code">
+                    <a href="" ng-click="showShipData(order)">Xem đơn hàng</a>
+                  </li>
+                  <li>
+                    <a href="" ng-click="showChatBox(order)">Xem hội thoại</a>
+                  </li>
+                  <li>
+                    <a href="" ng-click="showNoteBox(order)">Thêm ghi chú</a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td class="text-right" data-sort-value="0">
+              {{order.customer_mobile}}
+            </td>
+            <td class="text-right" data-sort-value="0" style="{{order.status_id==6 ? 'color:#396' : '';}}">
+              {{filterById(statuses, order.status_id).name}}
+            </td>
+            <td class="text-right" data-sort-value="0">
+              {{filterById(fanpages, order.page_id).name}}
+            </td>
+            <td class="text-right" data-sort-value="0">
+              {{filterById(telesales, order.seller_will_call_id).last_name}}
+            </td>
+            <td class="text-right" data-sort-value="1460763842" title="2016-04-15 23:44:02">
+              {{order.publish_date | date: 'hh:MM dd/MM'}}
+            </td>
+          </tr>
+          
+        </tbody>                          
+      </table>
+    </div>
+</div>
+</div>
+
+
+

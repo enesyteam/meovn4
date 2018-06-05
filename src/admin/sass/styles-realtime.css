@@ -12899,7 +12899,7 @@ only screen and (min-resolution: 2dppx) {
 }
 .MarketplaceJumbotron {
     background-color: #2f363d;
-    background-image: url("/images/modules/marketplace/bg-hero.svg");
+    background-image: url("/assets/images/bg-hero.svg");
     background-repeat: repeat-y;
     background-position: center top;
     background-size: 150% auto

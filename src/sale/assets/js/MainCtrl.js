@@ -1,6 +1,6 @@
 mSale.controller('MainCtrl',
   function($rootScope, $scope, $q, $http, $window, $document, $filter, $timeout, MFirebaseService, MUtilitiesService,
-  telesales, sweetAlert, orders, fanpages) {
+  telesales, sweetAlert, fanpages) {
 
     $rootScope.fanpages = fanpages;
 
@@ -95,26 +95,34 @@ mSale.controller('MainCtrl',
         last_name: 'Lợi'
     }
 
+
+        
+
     $scope.myOrders = [];
     function getOrders(){
         $scope.isGettingOrders = true;
         var startTime = new Date().getTime();
         var promises = [];
-        angular.forEach(orders, (item) => {
-          // Todo...
-          var deferred = $q.defer();
-          firebase.database().ref().child('/newOrders/' + item)
-            .once('value', function(s){
-                $scope.$apply(function(){
-                    $scope.myOrders.push({
-                        key: item,
-                        data: s.val()
+
+        firebase.database().ref().child('assigned')
+        .child(MFirebaseService.convertDate(new Date()))
+        .child(102)
+        .on('child_added', function(snapshot){
+
+            var deferred = $q.defer();
+              firebase.database().ref().child('/newOrders/' + snapshot.val().key)
+                .once('value', function(s){
+                    $scope.$apply(function(){
+                        $scope.myOrders.unshift({
+                            key: snapshot.val().key,
+                            data: s.val()
+                        })
+                        deferred.resolve();
+                        promises.push(deferred.promise);
                     })
-                    deferred.resolve();
-                    promises.push(deferred.promise);
                 })
-            })
         })
+
         $q.all(promises).then(function(results){
             var endTime = new Date().getTime();
             console.log('đã tải xong dữ liệu orders trong ' + (endTime - startTime) + ' ms');

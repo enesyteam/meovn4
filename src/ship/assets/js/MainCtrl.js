@@ -900,5 +900,6 @@ mShip.controller('MainCtrl',
                 console.log(err);
             })
         }
-
+        
+        $rootScope.finishLoadFullData = true;
   });

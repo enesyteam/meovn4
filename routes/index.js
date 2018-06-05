@@ -33,6 +33,10 @@ exports.sale = function (req, res) {
 	res.sendFile(path.join(__dirname, '../src/sale/index.html'));
 };
 
+exports.search = function (req, res) {
+	res.sendFile(path.join(__dirname, '../src/search/index.html'));
+};
+
 exports.orderManager = function (req, res) {
 	res.render('orderManager');
 };

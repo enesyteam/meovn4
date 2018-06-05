@@ -41,6 +41,7 @@ app.get('/login',  routes.login);
 app.get('/shipping',  routes.shipping);
 app.get('/ship',  routes.ship);
 app.get('/telesale',  routes.sale);
+app.get('/tim-kiem',  routes.search);
 app.get('/printing',  routes.printing);
 app.get('/tracking',  routes.orderManager);
 app.get('/permissions',  routes.permissions);

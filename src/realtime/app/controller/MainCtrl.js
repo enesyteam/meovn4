@@ -4,10 +4,10 @@ mRealtime.controller('MainCtrl',
     MFirebaseService, MUtilitiesService, fanpages, telesales) {
 
 
-    $scope.activeFilter = {
-        filter_status_id: null,
-        filter_seller_id: null,
-    }
+    // $scope.activeFilter = {
+    //     filter_status_id: null,
+    //     filter_seller_id: null,
+    // }
 
     $scope.search_mod = false;
 
@@ -26,32 +26,15 @@ mRealtime.controller('MainCtrl',
         } else {
 
             $rootScope.firebaseUser = user;
-            firebaseService.getAllMembers().then(function(members) {
-
-                $scope.$apply(function() {
-                    $rootScope.sellers = members.val();
-                });
-
-                // console.log($rootScope.sellers);
-
-                angular.forEach($rootScope.sellers, function(value) {
-                    if (value.email == user.email) {
-
-                        // console.log(value);
-                        $scope.$apply(function() {
-                            $rootScope.currentMember = value;
-                        });
-                        $scope.activeFilter = {
-                            filter_status_id: null,
-                            filter_seller_id: $rootScope.currentMember.id,
-                        }
-                    }
-                });
-            });
+            
         }
     });
 
-
+    firebaseService.getAllMembers().then(function(members) {
+        $scope.$apply(function() {
+            $rootScope.sellers = members.val();
+        });
+    });
 
     var pageSize = 150;
     $rootScope.availableOrders = [];

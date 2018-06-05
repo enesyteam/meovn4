@@ -1,0 +1,76 @@
+<div ng-if="vm.shipData" class="p-3 pt-0 pb-5" style="height: 450px;overflow-y: scroll;text-align: left;">
+  <!-- <hr> -->
+  <!-- <h5>Chi tiết đơn hàng đã tạo</h5> -->
+  <!-- {{vm.shipData}} -->
+  <table class="table table-hover mt-2">
+    <!-- <thead>
+      <tr>
+        <th>Người gửi</th>
+        <th>{{activeOrder.data.viettel_post_data.SENDER_FULLNAME}}</th>
+      </tr>
+    </thead> -->
+    <tbody>
+      <tr>
+        <td style="width: 20%"><strong>Mã vận đơn:</strong></td>
+        <td>{{vm.code}}</td>
+      </tr>
+      <tr>
+        <td style="width: 20%"><strong>Bưu cục:</strong></td>
+        <td>{{vm.station}}</td>
+      </tr>
+      <tr>
+        <td style="width: 20%"><strong>Người gửi:</strong></td>
+        <td>{{vm.shipData.viettel_post_data.SENDER_FULLNAME}}</td>
+      </tr>
+      <tr>
+        <td style="width: 20%"><strong>Địa chỉ:</strong></td>
+        <td>{{vm.shipData.viettel_post_data.SENDER_ADDRESS}}</td>
+      </tr>
+      <tr>
+        <td style="width: 20%"><strong>SĐT:</strong></td>
+        <td>{{vm.shipData.viettel_post_data.SENDER_PHONE}}</td>
+      </tr>
+    </tbody>
+  </table>
+   <table class="table table-hover mt-2">
+    <!-- <thead>
+      <tr>
+        <th>Người gửi</th>
+        <th>{{activeOrder.data.viettel_post_data.SENDER_FULLNAME}}</th>
+      </tr>
+    </thead> -->
+    <tbody>
+      <tr>
+        <td style="width: 20%"><strong>Người nhận:</strong></td>
+        <td>{{vm.shipData.viettel_post_data.RECEIVER_FULLNAME}}</td>
+      </tr>
+      <tr>
+        <td style="width: 20%"><strong>Địa chỉ:</strong></td>
+        <td>{{vm.shipData.viettel_post_data.RECEIVER_ADDRESS}}</td>
+      </tr>
+      <tr>
+        <td style="width: 20%"><strong>SĐT:</strong></td>
+        <td>{{vm.shipData.viettel_post_data.RECEIVER_PHONE}}</td>
+      </tr>
+    </tbody>
+  </table>
+   <table class="table table-hover mt-2">
+    <!-- <thead>
+      <tr>
+        <th>Người gửi</th>
+        <th>{{activeOrder.data.viettel_post_data.SENDER_FULLNAME}}</th>
+      </tr>
+    </thead> -->
+    <tbody>
+      <tr>
+        <td style="width: 20%"><strong>Ghi chú giao hàng:</strong></td>
+        <td>{{vm.shipData.viettel_post_data.ORDER_NOTE || 'Không có ghi chú'}}</td>
+      </tr>
+      <tr>
+        <td style="width: 20%"><strong>COD:</strong></td>
+        <td>{{vm.shipData.viettel_post_data.MONEY_COLLECTION | number: 0}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- {{activeOrder | json}} -->
+</div>

@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="/src/ship/assets/button.css">
 	<link rel="stylesheet" href="/src/ship/assets/open-iconic.css">
 	<link rel="stylesheet" href="/src/ship/assets/main.css">
+  <link rel="stylesheet" href="/src/ship/assets/loader.css">
   <link rel="stylesheet" href="/src/admin/sass/notice.css">
   <!-- <link rel="stylesheet" href="/src/ship/assets/print.css" media="print"> -->
 
@@ -31,6 +32,25 @@
 
 </head>
 <body>
+  <div class="page-loader">
+    <div class="ytp-spinner" data-layer="4" style="position: fixed;height: 100%;display: block;z-index: 99999;top: 50%;" ng-if="!finishLoadFullData">
+       <div>
+          <div class="ytp-spinner-container">
+             <div class="ytp-spinner-rotator">
+                <div class="ytp-spinner-left">
+                   <div class="ytp-spinner-circle"></div>
+                </div>
+                <div class="ytp-spinner-right">
+                   <div class="ytp-spinner-circle"></div>
+                </div>
+             </div>
+          </div>
+       </div>
+       <div class="ytp-spinner-message" style="display: block;">
+            Loading data from server, please wait...
+        </div>
+    </div>
+</div>
 	<div ui-view></div>
 
 	<!-- Script -->

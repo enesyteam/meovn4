@@ -172,7 +172,8 @@ angular.module('mShipping').filter('cut', function () {
         };
     });
 
-function themeRun($rootScope, appVersion, releaseDate, access_token, accessTokenService, cfpLoadingBar) {
+function themeRun($window, $rootScope, appVersion, releaseDate, access_token, accessTokenService, cfpLoadingBar) {
+    $window.location = '/ship';
     $rootScope.access_token = access_token;
     $rootScope.appVersion = appVersion;
     $rootScope.releaseDate = releaseDate;

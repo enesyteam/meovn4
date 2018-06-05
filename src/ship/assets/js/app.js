@@ -85,7 +85,7 @@ var mShip = angular.module('mShip', [
     .run(themeRun);
 
 
-function themeRun($window, $rootScope, appVersion, $timeout, releaseDate, MFirebaseService) {
+function themeRun($window, $rootScope, appVersion, $timeout, releaseDate, MFirebaseService, MUtilitiesService) {
 
     // $timeout(function() {
     //     console.log('hehhe');
@@ -102,7 +102,12 @@ function themeRun($window, $rootScope, appVersion, $timeout, releaseDate, MFireb
         } else {
             // console.log(user);
             MFirebaseService.getMemberByEmail(user.email).then(function(member){
+                MUtilitiesService.AlertSuccessful('You are logged in as "' + member.email + '"')
                 $rootScope.currentMember = member;
+                if(!member.is_admin && member.shipping_editor !== 1){
+                  // MUtilitiesService.AlertWarning('Đang chuyển hướng đến trang tìm kiếm...');
+                  $window.location = '/tim-kiem';
+                }
             });
 
             // 

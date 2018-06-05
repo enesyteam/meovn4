@@ -1524,12 +1524,18 @@
 
                         // update firebase database
                         firebase.database().ref().update(updates).then(function (response) {
+                            // assigned
+                            var today = new Date();
+                            var reportDateString = convertDate(today);
+
+                            onReleaseSellerOrders(reportDateString, orders, user.id).then(function(res){
+                                console.log(res);
+                            })
                                 if (updateReport) {
                                     // đã hủy thành công => cập nhật báo cáo
                                     var groupOrders = orders.groupBy('status_id');
 
-                                    var today = new Date();
-                                    var reportDateString = convertDate(today);
+                                    
 
                                     angular.forEach(groupOrders, function (group, key) {
 
@@ -1759,8 +1765,7 @@
                         var result = [];
                         firebase.database().ref().child('newOrders')
                             .orderByChild('customer_name')
-                            .startAt(query)
-                            .endAt(query + "\uf8ff")
+                            .equalTo(query)
                             .once('value', snapshot => {
                                 angular.forEach(snapshot.val(), function (value, key) {
                                     result.push(value);
@@ -1775,8 +1780,7 @@
                         var result = [];
                         firebase.database().ref().child('newOrders')
                             .orderByChild('customer_mobile')
-                            .startAt(phone)
-                            .endAt(phone + "\uf8ff")
+                            .equalTo(phone)
                             .once('value', snapshot => {
                                 angular.forEach(snapshot.val(), function (value, key) {
                                     result.push(value);
@@ -2620,6 +2624,33 @@
                     })
                 }
 
+                function onReleaseSellerOrders(date, orders, seller_id) {
+                    return new Promise(function (resolve, reject) {
+                        firebase.database().ref().child('assigned').child(date).child(seller_id)
+                        .on('child_added', function(snapshot){
+                            console.log('snapshot: ');
+                            console.log(snapshot.key);
+                              angular.forEach(orders, (order) => {
+                                console.log('order: ');
+                                console.log(order.id);
+                                if(order.id == snapshot.val().key){
+                                    firebase.database().ref().child('assigned').child(date).child(seller_id)
+                                    .child(snapshot.key)
+                                    var updates = {};
+                                    updates['/assigned/' + date + '/' + seller_id + '/' + snapshot.key] = null;
+                                    firebase.database().ref().update(updates).then(function () {
+                                            // resolve('Đã xóa ' + id + ' thành công.');
+                                    })
+                                    .catch(function (err) {
+                                        // reject('Không thể xóa, lỗi: ' + err)
+                                    })
+                                }
+                              })
+                        })
+                        resolve('release success!');
+                    })
+                }
+
                 /*
                 * get orders assigned to user_id
                 * @param: date = yyyyMMdd
@@ -2650,6 +2681,12 @@
                         //     console.log(promises);
                         //     resolve(promises);
                         // })
+                    })
+                }
+
+                var getShippingItemByOrderId = function(orderId){
+                    return firebase.database().ref().child('shippingItems').orderByChild('orderId').equalTo(orderId).once('value', function(snapshot){
+                        console.log(snapshot.val());
                     })
                 }
 
@@ -2744,6 +2781,8 @@
                     // month report
                     getMonthReport: getMonthReport,
                     getMyOrders: getMyOrders,
+
+                    getShippingItemByOrderId: getShippingItemByOrderId
                 }
 
             }

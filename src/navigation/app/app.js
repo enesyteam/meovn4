@@ -34,28 +34,6 @@ var mNavigation = angular.module('mNavigation', [
                 url: '/search',
                 controller: 'MainCtrl',
                 templateUrl: "/src/navigation/pages/search/index.html",
-                resolve: {
-                  ghn_token: function(MFirebaseService){
-                      MFirebaseService.set_firebase(firebase);
-                      // console.log(MFirebaseService);
-                      return MFirebaseService.get_ghn_token().then(function(response){
-                        return response;
-                      });
-                    },
-                  telesales: function(MFirebaseService){
-                    return MFirebaseService.getAllMembers().then(function(response){
-                      return response;
-                    })
-                  },
-                  fanpages: function(MFirebaseService){
-                      MFirebaseService.set_firebase(firebase);
-                      // console.log(MFirebaseService);
-                      return MFirebaseService.get_fanpages().then(function(response){
-                        // console.log(response);
-                        return response;
-                      });
-                    }
-                },
             })
             .state('search.result', {
                 url: '/result',

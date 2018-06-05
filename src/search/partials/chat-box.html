@@ -1,0 +1,18 @@
+<div style="height: 400px;overflow-y: scroll;text-align: left;font-size: 14px">
+	<div ng-include="'/src/admin/widgets/chat-box.html'"></div>
+</div>
+	<div class="embedded-window">
+   <div class="window--bio window--animated window--circle">
+      <div id="main" class="main-container">
+	<div id="chat-input" class="window__chatInput chatInputContainer">
+            <div class="chat-input__controlbox">
+               <!-- multipleText -->
+               <form ng-submit="vm.reply()">
+               	<textarea id="chat-input-control" class="window__chatInputControl" autofocus="true" placeholder="Nhập nội dung tin nhắn, Enter để gửi…" rows="1" style="overflow-y: auto; height: 21px;" ng-model="messageContent.text"></textarea>
+               </form>
+               
+            </div>
+         </div>
+     </div>
+ </div>
+</div>

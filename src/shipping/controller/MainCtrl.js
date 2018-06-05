@@ -253,6 +253,7 @@ mShipping.controller('MainCtrl',
                 // console.log('Bạn chưa đăng nhập!');
                 $window.location = '/login';
             } else {
+                
                 // for presence
                 var connectedRef = ref.child(".info/connected");
                 connectedRef.on("value", function(isOnline) {
