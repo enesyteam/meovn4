@@ -41,6 +41,7 @@
                                  resolve(response);
                             }
                             else{
+                                console.log(response);
                                 reject('Không tìm thấy thông tin page: ' + pageId);
                             }
                         })
