@@ -10283,3 +10283,12 @@ a.metric:hover {
     -webkit-box-shadow: none;
     box-shadow: none
 }
+.filter-bar .filter-item{
+    position: relative;
+    color: white;
+    background: rgba(0, 0, 0, 0.12);
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+    line-height: 60px;
+}

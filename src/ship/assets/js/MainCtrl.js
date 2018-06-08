@@ -900,6 +900,28 @@ mShip.controller('MainCtrl',
                 console.log(err);
             })
         }
+
+        var date = new Date();
+
+        var dateToDisplay = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
+        
+        var getReport = function(){
+            $rootScope.todayReport = null;
+            MFirebaseService.getReportForDate(date).then(function(snapshot){
+                $scope.$apply(function(){
+                    $rootScope.todayReport = snapshot.val();
+                });
+            })
+        }
+        getReport();
+
+        var todayDateString = MFirebaseService.convertDate(new Date());
+        firebase.database().ref().child('report/' + todayDateString).on('child_changed', snapshot => {
+            if(snapshot.key == 'successCount'){
+                    // console.log('THÔNG BÁO: SỐ ĐƠN CHỐT ĐÃ THAY ĐỔI THÀNH ' + snapshot.val());
+                    $rootScope.todayReport.successCount = snapshot.val();
+                }
+        });
         
         $rootScope.finishLoadFullData = true;
   });
