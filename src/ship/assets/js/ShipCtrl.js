@@ -20,7 +20,7 @@ mShip.controller('ShipCtrl', ['$q',  '$timeout', '$scope', '$filter', 'activeOrd
     'viettel_data', 'MFirebaseService', 'utils', 'MVIETTELService', 'MUtilitiesService',
 	function ($q, $timeout, $scope, $filter, activeOrder, viettel_login_data, viettel_data, 
         MFirebaseService, utils,  MVIETTELService, MUtilitiesService) {
-    // console.log(activeOrder);
+    console.log(viettel_data);
 
     var vm = this;
     // console.log(viettel_data);

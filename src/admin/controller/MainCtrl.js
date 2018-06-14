@@ -1051,7 +1051,7 @@ m_admin.controller('MainCtrl',
             $scope.commentData = null;
             $scope.pageInfo = null;
         }
-        $scope.sendThanks = true;
+        $rootScope.sendThanks = true;
         $scope.submitOrder = function() {
             if(!validateOrderData($scope.orderData)){
                 // MUtilitiesService.AlertError('Không thể thêm Order. Vui lòng xem lại dữ liệu', 'Thông báo');
@@ -1106,7 +1106,7 @@ m_admin.controller('MainCtrl',
             MFirebaseService.onAddNewOrder($rootScope.currentMember, $scope.orderData, $rootScope.sellers)
                 .then(function(response) {
                     MUtilitiesService.AlertSuccessful(response, 'Thông báo');
-                    if($scope.sendThanks){
+                    if($rootScope.sendThanks == true){
                         // $scope.current_token
                         if($scope.orderData.type == 1){
                             // reply message
@@ -1132,11 +1132,6 @@ m_admin.controller('MainCtrl',
                         $scope.$apply(function(){
                             $rootScope.isSubmittingOrder = false;
                         })
-                    }
-                    else{
-                        if(!$scope.sendThanks){
-                            MUtilitiesService.AlertSuccessful('Bạn đang sử dụng ở chế độ Test. Ở chế độ hoạt động hệ thống sẽ gửi một tin nhắn cảm ơn khách hàng!')
-                        }
                     }
                     // reset order
                     $scope.resetOrder();

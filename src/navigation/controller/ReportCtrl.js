@@ -157,8 +157,8 @@ mNavigation.controller('ReportCtrl',
             var res = [];
             angular.forEach($scope.result, function(order){
                 if(order.is_cancel !== true){
-                    var productLength = order.data.customerData.products.length;
-                    var product1, product2, product3;
+                    var productLength = order.data.customerData.products ? order.data.customerData.products.length : 0;
+                    var product1, product2, product3, product4;
                     if(productLength == 1){
                         product1 = $scope.filterById($scope.aProducts, order.data.customerData.products[0].id);
                     }
@@ -170,6 +170,12 @@ mNavigation.controller('ReportCtrl',
                         product1 = $scope.filterById($scope.aProducts, order.data.customerData.products[0].id);
                         product2 = $scope.filterById($scope.aProducts, order.data.customerData.products[1].id);
                         product3 = $scope.filterById($scope.aProducts, order.data.customerData.products[2].id);
+                    }
+                    else if(productLength == 4){
+                        product1 = $scope.filterById($scope.aProducts, order.data.customerData.products[0].id);
+                        product2 = $scope.filterById($scope.aProducts, order.data.customerData.products[1].id);
+                        product3 = $scope.filterById($scope.aProducts, order.data.customerData.products[2].id);
+                        product4 = $scope.filterById($scope.aProducts, order.data.customerData.products[3].id);
                     }
                     var date = new Date(order.data.created_time);
                     var x = $scope.filterById($scope.telesales, order.data.orderData.seller_will_call_id);

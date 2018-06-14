@@ -410,6 +410,15 @@ mShip.controller('MainCtrl',
                             })
                         }, 100);
                     }
+                    // Kiểm tra thay đổi về hủy đơn
+                    if(item.data.is_cancel !== snapshot.val().is_cancel){
+                        // vừa in phiếu xuất kho
+                        $timeout(function() {
+                            $scope.$apply(function(){
+                                item.data.is_cancel = snapshot.val().is_cancel;
+                            })
+                        }, 100);
+                    }
                 }
             })
             
@@ -444,6 +453,15 @@ mShip.controller('MainCtrl',
                         })
                     }, 100);
                 }
+                // Kiểm tra thay đổi về hủy đơn
+                if($scope.activeOrder.data.is_cancel !== snapshot.val().is_cancel){
+                    // vừa in phiếu xuất kho
+                    $timeout(function() {
+                        $scope.$apply(function(){
+                            $scope.activeOrder.data.is_cancel = snapshot.val().is_cancel;
+                        })
+                    }, 100);
+                }
             }
         });
 
@@ -454,6 +472,7 @@ mShip.controller('MainCtrl',
         }
 
         $rootScope.onClickOrder = function(order){
+            console.log(order);
             // console.log('Order key: ' + order.key);
             $scope.activeOrder = null;
             $scope.activeOrder = order;

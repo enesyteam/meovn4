@@ -57,8 +57,11 @@
             		<div class="item-content">
             			<div class="title">
             				<div class="title-text">
-            					<span dir="auto" class="customer-name">
+            					<span dir="auto" class="customer-name" ng-if="!order.data.is_cancel">
                         {{order.data.data.customerData.realName}}     
+                      </span>
+                      <span dir="auto" class="customer-name" ng-if="order.data.is_cancel" style="color:red">
+                        (Đơn đã hủy trên hệ thống) 
                       </span>
             				</div>
             				<div class="created-time">
@@ -132,7 +135,7 @@
                 <!-- <div class="ring-container"><div class="ringring"></div><div class="circle"></div></div> -->
               </div>
               <div class="col-md-7">
-                <div class="actions">
+                <div class="actions" ng-if="!activeOrder.data.is_cancel" >
                   <ul>
                     <li>
                       <button class="btn btn-link logistics viettel-post" ng-click="createViettelPost()" data-toggle="tooltip" data-placement="bottom" title="Tạo đơn hàng Viettel Post">
@@ -251,13 +254,21 @@
               </table>
               <!-- {{activeOrder | json}} -->
             </div>
-            <div ng-if="!activeOrder.data.viettel_post_code" class="mb-5 pb-3">
+            <div ng-if="!activeOrder.data.viettel_post_code && !activeOrder.data.is_cancel" class="mb-5 pb-3">
               <div class="empty-content">
                 <img src="/assets/images/illustration-empty-results.svg" width="400" class="empty-content__illustration">
                 <!-- <h2 class="empty-content__title">Đơn hàng chưa được tạo</h2> -->
                 <h3 class="empty-content__line">Đơn hàng chưa được tạo</h3>
                 <button class="btn btn-primary btn-lg" ng-click="createViettelPost()">Tạo đơn Viettel Post</button>
                 <button class="btn btn-secondary btn-lg" ng-click="print()">In phiếu xuất kho</button>
+                <!-- <a class="empty-content__action btn btn-secondary" href="/discover">Secondary action</a> -->
+              </div>
+            </div>
+            <div ng-if="activeOrder.data.is_cancel" class="mb-5 pb-3">
+              <div class="empty-content">
+                <img src="/assets/images/illustration-empty-results.svg" width="400" class="empty-content__illustration">
+                <!-- <h2 class="empty-content__title">Đơn hàng chưa được tạo</h2> -->
+                <h3 class="empty-content__line">Đơn hàng đã hủy trên hệ thống</h3>
                 <!-- <a class="empty-content__action btn btn-secondary" href="/discover">Secondary action</a> -->
               </div>
             </div>
