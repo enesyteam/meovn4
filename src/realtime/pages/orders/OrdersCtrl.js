@@ -312,6 +312,9 @@ mRealtime.controller('OdersCtrl',
         }
 
         function updateStatus(status){
+            // cần thay đổi, nếu trạng thái là chốt thì phải tạo shipping item trước khi thay đổi trạng thái
+            // tạo shipping item thành công mới cho phép thay đổi trạng thái
+
             return new Promise(function(resolve, reject){
                 if(!validationBeforChangeStatus(status)){
                     return;
@@ -320,32 +323,7 @@ mRealtime.controller('OdersCtrl',
                 if(status.id == 6){
                     if(validateCustomerData($scope.customerData, $scope.selectedProducts)){
                         $scope.customerData.products = $scope.selectedProducts;
-                    }
-                    else{
-                        return;
-                    }
-                }
 
-                
-                MFirebaseService.onChangeOrderStatus($stateParams.id, $rootScope.currentMember, status.id, 
-                    $rootScope.sellers)
-                .then(function(response){
-                    $scope.$apply(function(){
-                        $rootScope.activeStatusId = status.id;
-                    })
-
-                    // thêm activeLogItem
-                    var activeLogItem = {
-                        uid : $rootScope.currentMember.id,
-                        uname : $rootScope.currentMember.last_name,
-                        type: 1, //change status,
-                        status_after : status.id,
-                        updated_at: firebase.database.ServerValue.TIMESTAMP
-                    }
-                    firebase.database().ref().child('newOrders/' + $stateParams.id).child('activeLog').push(activeLogItem);
-
-                    if(status.id == 6){
-                        // thêm shipping item
                         addShippingItem().then(function(response){
                             // reset shipping data
                             $scope.customerData = {
@@ -356,12 +334,57 @@ mRealtime.controller('OdersCtrl',
                             }
                             // reset products
                             $scope.selectedProducts = [];
-                            resolve('Cập nhật trạng thái thành công. Order đã sẵn sàng để tạo đơn');
+                            
+                            // change order status
+                            changeOrderStatus(status)
+                            .then(function(res){
+                                response('Chúc mừng bạn đã chốt đơn thành công!');
+                            })
+                            .catch(function(){
+                                reject('Đã có lỗi xảy ra trong quá trình chốt đơn. Đơn hàng đã được khởi tạo thành công tuy nhiên trạng thái Order không thể thay đổi được.');
+                            })
+                        })
+                        .catch(function(err){
+                            reject('Đã có lỗi xảy ra trong quá trình khởi tạo đơn hàng. Vui lòng thử lại!');
+                            // MUtilitiesService.AlertError('Order đã thay đổi trạng thái nhưng chưa cập nhật được thông tin đơn hàng.', 'Lỗi')
                         })
                     }
                     else{
-                        resolve('Cập nhật trạng thái thành công');
+                        return;
                     }
+                }
+                else{
+                    changeOrderStatus(status)
+                    .then(function(res){
+                        resolve(res);
+                    })
+                    .catch(function(err){
+                        reject(err);
+                    })
+                }
+            })
+        }
+
+        function changeOrderStatus(status){
+            return new Promise(function(resolve, reject){
+                MFirebaseService.onChangeOrderStatus($stateParams.id, $rootScope.currentMember, status.id, 
+                    $rootScope.sellers)
+                .then(function(response){
+                    $scope.$apply(function(){
+                        $rootScope.activeStatusId = status.id;
+                    })
+                    // thêm activeLogItem
+                    var activeLogItem = {
+                        uid : $rootScope.currentMember.id,
+                        uname : $rootScope.currentMember.last_name,
+                        type: 1, //change status,
+                        status_after : status.id,
+                        updated_at: firebase.database.ServerValue.TIMESTAMP
+                    }
+                    firebase.database().ref().child('newOrders/' + $stateParams.id).child('activeLog')
+                    .push(activeLogItem);
+
+                    resolve('Thay đổi trạng thái thành công');
                 })
                 .catch(function(err){
                     reject(err);
@@ -395,10 +418,10 @@ mRealtime.controller('OdersCtrl',
                     var reportDateString = MFirebaseService.convertDate(today);
 
                     MFirebaseService.prepareEmptyShippingReport(reportDateString).then(function(response){
-                        console.log(response);
+                        // console.log(response);
                         // cập nhật báo cáo, tăng 1 đơn vị trong tổng số shipping items
                         MFirebaseService.onCreateShippingItem(reportDateString).then(function(response){
-                            console.log(response);
+                            // console.log(response);
                             resolve('Tạo shipping item và cập nhật báo cáo thành công');
                         })
 
