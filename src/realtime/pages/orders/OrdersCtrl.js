@@ -338,7 +338,7 @@ mRealtime.controller('OdersCtrl',
                             // change order status
                             changeOrderStatus(status)
                             .then(function(res){
-                                response('Chúc mừng bạn đã chốt đơn thành công!');
+                                resolve('Chúc mừng bạn đã chốt đơn thành công!');
                             })
                             .catch(function(){
                                 reject('Đã có lỗi xảy ra trong quá trình chốt đơn. Đơn hàng đã được khởi tạo thành công tuy nhiên trạng thái Order không thể thay đổi được.');
