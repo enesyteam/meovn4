@@ -322,6 +322,7 @@ mRealtime.controller('OdersCtrl',
 
                 if(status.id == 6){
                     if(validateCustomerData($scope.customerData, $scope.selectedProducts)){
+                        $scope.is_submitting = true;
                         $scope.customerData.products = $scope.selectedProducts;
 
                         addShippingItem().then(function(response){
@@ -684,9 +685,13 @@ mRealtime.controller('OdersCtrl',
 
         }
         $scope.onSubmitOrder = function(){
+            
             var successStatus = $rootScope.filterById($rootScope.statuses, 6);
             if(successStatus){
                 updateStatus(successStatus).then(function(response){
+                    $scope.$apply(function(){
+                        $scope.is_submitting = false;
+                    })
                     MUtilitiesService.AlertSuccessful(response,'Thông báo');
                 })
                 .catch(function(err){

@@ -11,6 +11,7 @@ var mShip = angular.module('mShip', [
   'ngPrint',
   'AngularPrint',
   // 'dynamicNumber',
+  'ngCsv',
   'mFacebook',
   'mFirebase',
   'mUtilities',

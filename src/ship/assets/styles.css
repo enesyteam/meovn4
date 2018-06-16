@@ -6854,7 +6854,7 @@ iframe {
 .aside-search{
     padding: 10px 15px;
     background: #eeeeee;
-    height: 60px
+    /*height: 60px*/
 }
 .app-aside .filter-bar{
     padding-top: 100px;
@@ -10286,9 +10286,45 @@ a.metric:hover {
 .filter-bar .filter-item{
     position: relative;
     color: white;
-    background: rgba(0, 0, 0, 0.12);
     height: 60px;
     justify-content: center;
     align-items: center;
     line-height: 60px;
+}
+.clickable{
+    cursor: pointer;
+}
+.main-tab-btn .gridicon{
+    line-height: 60px;
+    margin-top: 12px;
+    margin-left: 12px;
+}
+
+.flx-col, .snippet, .card-content, .modal, .tab-content {
+    flex-flow: column nowrap;
+}
+.flx-al-c, .item-setting-action, header {
+    align-items: center;
+}
+.main-tab-btn {
+    color: rgba(255, 255, 255, 0.8);
+    height: 60px;
+    justify-content: center;
+}
+.main-tab-btn.selected, .main-tab-btn.chat-message.first-selected, .main-tab-btn.chat-message.last-selected {
+    color: white;
+    background: rgba(0, 0, 0, 0.12);
+}
+.promote-banner {
+        position: absolute;
+    /* height: 20px; */
+    padding: 10px;
+    text-align: center;
+    color: white;
+    font-size: 15px;
+    z-index: 2;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
 }

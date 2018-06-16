@@ -46,6 +46,11 @@ html(lang='en', ng-app='mRealtime')
     // endinject
   |   
   body.logged-in.env-production.height-full.d-flex.flex-column.full-width.no-footer.intent-mouse
+    .promote-banner(style='background: rgb(33, 157, 96);', ng-if='update_content')
+      span(data-translate-inner='STR_NOTI_BANNER_1')
+        | H&#x1EC7; th&#x1ED1;ng v&#x1EEB;a c&#x1EAD;p nh&#x1EAD;t thay &dstrok;&#x1ED5;i: 
+        strong {{update_content}}
+        | . Vui l&ograve;ng reload (F5) l&#x1EA1;i tr&igrave;nh duy&#x1EC7;t &dstrok;&#x1EC3; ti&#x1EBF;p t&#x1EE5;c s&#x1EED; d&#x1EE5;ng.
     // Header
     .position-relative.js-header-wrapper
       a.bg-black.text-white.p-3.show-on-focus.js-skip-to-content(href='#start-of-content', tabindex='1') Skip to content

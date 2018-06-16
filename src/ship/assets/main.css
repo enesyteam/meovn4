@@ -678,10 +678,14 @@ th, td {
 
 .order-col .header .actions,
 .order-col .header .header-title{
-  vertical-align:middle;
-  display: block;
-  line-height: 60px;
-  font-size: 16px;
+  vertical-align: middle;
+    display: block;
+    line-height: 60px;
+    font-size: 16px;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .btn-link.logistics{
   background-image: url(/assets/images/logo-logistics.png);

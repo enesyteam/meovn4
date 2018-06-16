@@ -2012,6 +2012,78 @@
                             })
                     })
                 }
+                var getShippingItemsByUser = function (uid) {
+                    return new Promise(function (resolve, reject) {
+
+                        var orderDays = [];
+
+                        var endTime = new Date();
+                        var startTime = new Date();
+                        startTime.setHours(0,0,0,0);
+                        endTime.setHours(23,59,59,999);
+
+                        startTime = startTime.getTime();
+                        endTime = endTime.getTime();
+
+
+                        var result = [];
+                        firebase.database().ref().child('shippingItems')
+                            .orderByChild('created_time')
+                            .startAt(startTime)
+                            .endAt(endTime)
+                            .once('value', snapshot => {
+                                // console.log(snapshot.val());
+                                angular.forEach(snapshot.val(), function(item, key){
+                                    // console.log(item);
+                                    if(item.data.orderData.seller_will_call_id == uid && !item.is_cancel){
+                                        result.push({
+                                            key: key,
+                                            data: item,
+                                            notes: []
+                                        });
+                                    }
+                                })
+                                resolve(result);
+                            })
+                    })
+                }
+
+                var getShippingItemsByPage = function (page_id) {
+                    return new Promise(function (resolve, reject) {
+
+                        var orderDays = [];
+
+                        var endTime = new Date();
+                        var startTime = new Date();
+                        startTime.setHours(0,0,0,0);
+                        endTime.setHours(23,59,59,999);
+
+                        startTime = startTime.getTime();
+                        endTime = endTime.getTime();
+
+
+                        var result = [];
+                        firebase.database().ref().child('shippingItems')
+                            .orderByChild('created_time')
+                            .startAt(startTime)
+                            .endAt(endTime)
+                            .once('value', snapshot => {
+                                // console.log(snapshot.val());
+                                angular.forEach(snapshot.val(), function(item, key){
+                                    // console.log(item);
+                                    if(item.data.orderData.page_id == page_id && !item.is_cancel){
+                                        result.push({
+                                            key: key,
+                                            data: item,
+                                            notes: []
+                                        });
+                                    }
+                                })
+                                resolve(result);
+                            })
+                    })
+                }
+
 
                 var getNextShippingItems = function (fromKey, pageSize) {
                     return new Promise(function (resolve, reject) {
@@ -2081,7 +2153,22 @@
                 var getReportForDate = function (date) {
                     // date = 2018-07-03
                     var reportDateString = convertDate2(date);
-                    return firebase.database().ref().child('report').child(reportDateString).once('value', function (snapshot) {});
+                    return firebase.database().ref().child('report')
+                    .child(reportDateString).once('value', function (snapshot) {});
+                }
+                var getSuccessForDate = function (date) {
+                    // date = 2018-07-03
+                    var reportDateString = convertDate2(date);
+                    return firebase.database().ref().child('report')
+                    .child(reportDateString).child('successCount').once('value', function (snapshot) {
+                        console.log(snapshot);
+                    });
+                }
+                var getReportForToday = function (date) {
+                    // date = 2018-07-03
+                    var reportDateString = convertDate2(date);
+                    return firebase.database().ref().child('report').limitToLast(1)
+                    .once('value', function (snapshot) {});
                 }
                 var getUsersReportForDate = function (date) {
                     // date = 2018-07-03
@@ -2604,6 +2691,17 @@
                     })
                 }
 
+                var get_versions = function(){
+                    return new Promise(function (resolve, reject) {
+                        firebase.database().ref().child('settings/versions_update').orderByChild('version')
+                        .limitToLast(1).on('child_added', snapshot => {
+                            resolve(snapshot.val());
+                        });
+                        
+                    })
+                }
+
+
                 // rewrite assigned orders
                 function onAssignedOrderToSeller(date, orders, seller_id) {
                     return new Promise(function (resolve, reject) {
@@ -2782,7 +2880,12 @@
                     getMonthReport: getMonthReport,
                     getMyOrders: getMyOrders,
 
-                    getShippingItemByOrderId: getShippingItemByOrderId
+                    getShippingItemByOrderId: getShippingItemByOrderId,
+                    getShippingItemsByUser: getShippingItemsByUser,
+                    getShippingItemsByPage: getShippingItemsByPage,
+                    getReportForToday: getReportForToday,
+                    getSuccessForDate: getSuccessForDate,
+                    get_versions: get_versions
                 }
 
             }

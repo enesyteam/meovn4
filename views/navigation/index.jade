@@ -24,67 +24,61 @@ html(lang='en', ng-app='mNavigation')
     link(rel='stylesheet', href='/src/admin/sass/ng-dialog-custom.css')
   |    
   body.navigation-page
-    .container-xl.d-lg-flex.clearfix.p-md-2(style='max-width: 1440px;')
-      article.col-lg-4.col-xl-3.m-3.m-md-2.anim-fade-in
-        a.hover-grow.no-underline.d-flex.flex-column.flex-justify-end.position-relative.height-full.width-full.overflow-hidden.rounded-1.box-shadow-medium(href='/admin', target='_blank', data-ga-click='Explore, go to FiveThirtyEight, location:spotlight', style='background-color: #ffffff;')
-          .position-absolute.top-0.right-0.bottom-0.left-0.overflow-hidden.text-center
-            img.width-fit.mx-auto(src='/assets/images/navigation-admin.png', alt='A lightweight, purely text-based approach to recording your terminal sessions')
-          |                
-          .Spotlight-blur.position-relative.d-flex.flex-column.flex-justify-center.text-center.text-gray-dark.p-4.p-lg-5(style='background-color: #ffffff; background-color: rgba(255,255,255,.9);')
-            h1.f1.text-normal.lh-condensed.mb-2 Qu&#x1EA3;n tr&#x1ECB;
+    .MarketplaceJumbotron.py-6
+      h1.alt-h1.text-center.text-white.mt-md-4.mb-3.mx-2.lh-condensed-ultra Wellcome to MEOVN
       |          
-      article.col-lg-4.col-xl-3.m-3.m-md-2.anim-fade-in
-        a.hover-grow.no-underline.d-flex.flex-column.flex-justify-end.position-relative.height-full.overflow-hidden.rounded-1.box-shadow-medium(href='/sale', target='_blank', data-ga-click='Explore, go to asciinema/asciinema, location:spotlight', style='background-color: #1b0e27;')
-          .position-absolute.top-0.right-0.bottom-0.left-0.overflow-hidden.text-center
-            img.width-fit.mx-auto(src='/assets/images/navigation-sale.png', alt='A lightweight, purely text-based approach to recording your terminal sessions')
-          |                
-          .Spotlight.position-relative
-            .Spotlight-text.position-relative.text-white.p-4.p-lg-5
-              // <div class="h6 text-uppercase">Trang bán hàng</div>
-              h1.h2.lh-condensed.mb-1
-                span.text-normal
-                |  B&aacute;n h&agrave;ng
-              // <p class="f5 mb-0">Hệ thống bán hàng dành cho Telesales</p>
-            |                   
-            .Spotlight-blur.position-absolute.top-0.right-0.bottom-0.left-0.rounded-1(style='background-color: #1b0e27;')
+      p.alt-lead.mb-5.mx-2.text-center.text-white.lh-condensed(style='opacity:0.5;')
+        | Vui l&ograve;ng ch&#x1ECD;n h&#x1EC7; th&#x1ED1;ng &dstrok;&#x1EC3; ti&#x1EBF;p t&#x1EE5;c!
       |          
-      article.col-lg-4.col-xl-3.m-3.m-md-2.anim-fade-in
-        a.hover-grow.no-underline.d-flex.flex-column.flex-justify-end.position-relative.height-full.overflow-hidden.rounded-1.box-shadow-medium(href='/shipping', target='_blank', data-ga-click='Explore, go to photonstorm/phaser, location:spotlight', style='background-color: #100933;')
-          .position-absolute.top-0.right-0.bottom-0.left-0.overflow-hidden.text-center
-          |                
-          .Spotlight.position-relative
-            .Spotlight-text.position-relative.text-white.p-4.p-lg-5
-              h1.h2.lh-condensed.mb-1
-                span.text-normal
-                |  T&#x1EA1;o &dstrok;&#x1A1;n
+      .container-xl.MarketplaceFeature-wrap.pt-2.mb-lg-4.d-flex
+        .MarketplaceFeature.col-3.flex-auto.px-2.anim-fade-in
+          a.no-underline.MarketplaceFeature-link(href='/admin')
+            .p-4.text-center.rounded-1.box-shadow-medium.mb-3.js-hero-listing-container.bg-white(style="background-image:url('https://marketplace-images.githubusercontent.com/703/5af036b6-e40e-11e7-8411-13b2bbdcf6be?auto=webp&format=jpeg&width=600'); background-size: cover; background-position: center top;")
+              .CircleBadge.CircleBadge--medium.CircleBadge--feature.mx-auto.js-hero-listing-bgcolor(style='background-color: #764abc;')
+                svg.gridicon.gridicons-lock(fill='#fff', height='48', width='48', xmlns='http://www.w3.org/2000/svg', viewbox='0 0 24 24')
+                  g
+                    path(d='M18 8h-1V7c0-2.757-2.243-5-5-5S7 4.243 7 7v1H6c-1.105 0-2 .895-2 2v10c0 1.105.895 2 2 2h12c1.105 0 2-.895 2-2V10c0-1.105-.895-2-2-2zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v1H9V7zm4 8.723V18h-2v-2.277c-.595-.346-1-.984-1-1.723 0-1.105.895-2 2-2s2 .895 2 2c0 .738-.405 1.376-1 1.723z')
+              |                      
+              h3.h2.no-wrap.js-hero-listing-name.text-gray-dark
+                | Qu&#x1EA3;n tr&#x1ECB;
             |                   
-            .Spotlight-blur.position-absolute.top-0.right-0.bottom-0.left-0.rounded-1(style='background-color: #100933;')
-      |          
-      article.col-lg-4.col-xl-3.m-3.m-md-2.anim-fade-in
-        a.hover-grow.no-underline.d-flex.flex-column.flex-justify-end.position-relative.height-full.overflow-hidden.rounded-1.box-shadow-medium(href='/printing', target='_blank', data-ga-click='Explore, go to photonstorm/phaser, location:spotlight', style='background-color: #100933;')
-          //
-            <div class="position-absolute top-0 right-0 bottom-0 left-0 overflow-hidden text-center">
-            <span style="margin-top:15px;margin-right:15px;color: #fff;float: right;">Chưa sẵn sàng</span>
-            </div>
-          .Spotlight.position-relative
-            .Spotlight-text.position-relative.text-white.p-4.p-lg-5
-              h1.h2.lh-condensed.mb-1
-                span.text-normal
-                |  &Dstrok;&oacute;ng h&agrave;ng/In &#x1EA5;n
+            p.MarketplaceFeature-text.text-white.text-center.px-3.lh-condensed.js-hero-listing-description Administrators, Modrators
+        |             
+        .MarketplaceFeature.col-3.flex-auto.px-2.anim-fade-in
+          a.no-underline.MarketplaceFeature-link(href='/sale')
+            .p-4.text-center.rounded-1.box-shadow-medium.mb-3.js-hero-listing-container.bg-white(style="background-image:url('https://marketplace-images.githubusercontent.com/703/1e680d40-e40e-11e7-9029-d00c92b2abce?auto=webp&format=jpeg&width=600'); background-size: cover; background-position: center top;")
+              .CircleBadge.CircleBadge--medium.CircleBadge--feature.mx-auto.js-hero-listing-bgcolor(style='background-color: #fc2b6a;')
+                svg.gridicon.gridicons-checkmark-circle(fill='#fff', height='48', width='48', xmlns='http://www.w3.org/2000/svg', viewbox='0 0 24 24')
+                  g
+                    path(d='M11 17.768l-4.884-4.884 1.768-1.768L11 14.232l8.658-8.658C17.823 3.39 15.075 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10c0-1.528-.353-2.97-.966-4.266L11 17.768z')
+              |                      
+              h3.h2.no-wrap.js-hero-listing-name.text-white B&aacute;n h&agrave;ng
             |                   
-            .Spotlight-blur.position-absolute.top-0.right-0.bottom-0.left-0.rounded-1(style='background-color: #100933;')
-      |          
-      article.col-lg-4.col-xl-3.m-3.m-md-2.anim-fade-in
-        a.hover-grow.no-underline.d-flex.flex-column.flex-justify-end.position-relative.height-full.overflow-hidden.rounded-1.box-shadow-medium(href='/tracking', target='_blank', data-ga-click='Explore, go to photonstorm/phaser, location:spotlight', style='background-color: #100933;')
-          .position-absolute.top-0.right-0.bottom-0.left-0.overflow-hidden.text-center
-          |                
-          .Spotlight.position-relative
-            .Spotlight-text.position-relative.text-white.p-4.p-lg-5
-              h1.h2.lh-condensed.mb-1
-                span.text-normal
-                |  Tracking &dstrok;&#x1A1;n h&agrave;ng
+            p.MarketplaceFeature-text.text-white.text-center.px-3.lh-condensed.js-hero-listing-description Administrators, Telesales
+        |             
+        .MarketplaceFeature.col-3.flex-auto.px-2.anim-fade-in
+          a.no-underline.MarketplaceFeature-link(href='/ship')
+            .p-4.text-center.rounded-1.box-shadow-medium.mb-3.js-hero-listing-container.bg-white(style="background-image:url('https://marketplace-images.githubusercontent.com/703/a5454d96-e40e-11e7-991c-9e5c7ba811cb?auto=webp&format=jpeg&width=600'); background-size: cover; background-position: center top;")
+              .CircleBadge.CircleBadge--medium.CircleBadge--feature.mx-auto.js-hero-listing-bgcolor(style='background-color: #EFF9F9;')
+                svg.gridicon.gridicons-shipping(fill='#764abc', height='48', width='48', xmlns='http://www.w3.org/2000/svg', viewbox='0 0 24 24')
+                  g
+                    path(d='M18 8h-2V7c0-1.105-.895-2-2-2H4c-1.105 0-2 .895-2 2v10h2c0 1.657 1.343 3 3 3s3-1.343 3-3h4c0 1.657 1.343 3 3 3s3-1.343 3-3h2v-5l-4-4zM7 18.5c-.828 0-1.5-.672-1.5-1.5s.672-1.5 1.5-1.5 1.5.672 1.5 1.5-.672 1.5-1.5 1.5zM4 14V7h10v7H4zm13 4.5c-.828 0-1.5-.672-1.5-1.5s.672-1.5 1.5-1.5 1.5.672 1.5 1.5-.672 1.5-1.5 1.5z')
+              |                      
+              h3.h2.no-wrap.js-hero-listing-name.text-white T&#x1EA1;o &dstrok;&#x1A1;n
             |                   
-            .Spotlight-blur.position-absolute.top-0.right-0.bottom-0.left-0.rounded-1(style='background-color: #100933;')
+            p.MarketplaceFeature-text.text-white.text-center.px-3.lh-condensed.js-hero-listing-description Administrators, nh&acirc;n vi&ecirc;n t&#x1EA1;o &dstrok;&#x1A1;n
+        |             
+        .MarketplaceFeature.col-3.flex-auto.px-2.anim-fade-in
+          a.no-underline.MarketplaceFeature-link(href='/tim-kiem')
+            .p-4.text-center.rounded-1.box-shadow-medium.mb-3.js-hero-listing-container.bg-white(style="background-image:url('https://marketplace-images.githubusercontent.com/703/3f1918ea-e40e-11e7-82a4-5210fff52039?auto=webp&format=jpeg&width=600'); background-size: cover; background-position: center top;")
+              .CircleBadge.CircleBadge--medium.CircleBadge--feature.mx-auto.js-hero-listing-bgcolor(style='background-color: #ffffff;')
+                svg.gridicon.gridicons-search(fill='#fc2b6a', height='48', width='48', xmlns='http://www.w3.org/2000/svg', viewbox='0 0 24 24')
+                  g
+                    path(d='M21 19l-5.154-5.154C16.574 12.742 17 11.42 17 10c0-3.866-3.134-7-7-7s-7 3.134-7 7 3.134 7 7 7c1.42 0 2.742-.426 3.846-1.154L19 21l2-2zM5 10c0-2.757 2.243-5 5-5s5 2.243 5 5-2.243 5-5 5-5-2.243-5-5z')
+              |                      
+              h3.h2.no-wrap.js-hero-listing-name.text-gray-dark T&igrave;m ki&#x1EBF;m
+            |                   
+            p.MarketplaceFeature-text.text-white.text-center.px-3.lh-condensed.js-hero-listing-description T&#x1EA5;t c&#x1EA3; th&agrave;nh vi&ecirc;n &dstrok;&atilde; &dstrok;&abreve;ng nh&#x1EAD;p
     //
       <h1 style="text-align: center;font-weight: 200;color: #fff">Wellcome to Meovn Team!</h1>
       <h3 style="text-align: center;color: #fff">Vui lòng lựa chọn hệ thống để sử dụng.</h3>
@@ -101,10 +95,9 @@ html(lang='en', ng-app='mNavigation')
           nav.tabnav-tabs(aria-label='Navigate your dashboard')
             a.tabnav-tab(ui-sref='search', ui-sref-active='selected', aria-current='page')
               | T&igrave;m ki&#x1EBF;m &dstrok;&#x1A1;n h&agrave;ng
-            |               
-            |               
+            |                   
             a.tabnav-tab(ui-sref='report', ui-sref-active='selected') Danh s&aacute;ch &dstrok;&#x1A1;n h&agrave;ng
-      |         
+      |          
       div(ui-view='')
     |       
     script(src='/assets/js/jquery.min.js')
@@ -112,21 +105,21 @@ html(lang='en', ng-app='mNavigation')
       <script src="/assets/js/chosen.jquery.min.js"></script>
       <script src="/assets/js/chosen.proto.min.js"></script>
     script(src='/assets/js/scripts-angular.min.js')
-    |     
+    |       
     script(src='/node_modules/angular-animate/angular-animate.min.js')
-    |     
+    |       
     script(src='/node_modules/angular-resource/angular-resource.min.js')
-    |     
+    |       
     script(src='/node_modules/angular-route/angular-route.min.js')
-    |     
+    |       
     script(src='/node_modules/angular-ui-router/release/angular-ui-router.min.js')
-    |     
+    |       
     script(src='/node_modules/angular-sanitize/angular-sanitize.min.js')
-    |     
+    |       
     script(src='https://www.gstatic.com/firebasejs/4.5.1/firebase.js')
-    |     
+    |       
     script(src='/assets/js/select2.min.js')
-    |     
+    |       
     script.
       // Initialize Firebase
       var config = {
@@ -153,11 +146,11 @@ html(lang='en', ng-app='mNavigation')
     |       
     |       
     script(src='/src/modules/mGHN.js')
-    |        
+    |       
     script(src='/src/modules/mFirebase.js')
-    |        
+    |       
     script(src='/src/modules/mFacebook.js')
-    |        
+    |       
     script(src='/src/modules/mUtilities.js')
     |       
     script(src='/src/navigation/app/app.js')

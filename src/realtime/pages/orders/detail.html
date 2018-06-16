@@ -217,12 +217,12 @@
                               <!-- <a href="github-windows://openRepo/https://github.com/iamkdev/ng-frappe-charts" class="btn btn-outline get-repo-btn tooltipped tooltipped-s tooltipped-multiline" aria-label="Clone iamkdev/ng-frappe-charts to your computer and use it in GitHub Desktop.">
                                  Open in Desktop
                                  </a> -->
-                              <a class="btn btn-default btn-primary btn-purple mt-3 mb-3" rel="nofollow" ng-click="onSubmitOrder()" style="cursor: pointer;box-shadow: none">
+                              <button class="btn btn-default btn-primary btn-purple mt-3 mb-3" role="button" rel="nofollow" ng-click="onSubmitOrder()" style="cursor: pointer;box-shadow: none" ng-disabled="is_submitting">
                                  <svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12">
                                     <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
                                  </svg>
-                                 Chốt đơn này
-                              </a>
+                                 Chốt đơn
+                              </button>
                            </div>
                         </div>
                         <div ng-include="'/src/realtime/pages/orders/widgets/edit-order-data.html'" ng-if="activeStatusId==6"></div>

@@ -3357,3 +3357,18 @@ table.pancake_data_table td, table.pancake_data_table td.label{
     background: #f9f9f9;
     padding: 2px;
 }
+.promote-banner {
+    position: fixed;
+    height: 50px;
+    /* padding: 10px; */
+    text-align: center;
+    color: white;
+    font-size: 15px;
+    line-height: 50px;
+    z-index: 2;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+}

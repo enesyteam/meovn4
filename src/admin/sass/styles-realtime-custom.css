@@ -1581,3 +1581,25 @@ a {
 
     height: 100%
 }
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+.promote-banner {
+        position: absolute;
+    /* height: 20px; */
+    /* padding: 10px; */
+    text-align: center;
+    color: white;
+    font-size: 15px;
+    z-index: 2;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    line-height: 55px;
+}
