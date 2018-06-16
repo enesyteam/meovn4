@@ -339,6 +339,9 @@ mRealtime.controller('OdersCtrl',
                             // change order status
                             changeOrderStatus(status)
                             .then(function(res){
+                                $scope.$apply(function(){
+                                    $rootScope.activeStatusId = status.id;
+                                })
                                 resolve('Chúc mừng bạn đã chốt đơn thành công!');
                             })
                             .catch(function(){
