@@ -963,7 +963,7 @@ mShip.controller('MainCtrl',
             // listen for new version
             firebase.database().ref().child('settings/versions_update').orderByChild('version')
             .limitToLast(1).on('child_added', snapshot => {
-                if(snapshot.val().version !== $rootScope.versions.version){
+                if(snapshot.val().version !== response.version){
                     $scope.$apply(function(){
                         $rootScope.update_content = snapshot.val().content;
                     })
