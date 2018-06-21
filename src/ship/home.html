@@ -477,6 +477,10 @@
               {{activeOrder.data.data.customerData.cod | number: 0}}
             </div>
           </div>
+          <div class="packing-cod customer-pane" ng-if="activeOrder.is_dublicated == true">
+            <div class="cod-title" style="color:red;font-size:14px;">Chú ý: Hệ thống phát hiện thấy đơn hàng này bị trùng, vui lòng kiểm tra kỹ trước khi tạo</div>
+          </div>
+          
           </div>
         </div>
 		</div>

@@ -506,11 +506,18 @@ mShip.controller('MainCtrl',
 
         $rootScope.onClickOrder = function(order){
             console.log(order);
+            // giải pháp tạm thời để kiểm tra trùng đơn
             // console.log('Order key: ' + order.key);
             $scope.activeOrder = null;
             $scope.activeOrder = order;
             angular.forEach($rootScope.availableShippingItems, function(item){
+                console.log(item);
                 item.selected = null;
+                if(item.data.data && 
+                    item.data.data.customerData.recievedPhone == $scope.activeOrder.data.data.customerData.recievedPhone
+                    && item.key !== $scope.activeOrder.key){
+                    $scope.activeOrder.is_dublicated = true;
+                }
             })
             order.selected = true;
             $scope.findStation($scope.activeOrder.data.viettel_post_station_id);
