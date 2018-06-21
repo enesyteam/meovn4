@@ -70,6 +70,14 @@
             <span ng-if="todaySuccess">
               <strong>{{todaySuccess}}</strong> Đơn hàng đã chốt hôm nay
             </span>
+           <!--  <span moment-picker="currentDate"
+            format="L"
+            min-view="month"
+            format="DD-MM-YYYY"
+            is-open="onSelectDateOpen"
+            change="onCurrentDateChange(newValue, oldValue)">
+                {{ currentDate || 'Click here to select a date' }}
+            </span> -->
             <span ng-if="!todaySuccess" style="color:red">
               Đang tải dữ liệu tổng số đơn hàng...
             </span>
@@ -83,7 +91,7 @@
               <strong>
                 {{ display_mode == 'page' ? filterById(fanpages, display_id).name : (display_mode == 'user' ? filterById(telesales, display_id).last_name : '')}}
               </strong>. 
-              <a class="btn btn-sm btn-primary btn-link" data-pjax="" ng-csv="getCSV" charset="utf-8,\uFEFF" filename="export_don_hang_{{ display_mode == 'page' ? filterById(fanpages, display_id).name : (display_mode == 'user' ? filterById(telesales, display_id).last_name : '')}}.csv" csv-header="['Tên KH', 'ĐT', 'Ngày tạo', 'Địa chỉ', 'Năm sinh', 'Mã VĐ', 'COD', 'Phí gửi hàng', 'Người chốt', 'Trạng thái hiện tại', 'Sản phẩm 1', 'SL', 'Sản phẩm 2', 'SL', 'Sản phẩm 3', 'SL', 'Page ID', 'Tên Page', 'Kết quả kiểm tra']">
+              <a class="btn btn-sm btn-primary btn-link" data-pjax="" ng-csv="getCSV" charset="utf-8,\uFEFF" filename="export_don_hang_{{ display_mode == 'page' ? filterById(fanpages, display_id).name : (display_mode == 'user' ? filterById(telesales, display_id).last_name : '')}}.csv" csv-header="['Tên KH', 'ĐT', 'Ngày tạo', 'Địa chỉ', 'Năm sinh', 'Mã VĐ', 'COD', 'Phí gửi hàng', 'Người chốt', 'Trạng thái hiện tại', 'Sản phẩm 1', 'SL', 'Sản phẩm 2', 'SL', 'Sản phẩm 3', 'SL', 'Page ID', 'Tên Page', 'Ghi chú giao hàng']">
                Xuất dữ liệu
                </a>
             </div>
@@ -142,9 +150,10 @@
             				</span>
                     <div ng-if="order.data.viettel_post_code">
                       <div class="row">
-                        <div class="col-md-7" style="font-size:12px;">
-                          <span>COD: {{order.data.viettel_post_data.MONEY_COLLECTION | number:0}}</span>
-                          <span> FEE: {{order.data.viettel_post_data.MONEY_TOTALFEE | number:0}}</span>
+                        <div class="col-md-7 {{order.data.viettel_post_station_id == 1 ? 'default-station' : 'green'}}" style="font-size:14px;">
+                          {{order.data.viettel_post_station_name}}
+                          <!-- <span>COD: {{order.data.viettel_post_data.MONEY_COLLECTION | number:0}}</span>
+                          <span> FEE: {{order.data.viettel_post_data.MONEY_TOTALFEE | number:0}}</span> -->
                         </div>
                         <div class="col-md-5">
                           <div class="row viettel-post-flag"></div>
@@ -243,7 +252,7 @@
                   </tr>
                   <tr>
                     <td style="width: 20%"><strong>Bưu cục:</strong></td>
-                    <td>{{currentSattion.name}}</td>
+                    <td class="{{activeOrder.data.viettel_post_station_id == 1 ? 'default-station' : 'green'}}" style="font-size: 16px;font-weight: 700">{{activeOrder.data.viettel_post_station_name}}</td>
                   </tr>
                   <tr>
                     <td style="width: 20%"><strong>Người gửi:</strong></td>

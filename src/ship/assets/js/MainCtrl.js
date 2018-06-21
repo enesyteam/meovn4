@@ -719,6 +719,16 @@ mShip.controller('MainCtrl',
                                 $scope.activeOrder.data.created_time,
                                 response.value.data, response.value.result.data.ORDER_NUMBER,
                                 station_data.value.station).then(function(response){
+                                    //
+                                    $scope.activeOrder.data.viettel_post_station_id = station_data.value.station.id;
+                                    $scope.activeOrder.data.viettel_post_station_name = station_data.value.station.name;
+                                    // find item in list and update
+                                    angular.forEach($rootScope.availableShippingItems, (item) => {
+                                      if(item.key == $scope.activeOrder.key){
+                                        item.data.viettel_post_station_id = station_data.value.station.id;
+                                        item.data.viettel_post_station_name = station_data.value.station.name;
+                                      }
+                                    })
                                 MUtilitiesService.AlertSuccessful(response);
                             })
                             .catch(function(err){
@@ -771,12 +781,9 @@ mShip.controller('MainCtrl',
         }
 
         function getDefaultStation(){
-            angular.forEach(viettel_stations, function(station){
-                if(station.id == 1){
-                    $scope.currentSattion = station;
-                    return;
-                }
-            })
+            return {
+                name: "Reload (F5) để cập nhật"
+            }
         }
 
         $scope.cancelOrder = function(){
@@ -800,6 +807,7 @@ mShip.controller('MainCtrl',
             }
 
             MVIETTELService.get_access_token(login_data).then(function(response){
+                var _token = response.TokenKey;
                 if(response.error == true){
                     MUtilitiesService.AlertError('Lỗi đăng nhập Viettel Post: ' + response.message);
                 }
@@ -817,7 +825,7 @@ mShip.controller('MainCtrl',
                                     "NOTE": "Hủy đơn hàng",
                                     "DATE": $filter('date')(Date.now(), "dd/MM/yyyy H:m:s"),
                                 },
-                                token: $scope.viettel_login_data.TokenKey
+                                token: _token
                             })
                             .then(function(response){
                                 console.log(response);
@@ -977,10 +985,11 @@ mShip.controller('MainCtrl',
         
         var getReport = function(){
             // $rootScope.todaySuccess = null;
-            MFirebaseService.getSuccessForDate(date).then(function(snapshot){
-                console.log(snapshot);
+            MFirebaseService.getSuccessForDate(date).then(function(response){
                 $timeout(function() {
-                    $rootScope.todaySuccess = snapshot.val();
+                    $scope.$apply(function(){
+                        $rootScope.todaySuccess = response;
+                    })
                 }, 100);
             })
         }
@@ -1052,12 +1061,14 @@ mShip.controller('MainCtrl',
                         product3: product3 ? product3.name + ' (' + order.data.data.customerData.products[2].note + ')' : '',
                         product3_count: product3 ? order.data.data.customerData.products[2].count : null,
                         page_id: order.data.data.orderData.page_id,
-                        page: $filter('filter')(fanpages, {id: order.data.data.orderData.page_id})[0].name
+                        page: $filter('filter')(fanpages, {id: order.data.data.orderData.page_id})[0].name,
+                        note: order.data.data.customerData.orderNote,
                     });
                 }
             })
             return res;
         }   
+        $rootScope.currentDate = Date.now();
         
         $rootScope.finishLoadFullData = true;
   });

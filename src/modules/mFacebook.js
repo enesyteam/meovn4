@@ -225,7 +225,7 @@
                     console.log('đang tìm trong ' + limit + ' tin nhắn mới nhất...');
                     Facebook.api('/' + pageId + '/conversations?fields=id,senders&limit='+limit+'&access_token=' + access_token, function(response) {
                         if (response && !response.error) {
-                            // console.log(response.data);
+                            console.log(response.data);
                             var found = [];
                             angular.forEach(response.data, function(data) {
                                 // console.log(data)

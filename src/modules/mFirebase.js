@@ -2055,7 +2055,10 @@
 
                         var endTime = new Date();
                         var startTime = new Date();
+                        startTime.setDate(endTime.getDate() - 1);
                         startTime.setHours(0,0,0,0);
+
+                        endTime.setDate(endTime.getDate() - 1);
                         endTime.setHours(23,59,59,999);
 
                         startTime = startTime.getTime();
@@ -2158,11 +2161,13 @@
                 }
                 var getSuccessForDate = function (date) {
                     // date = 2018-07-03
-                    var reportDateString = convertDate2(date);
-                    return firebase.database().ref().child('report')
-                    .child(reportDateString).child('successCount').once('value', function (snapshot) {
-                        console.log(snapshot);
-                    });
+                    var reportDateString = convertDate(new Date(date));
+                    return new Promise(function(resolve, reject){
+                        firebase.database().ref().child('report')
+                        .child(reportDateString).child('successCount').once('value', function (snapshot) {
+                            resolve(snapshot.val());
+                        });
+                    })
                 }
                 var getReportForToday = function (date) {
                     // date = 2018-07-03

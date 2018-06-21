@@ -6,6 +6,19 @@ m_admin.controller('MainCtrl',
         // listen for order change
         // $rootScope.todayReport = [];
         // console.log(telesales);
+        /*
+        * window size
+        */
+        $rootScope.windowsHeight = $window.innerHeight;
+        $rootScope.windowsWidth = $window.innerWidth;
+        var appWindow = angular.element($window);
+        appWindow.bind('resize', function() {
+            $scope.$apply(function() {
+                $rootScope.windowsHeight = $window.innerHeight;
+                $rootScope.windowsWidth = $window.innerWidth;
+            });
+        });
+    
         $rootScope.sellers = [];
         $rootScope.telesales = telesales;
         $rootScope.telesales_arr = telesales;
@@ -813,7 +826,7 @@ m_admin.controller('MainCtrl',
             if(!$rootScope.conversationLink.text || $rootScope.conversationLink.text.length == 0){
                 return;
             }
-            if($rootScope.conversationLink.text.indexOf('selected_item_id') == -1){
+            if($rootScope.conversationLink.text.indexOf('messages') == -1){
                 // $scope.show_user_name_input = true;
                 // MUtilitiesService.AlertError('Vui lòng paste tên khách hàng vào ô dưới');
                 return;
@@ -889,7 +902,7 @@ m_admin.controller('MainCtrl',
                                         var init = function(){
                                             return new Promise(function(resolve, reject){
                                                 var not_found = true;
-                                                limit = 1000;
+                                                limit = 3000;
 
                                                 MFacebookService.findThreadByUserName(response.id, user_name, token, limit).then(function(r){
                                                     MFacebookService.graphMessages(r[0].threadId, token).then(function(response){

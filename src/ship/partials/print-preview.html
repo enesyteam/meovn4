@@ -48,8 +48,8 @@
                <div>
                   <span>{{findTelesale(shipItem.data.data.orderData.seller_will_call_id).last_name || 'Không rõ'}}</span>
                   <span>{{shipItem.data.data.created_time | date: 'HH:mm dd/MM/yyyy'}}</span>
-                  <span><strong>{{shipItem.data.data.customerData.customerNote || 'Không có'}}</strong></span>
-                  <span>{{shipItem.data.data.customerData.orderNote || 'Không có'}}</span>
+                  <span><strong style="font-size: 16px">{{shipItem.data.data.customerData.customerNote || 'Không có'}}</strong></span>
+                  <span><strong style="font-size: 16px">{{shipItem.data.data.customerData.orderNote || 'Không có'}}</strong></span>
                </div>
             </section>
             <section id="client-info">
@@ -62,6 +62,9 @@
                </div>
                <div>
                   <span>Địa chỉ: <strong>{{shipItem.data.data.customerData.addresss}}</strong></span>
+               </div>
+               <div>
+                  <span>Năm sinh: <strong>{{shipItem.data.data.customerData.birthDay}}</strong></span>
                </div>
             </section>
             <div class="clearfix"></div>

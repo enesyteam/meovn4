@@ -10328,3 +10328,9 @@ a.metric:hover {
     left: 0;
     right: 0;
 }
+.default-station{
+    color: red
+}
+.green{
+    color: green !important;
+}

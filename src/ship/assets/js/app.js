@@ -10,6 +10,7 @@ var mShip = angular.module('mShip', [
   'angular-sweet-alert',
   'ngPrint',
   'AngularPrint',
+  'moment-picker',
   // 'dynamicNumber',
   'ngCsv',
   'mFacebook',
