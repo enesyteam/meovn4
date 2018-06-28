@@ -1,0 +1,17 @@
+[
+    {
+        "SERVICE_CODE": "GBH",
+        "SERVICE_NAME": "Khai giá",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "GDK",
+        "SERVICE_NAME": "Đồng kiểm",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "GNG",
+        "SERVICE_NAME": "Gửi tại bưu cục(Giảm 10% cước)",
+        "DESCRIPTION": null
+    }
+]

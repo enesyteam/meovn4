@@ -1,0 +1,57 @@
+[
+    {
+        "SERVICE_CODE": "VCN",
+        "SERVICE_NAME": "VCN Chuyển phát nhanh",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "VTK",
+        "SERVICE_NAME": "VTK Tiết kiệm",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "V60",
+        "SERVICE_NAME": "V60 Dịch vụ Nhanh 60h",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "VVT",
+        "SERVICE_NAME": "VVT Dịch vụ vận tải",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "VHT",
+        "SERVICE_NAME": "VHT Phát Hỏa tốc",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "SCOD",
+        "SERVICE_NAME": "SCOD Giao hàng thu tiền",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "PTN",
+        "SERVICE_NAME": "PTN Phát trong ngày nội tỉnh",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "PHT",
+        "SERVICE_NAME": "PHT Phát hỏa tốc nội tỉnh",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "PHS",
+        "SERVICE_NAME": "PHS Phát hôm sau nội tỉnh",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "VBS",
+        "SERVICE_NAME": "VBS Nhanh theo hộp",
+        "DESCRIPTION": null
+    },
+    {
+        "SERVICE_CODE": "VBE",
+        "SERVICE_NAME": "VBE Tiết kiệm theo hộp",
+        "DESCRIPTION": null
+    }
+]

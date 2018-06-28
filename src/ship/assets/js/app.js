@@ -93,15 +93,31 @@ var mShip = angular.module('mShip', [
                        return null;
                       });
                   },
-                  viettel_services: function(MVIETTELService){
-                    return MVIETTELService.get_services({ "TYPE": 1 }).then(function(response){
-                        return response;
-                    })
+                  viettel_services: function($http){
+                    // return MVIETTELService.get_services({ "TYPE": 1 }).then(function(response){
+                    //     return response;
+                    // })
+                    return $http.get('../assets/viettel_services.json').
+                      then(function onSuccess(response) {
+                        // console.log(response);
+                         return response.data;
+                      }).
+                      catch(function onError(response) {
+                       return null;
+                      });
                   },
-                  viettel_extra_services: function(MVIETTELService){
-                    return MVIETTELService.get_extra_services().then(function(response){
-                        return response;
-                    })
+                  viettel_extra_services: function($http){
+                    // return MVIETTELService.get_extra_services().then(function(response){
+                    //     return response;
+                    // })
+                    return $http.get('../assets/viettel_extra_services.json').
+                      then(function onSuccess(response) {
+                        // console.log(response);
+                         return response.data;
+                      }).
+                      catch(function onError(response) {
+                       return null;
+                      });
                   },
 
                 }
