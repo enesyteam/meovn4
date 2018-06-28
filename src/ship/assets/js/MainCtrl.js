@@ -511,7 +511,7 @@ mShip.controller('MainCtrl',
             $scope.activeOrder = null;
             $scope.activeOrder = order;
             angular.forEach($rootScope.availableShippingItems, function(item){
-                console.log(item);
+                // console.log(item);
                 item.selected = null;
                 if(item.data.data && 
                     item.data.data.customerData.recievedPhone == $scope.activeOrder.data.data.customerData.recievedPhone

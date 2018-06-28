@@ -54,20 +54,44 @@ var mShip = angular.module('mShip', [
                             return response;
                         })
                     },
-                  viettel_provinces: function(MVIETTELService){
-                    return MVIETTELService.get_viettel_provinces().then(function(response){
-                        return response;
-                    })
+                  viettel_provinces: function($http){
+                    return $http.get('../assets/viettel_provinces.json').
+                      then(function onSuccess(response) {
+                         return response.data;
+                      }).
+                      catch(function onError(response) {
+                       return null;
+                      });
+                    // return MVIETTELService.get_viettel_provinces().then(function(response){
+                    //     return response;
+                    // })
                   },
-                  viettel_districs: function(MVIETTELService){
-                    return MVIETTELService.get_viettel_districs().then(function(response){
-                        return response;
-                    })
+                  viettel_districs: function($http){
+                    // return MVIETTELService.get_viettel_districs().then(function(response){
+                    //     return response;
+                    // })
+                    // .catch(err => {
+                    //   console.log(err)
+                    // })
+                    return $http.get('../assets/viettel_districs.json').
+                      then(function onSuccess(response) {
+                         return response.data;
+                      }).
+                      catch(function onError(response) {
+                       return null;
+                      });
                   },
-                  viettel_wards: function(MVIETTELService){
-                    return MVIETTELService.get_viettel_wards().then(function(response){
-                        return response;
-                    })
+                  viettel_wards: function($http){
+                    // return MVIETTELService.get_viettel_wards().then(function(response){
+                    //     return response;
+                    // })
+                    return $http.get('../assets/viettel_wards.json').
+                      then(function onSuccess(response) {
+                         return response.data;
+                      }).
+                      catch(function onError(response) {
+                       return null;
+                      });
                   },
                   viettel_services: function(MVIETTELService){
                     return MVIETTELService.get_services({ "TYPE": 1 }).then(function(response){

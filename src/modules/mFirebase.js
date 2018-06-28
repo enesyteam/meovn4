@@ -2055,10 +2055,10 @@
 
                         var endTime = new Date();
                         var startTime = new Date();
-                        startTime.setDate(endTime.getDate() - 1);
+                        startTime.setDate(endTime.getDate());
                         startTime.setHours(0,0,0,0);
 
-                        endTime.setDate(endTime.getDate() - 1);
+                        endTime.setDate(endTime.getDate());
                         endTime.setHours(23,59,59,999);
 
                         startTime = startTime.getTime();
