@@ -7,19 +7,40 @@ router.post('/getToken', (req, res, next) => {
 	
   if (req.method == 'POST')   {
         req.on('data', function (data) {
-            request.post(
-			    'https://api.viettelpost.vn/api/user/Login',
-			    { json: JSON.parse(data) },
-			    function (error, response, body) {
-			        if (!error && response.statusCode == 200) {
-			            // console.log(body)
-			            res.send(body);
-			        }
-			    }
-			);
+   //          request.post(
+			//     'https://api.viettelpost.vn/api/user/Login',
+			//     { json: JSON.parse(data) },
+			//     function (error, response, body) {
+			//         if (!error && response.statusCode == 200) {
+			//             // console.log(body)
+			//             res.send(body);
+			//         }
+			//     }
+			// );
+			
+			var options = {
+			  method: 'post',
+			  body: postData, // Javascript object
+			  json: true, // Use,If you are sending JSON data
+			  url: 'https://api.viettelpost.vn/api/user/Login',
+			  headers: {
+			    'Content-Type': 'application/json'
+			  }
+			}
+
+			request(options, function (err, res, body) {
+			  if (err) {
+			    console.log('Error :', err)
+			    return
+			  }
+			  res.send(body);
+
+			});
         });
     }
 })
+
+
 
 
 router.get('/getProvinces', (req, res, next) => {
