@@ -50,6 +50,130 @@ app.get('/versions',  routes.versions);
 
 app.use('/viettelAPI', viettelAPI);
 
+app.post('/viettelAPI/getToken', (req, res, next) => {
+  var clientServerOptions = {
+      uri: 'https://api.viettelpost.vn/api/user/Login',
+      body: JSON.stringify(req.body),
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  }
+  request(clientServerOptions, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        // console.log(body)
+        res.send(body);
+      }
+      else{
+        res.send(error);
+      }
+  });
+})
+
+app.post('/viettelAPI/getHubs', (req, res, next) => {
+  var clientServerOptions = {
+      uri: 'https://api.viettelpost.vn/api/setting/listInventory',
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          "Token": req.body.Token
+      }
+  }
+  request(clientServerOptions, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        // console.log(body)
+        res.send(body);
+      }
+      else{
+        res.send(error);
+      }
+  });
+})
+
+app.post('/viettelAPI/calculateShippingFee', (req, res, next) => {
+  // console.log( req.body);
+  console.log( req.body);
+  var clientServerOptions = {
+      uri: 'https://api.viettelpost.vn/api/tmdt/getPrice',
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          "Token": req.body.Token
+      },
+      body: JSON.stringify(req.body.data)
+  }
+  request(clientServerOptions, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        // console.log(body)
+        res.send(body);
+      }
+      else{
+        res.send(error);
+      }
+  });
+})
+
+app.post('/viettelAPI/createOrder', (req, res, next) => {
+  
+  var clientServerOptions = {
+      uri: 'https://api.viettelpost.vn/api/tmdt/InsertOrder',
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          "Token": req.body.token
+      },
+      body: JSON.stringify(req.body.data)
+  }
+  request(clientServerOptions, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        // console.log(body)
+        res.send(body);
+      }
+      else{
+        res.send(error);
+      }
+  });
+})
+
+app.post('/viettelAPI/cancelOrder', (req, res, next) => {
+  // console.log( req.body);
+  var clientServerOptions = {
+      uri: 'https://api.viettelpost.vn/api/tmdt/UpdateOrder',
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          "Token": req.body.token
+      },
+      body: JSON.stringify(req.body.data)
+  }
+  request(clientServerOptions, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        // console.log(body)
+        res.send(body);
+      }
+      else{
+        res.send(error);
+      }
+  });
+})
+
+// router.post('/getHubs', (req, res, next) => {
+//   // console.log(req.body.Token);
+//     request.post({
+//       url: 'https://api.viettelpost.vn/api/setting/listInventory',
+//       headers: {
+//           "content-type": "application/json",
+//           "Token": req.body.Token
+//       },
+//   }, function (error, response, body){
+//       if (!error && response.statusCode == 200) {
+//               // console.log(body)
+//               res.send(body);
+//           }
+//   });
+// })
+
+
 
 
 // router.post('/viettel-api/getToken', function(req, res) {

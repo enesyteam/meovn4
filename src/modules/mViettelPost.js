@@ -15,14 +15,8 @@
             * get access token
             */
             var get_access_token = function(data){
-                var config = {
-                        headers: {
-                            'Content-Type': 'Application/json;'
-                        }
-                      }
-
                 return new Promise(function(resolve, reject){
-                    $http.post('/viettelAPI/getToken', data, config)
+                    $http.post('/viettelAPI/getToken', data)
                         .then(function(response) {
                             resolve(response.data);
                         })
