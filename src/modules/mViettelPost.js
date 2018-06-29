@@ -7,7 +7,7 @@
         .service('MVIETTELService', ["$http", function($http) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'Application/json;'
                 }
             }
 
@@ -17,7 +17,7 @@
             var get_access_token = function(data){
                 var config = {
                         headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                            'Content-Type': 'Application/json;'
                         }
                       }
 
@@ -89,7 +89,7 @@
             var get_services = function(data){
                 var config = {
                         headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                            'Content-Type': 'Application/json;'
                         }
                       }
 

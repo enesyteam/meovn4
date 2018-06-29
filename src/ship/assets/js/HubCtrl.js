@@ -1,5 +1,5 @@
-mShip.controller('HubCtrl', ['$q',  '$timeout', '$scope', '$filter', 'viettel_stations', 'MFirebaseService', 'MVIETTELService', 'MUtilitiesService',
-	function ($q, $timeout, $scope, $filter, viettel_stations,
+mShip.controller('HubCtrl', ['$q',  '$timeout', '$scope', '$http', '$filter', 'viettel_stations', 'MFirebaseService', 'MVIETTELService', 'MUtilitiesService',
+	function ($q, $timeout, $scope, $http, $filter, viettel_stations,
         MFirebaseService,  MVIETTELService, MUtilitiesService) {
 
 		vm = this;
@@ -20,6 +20,17 @@ mShip.controller('HubCtrl', ['$q',  '$timeout', '$scope', '$filter', 'viettel_st
 	                        'PASSWORD' : $scope.selected_station.password,
 	                        'SOURCE' : 0
 	                    }
+
+	     //             var config = {
+		    //             headers: {
+		    //                 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+		    //             }
+		    //         }
+
+	     //            $http.post('https://api.viettelpost.vn/api/user/Login', login_data, config)
+	     //            .then(function(response){
+						// console.log(response);
+	     //            })
 
 	                MVIETTELService.get_access_token(login_data).then(function(response){
 	                    if(response.error == true){
