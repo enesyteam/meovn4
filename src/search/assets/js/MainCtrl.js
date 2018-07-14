@@ -113,35 +113,35 @@ mSearch.controller('MainCtrl',
 
     
 
-    ///////////////////////////lấy báo cáo tháng
-    // var totalSuccessMonth = 0;
-    // var user_month_report = [];
-    // angular.forEach(telesales, (telesale) => {
-    //     user_month_report.push({
-    //         name: telesale.last_name,
-    //         id: telesale.id,
-    //         success: 0
-    //     })
-    // })
-    // MFirebaseService.getMonthReport('05').then(function(response){
-    //     angular.forEach(response, (date_report) => {
-    //       totalSuccessMonth += date_report.successCount;
-    //       angular.forEach(date_report.userReport, (user_report) => {
-    //          // find in user_month_report
-    //          var found = $filter("filter")(user_month_report, {id: user_report.id})[0];
+    /////////////////////////lấy báo cáo tháng
+    var totalSuccessMonth = 0;
+    var user_month_report = [];
+    angular.forEach(telesales, (telesale) => {
+        user_month_report.push({
+            name: telesale.last_name,
+            id: telesale.id,
+            success: 0
+        })
+    })
+    MFirebaseService.getMonthReport('07').then(function(response){
+        angular.forEach(response, (date_report) => {
+          totalSuccessMonth += date_report.successCount;
+          angular.forEach(date_report.userReport, (user_report) => {
+             // find in user_month_report
+             var found = $filter("filter")(user_month_report, {id: user_report.id})[0];
 
-    //          if(found){
-    //             found.success += user_report.successCount;
-    //          }
-    //          else{
-    //             console.log(found)
-    //          }
-    //         })
-    //     })
-    //     console.log('Tổng số đơn chốt trong tháng: ' + totalSuccessMonth);
-    //     console.log(user_month_report);
-    // })
-    ///////////////////////////lấy báo cáo tháng
+             if(found){
+                found.success += user_report.successCount;
+             }
+             else{
+                console.log(found)
+             }
+            })
+        })
+        console.log('Tổng số đơn chốt trong tháng: ' + totalSuccessMonth);
+        console.log(user_month_report);
+    })
+    /////////////////////////lấy báo cáo tháng
     
 
     // console.log($rootScope.currentMember);

@@ -14,7 +14,7 @@ mSale.controller('MainCtrl',
 
     
 
-    ///////////////////////////lấy báo cáo tháng
+    // /////////////////////////lấy báo cáo tháng
     // var totalSuccessMonth = 0;
     // var user_month_report = [];
     // angular.forEach(telesales, (telesale) => {
@@ -24,7 +24,7 @@ mSale.controller('MainCtrl',
     //         success: 0
     //     })
     // })
-    // MFirebaseService.getMonthReport('05').then(function(response){
+    // MFirebaseService.getMonthReport('06').then(function(response){
     //     angular.forEach(response, (date_report) => {
     //       totalSuccessMonth += date_report.successCount;
     //       angular.forEach(date_report.userReport, (user_report) => {
@@ -42,7 +42,7 @@ mSale.controller('MainCtrl',
     //     console.log('Tổng số đơn chốt trong tháng: ' + totalSuccessMonth);
     //     console.log(user_month_report);
     // })
-    ///////////////////////////lấy báo cáo tháng
+    // /////////////////////////lấy báo cáo tháng
     
 
     // console.log($rootScope.currentMember);
