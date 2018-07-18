@@ -829,7 +829,7 @@ m_admin.controller('MainCtrl',
             if($rootScope.conversationLink.text.indexOf('messages') == -1){
                 // $scope.show_user_name_input = true;
                 // MUtilitiesService.AlertError('Vui lòng paste tên khách hàng vào ô dưới');
-                return;
+                // return;
             }
 
             if(!$scope.orderData.customer_name || $scope.orderData.customer_name < 1){

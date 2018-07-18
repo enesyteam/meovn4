@@ -3,6 +3,8 @@ mRealtime.controller('OdersCtrl',
         cfpLoadingBar, Facebook, firebaseService, ProductPackService,
          activeItem, fanpages, MFacebookService, MFirebaseService, MUtilitiesService) {
 
+        console.log(activeItem);
+
         var isTestMode = false;
 
         $scope.showImageDialog = function(imageUrl){
