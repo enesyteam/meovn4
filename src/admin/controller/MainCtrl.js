@@ -830,6 +830,7 @@ m_admin.controller('MainCtrl',
                 // $scope.show_user_name_input = true;
                 // MUtilitiesService.AlertError('Vui lòng paste tên khách hàng vào ô dưới');
                 // return;
+                console.log('may be not a message!');
             }
 
             if(!$scope.orderData.customer_name || $scope.orderData.customer_name < 1){
