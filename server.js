@@ -211,10 +211,16 @@ app.post('/viettelAPI/cancelOrder', (req, res, next) => {
 // app.use(express.static(path.join(__dirname, 'assets')));
 // app.use('/static', express.static('public'))
 app.use('/assets', express.static('assets'));
-app.use('/.well-known', express.static('.well-known'));
+// app.use('/.well-known', express.static('.well-known'));
 app.use('/node_modules', express.static('node_modules'));
 app.use('/src', express.static('src'));
 // app.use('/', express.static('/'));
+app.use('/.well-known/acme-challenge/gx5GvW0PmeakR8yp8WAhiynFB6UI11ByQ3GYbcqSFWA', function(req, res){
+  res.send('gx5GvW0PmeakR8yp8WAhiynFB6UI11ByQ3GYbcqSFWA.SBLbOilz-zrV-eombMwRGxSBH8mQqDcb7KUWINz-1JQ')
+});
+app.use('/.well-known/acme-challenge/EuV09eZen43ChXDglnaYwQ8yDPTV-H8cOhxIWXYV6Js', function(req, res){
+  res.send('EuV09eZen43ChXDglnaYwQ8yDPTV-H8cOhxIWXYV6Js.SBLbOilz-zrV-eombMwRGxSBH8mQqDcb7KUWINz-1JQ')
+});
 
 app.get('/webhook', function(req, res) {
 	// console.log(res);
