@@ -221,6 +221,9 @@ app.use('/.well-known/acme-challenge/gx5GvW0PmeakR8yp8WAhiynFB6UI11ByQ3GYbcqSFWA
 app.use('/.well-known/acme-challenge/EuV09eZen43ChXDglnaYwQ8yDPTV-H8cOhxIWXYV6Js', function(req, res){
   res.send('EuV09eZen43ChXDglnaYwQ8yDPTV-H8cOhxIWXYV6Js.SBLbOilz-zrV-eombMwRGxSBH8mQqDcb7KUWINz-1JQ')
 });
+app.use('/aecfc0c614dc.html', function(req, res){
+  res.send('d08a576e9328')
+});
 
 app.get('/webhook', function(req, res) {
 	// console.log(res);
