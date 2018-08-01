@@ -1,6 +1,6 @@
 // # SimpleServer
 // A simple chat bot server
-var facebookAuth = require('./facebook');
+// import facebookAuth from './facebook';
 
 var logger = require('morgan');
 var http = require('http');
@@ -23,8 +23,7 @@ var viettelAPI = require('./routes/viettelAPI');
 
 var app = express();
 
-// facebookAuth.facebookAuth( app );
-
+// facebookAuth( app );
 app.use(logger('dev'));
 
 //support parsing of application/json type post data
