@@ -127,58 +127,58 @@ mRealtime.controller('OdersCtrl',
 
         //
         if($stateParams.type==1){
-            // messages
-            MFacebookService.graphMessages($stateParams.conversation_id, $scope.currentAccessToken).then(function(response){
-                $scope.$apply(function(){
-                    // console.log(response);
-                    // chỉnh sửa thông tin chút
-                    angular.forEach(response.messages.data, function(mes){
-                        // mes = 'sdfsdfsdf';
-                        if(mes.shares && mes.shares.data){
-                            if(mes.shares.data[0].link){
-                                // mes = 'sdfds';
-                                // console.log(mes.shares.data[0].link);
-                                // var link = $scope.detectMessageSharesLink(mes.shares.data[0].link);
+            // // messages
+            // MFacebookService.graphMessages($stateParams.conversation_id, $scope.currentAccessToken).then(function(response){
+            //     $scope.$apply(function(){
+            //         // console.log(response);
+            //         // chỉnh sửa thông tin chút
+            //         angular.forEach(response.messages.data, function(mes){
+            //             // mes = 'sdfsdfsdf';
+            //             if(mes.shares && mes.shares.data){
+            //                 if(mes.shares.data[0].link){
+            //                     // mes = 'sdfds';
+            //                     // console.log(mes.shares.data[0].link);
+            //                     // var link = $scope.detectMessageSharesLink(mes.shares.data[0].link);
 
-                                MUtilitiesService.detectMessageSharesLink(mes.shares.data[0].link).then(function(result){
-                                    if(result.type == 'photo'){
-                                        mes.link = result.link;
-                                    }
-                                    else if(result.type == 'post'){
-                                        // console.log(result);
-                                        // alert('share is post');
-                                        MFacebookService.graphPostAttachments($scope.pageData.id + '_' + result.id, $scope.currentAccessToken)
-                                        .then(function(response){
-                                            // console.log(response);
-                                            // mes.x = response.data;
-                                            // return response.data.attachments.picture;
-                                            $scope.$apply(function(){
-                                                mes.post_share = response.data;
-                                            })
-                                        })
-                                        .catch(function(err){
-                                            // console.log(err);
-                                            MUtilitiesService.AlertError(err);
-                                        });
-                                    }
-                                    else {
-                                        return 'Trường hợp khác'
-                                    }
-                                })
+            //                     MUtilitiesService.detectMessageSharesLink(mes.shares.data[0].link).then(function(result){
+            //                         if(result.type == 'photo'){
+            //                             mes.link = result.link;
+            //                         }
+            //                         else if(result.type == 'post'){
+            //                             // console.log(result);
+            //                             // alert('share is post');
+            //                             MFacebookService.graphPostAttachments($scope.pageData.id + '_' + result.id, $scope.currentAccessToken)
+            //                             .then(function(response){
+            //                                 // console.log(response);
+            //                                 // mes.x = response.data;
+            //                                 // return response.data.attachments.picture;
+            //                                 $scope.$apply(function(){
+            //                                     mes.post_share = response.data;
+            //                                 })
+            //                             })
+            //                             .catch(function(err){
+            //                                 // console.log(err);
+            //                                 MUtilitiesService.AlertError(err);
+            //                             });
+            //                         }
+            //                         else {
+            //                             return 'Trường hợp khác'
+            //                         }
+            //                     })
 
-                                // console.log(link);
+            //                     // console.log(link);
                                 
                                 
-                            }
-                        }
-                    })
-                    $scope.messageData = response;
-                });
+            //                 }
+            //             }
+            //         })
+            //         $scope.messageData = response;
+            //     });
 
-            })
-            .catch(function(err){
-                MUtilitiesService.AlertError(err, 'Lỗi');
-            })
+            // })
+            // .catch(function(err){
+            //     MUtilitiesService.AlertError(err, 'Lỗi');
+            // })
         }
         else{
             // graph post

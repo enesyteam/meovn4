@@ -579,6 +579,24 @@ m_admin.controller('MainCtrl',
             publish_date: null,
         };
 
+        function resetOrderData() {
+            $scope.orderData = {
+                type: null,
+                id: null,
+                page_id: null,
+                post_id: null,
+                conversation_id: null,
+                customer_id: null,
+                customer_name: null,
+                customer_mobile: null,
+                customer_message: null,
+                admin_note: null,
+                seller_will_call_id: null,
+                status_id: 1,
+                publish_date: null,
+            };
+        }
+
         $rootScope.onConversationLinkChange = function(){
             if(!$rootScope.conversationLink.text || $rootScope.conversationLink.text.length < 5 || $rootScope.conversationLink.text.indexOf('facebook.com') == -1){
                 return;
@@ -608,126 +626,29 @@ m_admin.controller('MainCtrl',
             // graph page
             if($rootScope.conversationLink.text.indexOf('inbox') !== -1){
                 // $scope.show_user_name_input = true;
-                $scope.orderData.customer_name = null;
-                MUtilitiesService.AlertError('Vui lòng paste tên khách hàng vào ô dưới');
-                return;
-            }
-            if($rootScope.conversationLink.text.indexOf('threadid') !== -1){
-                // message
-                var l = $rootScope.conversationLink.text.split('/').pop(); // ?threadid=144606886204668&folder=inbox
-                var s = l.split('=');
-                var x = s[1]; //144606886204668&folder
-                var y = x.split('&');
-                var thread_id = y[0];
-                // page id
-                // https://facebook.com/261147674417633/manager/messages/?folder=inbox
+                // $scope.orderData.customer_name = null;
+                // MUtilitiesService.AlertError('Vui lòng paste tên khách hàng vào ô dưới');
+                // return;
+                // resetOrderData();
+                $scope.orderData.type = 1; //message
+
                 var page_name_or_id = $rootScope.conversationLink.text.split('/')[3];
 
                 MFacebookService.graphPage(page_name_or_id, $rootScope.access_token).then(function(response){
                     // console.log(response);
                     $scope.$apply(function(){
                         $scope.pageData = response;
-                    })
-                    getToken(response.id).then(function(token){
-                        $scope.$apply(function(){
-                                $scope.current_token = token;
-                            })
-                        // console.log(token);
-                        // tìm kiếm trong 100 tin nhắn mới nhất
-                        var t_id = null;
-                        var limit = 10;
-                        MFacebookService.findThreadInPageId(response.id, thread_id, token, limit).then(function(r){
-                            console.log(r)
-                            MFacebookService.graphMessages(r, token).then(function(response){
-                                console.log(response);
-                                $scope.$apply(function(){
-                                    $scope.messageData = response;
-                                    // make order Data
-                                    makeOrderDataFromMessage(response);
-                                    $scope.orderData.conversation_id = response.id;
-                                    $scope.isGraphing = false;
-                                })
-                            })
-                        })
-                        .catch(function(err){
-                            console.log(err);
-                            // tìm trong 50 tin nhắn mới nhất
-                            limit = 50;
-                            MFacebookService.findThreadInPageId(response.id, thread_id, token, limit).then(function(r){
-                                MFacebookService.graphMessages(r, token).then(function(response){
-                                    console.log(response);
-                                    $scope.$apply(function(){
-                                        $scope.messageData = response;
-                                        // make order Data
-                                        makeOrderDataFromMessage(response);
-                                        $scope.orderData.conversation_id = response.id;
-                                        $scope.isGraphing = false;
-                                    })
-                                })
-                            })
-                            .catch(function(err){
-                                console.log(err);
-                                limit = 100;
-                                MFacebookService.findThreadInPageId(response.id, thread_id, token, limit).then(function(r){
-                                    MFacebookService.graphMessages(r, token).then(function(response){
-                                        console.log(response);
-                                        $scope.$apply(function(){
-                                            $scope.messageData = response;
-                                            // make order Data
-                                            makeOrderDataFromMessage(response);
-                                            $scope.orderData.conversation_id = response.id;
-                                            $scope.isGraphing = false;
-                                        })
-                                    })
-                                })
-                                .catch(function(err){
-                                    console.log(err);
-                                    MUtilitiesService.showWaitingDialog('Đang tìm trong 1000 tin nhắn mới nhất...', function(){
-                                        var init = function(){
-                                            return new Promise(function(resolve, reject){
-                                                var not_found = true;
-                                                limit = 1000;
-
-                                                MFacebookService.findThreadInPageId(response.id, thread_id, token, limit).then(function(r){
-                                                    MFacebookService.graphMessages(r, token).then(function(response){
-                                                        console.log(response);
-                                                        $scope.$apply(function(){
-                                                            $scope.messageData = response;
-                                                            // make order Data
-                                                            makeOrderDataFromMessage(response);
-                                                            $scope.orderData.conversation_id = response.id;
-                                                            $scope.isGraphing = false;
-                                                        })
-                                                    })
-                                                    resolve(true);
-                                                })
-                                                .catch(function(err){
-                                                    // console.log(err);
-                                                    MUtilitiesService.AlertError(err);
-                                                    resolve(false);
-                                                })
-                                            })
-                                        }
-                                        return {
-                                            init : init,
-                                        }
-                                    });
-                                })
-                            })
-                        })
-
-                    })
-                    .catch(function(err){
-                        MUtilitiesService.AlertError(err);
-                        return;
+                        $scope.orderData.page_id = $scope.pageData.id;
+                        $scope.isGraphing = false;
                     });
-                })
-                .catch(function(err){
-                    console.log(err);
                 });
+                
             }
+            
             else{
-                // comment
+                 $scope.orderData.type = null; //message
+                // resetOrderData();
+                // comment giữ nguyên
                 // console.log('This conversation is comment');
                 var l = $rootScope.conversationLink.text.split('/');
                 var conversationId = l[l.length - 1];
@@ -1017,10 +938,10 @@ m_admin.controller('MainCtrl',
         }
 
         var validateOrderData = function(orderData){
-            if(!orderData.customer_id){
-                MUtilitiesService.AlertError('Vui lòng nhập ID khách hàng', 'Lỗi');
-                return false;
-            }
+            // if(!orderData.customer_id){
+            //     MUtilitiesService.AlertError('Vui lòng nhập ID khách hàng', 'Lỗi');
+            //     return false;
+            // }
             if(!orderData.customer_name){
                 MUtilitiesService.AlertError('Vui lòng nhập tên khách hàng', 'Lỗi');
                 return false;
@@ -1124,13 +1045,13 @@ m_admin.controller('MainCtrl',
                         // $scope.current_token
                         if($scope.orderData.type == 1){
                             // reply message
-                            MFacebookService.replyMessage($scope.orderData.conversation_id,
-                                $scope.current_token, null, 'Cảm ơn anh/chị đã để lại số điện thoại. Nhân viên CSKH sẽ liên hệ với anh/chị trong thời gian sớm nhất. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
-                                MUtilitiesService.AlertSuccessful(response)
-                            })
-                            .catch(function(err){
-                                MUtilitiesService.AlertError(err, 'Lỗi')
-                            })
+                            // MFacebookService.replyMessage($scope.orderData.conversation_id,
+                            //     $scope.current_token, null, 'Cảm ơn anh/chị đã để lại số điện thoại. Nhân viên CSKH sẽ liên hệ với anh/chị trong thời gian sớm nhất. Anh/chị vui lòng để ý điện thoại ạ!').then(function(response){
+                            //     MUtilitiesService.AlertSuccessful(response)
+                            // })
+                            // .catch(function(err){
+                            //     MUtilitiesService.AlertError(err, 'Lỗi')
+                            // })
                         }
                         else{
                             // reply comment

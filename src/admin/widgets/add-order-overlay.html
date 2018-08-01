@@ -39,12 +39,28 @@
 				      <div class="_3nmg">
 				         <div id="u_fetchstream_18_5">
 				            <div>
+				            	<div style="width: 100%;height: 30px;background: red;text-align: center;"
+				            	ng-if="orderData.type==1">
+				            		<span style="line-height: 30px;color:yellow">Thêm Order từ tin nhắn khách hàng</span>
+				            	</div>
 				               <div class="_5qu_ mb-2">
 				                  <div class="_5aj7">
 				                     <div class="_5qw1 _4bl9">
 				                     	<span class="_wrn _213j _4ehf _1fmg _1fmg">
 					                     	<label class="_55r1 _55r2 _58ak _3ct8">
 					                     		<input class="_58al" type="text" placeholder="Paste link hội thoại từ Pancake" ng-model="conversationLink.text" graph-enter="" ng-change="onConversationLinkChange()"></label>
+					                     </span>
+					                 </div>
+				                  </div>
+				               </div>
+				               <div class="_5qu_ mb-2" hidden="">
+				               	Link Pancake
+				                  <div class="_5aj7">
+
+				                     <div class="_5qw1 _4bl9">
+				                     	<span class="_wrn _213j _4ehf _1fmg _1fmg">
+					                     	<label class="_55r1 _55r2 _58ak _3ct8">
+					                     		<input class="_58al" type="text" placeholder="https://pages.fm/994349830740410?c_id=994349830740410_177041266043202" ng-model="pancake_link" graph-enter=""></label>
 					                     </span>
 					                 </div>
 				                  </div>
@@ -60,7 +76,7 @@
 					                 <div class="_5qw1 _4bl9">
 				                     	<span class="_wrn _213j _4ehf _1fmg _1fmg">
 					                     	<label class="_55r1 _55r2 _58ak _3ct8">
-					                     		<input class="_58al" type="text" aria-autocomplete="list" aria-controls="js_4rv" aria-expanded="false" role="combobox" placeholder="Tên khách hàng" autocomplete="off" autocorrect="off" ng-model="orderData.customer_name" add-order-enter="submitOrder()" ng-change="graph_message()"></label>
+					                     		<input class="_58al" type="text" aria-autocomplete="list" aria-controls="js_4rv" aria-expanded="false" role="combobox" placeholder="Tên khách hàng" autocomplete="off" autocorrect="off" ng-model="orderData.customer_name" add-order-enter="submitOrder()" ></label>
 					                     </span>
 					                 </div>
 				                  </div>

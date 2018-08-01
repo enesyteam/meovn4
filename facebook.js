@@ -3,7 +3,7 @@ var passportFacebook = require('passport-facebook');
 
 var FacebookStrategy = passportFacebook.Strategy;
 
-exports.auth = function( server ) {
+exports.facebookAuth = function( server ) {
 	const clientID = '1085772744867580';
 	const clientSecret = 'ad08cb6d2d1e6cf4d463d398399ee3ee';
 
@@ -33,7 +33,7 @@ exports.auth = function( server ) {
 	      {
 	        clientID,
 	        clientSecret,
-	        callbackURL: `https://meovnteam.com/auth/facebook/callback`,
+	        callbackURL: `https://www.meovnteam.com/auth/facebook/callback`,
 	        profileFields: ["name", "email", "link", "locale", "timezone", "photos"],
 	      },
 	      verify,
@@ -56,7 +56,7 @@ exports.auth = function( server ) {
 	      failureRedirect: '/login',
 	    }),
 	    (req, res) => {
-	      res.redirect('https://meovnteam.com/');
+	      res.redirect('https://www.meovnteam.com/');
 	    },
 	);
 

@@ -94,6 +94,11 @@
                </div>
             </div>
             <!-- Messages -->
+            <div ng-if="!commentData">
+               <div class="p-4" ng-if="!messageData.messages.data"><div class="flash flash-error">
+                     Hiện tại facebook đang cập nhật và đã khóa chức năng đọc tin nhắn của ứng dụng MEOVN. Vui lòng truy cập pancake để xem nội dung tin nhắn từ khách hàng!
+                  </div></div>
+            </div>
             <div ng-if="messageData">
                <div>
                   <div class="chat-system-message window__chatSystemMessage">

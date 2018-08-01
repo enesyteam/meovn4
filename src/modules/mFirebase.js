@@ -2293,7 +2293,7 @@
                 // get report for month
                 // @param: month = 01 to 12
                 var getMonthReport = function(month){
-                    var fromDate = '2018' + month + '01', toDate = '2018' + month + '29';
+                    var fromDate = '2018' + month + '01', toDate = '2018' + month + '31';
                     return new Promise(function (resolve, reject) {
                         firebase.database().ref().child('report')
                         .orderByKey()

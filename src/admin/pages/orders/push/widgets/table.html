@@ -2,7 +2,7 @@
                         >
    <div class="_1gda _2djg {{order.is_changing == true ? 'is_changing' : ''}}" style="width: 778px; height: 55px; z-index: 0;"
       ng-repeat="order in (canAsignOrders | pushOrdersFilter:filterStatus) track by $index"
-      ng-if="order.id  && order.conversation_id"
+      ng-if="order.id"
       ng-click="toggleSelectAnOrder(order)">
       <div class="_1gd4 _4li _52no" 
       ng-class="order.selected ? '_30p6 _4qqm _d_0 _3c7k' : '_m3c _3c7k'"
