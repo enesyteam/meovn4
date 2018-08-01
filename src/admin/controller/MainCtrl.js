@@ -602,12 +602,12 @@ m_admin.controller('MainCtrl',
                 return;
             }
             else{
-                beginGraph();
+                graphFacebook();
             }
         }
 
         //////////// GRAPH
-        var beginGraph = function(){
+        var graphFacebook = function(){
             $scope.usersCount = 1;
             // if(!$rootScope.conversationLink || $rootScope.conversationLink.length==0){
             //     return;
@@ -1114,7 +1114,7 @@ m_admin.controller('MainCtrl',
         }
         // TODO: SUBMIT NEW ORDER
         $scope.graph = function() {
-            beginGraph();
+            graphFacebook();
         }
         /////////////////////////////////////////////////////////////////////////////////////////////
         // $timeout(function() {
