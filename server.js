@@ -18,10 +18,11 @@ const PORT = process.env.PORT || 5000
 routes = require('./routes');
 
 var viettelAPI = require('./routes/viettelAPI');
+var facebook = require( './facebook' );
 
 var app = express();
 
-
+facebook.auth( app );
 app.use(logger('dev'));
 
 //support parsing of application/json type post data
@@ -46,6 +47,7 @@ app.get('/printing',  routes.printing);
 app.get('/tracking',  routes.orderManager);
 app.get('/permissions',  routes.permissions);
 app.get('/versions',  routes.versions);
+app.get('/facebookLogin',  routes.facebookLogin);
 
 
 app.use('/viettelAPI', viettelAPI);

@@ -143,9 +143,9 @@ mSearch.controller('MainCtrl',
              }
             })
         })
-        console.log('Tổng số điện thoại trong tháng: ' + totalNewCustomer);
-        console.log('Tổng số đơn chốt trong tháng: ' + totalSuccessMonth);
-        console.log('Hiệu suất chốt: ' + totalSuccessMonth/totalNewCustomer*100 + ' %');
+        console.log('Tổng số điện thoại trong tuần: ' + totalNewCustomer);
+        console.log('Tổng số đơn chốt trong tuần: ' + totalSuccessMonth);
+        console.log('Hiệu suất chốt tuần: ' + totalSuccessMonth/totalNewCustomer*100 + ' %');
         // console.log(user_month_report);
         angular.forEach(user_month_report, (item) => {
           // Todo...
