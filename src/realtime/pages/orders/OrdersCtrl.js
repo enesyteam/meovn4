@@ -346,11 +346,13 @@ mRealtime.controller('OdersCtrl',
                                 })
                                 resolve('Chúc mừng bạn đã chốt đơn thành công!');
                             })
-                            .catch(function(){
+                            .catch(function( err ){
+                                console.log( err );
                                 reject('Đã có lỗi xảy ra trong quá trình chốt đơn. Đơn hàng đã được khởi tạo thành công tuy nhiên trạng thái Order không thể thay đổi được.');
                             })
                         })
                         .catch(function(err){
+                            console.log( err );
                             reject('Đã có lỗi xảy ra trong quá trình khởi tạo đơn hàng. Vui lòng thử lại!');
                             // MUtilitiesService.AlertError('Order đã thay đổi trạng thái nhưng chưa cập nhật được thông tin đơn hàng.', 'Lỗi')
                         })
@@ -403,8 +405,8 @@ mRealtime.controller('OdersCtrl',
                 var data = {
                     customerData : $scope.customerData,
                     orderData : {
-                        conversation_id : $rootScope.activeOrder.conversation_id,
-                        customer_id : $rootScope.activeOrder.customer_id,
+                        conversation_id : $rootScope.activeOrder.conversation_id || 'null',
+                        customer_id : $rootScope.activeOrder.customer_id || 123456789,
                         customer_name : $rootScope.activeOrder.customer_name,
                         seller_will_call_id : $rootScope.activeOrder.seller_will_call_id,
                         id : $rootScope.activeOrder.id,
