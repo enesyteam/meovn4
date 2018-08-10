@@ -113,48 +113,59 @@ mSearch.controller('MainCtrl',
     }
 
     
+    var report = false;
+    if( report ) {
+        ///////////////////////lấy báo cáo tháng
+        var totalSuccessMonth = 0;
+        var totalNewCustomer = 0;
+        var user_month_report = [];
+        angular.forEach(telesales, (telesale) => {
+            if ( telesale.is_seller == 1 && telesale.status == 1 ) {
+                user_month_report.push({
+                    name: telesale.last_name,
+                    id: telesale.id,
+                    success: 0,
+                    called: 0
+                })
+            }
+        });
+        // console.log( user_month_report );
+        
+        MFirebaseService.getMonthReport('08').then(function(response){
+            angular.forEach(response, (date_report) => {
+                // console.log( response );
+              totalSuccessMonth += date_report.successCount;
+              totalNewCustomer += date_report.today;
+              angular.forEach(date_report.userReport, (user_report) => {
+                 // find in user_month_report
+                 var found = $filter("filter")(user_month_report, {id: user_report.id})[0];
 
-    ///////////////////////lấy báo cáo tháng
-    var totalSuccessMonth = 0;
-    var totalNewCustomer = 0;
-    var user_month_report = [];
-    angular.forEach(telesales, (telesale) => {
-        if ( telesale.is_seller == 1 && telesale.status == 1 ) {
-            user_month_report.push({
-                name: telesale.last_name,
-                id: telesale.id,
-                success: 0
+                 if(found){
+
+                    found.success += user_report.successCount;
+                    found.called += user_report.calledCount;
+                    // console.log( found );
+                 }
+                 else{
+                    console.log(found)
+                 }
+                })
             })
-        }
-    })
-    MFirebaseService.getMonthReport('07').then(function(response){
-        angular.forEach(response, (date_report) => {
-          totalSuccessMonth += date_report.successCount;
-          totalNewCustomer += date_report.today;
-          angular.forEach(date_report.userReport, (user_report) => {
-             // find in user_month_report
-             var found = $filter("filter")(user_month_report, {id: user_report.id})[0];
-
-             if(found){
-                found.success += user_report.successCount;
-             }
-             else{
-                console.log(found)
-             }
+            console.log('Tổng số điện thoại trong tuần: ' + totalNewCustomer);
+            console.log('Tổng số đơn chốt trong tuần: ' + totalSuccessMonth);
+            console.log('Hiệu suất chốt tuần: ' + totalSuccessMonth/totalNewCustomer*100 + ' %');
+            // console.log( user_month_report );
+            // console.log(user_month_report);
+            angular.forEach(user_month_report, (item) => {
+              // Todo...
+              if ( item.success > 0) {
+                console.log( item.name + ': ' + item.called + '/' + item.success + ' (đã gọi/chốt) = ' + (item.success / item.called) * 100 + ' %');
+              }
             })
         })
-        console.log('Tổng số điện thoại trong tuần: ' + totalNewCustomer);
-        console.log('Tổng số đơn chốt trong tuần: ' + totalSuccessMonth);
-        console.log('Hiệu suất chốt tuần: ' + totalSuccessMonth/totalNewCustomer*100 + ' %');
-        // console.log(user_month_report);
-        angular.forEach(user_month_report, (item) => {
-          // Todo...
-          if ( item.success > 0) {
-            console.log( item.name + ': ' + item.success + ' đơn');
-          }
-        })
-    })
-    ///////////////////////lấy báo cáo tháng
+        ///////////////////////lấy báo cáo tháng
+    }
+    
     
 
     // console.log($rootScope.currentMember);

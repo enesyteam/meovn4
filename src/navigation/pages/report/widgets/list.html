@@ -1,6 +1,7 @@
 <ul class="repo-list">
    <div class="repo-list-item d-flex flex-justify-start py-4 public source result-item"
-      ng-class="order.is_cancel == true ? 'is-cancel' : ''" ng-repeat="order in result track by $index">
+      ng-class="order.is_cancel == true ? 'is-cancel' : ''" ng-repeat="order in result track by $index"
+      ng-if="!order.is_cancel">
       <div class="col-10 pr-3">
          <h3>
             <a class="v-align-middle">{{$index + 1}}. {{order.customer_name}}/<em>{{order.customer_mobile}}</em></a>

@@ -180,14 +180,16 @@ mNavigation.controller('ReportCtrl',
                     var date = new Date(order.data.created_time);
                     var x = $scope.filterById($scope.telesales, order.data.orderData.seller_will_call_id);
                     res.push({
-                        name: order.customer_name,
-                        mobile: '0' + order.customer_mobile,
+                        name: order.data.customerData.realName,
+                        mobile: '0' + order.data.customerData.recievedPhone,
                         created_date: ("0" + date.getDate()).slice(-2) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear(),
                         address:  order.data.customerData.addresss,
                         birthday: order.data.customerData.birthDay,
-                        code: order.orderCode,
-                        cod: order.cod_amount,
-                        shipping_fee: order.service_fee,
+                        cod: order.data.customerData.cod,
+                        success_code: '',
+                        code: order.viettel_post_code,
+                        station: order.viettel_post_station_name,
+                        shipping_fee: order.viettel_post_data ? order.viettel_post_data.MONEY_TOTALFEE : '',
                         by: x ? x.last_name : 'Không rõ',
                         current_status: 
                         order.logs ? $scope.getStatus(order.logs[order.logs.length -1].CurrentStatus).text : 'Không rõ',
@@ -200,7 +202,8 @@ mNavigation.controller('ReportCtrl',
                         product3: product3 ? product3.name + ' (' + order.data.customerData.products[2].note + ')' : '',
                         product3_count: product3 ? order.data.customerData.products[2].count : null,
                         page_id: order.data.orderData.page_id,
-                        page: $filter('filter')(fanpages, {id: order.data.orderData.page_id})[0].name
+                        page: $filter('filter')(fanpages, {id: order.data.orderData.page_id})[0].name,
+                        
                     });
                 }
             })
