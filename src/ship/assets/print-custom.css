@@ -1,0 +1,7 @@
+@media print {
+  /* Here goes your print styles */
+  .wish-block {
+    border: 2px solid dashed;
+    padding: 15px 30px
+  }
+}

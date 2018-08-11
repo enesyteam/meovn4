@@ -1047,6 +1047,17 @@ table th, table td {
   background: #E6E7E7;
   border-bottom: 4px solid #487774;
 }
+.wish-block-container {
+  border: 1px dashed #487774;
+  padding: 5px;
+}
+.wish-block {
+    border: 4px solid #487774;
+    padding: 15px 30px
+  }
+.wish-name {
+  text-transform: uppercase;
+}
 #items table th:nth-child(2) {
   width: 30%;
   text-align: left;

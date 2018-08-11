@@ -334,6 +334,7 @@ mRealtime.controller('OdersCtrl',
                                 recievedPhone: $rootScope.activeOrder.customer_mobile,
                                 birthDay: '',
                                 addresss: '',
+                                wish: '',
                             }
                             // reset products
                             $scope.selectedProducts = [];
@@ -586,6 +587,7 @@ mRealtime.controller('OdersCtrl',
             products: [],
             customerNote: '',
             orderNote: '',
+            wish: '',
             cod: 0,
         }
         $scope.newProduct = {

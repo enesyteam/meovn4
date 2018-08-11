@@ -182,6 +182,35 @@
                                        </div>
                                     </div>
                                     <!-- {{selectedProducts}} -->
+                                    <nav class="UnderlineNav"  style="float: none;clear: both;">
+                                          <div class="UnderlineNav-body">
+                                             <a role="tab" title="Item 1" class="UnderlineNav-item pl-0 pb-1 selected">
+                                                <svg height="16" class="octicon octicon-file-text" viewBox="0 0 12 16" version="1.1" width="15" aria-hidden="true">
+                                                   <path d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path>
+                                                </svg>
+                                                Trì chú
+                                                <span title="Label: orange label" class="Label Label--orange">NEW</span>
+                                             </a>
+                                          </div>
+                                          <div class="UnderlineNav-actions">
+                                             <span class="tooltipped tooltipped-sw tooltipped-no-delay" aria-label="Ghi rõ mong muốn của khách hàng nếu có">
+                                                <svg aria-hidden="true" class="octicon octicon-question" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                                                   <path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path>
+                                                </svg>
+                                             </span>
+                                          </div>
+                                       </nav>
+                                       <dl class="form-group">
+                                             <dt><label for="user_profile_bio">Nội dung mong muốn trì chú</label></dt>
+                                             <dd class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
+                                                <textarea class="form-control user-profile-bio-field js-suggester-field js-length-limited-input input-sm" cols="40" data-input-max-length="160" data-warning-text="{{remaining}} remaining" id="user_profile_bio" rows="20" ng-model="customerData.wish" placeholder="Nếu đơn hàng có yêu cầu trì chú. Bạn cần ghi chính xác nội dung trì chú của khách hàng. Những gì bạn viết ở đây sẽ được in ra thành phiếu trì chú và khách hàng sẽ nhìn thấy được."></textarea>
+                                                <p class="js-length-limited-input-warning user-profile-bio-message d-none"></p>
+                                                <div class="suggester-container">
+                                                   <div class="suggester js-suggester js-navigation-container">
+                                                   </div>
+                                                </div>
+                                             </dd>
+                                          </dl>
                                     <div style="display: block;">
                                        <div class="one-half column pl-0">
                                           <dl class="form-group">
