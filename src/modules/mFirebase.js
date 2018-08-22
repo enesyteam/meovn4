@@ -1738,6 +1738,33 @@
                     })
                 }
 
+                var getOrdersByDateRange = function (from_date, to_date) {
+                    return new Promise(function (resolve, reject) {
+
+                        var orderDays = [];
+
+                        var endTime = new Date(from_date);
+                        var startTime = new Date(to_date);
+                        startTime.setHours(0,0,0,0);
+                        endTime.setHours(23,59,59,999);
+
+                        startTime = startTime.getTime();
+                        endTime = endTime.getTime();
+
+                        var result = [];
+                        firebase.database().ref().child('shippingItems')
+                            .orderByChild('created_time')
+                            .startAt(startTime)
+                            .endAt(endTime)
+                            .once('value', snapshot => {
+                                angular.forEach(snapshot.val(), function(item){
+                                    result.push(item);
+                                })
+                                resolve(result);
+                            })
+                    })
+                }
+
                 var getNextOrders = function (fromKey, pageSize) {
                     return new Promise(function (resolve, reject) {
                         var result = [];
@@ -2293,7 +2320,7 @@
                 // get report for month
                 // @param: month = 01 to 12
                 var getMonthReport = function(month){
-                    var fromDate = '2018' + month + '01', toDate = '2018' + month + '07';
+                    var fromDate = '2018' + month + '13', toDate = '2018' + month + '19';
                     return new Promise(function (resolve, reject) {
                         firebase.database().ref().child('report')
                         .orderByKey()
@@ -2891,7 +2918,8 @@
                     getShippingItemsByPage: getShippingItemsByPage,
                     getReportForToday: getReportForToday,
                     getSuccessForDate: getSuccessForDate,
-                    get_versions: get_versions
+                    get_versions: get_versions,
+                    getOrdersByDateRange: getOrdersByDateRange,
                 }
 
             }

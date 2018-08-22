@@ -133,6 +133,46 @@ mNavigation.controller('ReportCtrl',
 
     	getReport(date);
 
+        function getTempReport() {
+            console.log(new Date(2018, 08, 01));
+            MFirebaseService.getOrdersByDateRange( new Date(), new Date(2018, 07, 01) )
+            .then(function(response){
+                console.log(response);
+                if(response.length == 0){
+                    $scope.$apply(function(){
+                        $scope.isGettingData = false;
+                        $scope.result = null;
+                    })
+                    return;
+                }
+            // console.log(response);
+                angular.forEach(response, function(item){
+                    // console.log(item.data.push_to_ghn_at);
+                    if(!item.is_cancel && item.orderCode){
+                        MGHNService.getOrderLog(item.orderCode, item.push_to_ghn_at, ghn_token).then (function(r){
+                            // console.log(r.data.data.Logs);
+                            $scope.$apply(function(){
+                                item.logs = r.data.data.Logs
+                                
+                            })
+                        })
+                    }
+
+                })
+                $scope.$apply(function(){
+                    $scope.isGettingData = false;
+                    $scope.result = response;
+                })
+                console.log(response);
+            })
+            .catch(function(err){
+                console.log(err);
+                $scope.isGettingData = false;
+            })
+        }
+
+        // getTempReport();
+
     	$scope.getReportForSelectedDate = function(date){
     		if(date){
     			var currentDate = new Date(date);
