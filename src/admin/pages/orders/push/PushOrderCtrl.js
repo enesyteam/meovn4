@@ -319,6 +319,7 @@ m_admin.controller('PushOrderCtrl',
             })
 
             if (count > 0) {
+                $rootScope.selectedOrders = [];
                 MUtilitiesService.AlertError(count + ' orders được chọn không cho phép phân bổ vì đã được phân bổ trước đó.');
                 return;
             }
@@ -337,22 +338,26 @@ m_admin.controller('PushOrderCtrl',
                 return;
             }
 
-            if (!$rootScope.selectedOrders || $rootScope.selectedOrders.length == 0) {
+            var selected = $rootScope.selectedOrders;
+            // console.log( selected );
+
+            if (! selected || selected.length == 0) {
                 // $scope.toggleShowUserPane();
                 MUtilitiesService.AlertError('Vui lòng chọn orders trước khi phân bổ', 'Lỗi');
                 return;
             }
 
             // chú ý: sửa validate orders và users trước khi gọi waiting dialog
-            if(selectedUsers.length > $rootScope.selectedOrders.length){
-                MUtilitiesService.AlertError('Không thể phân bổ ' + $rootScope.selectedOrders.length + ' order(s) cho ' + selectedUsers.length + ' telesale(s)');
+            if(selectedUsers.length > selected.length){
+                MUtilitiesService.AlertError('Không thể phân bổ ' + selected.length + ' order(s) cho ' + selectedUsers.length + ' telesale(s)');
                 return;
             }
 
             MUtilitiesService.showWaitingDialog('Đang phân bổ Orders, vui lòng chờ...', function() {
                 var init = function() {
                     return new Promise(function(resolve, reject) {
-                        MFirebaseService.onPushOrders($rootScope.selectedOrders, selectedUsers).then(function(response) {
+                        MFirebaseService.onPushOrders(selected, selectedUsers).then(function(response) {
+                            $rootScope.unCheckedAll();
                             resolve(true);
                             MUtilitiesService.AlertSuccessful(response);
                         }).catch(function(error) {
@@ -438,6 +443,7 @@ m_admin.controller('PushOrderCtrl',
         }
 
         $rootScope.toggleSelectAnOrder = function(order) {
+            // order.selected = !order.selected;
             // alert(order.selected);
             if (order.selected == true) {
                 order.selected = false;
@@ -447,6 +453,8 @@ m_admin.controller('PushOrderCtrl',
                 order.selected = true;
                 $rootScope.selectedOrders.push(order);
             }
+
+            console.log( $rootScope.selectedOrders );
         }
 
         // $rootScope.selectOrderByStatus = function(status){
@@ -624,7 +632,8 @@ m_admin.controller('PushOrderCtrl',
                     // bỏ chọn tất cả orders
                     angular.forEach($scope.canAsignOrders, function(order) {
                         order.selected = false;
-                    })
+                    });
+                    $rootScope.selectedOrders = [];
                 })
         }
 

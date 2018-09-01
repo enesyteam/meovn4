@@ -683,6 +683,19 @@
 
                     // node name after thay đổi ở ngày cũ nếu trạng thái đơn không phải là chốt
                     if(statusIdAfter == 6){
+                        // cập nhật báo cáo chi tiết của seller
+                        firebase.database().ref()
+                            .child('assigned')
+                            .child(todayDateString)
+                            .child(orderOwnerId)
+                            .child('success_by_pages')
+                            .child( pageId )
+                            .transaction(function (oldValue) {
+                                return oldValue + 1;
+                            }).then(function (res) {
+                                // do nothing
+                                // resolve( 'success' );
+                            });
                         // phần cập nhật chung cho cả Admin, Mod và User
                         // A - BÁO CÁO NGÀY CỦA TOÀN HỆ THỐNG
                         // 1 - Tăng 1 đơn vị trong báo cáo ngày của nodeNameAfter
@@ -810,6 +823,25 @@
                                 } else {
                                     return oldValue - 1;
                                 }
+                            });
+
+                        // cập nhật báo cáo chi tiết của seller
+                        firebase.database().ref()
+                            .child('assigned')
+                            .child(todayDateString)
+                            .child(orderOwnerId)
+                            .child('success_by_pages')
+                            .child( pageId )
+                            .transaction(function (oldValue) {
+                                if ( oldValue > 0 ) {
+                                    return oldValue - 1;
+                                }
+                                else {
+                                    return 0;
+                                }
+                            }).then(function (res) {
+                                // do nothing
+                                // resolve( 'success' );
                             });
                     }
 
@@ -2758,6 +2790,7 @@
                             .equalTo(order.id)
                             .once('value', snapshot => {
                                 if( snapshot.val() == null ) {
+                                    // báo cáo assigned
                                     firebase.database().ref()
                                     .child('assigned')
                                     .child(date)
@@ -2776,8 +2809,19 @@
                                         .transaction(function (oldValue) {
                                             return oldValue + 1;
                                         }).then(function (res) {
-                                            // do nothing
-                                            resolve( 'success' );
+                                            // cập nhật báo cáo phân số seller theo page
+                                            firebase.database().ref()
+                                            .child('assigned')
+                                            .child(date)
+                                            .child(seller_id)
+                                            .child('pages')
+                                            .child( order.page_id )
+                                            .transaction(function (oldValue) {
+                                                return oldValue + 1;
+                                            }).then(function (res) {
+                                                // do nothing
+                                                resolve( 'success' );
+                                            });
                                         });
                                     })
                                     .catch(function (err) {
@@ -2814,7 +2858,7 @@
                                 if( snapshot.val() !== null ) {
                                     var key = Object.keys(snapshot.val())[0];
                                     console.log( key );
-                                    
+
                                     var updates = {};
                                     updates[ '/assigned/' + date + '/' + seller_id + '/assigned_list/' + key ] = null;
 
@@ -2835,7 +2879,25 @@
                                             
                                         }).then(function (res) {
                                             // do nothing
-                                            resolve('success');
+                                            // resolve('success');
+                                            // cập nhật báo cáo phân số seller theo page
+                                            firebase.database().ref()
+                                            .child('assigned')
+                                            .child(date)
+                                            .child(seller_id)
+                                            .child('pages')
+                                            .child( order.page_id )
+                                            .transaction(function (oldValue) {
+                                                if( oldValue > 0 ) {
+                                                    return oldValue - 1;
+                                                }
+                                                else {
+                                                    return 0;
+                                                }
+                                            }).then(function (res) {
+                                                // do nothing
+                                                resolve( 'success' );
+                                            });
                                         });
                                     })
                                     .catch(function (err) {
