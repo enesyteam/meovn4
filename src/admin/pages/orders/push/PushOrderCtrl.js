@@ -33,6 +33,14 @@ m_admin.controller('PushOrderCtrl',
         //     console.log(response);
         // })
 
+        /*
+        * find an item in available items (loaded items)
+        */
+        function findAvailbleItemByKey(key){
+            var found = $filter("filter")($scope.canAsignOrders, {key: key});
+            return found ? found[0] : null;
+        }
+
         function getOrders() {
             $rootScope.finishLoadFullData = null;
             $scope.isLoaddingOrder = true;
@@ -90,12 +98,16 @@ m_admin.controller('PushOrderCtrl',
                             active_log: snapshot.val().activeLog,
                             admin_note: snapshot.val().admin_note,
                         }
-                        $timeout(function() {
-                            $scope.$apply(function() {
-                                $scope.newlyOrderKey = snapshot.key;
-                                $scope.canAsignOrders.unshift(snapshot.val());
-                            });
-                        }, 10);
+                        var exist = findAvailbleItemByKey(snapshot.key) != null;
+                        if( !exist ) {
+                            $timeout(function() {
+                                $scope.$apply(function() {
+                                    $scope.newlyOrderKey = snapshot.key;
+                                    $scope.canAsignOrders.unshift(snapshot.val());
+                                });
+                            }, 10);
+                        }
+                        
                     }
                 });
             })
