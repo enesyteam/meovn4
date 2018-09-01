@@ -247,6 +247,17 @@ function($rootScope, $scope, $filter, $timeout, cfpLoadingBar, firebaseService, 
 
     }
 
+    $scope.userMissingChart = {
+        // title: "Missing Data",
+        // description: "This is an example of a graphic whose data is currently missing. We've also set the error option, which appends an error icon to the title and logs an error to the browser's console.",
+        // error: 'This data is blocked by Lorem Ipsum. Get your **** together, Ipsum.',
+        chart_type: 'missing-data',
+        missing_text: 'Chưa đủ dữ liệu để hiển thị đồ thị',
+        // target: '#missing-data',
+        width: 200,
+        height: 50
+    }
+
     $scope.missingChart = {
         // title: "Missing Data",
         // description: "This is an example of a graphic whose data is currently missing. We've also set the error option, which appends an error icon to the title and logs an error to the browser's console.",

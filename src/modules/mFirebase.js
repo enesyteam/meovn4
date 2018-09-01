@@ -2264,6 +2264,13 @@
                         .child('shippingReport').once('value', function (snapshot) {});
                 }
 
+                var getAssignedReportForDate = function (date) {
+                    // date = 2018-07-03
+                    var reportDateString = convertDate2(date);
+                    return firebase.database().ref().child('assigned').child(reportDateString)
+                        .once('value', function (snapshot) {});
+                }
+
                 var getReportForChart = function () {
                     // date = 2018-07-03
                     return new Promise(function(resolve, reject){
@@ -3056,6 +3063,7 @@
                     getSuccessForDate: getSuccessForDate,
                     get_versions: get_versions,
                     getOrdersByDateRange: getOrdersByDateRange,
+                    getAssignedReportForDate: getAssignedReportForDate,
                 }
 
             }

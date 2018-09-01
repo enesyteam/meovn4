@@ -63,6 +63,49 @@ m_admin.controller('MainCtrl',
 
         var dateToDisplay = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
         
+        function getAssignedReport( dateToDisplay ) {
+            MFirebaseService.getAssignedReportForDate( dateToDisplay ).then( function( response ) {
+                $scope.$apply( function() {
+                    $scope.assignedData = response.val();
+                } )
+            } )
+        }
+
+        
+        
+        getAssignedReport( dateToDisplay );
+
+        $rootScope.getAssignedCountBySellerId = function( seller_id ) {
+            if( !$scope.assignedData ) return;
+            // console.log( $scope.assignedData );
+            var found = "N/A";
+            angular.forEach( $scope.assignedData, function( value, key ) {
+                // console.log( key, seller_id )
+                if( parseInt(key) == parseInt(seller_id) ) {
+                    // console.log( value.count );
+                    found = value.count;
+                }
+            } );
+
+            return found;
+            
+        }
+
+        $rootScope.getPageAssignedCountBySellerId = function( seller_id ) {
+            if( !$scope.assignedData ) return;
+            // console.log( $scope.assignedData );
+            var found = "N/A";
+            angular.forEach( $scope.assignedData, function( value, key ) {
+                // console.log( key, seller_id )
+                if( parseInt(key) == parseInt(seller_id) ) {
+                    // console.log( value.count );
+                    found = value.pages;
+                }
+            } );
+
+            return found;
+        }
+
         // alert(dateToDisplay);
         // GET REPORT FOR TODAY
         $rootScope.finishLoading = false;
