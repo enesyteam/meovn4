@@ -1392,7 +1392,7 @@
                             var today = new Date();
                             var reportDateString = convertDate(today);
 
-                            onAssignedOrderToSeller(reportDateString, canPushOrders, user.id)
+                            onAssignedOrdersToSeller(reportDateString, canPushOrders, user.id)
                             .then(function(res){
                                 console.log(res);
                             });
@@ -2189,10 +2189,19 @@
                 }
                 var getSuccessForDate = function (date) {
                     // date = 2018-07-03
+
                     var reportDateString = convertDate(new Date(date));
+                    // alert( reportDateString );
+                    // return firebase.database().ref().child('report')
+                    // .child(reportDateString)
+                    // .child('successCount').once('value', function (snapshot) {
+                    //     console.log( snapshot.value() );
+                    // });
+
                     return new Promise(function(resolve, reject){
                         firebase.database().ref().child('report')
-                        .child(reportDateString).child('successCount').once('value', function (snapshot) {
+                        .child(reportDateString).child('successCount')
+                        .on('value', function (snapshot) {
                             resolve(snapshot.val());
                         });
                     })
@@ -2320,7 +2329,7 @@
                 // get report for month
                 // @param: month = 01 to 12
                 var getMonthReport = function(month){
-                    var fromDate = '2018' + month + '13', toDate = '2018' + month + '19';
+                    var fromDate = '2018' + month + '01', toDate = '2018' + month + '31';
                     return new Promise(function (resolve, reject) {
                         firebase.database().ref().child('report')
                         .orderByKey()
@@ -2736,19 +2745,51 @@
 
 
                 // rewrite assigned orders
-                function onAssignedOrderToSeller(date, orders, seller_id) {
+                function onAssignedOrdersToSeller(date, orders, seller_id) {
                     return new Promise(function (resolve, reject) {
                         angular.forEach(orders, (order) => {
                             console.log(order);
-                          firebase.database().ref().child('assigned').child(date).child(seller_id).push({
-                                key: order.id
-                            })
-                            .then(function (response) {
-                                // to do:
-                            })
-                            .catch(function (err) {
-                                reject(err);
-                            })
+                            // check if duplicate
+                            firebase.database().ref().child('assigned')
+                            .child(date)
+                            .child(seller_id)
+                            .child('assigned_list')
+                            .orderByChild('key')
+                            .equalTo(order.id)
+                            .once('value', snapshot => {
+                                if( snapshot.val() == null ) {
+                                    firebase.database().ref()
+                                    .child('assigned')
+                                    .child(date)
+                                    .child(seller_id)
+                                    .child('assigned_list')
+                                    .push({
+                                        key: order.id
+                                    })
+                                    .then(function (response) {
+                                        // increment assigned count
+                                        firebase.database().ref()
+                                        .child('assigned')
+                                        .child(date)
+                                        .child(seller_id)
+                                        .child('count')
+                                        .transaction(function (oldValue) {
+                                            return oldValue + 1;
+                                        }).then(function (res) {
+                                            // do nothing
+                                            resolve( 'success' );
+                                        });
+                                    })
+                                    .catch(function (err) {
+                                        reject(err);
+                                    })
+                                }
+                                else {
+                                    // duplicate => ignore
+                                    resolve( 'ignore' );
+                                    console.log('this order is duplicate assigned to this seller');
+                                }
+                            } )
                         })
 
                         resolve('Updated assigned log success!');
@@ -2757,28 +2798,61 @@
 
                 function onReleaseSellerOrders(date, orders, seller_id) {
                     return new Promise(function (resolve, reject) {
-                        firebase.database().ref().child('assigned').child(date).child(seller_id)
-                        .on('child_added', function(snapshot){
-                            console.log('snapshot: ');
-                            console.log(snapshot.key);
-                              angular.forEach(orders, (order) => {
-                                console.log('order: ');
-                                console.log(order.id);
-                                if(order.id == snapshot.val().key){
-                                    firebase.database().ref().child('assigned').child(date).child(seller_id)
-                                    .child(snapshot.key)
+                        if( !date ) reject('error date');
+                        if( !seller_id ) reject( 'error seller id' );
+
+                        angular.forEach(orders, (order) => {
+                            console.log(order);
+                            // check if duplicate
+                            firebase.database().ref().child('assigned')
+                            .child(date)
+                            .child(seller_id)
+                            .child('assigned_list')
+                            .orderByChild('key')
+                            .equalTo(order.id)
+                            .once('value', snapshot => {
+                                if( snapshot.val() !== null ) {
+                                    var key = Object.keys(snapshot.val())[0];
+                                    console.log( key );
+                                    
                                     var updates = {};
-                                    updates['/assigned/' + date + '/' + seller_id + '/' + snapshot.key] = null;
-                                    firebase.database().ref().update(updates).then(function () {
-                                            // resolve('Đã xóa ' + id + ' thành công.');
+                                    updates[ '/assigned/' + date + '/' + seller_id + '/assigned_list/' + key ] = null;
+
+                                    return firebase.database().ref().update(updates).then(function () {
+                                        // resolve('Cập nhật dữ liệu Order ' + orderId + ' thành công.');
+                                        firebase.database().ref()
+                                        .child('assigned')
+                                        .child(date)
+                                        .child(seller_id)
+                                        .child('count')
+                                        .transaction(function (oldValue) {
+                                            if( oldValue > 0 ) {
+                                                return oldValue - 1;
+                                            }
+                                            else {
+                                                return 0;
+                                            }
+                                            
+                                        }).then(function (res) {
+                                            // do nothing
+                                            resolve('success');
+                                        });
                                     })
                                     .catch(function (err) {
-                                        // reject('Không thể xóa, lỗi: ' + err)
+                                        reject('Không thể cập nhật, lỗi: ' + err)
                                     })
+
                                 }
-                              })
+                                else {
+                                    // duplicate => ignore
+                                    resolve( 'ignore' );
+                                    // console.log( 'this order is not in list, do nothing' );
+                                    console.log('this order is not in list, do nothing');
+                                }
+                            } )
                         })
-                        resolve('release success!');
+
+                        // resolve('Updated assigned log success!');
                     })
                 }
 

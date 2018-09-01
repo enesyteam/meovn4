@@ -2736,7 +2736,7 @@ a {
     position: fixed;
     right: 0;
     top: 50px;
-    width: 205px;
+    width: 215px;
     z-index: 300;
 }
 .chrome .fixed_elem, .chrome .fixed_always {

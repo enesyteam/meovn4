@@ -113,7 +113,7 @@ mSearch.controller('MainCtrl',
     }
 
     
-    var report = true;
+    var report = false;
     if( report ) {
         ///////////////////////lấy báo cáo tháng
         var totalSuccessMonth = 0;

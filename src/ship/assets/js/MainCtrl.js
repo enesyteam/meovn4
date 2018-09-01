@@ -990,14 +990,19 @@ mShip.controller('MainCtrl',
 
         var dateToDisplay = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
         
+        // alert( 'sdf' );
+        // MFirebaseService.getReportForChart().then(function(response){
+        //   console.log( response );
+        // })
+
         var getReport = function(){
             // $rootScope.todaySuccess = null;
+
             MFirebaseService.getSuccessForDate(date).then(function(response){
-                $timeout(function() {
-                    $scope.$apply(function(){
-                        $rootScope.todaySuccess = response;
-                    })
-                }, 100);
+                // alert( response )
+                $scope.$apply(function(){
+                    $scope.todaySuccess = response;
+                })
             })
         }
         getReport();
@@ -1006,7 +1011,7 @@ mShip.controller('MainCtrl',
             if(snapshot.key == 'successCount'){
                     // console.log('THÔNG BÁO: SỐ ĐƠN CHỐT ĐÃ THAY ĐỔI THÀNH ' + snapshot.val());
                     $scope.$apply(function(){
-                        $rootScope.todaySuccess = snapshot.val();
+                        $scope.todaySuccess = snapshot.val();
                     })
                 }
         });

@@ -456,7 +456,13 @@ m_admin.controller('PushOrderCtrl',
         // }
 
         $rootScope.countSelectedOrders = function() {
-            return $rootScope.selectedOrders.length;
+            var count = 0;
+            angular.forEach( $scope.canAsignOrders, order => {
+                if( order.selected == true ) {
+                    count++;
+                }
+            } )
+            return count;
         }
 
         $rootScope.releaseSelectedUsers = function() {
