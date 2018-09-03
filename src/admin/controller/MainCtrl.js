@@ -106,6 +106,21 @@ m_admin.controller('MainCtrl',
             return found;
         }
 
+        $rootScope.getPageSuccessCountBySellerId = function( seller_id ) {
+            if( !$scope.assignedData ) return;
+            // console.log( $scope.assignedData );
+            var found = "N/A";
+            angular.forEach( $scope.assignedData, function( value, key ) {
+                // console.log( key, seller_id )
+                if( parseInt(key) == parseInt(seller_id) ) {
+                    // console.log( value.count );
+                    found = value.success_by_pages;
+                }
+            } );
+
+            return found;
+        }
+
         // alert(dateToDisplay);
         // GET REPORT FOR TODAY
         $rootScope.finishLoading = false;

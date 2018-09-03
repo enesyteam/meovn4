@@ -208,9 +208,12 @@
          Thống kê chi tiết
          <span style="font-size: 11px;font-weight: 300;background-color: #fa3e3e;border-radius: 2px;    color: #fff;padding: 1px 3px;" class="ng-binding">
             NEW
+
          </span>
+         
          <div class="float-right">
                <div>
+
                   <a class="export-data">
                      Export Data
                      <svg height="16" class="octicon octicon-cloud-download" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
@@ -246,15 +249,14 @@
                                  <!-- <div class="_ohf rfloat"></div> -->
                               </div>
                            </div>
-                           <div class="_200d _d-3" role="presentation" style="height: 50px;width:15%">
+                           <!-- <div class="_200d _d-3" role="presentation" style="height: 50px;width:15%">
                               <div class="clearfix">
                                  <div class="_ohe lfloat">
                                     <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="Published times are displayed in Pacific Time">Chốt lần cuối</span></div>
                                  </div>
-                                 <!-- <div class="_ohf rfloat"></div> -->
                               </div>
-                           </div>
-                           <div class="_200d _d-3 _d-9" role="presentation" style="height: 50px;width:15%">
+                           </div> -->
+                           <div class="_200d _d-3 _d-9" role="presentation" style="height: 50px;width:20%">
                               <div class="clearfix">
                                  <div class="_ohe lfloat">
                                     <div style=" text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The total number of minutes your video was watched including replays and views less than 3 seconds within the selected date range.">Đã phân
@@ -272,15 +274,14 @@
                                  <!-- <div class="_ohf rfloat"></div> -->
                               </div>
                            </div>
-                           <div class="_200d _d-3 _d-9" role="presentation" style="height: 50px;width:15%">
+                           <!-- <div class="_200d _d-3 _d-9" role="presentation" style="height: 50px;width:15%">
                               <div class="clearfix">
                                  <div class="_ohe lfloat">
                                     <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The total number of minutes your video was watched including replays and views less than 3 seconds within the selected date range.">Đã gọi</span></div>
                                  </div>
-                                 <!-- <div class="_ohf rfloat"></div> -->
                               </div>
-                           </div>
-                           <div class="_200d _d-3 _d-4 _d-9" role="presentation" style="height: 50px;width:15%">
+                           </div> -->
+                           <div class="_200d _d-3 _d-4 _d-9" role="presentation" style="height: 50px;width:20%">
                               <div class="clearfix">
                                  <div class="_ohe lfloat">
                                     <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 86px;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The number of times your video was watched for at least 3 seconds, or for nearly its total length, whichever happened first within the selected date range.">Đã chốt</span></div>
@@ -321,11 +322,18 @@
                                     <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="Published times are displayed in Pacific Time">
                                        {{sellerData.userName || 'N/A'}}
                                     </span></div>
+                                    <div class="_4bl7 _3-99">
+                                          <div flex-direction="row">
+                                             <div cla>Chốt lần cuối: 
+                                                <span am-time-ago="sellerData.lastSuccessAt"></span>
+                                             </div>
+                                          </div>
+                                       </div>
                                  </div>
                                  <!-- <div class="_ohf rfloat"></div> -->
                               </div>
                            </div>
-                           <div class="_200d _d-3  d-table-cell" role="presentation" style="height: 50px;width:15%">
+                           <!-- <div class="_200d _d-3  d-table-cell" role="presentation" style="height: 50px;width:15%">
                               <div class="clearfix">
                                  <div class="_ohe lfloat">
                                     <div class="clearfix _ikh" ng-if="sellerData.lastSuccessAt">
@@ -345,37 +353,40 @@
                                     </div>
                                     <div ng-if="!sellerData.lastSuccessAt" style="margin-left: 13px">N/A</div>
                                  </div>
-                                 <!-- <div class="_ohf rfloat"></div> -->
                               </div>
-                           </div>
-                           <div class="_200d _d-3 _d-9  d-table-cell" role="presentation" style="height: 50px;width:15%">
+                           </div> -->
+                           <div class="_200d _d-3 _d-9  d-table-cell" role="presentation" style="height: 50px;width:20%;vertical-align: top;padding: 15px 0;" ng-init="assignedData=getPageAssignedCountBySellerId(sellerData.id)">
                               <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style="text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text tooltip tooltipped tooltipped-n" aria-label="{{getPageAssignedCountBySellerId(sellerData.id)}}">
-                                       {{ getAssignedCountBySellerId( sellerData.id ) }}
-                                       <span class="icon">
-                                          <svg height="16" class="octicon octicon-info" viewBox="0 0 14 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.71a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 8.01c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V8v.01zM7 2.32C3.86 2.32 1.3 4.86 1.3 8c0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 1c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
-                                       </span>
+                                 <div class="_ohe lfloat" ng-if="assignedData!=='N/A'">
+                                    <div style="text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text">
+                                       Tổng: {{ getAssignedCountBySellerId( sellerData.id ) }}
                                     </span></div>
+                                    <div ng-repeat="(value, key) in assignedData" class="_3-99">
+                                       <div style="width:80%;text-overflow: ellipsis; white-space: nowrap;max-width:200px;display:inline-block;overflow: hidden;">
+                                          {{ findPageById(value).name }}: 
+                                       </div>
+                                       <div style="float: right;width:20%;font-weight: 700">
+                                          {{ key }}
+                                       </div>
+                                    </div>
                                  </div>
                                  <!-- <div class="_ohf rfloat"></div> -->
                               </div>
                            </div>
-                           <div class="_200d _d-3 _d-9  d-table-cell" role="presentation" style="height: 50px;width:15%">
+                           <!-- <div class="_200d _d-3 _d-9  d-table-cell" role="presentation" style="height: 50px;width:15%">
                               <div class="clearfix">
                                  <div class="_ohe lfloat">
                                     <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The total number of minutes your video was watched including replays and views less than 3 seconds within the selected date range.">
                                        {{sellerData.calledCount || 'N/A'}}
                                     </span></div>
                                  </div>
-                                 <!-- <div class="_ohf rfloat"></div> -->
                               </div>
-                           </div>
-                           <div class="_200d _d-3 _d-4 _d-9  d-table-cell" role="presentation" style="height: 50px;width:15%">
+                           </div> -->
+                           <div class="_200d _d-3 _d-4 _d-9  d-table-cell" role="presentation" style="height: 50px;width:20%;vertical-align: top;padding: 15px 0;" ng-init="successData=getPageSuccessCountBySellerId(sellerData.id)">
                               <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 86px;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The number of times your video was watched for at least 3 seconds, or for nearly its total length, whichever happened first within the selected date range.">
-                                       {{sellerData.successCount || 'N/A'}}
+                                 <div class="_ohe lfloat" ng-if="sellerData.successCount">
+                                    <div style="text-overflow: ellipsis; white-space: nowrap; width: 86px;"><span class="_3-99 report-text">
+                                       Tổng: {{sellerData.successCount || 'N/A'}}
                                     </span>
                                        <span data-hover="tooltip" data-tooltip-content="Up&nbsp;9% compared to previous 28 days"
                                            id="js_22g" class="percent" ng-if="sellerData.successCount">
@@ -385,7 +396,18 @@
                                                 {{(sellerData.calledCount > 0 ? sellerData.successCount/sellerData.calledCount : 0)*100 | number : 2}}%
                                              </span>
                                              </div>
+
                                           </span>   
+                                    </div>
+                                 </div>
+                                 <div class="_ohe lfloat" ng-if="sellerData.successCount">
+                                    <div ng-repeat="(value, key) in successData" class="_3-99">
+                                       <div style="width:80%;text-overflow: ellipsis; white-space: nowrap;max-width:200px;display:inline-block;overflow: hidden;">
+                                          {{ findPageById(value).name }}: 
+                                       </div>
+                                       <div style="float: right;width:20%;font-weight: 700">
+                                          {{ key }}
+                                       </div>
                                     </div>
                                  </div>
                                  <!-- <div class="_ohf rfloat"><i class="_d-a img sp_95MiHHT1ihO_1_5x sx_f9419d" alt=""></i></div> -->
@@ -494,7 +516,7 @@
                                     <div class="">
                                        <div class="_42ef">
                                           <div class="_5y1i ellipsis">
-                                             {{findPageById(page.id).name}}
+                                             {{ findPageById(page.id).name }}
                                           </div>
                                           <div class="_meta">
                                              Số mới: <strong>{{page.totalCustomers}}</strong> Đã chốt: <strong>{{page.totalsuccess}}</strong> <span class="_5cup" style="color:#43a735;font-weight: 700">
