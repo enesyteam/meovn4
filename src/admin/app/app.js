@@ -13,6 +13,7 @@ var m_admin = angular.module('m_admin', [
   'ngDialog',
   'ngFileUpload',
   'infinite-scroll',
+  'ngCsv',
   // 'infinite-scroll',
   'angularMoment',
   'moment-picker',

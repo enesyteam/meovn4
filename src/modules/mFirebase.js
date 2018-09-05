@@ -1797,6 +1797,36 @@
                     })
                 }
 
+                var getAllOrdersByDateRange = function (from_date, to_date) {
+                    return new Promise(function (resolve, reject) {
+
+                        var orderDays = [];
+
+                        var endTime = new Date(from_date);
+
+                        var startTime = new Date(to_date);
+                        endTime.setHours(0,0,0,0);
+                        startTime.setHours(23,59,59,999);
+
+                        startTime = startTime.getTime();
+                        endTime = endTime.getTime();
+
+                        console.log( startTime );
+
+                        var result = [];
+                        firebase.database().ref().child('newOrders')
+                            .orderByChild('publish_date')
+                            .startAt(endTime)
+                            .endAt(startTime)
+                            .once('value', snapshot => {
+                                angular.forEach(snapshot.val(), function(item){
+                                    result.push(item);
+                                })
+                                resolve(result);
+                            })
+                    })
+                }
+
                 var getNextOrders = function (fromKey, pageSize) {
                     return new Promise(function (resolve, reject) {
                         var result = [];
@@ -2233,7 +2263,7 @@
                     return new Promise(function(resolve, reject){
                         firebase.database().ref().child('report')
                         .child(reportDateString).child('successCount')
-                        .on('value', function (snapshot) {
+                        .once('value', function (snapshot) {
                             resolve(snapshot.val());
                         });
                     })
@@ -2368,7 +2398,7 @@
                 // get report for month
                 // @param: month = 01 to 12
                 var getMonthReport = function(month){
-                    var fromDate = '2018' + month + '01', toDate = '2018' + month + '31';
+                    var fromDate = '2018' + month + '01', toDate = '2018' + month + '02';
                     return new Promise(function (resolve, reject) {
                         firebase.database().ref().child('report')
                         .orderByKey()
@@ -3064,6 +3094,7 @@
                     get_versions: get_versions,
                     getOrdersByDateRange: getOrdersByDateRange,
                     getAssignedReportForDate: getAssignedReportForDate,
+                    getAllOrdersByDateRange: getAllOrdersByDateRange,
                 }
 
             }

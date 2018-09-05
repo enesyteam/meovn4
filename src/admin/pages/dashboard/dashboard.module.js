@@ -34,7 +34,12 @@
             url: '/realtime',
             controller : 'RealtimeCtrl',
             templateUrl: "src/admin/pages/dashboard/realtime/realtime.html"
-        });
+        })
+        .state('home.download', {
+            url: '/download/fromDate=:fromDate/todate=:toDate/statusId=:statusId',
+            controller: 'DashboardCtrl',
+            templateUrl: "src/admin/pages/dashboard/download.html"
+        })
   }
 
 })();

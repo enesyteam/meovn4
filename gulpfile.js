@@ -212,6 +212,7 @@ var adminSources = gulp.src([
         // DASHBOARD
         'src/admin/pages/dashboard/dashboard.module.js',
         'src/admin/pages/dashboard/DashboardCtrl.js',
+        'src/admin/pages/dashboard/DownloadCtrl.js',
         // dashboard > general
         'src/admin/pages/dashboard/general/GeneralCtrl.js',
         // dashboard > realtime

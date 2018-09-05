@@ -5,6 +5,23 @@ mShip.controller('MainCtrl',
 
     // console.log(fanpages)
 
+    var date = new Date();
+
+        var dateToDisplay = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
+        
+        // alert( 'sdf' );
+        // MFirebaseService.getReportForChart().then(function(response){
+        //   console.log( response );
+        // })
+
+        MFirebaseService.getSuccessForDate(date).then(function(response){
+                console.log( response );
+                // alert( response )
+                $scope.$apply(function(){
+                    $scope.todaySuccess = response;
+                })
+            })
+
     // console.log(sweetAlert);
     $scope.fanpages = fanpages;
 
@@ -258,6 +275,40 @@ mShip.controller('MainCtrl',
         }
         getShippingItems();
 
+        // get next items
+        $rootScope.getNextShippingItems = function() {
+            $rootScope.isLoaddingOrder = true;
+            MFirebaseService.getNextShippingItems($rootScope.lastOrderKey, pageSize).then(function(response) {
+                response.reverse().slice(1).map(function(order) {
+                    $scope.$apply(function() {
+                        $rootScope.availableShippingItems.push(order);
+                    })
+                    // listen for this order changing
+                    // firebase.database().ref().child('shippingItems/' + order.key + '/notes')
+                    // .on('child_added', snapshot => {
+                    //     $timeout(function() {
+                    //         $scope.$apply(function() {
+                    //             order.notes.push(snapshot.val());
+                    //         })
+                    //     }, 100);
+                    // })
+                    // listenShippingItemChange(order);
+                })
+                $scope.$apply(function() {
+                    $rootScope.lastOrderKey = response[response.length - 1].key;
+                    $rootScope.newlyOrderKey = response[response.length - 1].key;
+                    $rootScope.isLoaddingOrder = false;
+                    // console.log(response);
+                    if (response.length == 1) { // item bị trùng
+                        $rootScope.canLoadMore = false;
+                    }
+                })
+            })
+            .catch(function(err){
+                MUtilitiesService.AlertError(err, 'Thông báo');
+            })
+        }
+
         /*
         * find an item in available items (loaded items)
         */
@@ -296,39 +347,7 @@ mShip.controller('MainCtrl',
             }
         });
 
-        // get next items
-        $rootScope.getNextShippingItems = function() {
-            $rootScope.isLoaddingOrder = true;
-            MFirebaseService.getNextShippingItems($rootScope.lastOrderKey, pageSize).then(function(response) {
-                response.reverse().slice(1).map(function(order) {
-                    $scope.$apply(function() {
-                        $rootScope.availableShippingItems.push(order);
-                    })
-                    // listen for this order changing
-                    // firebase.database().ref().child('shippingItems/' + order.key + '/notes')
-                    // .on('child_added', snapshot => {
-                    //     $timeout(function() {
-                    //         $scope.$apply(function() {
-                    //             order.notes.push(snapshot.val());
-                    //         })
-                    //     }, 100);
-                    // })
-                    // listenShippingItemChange(order);
-                })
-                $scope.$apply(function() {
-                    $rootScope.lastOrderKey = response[response.length - 1].key;
-                    $rootScope.newlyOrderKey = response[response.length - 1].key;
-                    $rootScope.isLoaddingOrder = false;
-                    // console.log(response);
-                    if (response.length == 1) { // item bị trùng
-                        $rootScope.canLoadMore = false;
-                    }
-                })
-            })
-            .catch(function(err){
-                MUtilitiesService.AlertError(err, 'Thông báo');
-            })
-        }
+        
 
         $rootScope.searchQuery = {
             text: null
@@ -986,26 +1005,8 @@ mShip.controller('MainCtrl',
             });
         })
 
-        var date = new Date();
-
-        var dateToDisplay = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
         
-        // alert( 'sdf' );
-        // MFirebaseService.getReportForChart().then(function(response){
-        //   console.log( response );
-        // })
 
-        var getReport = function(){
-            // $rootScope.todaySuccess = null;
-
-            MFirebaseService.getSuccessForDate(date).then(function(response){
-                // alert( response )
-                $scope.$apply(function(){
-                    $scope.todaySuccess = response;
-                })
-            })
-        }
-        getReport();
         var todayDateString = MFirebaseService.convertDate(new Date());
         firebase.database().ref().child('report/' + todayDateString).on('child_changed', snapshot => {
             if(snapshot.key == 'successCount'){
