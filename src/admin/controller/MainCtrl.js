@@ -91,6 +91,22 @@ m_admin.controller('MainCtrl',
             
         }
 
+        $rootScope.getAssignedNewCountBySellerId = function( seller_id ) {
+            if( !$scope.assignedData ) return;
+            // console.log( $scope.assignedData );
+            var found = "N/A";
+            angular.forEach( $scope.assignedData, function( value, key ) {
+                // console.log( key, seller_id )
+                if( parseInt(key) == parseInt(seller_id) ) {
+                    // console.log( value.count );
+                    found = value.new_count;
+                }
+            } );
+
+            return found;
+            
+        }
+
         $rootScope.getPageAssignedCountBySellerId = function( seller_id ) {
             if( !$scope.assignedData ) return;
             // console.log( $scope.assignedData );
@@ -100,6 +116,36 @@ m_admin.controller('MainCtrl',
                 if( parseInt(key) == parseInt(seller_id) ) {
                     // console.log( value.count );
                     found = value.pages;
+                }
+            } );
+
+            return found;
+        }
+
+        $rootScope.getPageAssignedNewCountBySellerId = function( seller_id ) {
+            if( !$scope.assignedData ) return;
+            // console.log( $scope.assignedData );
+            var found = "N/A";
+            angular.forEach( $scope.assignedData, function( value, key ) {
+                // console.log( key, seller_id )
+                if( parseInt(key) == parseInt(seller_id) ) {
+                    // console.log( value.count );
+                    found = value.new_by_pages;
+                }
+            } );
+
+            return found;
+        }
+
+        $rootScope.findNewCountByPageBySeller = function(data, page_id) {
+            if( !data ) return;
+            // console.log( $scope.assignedData );
+            var found = "N/A";
+            angular.forEach( data, function( value, key ) {
+                // console.log( key, seller_id )
+                if( parseInt(key) == parseInt(page_id) ) {
+                    // console.log( value.count );
+                    found = value;
                 }
             } );
 

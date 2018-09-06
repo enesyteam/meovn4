@@ -356,10 +356,13 @@
                               </div>
                            </div> -->
                            <div class="_200d _d-3 _d-9  d-table-cell" role="presentation" style="height: 50px;width:20%;vertical-align: top;padding: 15px 0;" ng-init="assignedData=getPageAssignedCountBySellerId(sellerData.id)">
-                              <div class="clearfix">
+                              <div class="clearfix" ng-init="assignedDataNew=getPageAssignedNewCountBySellerId(sellerData.id)">
                                  <div class="_ohe lfloat" ng-if="assignedData!=='N/A'">
                                     <div style="text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text">
                                        Tổng: {{ getAssignedCountBySellerId( sellerData.id ) }}
+                                       <span style="color: #43a735;">
+                                          / Số mới: {{ getAssignedNewCountBySellerId( sellerData.id ) }}
+                                       </span>
                                     </span></div>
                                     <div ng-repeat="(value, key) in assignedData" class="_3-99">
                                        <div style="width:80%;text-overflow: ellipsis; white-space: nowrap;max-width:200px;display:inline-block;overflow: hidden;">
@@ -367,6 +370,9 @@
                                        </div>
                                        <div style="float: right;width:20%;font-weight: 700">
                                           {{ key }}
+                                          <span style="color: #43a735;">
+                                             {{ findNewCountByPageBySeller(assignedDataNew, value) }}
+                                          </span>
                                        </div>
                                     </div>
                                  </div>
