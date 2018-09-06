@@ -2856,10 +2856,40 @@
                                             .transaction(function (oldValue) {
                                                 return oldValue + 1;
                                             }).then(function (res) {
-                                                // do nothing
-                                                resolve( 'success' );
+                                                // thống kê số mới
+                                                if( order.status_id == 1 ) {
+                                                    firebase.database().ref()
+                                                    .child('assigned')
+                                                    .child(date)
+                                                    .child(seller_id)
+                                                    .child('new_count')
+                                                    .transaction(function (oldValue) {
+                                                        return oldValue + 1;
+                                                    }).then(function (res) {
+                                                        // cập nhật báo cáo phân số seller theo page
+                                                        firebase.database().ref()
+                                                        .child('assigned')
+                                                        .child(date)
+                                                        .child(seller_id)
+                                                        .child('new_by_pages')
+                                                        .child( order.page_id )
+                                                        .transaction(function (oldValue) {
+                                                            return oldValue + 1;
+                                                        }).then(function (res) {
+                                                            // do nothing
+                                                            resolve( 'success' );
+                                                        });
+                                                    });
+                                                }
+                                                else {
+                                                    // do nothing
+                                                    resolve( 'success' );
+                                                }
+                                                    
                                             });
                                         });
+
+                                        
                                     })
                                     .catch(function (err) {
                                         reject(err);
@@ -2932,8 +2962,45 @@
                                                     return 0;
                                                 }
                                             }).then(function (res) {
-                                                // do nothing
-                                                resolve( 'success' );
+                                                // thống kê số mới
+                                                if( order.status_id == 1 ) {
+                                                    firebase.database().ref()
+                                                    .child('assigned')
+                                                    .child(date)
+                                                    .child(seller_id)
+                                                    .child('new_count')
+                                                    .transaction(function (oldValue) {
+                                                        if( oldValue > 0 ) {
+                                                            return oldValue - 1;
+                                                        }
+                                                        else {
+                                                            return 0;
+                                                        }
+                                                    }).then(function (res) {
+                                                        // cập nhật báo cáo phân số seller theo page
+                                                        firebase.database().ref()
+                                                        .child('assigned')
+                                                        .child(date)
+                                                        .child(seller_id)
+                                                        .child('new_by_pages')
+                                                        .child( order.page_id )
+                                                        .transaction(function (oldValue) {
+                                                            if( oldValue > 0 ) {
+                                                                return oldValue - 1;
+                                                            }
+                                                            else {
+                                                                return 0;
+                                                            }
+                                                        }).then(function (res) {
+                                                            // do nothing
+                                                            resolve( 'success' );
+                                                        });
+                                                    });
+                                                }
+                                                else {
+                                                    // do nothing
+                                                    resolve( 'success' );
+                                                }
                                             });
                                         });
                                     })
