@@ -316,8 +316,8 @@
                                                                                     var reportDateString = convertDate(date);
                                                                                     // console.log('Cần cập nhật báo cáo cho ngày: ' + reportDateString);
 
-                                                                                    onCancelShippingItem(reportDateString, shippingItem.cod_amount, 
-                                                                                        shippingItem.service_fee, response[0].key).then(function(response){
+                                                                                    onCancelShippingItem(reportDateString, shippingItem.data.customerData.cod, 
+                                                                                        shippingItem.service_fee, response[0].key, true, shippingItem.data.orderData.seller_will_call_id, shippingItem.data.orderData.page_id ).then(function(response){
                                                                                             // $scope.activedItem.orderCode = null;
                                                                                         // console.log(response);
                                                                                         // tìm và cập nhật item này trong danh sách
@@ -390,8 +390,8 @@
                                                                                     var reportDateString = convertDate(date);
                                                                                     // console.log('Cần cập nhật báo cáo cho ngày: ' + reportDateString);
 
-                                                                                    onCancelShippingItem(reportDateString, shippingItem.cod_amount, 
-                                                                                        shippingItem.service_fee, response[0].key).then(function(response){
+                                                                                    onCancelShippingItem(reportDateString, shippingItem.data.customerData.cod, 
+                                                                                        shippingItem.service_fee, response[0].key, true, shippingItem.data.orderData.seller_will_call_id, shippingItem.data.orderData.page_id).then(function(response){
                                                                                             // $scope.activedItem.orderCode = null;
                                                                                         // console.log(response);
                                                                                         // tìm và cập nhật item này trong danh sách
@@ -471,8 +471,8 @@
                                                                                 var reportDateString = convertDate(date);
                                                                                 // console.log('Cần cập nhật báo cáo cho ngày: ' + reportDateString);
 
-                                                                                onCancelShippingItem(reportDateString, shippingItem.cod_amount, 
-                                                                                    shippingItem.service_fee, response[0].key).then(function(response){
+                                                                                onCancelShippingItem(reportDateString, shippingItem.data.customerData.cod, 
+                                                                                        shippingItem.service_fee, response[0].key, true, shippingItem.data.orderData.seller_will_call_id, shippingItem.data.orderData.page_id).then(function(response){
                                                                                         // $scope.activedItem.orderCode = null;
                                                                                     // console.log(response);
                                                                                     // tìm và cập nhật item này trong danh sách
@@ -995,7 +995,7 @@
                 }
 
                 // Hủy đơn hàng trên hệ thống
-                var onCancelShippingItem = function (date, cod, shipping_cod, itemKey, isCancelOnSystem = true) {
+                var onCancelShippingItem = function (date, cod, shipping_cod, itemKey, isCancelOnSystem = true, seller_will_call_id, page_id ) {
 
                     // cập nhật firebase
                     var updates = {};
@@ -1047,6 +1047,15 @@
                                 return oldValue;
                             }
                         });
+
+                    // cập nhật báo cáo COD
+                    updateCodReport( date, -cod, seller_will_call_id, page_id )
+                        .then( response => {
+                            console.log( response );
+                        } )
+                        .catch( error => {
+                            console.log( error );
+                        } )
 
 
                     return new Promise(function (resolve, reject) {
@@ -3061,6 +3070,53 @@
                     })
                 }
 
+                var updateCodReport = function( reportDateString, cod, seller_id, page_id ) {
+                    // update total cod
+                    return new Promise( function( resolve, reject ) {
+                        firebase.database().ref()
+                        .child('assigned')
+                        .child(reportDateString)
+                        .child('total_cod')
+                        .transaction(function ( oldValue ) {
+                            return oldValue + cod;
+                        }).then(function (res) {
+                            // update cod by seller
+                            firebase.database().ref()
+                                .child('assigned')
+                                .child(reportDateString)
+                                .child(seller_id)
+                                .child('cod')
+                                .transaction(function ( oldValue ) {
+                                    return oldValue + cod;
+                                }).then(function (res) {
+                                    // update cod by seller and by page
+                                    firebase.database().ref()
+                                        .child('assigned')
+                                        .child(reportDateString)
+                                        .child(seller_id)
+                                        .child('cod_by_pages')
+                                        .child( page_id )
+                                        .transaction(function ( oldValue ) {
+                                            return oldValue + cod;
+                                        }).then(function (res) {
+                                            // update cod by seller and cod by 
+                                            resolve('Success');
+                                        })
+                                        .catch( function( error ) {
+                                            reject( error );
+                                        } );
+                                })
+                                .catch( function( error ) {
+                                    reject( error );
+                                } );
+                        })
+                        .catch( function( error ) {
+                            reject( error );
+                        } );
+                    } )
+                    
+                }
+
                 return {
                     getCanReleaseStatusIds: getCanReleaseStatusIds,
                     getOrders: getOrders,
@@ -3162,6 +3218,7 @@
                     getOrdersByDateRange: getOrdersByDateRange,
                     getAssignedReportForDate: getAssignedReportForDate,
                     getAllOrdersByDateRange: getAllOrdersByDateRange,
+                    updateCodReport: updateCodReport,
                 }
 
             }

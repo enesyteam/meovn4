@@ -431,7 +431,21 @@ mRealtime.controller('OdersCtrl',
                         // cập nhật báo cáo, tăng 1 đơn vị trong tổng số shipping items
                         MFirebaseService.onCreateShippingItem(reportDateString).then(function(response){
                             // console.log(response);
+                            MFirebaseService.updateCodReport( 
+                                reportDateString, 
+                                $scope.customerData.cod,
+                                $rootScope.activeOrder.seller_will_call_id,
+                                $rootScope.activeOrder.page_id )
+                            .then( function( response ) {
+                                console.log( response );
+                            } )
+                            .catch( function( error ) {
+                                console.log( error );
+                            } );
+
                             resolve('Tạo shipping item và cập nhật báo cáo thành công');
+                            // cập nhật báo cáo về tiền ở đây
+
                         })
 
                     })
