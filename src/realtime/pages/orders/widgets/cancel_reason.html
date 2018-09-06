@@ -1,0 +1,11 @@
+<div class="container">
+	<div class="form-row">
+	  <div class="form-group col-md-12 mt-2 mb-2">
+	     <select class="form-control form-select" select2 ng-model="selected_reason" data-placeholder="Pick a number" ng-change="onStationChange()"
+	        ng-options="s as s.reason for s in cancelReasons">
+	        <option value=""></option>
+	     </select>
+			<textarea ng-if="show_other_reason" ng-model="reason.text" class="form-control input-block mt-4 ng-pristine ng-touched" id="fb_info_message" name="input_message" placeholder="Nhập lý do từ chối..." autocomplete="on" rows="1" style=""></textarea>
+	  </div>
+	</div>
+</div>

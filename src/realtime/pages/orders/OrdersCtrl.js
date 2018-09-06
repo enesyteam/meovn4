@@ -1,7 +1,7 @@
 mRealtime.controller('OdersCtrl',
     function($rootScope, $scope, $state, $stateParams, $filter, $timeout, cfpLoadingBar, ngDialog, 
         cfpLoadingBar, Facebook, firebaseService, ProductPackService,
-         activeItem, fanpages, MFacebookService, MFirebaseService, MUtilitiesService) {
+         activeItem, fanpages, MFacebookService, MFirebaseService, MUtilitiesService, sweetAlert) {
 
         console.log(activeItem);
 
@@ -374,8 +374,94 @@ mRealtime.controller('OdersCtrl',
             })
         }
 
+        $scope.cancelReason = function() {
+            alert('working');
+        }
+
+        var cancelReasons = [
+            {
+                id: 1,
+                reason: "Giá cao quá"
+            },
+            {
+                id: 2,
+                reason: "Sản phẩm không phù hợp"
+            },
+            {
+                id: 3,
+                reason: "Chưa có nhu cầu"
+            },
+            {
+                id: 4,
+                reason: "Không liên lạc được"
+            },
+            {
+                id: 5,
+                reason: "Lý do khác"
+            },
+        ]
+
         function changeOrderStatus(status){
             return new Promise(function(resolve, reject){
+                if( status.id == 7 ) {
+                    // hiển thị hộp thoại lý do từ chối
+                    sweetAlert.open({
+                        title: "Vui lòng cung cấp lý do từ chối",
+                        htmlTemplate: "src/realtime/pages/orders/widgets/cancel_reason.html",
+                        confirmButtonText: 'Tiếp tục',
+                        // customClass: 'swal-wide',
+                        showCancelButton: true,
+                        showCloseButton: true,
+                        allowOutsideClick: false,
+                        preConfirm: 'cancelReason',
+                        showLoaderOnConfirm: true,
+                        controller: 'CancelCtrl',
+                        controllerAs: 'vm',
+                        resolve: {
+                            cancelReasons: function() {
+                                return cancelReasons;
+                            },
+                            orderId: function() {
+                                return $stateParams.id;
+                            },
+                            pageId: function() {
+                                return $stateParams.page_id;
+                            }
+                        }
+                    
+                    })
+                    .then(function( response ){
+                        console.log( response );
+                        doChangeStatus( status )
+                        .then( function(response) {
+                            resolve( response );
+                        })
+                        .catch( function( error ) {
+                            reject( error )
+                        } )
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                        sweetAlert.alert(err, {title: 'Lỗi!'});
+                        return;
+                    });
+                }
+                else {
+                    doChangeStatus( status )
+                        .then( function(response) {
+                            resolve( response );
+                        })
+                        .catch( function( error ) {
+                            reject( error )
+                        } )
+                }
+
+                
+            })
+        }
+
+        function doChangeStatus( status ) {
+            return new Promise( function( resolve, reject ) {
                 MFirebaseService.onChangeOrderStatus($stateParams.id, $rootScope.currentMember, status.id, 
                     $rootScope.sellers)
                 .then(function(response){
@@ -398,7 +484,7 @@ mRealtime.controller('OdersCtrl',
                 .catch(function(err){
                     reject(err);
                 });
-            })
+            } )
         }
 
         function addShippingItem(){

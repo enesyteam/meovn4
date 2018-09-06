@@ -12,6 +12,7 @@ var mRealtime = angular.module('mRealtime', [
   // 'angular-clipboard',
   // 'infinite-scroll',
   'ngDialog',
+  'angular-sweet-alert',
   // 'ui.scroll',
   // 'snackbar',
   'ngFileUpload',

@@ -563,10 +563,32 @@
 
                                     } else {
                                         // USER CẬP NHẬT TRẠNG THÁI ORDER CỦA HỌ
-                                        MUtilitiesService.showConfirmDialg('Thông báo',
+                                        if( statusId == 7 ) {
+                                            preparingEmptyReport(currentUser, orderOwner, snapshot.val().page_id);
+                                                onUpdateOrderStatus(orderId, currentUser, statusId).then(function (response) {
+                                                        updateReport(currentUser, snapshot.val().status_id,
+                                                                statusId, orderOwner, snapshot.val().page_id, orderCreatedDateString)
+                                                            .then(function () {
+                                                                // update_at: new Date();
+                                                                updateOrderItem(orderId, Date.now()).then(function (response) {
+                                                                    console.log(response);
+                                                                })
+                                                                resolve('User đã thay đổi trạng thái và cập nhật báo cáo thành công.');
+                                                            }).catch(function (err) {
+                                                                reject(err);
+                                                            })
+                                                    })
+                                                    .catch(function (err) {
+                                                        reject(err);
+                                                    });
+                                        }
+                                        else {
+                                            MUtilitiesService.showConfirmDialg('Thông báo',
                                                 'Bạn có muốn thay đổi trạng thái Order này không?', 'Thay đổi', 'Bỏ qua')
                                             .then(function (response) {
                                                 if (response) {
+                                                    // nếu chuyển trạng thái từ chối => hiển thị hộp thoại lý do từ chối
+
                                                     preparingEmptyReport(currentUser, orderOwner, snapshot.val().page_id);
                                                     onUpdateOrderStatus(orderId, currentUser, statusId).then(function (response) {
                                                             updateReport(currentUser, snapshot.val().status_id,
@@ -589,6 +611,8 @@
                                                     reject('User bỏ qua thao tác cập nhật trạng thái Order');
                                                 }
                                             })
+                                        }
+                                        
                                     }
 
                                 }
@@ -3089,22 +3113,36 @@
                                 .transaction(function ( oldValue ) {
                                     return oldValue + cod;
                                 }).then(function (res) {
-                                    // update cod by seller and by page
+                                    // update code by page
                                     firebase.database().ref()
                                         .child('assigned')
                                         .child(reportDateString)
-                                        .child(seller_id)
                                         .child('cod_by_pages')
                                         .child( page_id )
                                         .transaction(function ( oldValue ) {
                                             return oldValue + cod;
                                         }).then(function (res) {
-                                            // update cod by seller and cod by 
-                                            resolve('Success');
+                                            // update cod by seller and by page
+                                            firebase.database().ref()
+                                                .child('assigned')
+                                                .child(reportDateString)
+                                                .child(seller_id)
+                                                .child('cod_by_pages')
+                                                .child( page_id )
+                                                .transaction(function ( oldValue ) {
+                                                    return oldValue + cod;
+                                                }).then(function (res) {
+                                                    // update cod by seller and cod by 
+                                                    resolve('Success');
+                                                })
+                                                .catch( function( error ) {
+                                                    reject( error );
+                                                } );
                                         })
                                         .catch( function( error ) {
                                             reject( error );
                                         } );
+                                    
                                 })
                                 .catch( function( error ) {
                                     reject( error );
@@ -3115,6 +3153,49 @@
                         } );
                     } )
                     
+                }
+
+                var onCancelOrder = function( orderId, pageId, reason ) {
+                    return new Promise( function( resolve, reject ) {
+                        var today = new Date();
+                        var todayDateString = convertDate(today);
+
+                        var updates = {};
+                        updates['/newOrders/' + orderId + '/cancel_reason'] = reason.text;
+                        return firebase.database().ref().update(updates).then(function () {
+                                // cập nhật báo cáo
+                                firebase.database().ref()
+                                    .child('assigned')
+                                    .child(todayDateString)
+                                    .child('cancel_by_reason')
+                                    .child( reason.id )
+                                    .transaction(function ( oldValue ) {
+                                        return oldValue + 1;
+                                    }).then(function (res) {
+                                        firebase.database().ref()
+                                            .child('assigned')
+                                            .child(todayDateString)
+                                            .child('cancel_by_pages')
+                                            .child( pageId )
+                                            .child( reason.id )
+                                            .transaction(function ( oldValue ) {
+                                                return oldValue + 1;
+                                            }).then(function (res) {
+                                                // update cod by seller and cod by 
+                                                resolve('Success');
+                                            })
+                                            .catch( function( error ) {
+                                                reject( error );
+                                            } );
+                                    })
+                                    .catch( function( error ) {
+                                        reject( error );
+                                    } );
+                            })
+                            .catch(function (err) {
+                                reject('Không thể cập nhật, lỗi: ' + err)
+                            })
+                    } )
                 }
 
                 return {
@@ -3219,6 +3300,7 @@
                     getAssignedReportForDate: getAssignedReportForDate,
                     getAllOrdersByDateRange: getAllOrdersByDateRange,
                     updateCodReport: updateCodReport,
+                    onCancelOrder: onCancelOrder,
                 }
 
             }

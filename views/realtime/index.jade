@@ -38,8 +38,11 @@ html(lang='en', ng-app='mRealtime')
     link(rel='stylesheet', href='/node_modules/perfect-scrollbar/css/perfect-scrollbar.css')
     |     
     link(rel='stylesheet', href='/node_modules/angular-loading-bar/build/loading-bar.css')
-    |     
+    |      
     link(rel='stylesheet', href='/src/admin/sass/ng-dialog-custom.css')
+    | 
+    link(rel='stylesheet', href='/node_modules/sweetalert2/dist/sweetalert2.min.css')
+    | 
     // <link rel="stylesheet" href="/src/admin/sass/notice.css">
     link(rel='stylesheet', href='/assets/css/select2.min.css')
     // inject:css
@@ -63,7 +66,10 @@ html(lang='en', ng-app='mRealtime')
           .d-flex.flex-justify-between
             a.header-logo-invertocat.page-realtime.tooltipped.tooltipped-se.tooltipped-no-delay.js-socket-channel.js-notification-indicator(href='#', data-hotkey='g d', data-ga-click='Header, go to dashboard, icon:logo')
               svg.octicon.octicon-mark-github(aria-hidden='true', height='32', version='1.1', viewbox='-281 404.9 32 32', width='32')
-                path.st0(d='M-254.6,436.1h-20.7c-2.5,0-4.7-2.2-4.7-4.7v-20.9c0-2.5,2.2-4.7,4.7-4.7h20.7c2.5,0,4.7,2.2,4.7,4.7v20.7\                C-249.9,433.9-252.1,436.1-254.6,436.1z M-253.5,417.1c0-3.3-5.5-6.7-9.6-2c-3.7-4.9-8.8-0.4-8.8,0c0-3.3-3.7-2.5-3.7-0.8\                c0,2,0,9.4,0,12.3c0,2.9,4.1,2.5,4.1,0s0-3.5,0-7.8c0-4.5,5.1-3.1,5.1-0.8c0,2.9,0,6.1,0,8.8s4.1,2.7,4.1,0s-0.2-2.9-0.2-7.4\                c0-4.5,5.1-3.9,5.1-1c0,3.7,0.2,6.3,0.2,8.6c0,2.3,3.9,2.5,3.9,0C-253.5,424.3-253.5,419.6-253.5,417.1z')
+                path.st0(d='M-254.6,436.1h-20.7c-2.5,0-4.7-2.2-4.7-4.7v-20.9c0-2.5,2.2-4.7,4.7-4.7h20.7c2.5,0,4.7,2.2,4.7,4.7v20.7\
+                C-249.9,433.9-252.1,436.1-254.6,436.1z M-253.5,417.1c0-3.3-5.5-6.7-9.6-2c-3.7-4.9-8.8-0.4-8.8,0c0-3.3-3.7-2.5-3.7-0.8\
+                c0,2,0,9.4,0,12.3c0,2.9,4.1,2.5,4.1,0s0-3.5,0-7.8c0-4.5,5.1-3.1,5.1-0.8c0,2.9,0,6.1,0,8.8s4.1,2.7,4.1,0s-0.2-2.9-0.2-7.4\
+                c0-4.5,5.1-3.9,5.1-1c0,3.7,0.2,6.3,0.2,8.6c0,2.3,3.9,2.5,3.9,0C-253.5,424.3-253.5,419.6-253.5,417.1z')
           |           
           .HeaderMenu.d-flex.flex-justify-between.flex-auto
             .d-flex
@@ -187,6 +193,12 @@ html(lang='en', ng-app='mRealtime')
       firebase.initializeApp(config);
     // AngularFire
     script(src='/assets/js/angularfire.min.js')
+    |     
+    script(src='/node_modules/sweetalert2/dist/sweetalert2.js')
+    |   
+    script(src='src/ship/assets/js/angular-sweet-alert.js')
+    |  
+
     // inject:js
     script(src='/src/modules/mGHN.js')
     |     
@@ -225,6 +237,8 @@ html(lang='en', ng-app='mRealtime')
     script(src='/src/realtime/pages/orders/orders.module.js')
     |     
     script(src='/src/realtime/pages/orders/OrdersCtrl.js')
+    |     
+    script(src='/src/realtime/pages/orders/CancelCtrl.js')
     // endinject
     script(src='/assets/js/frameworks-f6afcaeac971138fed77bef35a12efac982cf10f6d34190912b7307946f14c8b.js')
     // <script type="text/javascript" src="https://assets-cdn.github.com/assets/github-0bf824ad9b5c44a4ba98c8d86ede76a76d1bf24675f586cb61210f717b420cbe.js"></script>

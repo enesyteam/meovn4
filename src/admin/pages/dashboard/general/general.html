@@ -434,6 +434,165 @@
          </div>
       </div>
    </div>
+
+   <div class="report-pane">
+      <div class="header">
+         Thống kê doanh thu trên đơn hàng đã chốt
+         <span style="font-size: 11px;font-weight: 300;background-color: #fa3e3e;border-radius: 2px;    color: #fff;padding: 1px 3px;" class="ng-binding">
+            DEMO
+
+         </span>
+         
+         <div class="float-right">
+               <div>
+
+                  <a class="export-data">
+                     Export Data
+                     <svg height="16" class="octicon octicon-cloud-download" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M9 12h2l-3 3-3-3h2V7h2v5zm3-8c0-.44-.91-3-4.5-3C5.08 1 3 2.92 3 5 1.02 5 0 6.52 0 8c0 1.53 1 3 3 3h3V9.7H3C1.38 9.7 1.3 8.28 1.3 8c0-.17.05-1.7 1.7-1.7h1.3V5c0-1.39 1.56-2.7 3.2-2.7 2.55 0 3.13 1.55 3.2 1.8v1.2H12c.81 0 2.7.22 2.7 2.2 0 2.09-2.25 2.2-2.7 2.2h-2V11h2c2.08 0 4-1.16 4-3.5C16 5.06 14.08 4 12 4z"></path>
+                     </svg>
+                  </a>
+               </div>
+            </div>
+      </div>
+      <div class="content">
+         <div data-testid="top_video_table">
+            <div id="BVITable">
+               <div class="_d-b pl-3 pr-3">
+                  <!-- Row -->
+                     <div class="_3h1i _1mie" style="color: #1d2129;font-size: 12px">
+                        <div class="_3h1j">
+                           <div class="_219p width-full" style="pointer-events: auto;">
+                              <div class="d-table" style="width: 100%">
+                                 <div class="_200d _d-3 d-table-cell user-chart" role="presentation" style="height: 50px;width:450px">
+                                    <div class="clearfix">
+                                       <div class="_ohe lfloat loading-area">
+                                          <strong style="color:#fa3e3e">Tổng doanh thu trên toàn Pages theo số đơn đã chốt:</strong>
+                                       </div>
+                                       <!-- <div class="_ohf rfloat"></div> -->
+                                    </div>
+                                 </div>
+                                 <div class="_200d _d-3" role="presentation" style="height: 50px;">
+                                    <div class="clearfix" ng-init="currentSuccess=todayReport.successCount">
+                                       <div class="_ohe lfloat">
+                                          <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text" style="color:#fa3e3e">
+                                             {{ assignedData.total_cod | number: '0' }}
+                                             <!-- ( Giá trị trung bình đơn hàng: {{ ( assignedData.total_cod/currentSuccess ) | number: '0' }} ) -->
+                                          </span></div>
+                                       </div>
+                                       <!-- <div class="_ohf rfloat"></div> -->
+                                    </div>
+                                 </div>
+                                 
+                              </div>
+                           </div>
+                           <!-- Chi tiết doanh thu theo telesale -->
+                           <div class="_219p width-full" style="pointer-events: auto;" 
+                           ng-repeat="(key, value) in assignedData" ng-if="filterById(telesales_arr, key).last_name">
+                              <!-- <strong>Doanh thu theo số đơn chốt của Telesale: </strong> -->
+                              <div class="d-table" style="width: 100%">
+                                 <div class="_200d _d-3 d-table-cell user-chart" role="presentation" style="height: 50px;width:450px">
+                                    <div class="clearfix">
+                                       <div class="_ohe lfloat loading-area">
+                                          Seller = {{ filterById(telesales_arr, key).last_name }}
+                                       </div>
+                                       <!-- <div class="_ohf rfloat"></div> -->
+                                    </div>
+                                 </div>
+                                 <div class="_200d _d-3" role="presentation" style="height: 50px;">
+                                    <div class="clearfix">
+                                       <div class="_ohe lfloat">
+                                          <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;display: inline-block;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="Published times are displayed in Pacific Time">
+                                             {{ value.cod | number: '0' }}
+                                          </span></div>
+                                          <!-- Chi tiết theo từng page -->
+                                          <div style="display: inline-block;padding-left: 25px">
+                                             <div ng-repeat="( d, k ) in value.cod_by_pages">
+                                                <strong style="width: 80%;text-overflow: ellipsis;white-space: nowrap;max-width: 200px;display: inline-block;overflow: hidden;"> {{ findPageById(d).name }} </strong>
+                                                {{ k | number: '0' }}
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <!-- <div class="_ohf rfloat"></div> -->
+                                    </div>
+                                 </div>
+                              </div>
+                              
+                           </div>
+                        </div>
+                     </div>
+                     <!-- /Row -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="report-pane">
+      <div class="header">
+         Lý do từ chối mua hàng
+         <span style="font-size: 11px;font-weight: 300;background-color: #fa3e3e;border-radius: 2px;    color: #fff;padding: 1px 3px;" class="ng-binding">
+            DEMO
+         </span>
+         <div class="float-right">
+               <div>
+
+                  <a class="export-data">
+                     Export Data
+                     <svg height="16" class="octicon octicon-cloud-download" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M9 12h2l-3 3-3-3h2V7h2v5zm3-8c0-.44-.91-3-4.5-3C5.08 1 3 2.92 3 5 1.02 5 0 6.52 0 8c0 1.53 1 3 3 3h3V9.7H3C1.38 9.7 1.3 8.28 1.3 8c0-.17.05-1.7 1.7-1.7h1.3V5c0-1.39 1.56-2.7 3.2-2.7 2.55 0 3.13 1.55 3.2 1.8v1.2H12c.81 0 2.7.22 2.7 2.2 0 2.09-2.25 2.2-2.7 2.2h-2V11h2c2.08 0 4-1.16 4-3.5C16 5.06 14.08 4 12 4z"></path>
+                     </svg>
+                  </a>
+               </div>
+            </div>
+      </div>
+      <div class="content">
+         <div data-testid="top_video_table">
+            <div id="BVITable">
+               <div class="_d-b pl-3 pr-3">
+                  <!-- Row -->
+                     <div class="_3h1i _1mie" style="color: #1d2129;font-size: 12px">
+                        <div class="_3h1j">
+                           
+                           <!-- Chi tiết doanh thu theo telesale -->
+                           <div class="_219p width-full" style="pointer-events: auto;">
+                              <!-- <strong>Doanh thu theo số đơn chốt của Telesale: </strong> -->
+                              <div class="d-table" style="width: 100%">
+                                 <div class="_200d _d-3 d-table-cell user-chart" role="presentation" style="height: 50px;width:450px">
+                                    <div class="clearfix">
+                                       <div class="_ohe lfloat loading-area">
+                                          Lý do = {{ assignedData.cancel_by_reason }}
+                                       </div>
+                                       <!-- <div class="_ohf rfloat"></div> -->
+                                    </div>
+                                 </div>
+                                 <div class="_200d _d-3" role="presentation" style="height: 50px;">
+                                    <div class="clearfix">
+                                       <div class="_ohe lfloat">
+                                          <!-- Chi tiết theo từng page -->
+                                          <div style="display: inline-block;padding-left: 25px">
+                                             <div ng-repeat="( d, k ) in assignedData.cancel_by_pages">
+                                                <strong style="width: 80%;text-overflow: ellipsis;white-space: nowrap;max-width: 200px;display: inline-block;overflow: hidden;"> {{ findPageById(d).name }} </strong>
+                                                   <div ng-repeat="( dd, kk ) in k">
+                                                      {{ dd }} - {{ kk }}
+                                                   </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <!-- <div class="_ohf rfloat"></div> -->
+                                    </div>
+                                 </div>
+                              </div>
+                              
+                           </div>
+                        </div>
+                     </div>
+                     <!-- /Row -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
    
    <!-- Page report -->
    <div class="report-pane">
