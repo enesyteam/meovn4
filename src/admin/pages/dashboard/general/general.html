@@ -486,7 +486,11 @@
                                              <!-- ( Giá trị trung bình đơn hàng: {{ ( assignedData.total_cod/currentSuccess ) | number: '0' }} ) -->
                                           </span></div>
                                        </div>
-                                       <!-- <div class="_ohf rfloat"></div> -->
+                                       <div class="_ohf rfloat">
+                                          <div ng-repeat="( s, v ) in assignedData.cod_by_pages">
+                                             {{ findPageById(s).name }}: {{ v | number: '0' }}
+                                          </div>
+                                       </div>
                                     </div>
                                  </div>
                                  
@@ -564,10 +568,14 @@
                            <div class="_219p width-full" style="pointer-events: auto;">
                               <!-- <strong>Doanh thu theo số đơn chốt của Telesale: </strong> -->
                               <div class="d-table" style="width: 100%">
-                                 <div class="_200d _d-3 d-table-cell user-chart" role="presentation" style="height: 50px;width:450px">
+                                 <div class="_200d _d-3 d-table-cell user-chart" role="presentation" style="height: 50px;">
                                     <div class="clearfix">
                                        <div class="_ohe lfloat loading-area">
-                                          Lý do = {{ assignedData.cancel_by_reason }}
+                                          
+                                          <!-- <div ng-repeat="( s, v ) in assignedData.cancel_by_reason">
+                                             {{ s }}: {{ v }}
+                                          </div> -->
+                                          
                                        </div>
                                        <!-- <div class="_ohf rfloat"></div> -->
                                     </div>
@@ -580,7 +588,7 @@
                                              <div ng-repeat="( d, k ) in assignedData.cancel_by_pages">
                                                 <strong style="width: 80%;text-overflow: ellipsis;white-space: nowrap;max-width: 200px;display: inline-block;overflow: hidden;"> {{ findPageById(d).name }} </strong>
                                                    <div ng-repeat="( dd, kk ) in k">
-                                                      {{ dd }} - {{ kk }}
+                                                      {{ filterById(cancelReasons, dd).reason }} - {{ kk }}
                                                    </div>
                                              </div>
                                           </div>

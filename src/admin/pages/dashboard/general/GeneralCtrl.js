@@ -2,6 +2,29 @@ m_admin.controller('GeneralCtrl',
 function($rootScope, $scope, $filter, $timeout, cfpLoadingBar, firebaseService, MFirebaseService, reportData,
     MUtilitiesService) {
 
+    $rootScope.cancelReasons = [
+        {
+            id: 1,
+            reason: "Giá cao quá"
+        },
+        {
+            id: 2,
+            reason: "Sản phẩm không phù hợp"
+        },
+        {
+            id: 3,
+            reason: "Chưa có nhu cầu"
+        },
+        {
+            id: 4,
+            reason: "Không liên lạc được"
+        },
+        {
+            id: 5,
+            reason: "Lý do khác"
+        },
+    ]
+
     $rootScope.loadMore = function(){
         // console.log('test');
         for (var i = 1; i < 5; i++) {
