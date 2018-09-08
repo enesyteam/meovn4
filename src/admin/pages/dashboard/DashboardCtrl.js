@@ -74,6 +74,7 @@ m_admin.controller('DashboardCtrl',
                 page: $filter('filter')(fanpages, {id: order.page_id})[0].name,
                 status: $scope.getStatusById(order.status_id).name,
                 comment: getComment(order),
+                cancel_reason: order.cancel_reason,
 
               } )
             });
