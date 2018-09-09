@@ -1,6 +1,8 @@
+
 mSearch.controller('MainCtrl',
   function($rootScope, $scope, $q, $http, $window, $document, $filter, $timeout, MFirebaseService, MUtilitiesService,
   telesales, sweetAlert, fanpages, statuses) {
+    
 
     $rootScope.fanpages = fanpages;
     $rootScope.statuses = statuses;
@@ -113,7 +115,7 @@ mSearch.controller('MainCtrl',
     }
 
     
-    var report = true;
+    var report = false;
     if( report ) {
         ///////////////////////lấy báo cáo tháng
         var totalSuccessMonth = 0;
@@ -165,6 +167,39 @@ mSearch.controller('MainCtrl',
         })
         ///////////////////////lấy báo cáo tháng
     }
+
+    function getShippingReport( fromDate, toDate ) {
+        var result = [];
+        _.map( telesales, function( tls ) {
+            if( tls.is_seller == 1 ) {
+                result.push( {
+                    id: tls.id,
+                    name: tls.last_name,
+                    count: 0,
+                    cod: 0,
+
+                } )
+            }
+        } );
+        
+        console.log( 'getting shiping report' );
+        MFirebaseService.getAllShippingsByDateRange( fromDate, toDate )
+        .then( function( data ) {
+            _.map( data, function( shipping_item ) {
+                angular.forEach( result, function( telesale_data ) {
+                    if( telesale_data.id == shipping_item.data.orderData.seller_will_call_id ) {
+                        telesale_data.count += 1;
+                        telesale_data.cod += shipping_item.data.customerData.cod;
+                    }
+                } )
+            } )
+            console.log( 'finished!' );
+        } )
+
+        console.log( result );
+    }
+
+    // getShippingReport( '2018-08-01', '2018-08-31' );
     
     
 

@@ -1830,6 +1830,36 @@
                     })
                 }
 
+                var getAllShippingsByDateRange = function (from_date, to_date) {
+                    return new Promise(function (resolve, reject) {
+
+                        var orderDays = [];
+
+                        var endTime = new Date(from_date);
+
+                        var startTime = new Date(to_date);
+                        endTime.setHours(0,0,0,0);
+                        startTime.setHours(23,59,59,999);
+
+                        startTime = startTime.getTime();
+                        endTime = endTime.getTime();
+
+                        console.log( startTime );
+
+                        var result = [];
+                        firebase.database().ref().child('shippingItems')
+                            .orderByChild('created_time')
+                            .startAt(endTime)
+                            .endAt(startTime)
+                            .once('value', snapshot => {
+                                angular.forEach(snapshot.val(), function(item){
+                                    result.push(item);
+                                })
+                                resolve(result);
+                            })
+                    })
+                }
+
                 var getAllOrdersByDateRange = function (from_date, to_date) {
                     return new Promise(function (resolve, reject) {
 
@@ -3301,6 +3331,7 @@
                     getAllOrdersByDateRange: getAllOrdersByDateRange,
                     updateCodReport: updateCodReport,
                     onCancelOrder: onCancelOrder,
+                    getAllShippingsByDateRange: getAllShippingsByDateRange,
                 }
 
             }

@@ -531,6 +531,11 @@ m_admin.controller('MainCtrl',
                                     // console.log(member);
                                     $window.location = '/permissions';
                                 }
+                                if( member.is_admin == 1 ) {
+                                    $scope.$apply(function(){
+                                        $rootScope.admin = true;
+                                    });
+                                }
                                 // console.log(value);
                                  $scope.$apply(function(){
                                     $rootScope.currentMember = member;
