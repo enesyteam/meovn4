@@ -36,6 +36,18 @@ m_admin.controller('DashboardCtrl',
           } )
         } );
 
+        function getShippingItemByDateRange() {
+          $scope.gettingShippings = true;
+          MFirebaseService.getShippingItemByDateRange( $stateParams.fromDate, $stateParams.toDate ).then( function( response ) {
+            $scope.$apply( function() {
+              console.log(response);
+              $scope.gettingShippings = false;
+              $scope.shippings = response;
+            } )
+          } );
+        }
+        getShippingItemByDateRange();
+
         $scope.getStatusById = function(statusId){
             if(!$rootScope.statuses) return "null";
             return $filter("filter")($rootScope.statuses, {
@@ -76,6 +88,37 @@ m_admin.controller('DashboardCtrl',
                 comment: getComment(order),
                 cancel_reason: order.cancel_reason,
 
+              } )
+            });
+          // console.log( res );
+          return res;
+        }
+
+        $scope.getShippingCSV = function(){
+            
+            if(!$scope.shippings || $scope.shippings.length == 0){
+                MUtilitiesService.AlertError('Không có dữ liệu', 'Lỗi');
+                return null;
+            }
+            
+            var res = [];
+            angular.forEach($scope.shippings, function( shipping ){
+              var time = new Date( shipping.data.orderData.publish_date );
+              // var time = time.getTime();
+
+              var theyear = time.getFullYear();
+              var themonth = time.getMonth() + 1;
+              var thetoday = time.getDate();
+              res.push( {
+                date: thetoday + '/' + themonth,
+                cod: shipping.data.customerData.cod,
+                name: shipping.data.customerData.realName,
+                mobile: shipping.data.customerData.recievedPhone,
+                birthday: shipping.data.customerData.birthDay,
+                address: shipping.data.customerData.addresss,
+                page: $filter('filter')(fanpages, {id: shipping.data.orderData.page_id})[0].name,
+                comment: shipping.data.customerData.customerNote + shipping.data.customerData.orderNote,
+                wish: shipping.data.customerData.wish || '',
               } )
             });
           // console.log( res );

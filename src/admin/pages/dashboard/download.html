@@ -1,5 +1,6 @@
 <div class="container new-discussion-timeline experiment-repo-nav">
    <div class="repository-content px-3">
-		<a ng-if="!gettingOrders" class="btn btn-sm btn-primary new-pull-request-btn" ng-csv="getCSV" charset="utf-8,\uFEFF" filename="export_orders_{{currentDateRange()}}.csv" csv-header="['Tên KH', 'ĐT', 'Page', 'Trạng thái', 'Comment', 'Lý do từ chối']">Tải dữ liệu báo cáo</a>
+		<a ng-if="!gettingOrders" class="btn btn-sm btn-primary new-pull-request-btn" ng-csv="getCSV" charset="utf-8,\uFEFF" filename="export_orders_{{currentDateRange()}}.csv" csv-header="['Tên KH', 'ĐT', 'Page', 'Trạng thái', 'Comment', 'Lý do từ chối']">Tải dữ liệu Orders</a>
+		<a ng-if="!gettingShippings" class="btn btn-sm btn-primary new-pull-request-btn" ng-csv="getShippingCSV" charset="utf-8,\uFEFF" filename="export_don_hang_{{currentDateRange()}}.csv" csv-header="['Lúc' , 'COD', 'Tên KH', 'ĐT', 'Năm sinh', 'Địa chỉ', 'Page', 'Comment', 'Mong muốn']">Tải dữ liệu đơn hàng</a>
 	</div>
 </div>
