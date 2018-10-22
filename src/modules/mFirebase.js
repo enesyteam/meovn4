@@ -2495,7 +2495,7 @@
                 // get report for month
                 // @param: month = 01 to 12
                 var getMonthReport = function(month){
-                    var fromDate = '2018' + month + '10', toDate = '2018' + month + '16';
+                    var fromDate = '2018' + month + '15', toDate = '2018' + month + '21';
                     return new Promise(function (resolve, reject) {
                         firebase.database().ref().child('report')
                         .orderByKey()
@@ -2632,7 +2632,7 @@
                 * get Pancake Token from page ID: 261147674417633
                 */
                 var getPancakeReport = function(page_id, from_date, to_date){
-                    var pancake_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJlMjBmNzJiNi0yMjc2LTQ0MDUtYjY2MC0xOGJiMzlkYjYzZjQiLCJpYXQiOjE1MzIwODA5NTAsImZiX25hbWUiOiJOZ3V54buFbiBWxINuIEPDtG5nIiwiZmJfaWQiOiIxMjM0NDY3MDg2NjA1MjM4IiwiZXhwIjoxNTM5ODU2OTUwfQ.Xn8v3LcHAYoGBBv-D03wouHm0flvvKCxuV9hH_hut04';
+                    var pancake_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJlMjBmNzJiNi0yMjc2LTQ0MDUtYjY2MC0xOGJiMzlkYjYzZjQiLCJpYXQiOjE1NDAxNzIzODMsImZiX25hbWUiOiJOZ3V54buFbiBWxINuIEPDtG5nIiwiZmJfaWQiOiIxMjM0NDY3MDg2NjA1MjM4IiwiZXhwIjoxNTQ3OTQ4MzgzfQ.8kQ1SQODeDttE_m1KD9PlhAGNPHe23A_8AgObsVQgUE';
                     var url = 'https://pages.fm/api/v1/pages/' + page_id + '/statistics?date_range=' +  from_date + '%20-%20' + to_date + '&is_detail=true&access_token=' + pancake_token;
 
                     return new Promise(function(resolve, reject){

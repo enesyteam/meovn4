@@ -124,7 +124,25 @@ m_admin.controller('DashboardCtrl',
           // console.log( res );
           return res;
         }
+
+        // $scope.orderData = [];
+        //   $http.get('../../../assets/orders.json').
+        //     then(function onSuccess(response) {
+        //        angular.forEach( response.data, ( order, key ) => {
+        //           if ( order.customer_mobile ) {
+        //               console.log( order.customer_mobile );
+        //               $scope.orderData.push( order.customer_mobile )
+        //           }
+        //        } )
+        //        // console.log( $scope.orderData );
+        //     }).
+        //     catch( function( error ) {
+        //       console.log( error )
+        //     } );
         
+      $scope.getOrdersCSV = function(){
+         return $scope.orderData;
+      }
 
         // var ref = firebase.database().ref();
     
