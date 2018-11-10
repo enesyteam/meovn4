@@ -476,7 +476,7 @@
                                        <div class="_ohe lfloat" style="width: 100%">
                                           <!-- Chi tiết theo từng page -->
                                           <div style="display: inline-block;padding-left: 25px;width: 100%">
-                                             <div ng-repeat="tp in todayReport.truc_page" ng-if="tp.value > 0">
+                                             <div ng-repeat="tp in todayReport.truc_page track by $index" ng-if="tp.value > 0">
                                                 <strong style="width: 80%;text-overflow: ellipsis;white-space: nowrap;display: inline-block;overflow: hidden;"> 
                                                 {{ getTrucPageById(tp.id) }} </strong>
                                                    <div style="display: inline-block;">
