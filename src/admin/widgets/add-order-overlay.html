@@ -89,26 +89,27 @@
 				                  </div>
 				               </div>
 				               <div class="flash flash-error" style="margin-bottom:15px;">
-			                     Chức năng phân bổ trực tiếp đã tạm khóa.
+			                     Chú ý: Bắt buộc chọn nhân viên trực page đã tư vấn từ 10/11/2018
 			                  </div>
-				               <div class="_ohf rfloat" style="display:none;">
+				               <div class="_ohf rfloat">
 		                           <div class="_53wl">
 		                              <div class="uiPopover _6a _6b dropdown js-menu-container js-select-menu js-transitionable">
-		                                 <a class="_3-99 _p _55pi _2agf _4o_4 _4jy0 _4jy3 _517h _51sy _42ft dropdown-toggle js-menu-target" aria-haspopup="true" role="button" aria-controls="js_1mg" tabindex="-1" style="max-width: 200px;">
+
+		                                 	<a class="_3-99 _p _55pi _2agf _4o_4 _4jy0 _4jy3 _517h _51sy _42ft dropdown-toggle js-menu-target" aria-haspopup="true" role="button" aria-controls="js_1mg" tabindex="-1" style="max-width: 200px;">
 		                                    <span class="_55pe">
-		                                       <span class=" _6a pl-2" ng-if="assigned_to">
+		                                       <span class=" _6a pl-2" ng-if="nguoi_tv">
 		                                          <span>
 			                                         <span style="padding-top: 2px">
 			                                            <svg class="octicon gridicon gridicons-user-circle" height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18.5c-4.694 0-8.5-3.806-8.5-8.5S7.306 3.5 12 3.5s8.5 3.806 8.5 8.5-3.806 8.5-8.5 8.5zm0-8c-3.038 0-5.5 1.728-5.5 3.5s2.462 3.5 5.5 3.5 5.5-1.728 5.5-3.5-2.462-3.5-5.5-3.5zm0-.5c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z"></path></g></svg>
 			                                         </span>
 		                                            <span style="margin-left: -2px !important;">
-		                                               {{assigned_to.last_name }}
+		                                               Tư vấn bởi: {{nguoi_tv.name }}
 		                                            </span>
 		                                            
 		                                         </span>
 		                                       </span>
-		                                       <span ng-if="!assigned_to">
-		                                          Telesale
+		                                       <span ng-if="!nguoi_tv">
+		                                          Chưa có nhân viên trực page
 		                                       </span>
 		                                       
 		                                    </span>
@@ -116,10 +117,11 @@
 		                                          <i alt="" class="img sp_VdIIRowKJa-_1_5x sx_3b4b2d"></i>
 		                                       </span>
 		                                 </a>
+
 		                                 <div class="dropdown-menu-content js-menu-content" aria-expanded="false">
 		                                     <div class="dropdown-menu dropdown-menu-sw right-0 mt-2" style="width: 225px;">
 		                                       <div class="dropdown-header text-bold text-gray-dark pb-0">
-		                                         Chọn telesale
+		                                         Chọn trực page
 		                                         
 		                                       </div>
 		                                         <div class="dropdown-divider mb-2" role="separator"></div>
@@ -127,9 +129,9 @@
 		                                             <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket selected" data-tab-filter="branches" role="menu">
 		                                                <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
 		                                                   <a class="select-menu-item js-navigation-item js-navigation-open selected last-visible navigation-focus" data-name="master" data-skip-pjax="true" rel="nofollow"
-		                                                   ng-click="resetTelesale()">
+		                                                   ng-click="resetTrucPage()">
 		                                                      <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"
-		                                                      ng-if="!assigned_to">
+		                                                      ng-if="!nguoi_tv">
 		                                                         <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path>
 		                                                      </svg>
 		                                                      <span class="select-menu-item-text css-truncate-target js-select-menu-filter-text pl-2">
@@ -137,18 +139,14 @@
 		                                                      </span>
 		                                                   </a>
 		                                                   <a class="select-menu-item js-navigation-item js-navigation-open selected last-visible navigation-focus" data-name="master" data-skip-pjax="true" rel="nofollow"
-		                                                   ng-repeat="seller in (telesales_arr | reverse) track by $index"
-		                                                   ng-click="changeAssignedTo(seller)">
+		                                                   ng-repeat="t in (truc_page | reverse) track by $index"
+		                                                   ng-click="changeTrucPage(t)">
 		                                                      <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"
-		                                                      ng-if="seller.id == assigned_to.id">
+		                                                      ng-if="t.id == nguoi_tv.id">
 		                                                         <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path>
 		                                                      </svg>
 		                                                      <span class="select-menu-item-text css-truncate-target js-select-menu-filter-text pl-2">
-		                                                      {{seller.last_name}}
-		                                                      <span class="_1rus">
-		                                                          <small>{{seller.first_name}}</small>
-		                                                     </span>
-		                                                      <span class="Counter float-right" ng-if="seller.report.notCalledCount">{{seller.report.notCalledCount}}</span>
+		                                                      {{t.name}}
 		                                                      </span>
 		                                                   </a>
 		                                                </div>

@@ -1339,6 +1339,18 @@
                                         });
                                 }
 
+                                // user của nodeNameToUpdate
+                                if (orderData.truc_page) {
+                                    firebase.database().ref().child('report').child(reportDateString).child('truc_page')
+                                        .child(orderData.truc_page).child("id").transaction(function (oldValue) {
+                                            return orderData.truc_page
+                                        })
+                                    firebase.database().ref().child('report').child(reportDateString).child('truc_page')
+                                        .child(orderData.truc_page).child("value").transaction(function (oldValue) {
+                                            return oldValue + 1;
+                                        });
+                                }
+
                                 // update today report
                                 firebase.database().ref().child('report').child(reportDateString).child('today').transaction(function (oldValue) {
                                     return oldValue + 1;
@@ -2495,7 +2507,7 @@
                 // get report for month
                 // @param: month = 01 to 12
                 var getMonthReport = function(month){
-                    var fromDate = '2018' + month + '15', toDate = '2018' + month + '21';
+                    var fromDate = '2018' + month + '29', toDate = '2018' + (month+1) + '04';
                     return new Promise(function (resolve, reject) {
                         firebase.database().ref().child('report')
                         .orderByKey()
@@ -2586,6 +2598,24 @@
                                     if (status.active == 1) {
                                         res.push(status);
                                     }
+                                })
+                            })
+                            .then(function () {
+                                resolve(res);
+                            })
+                            .catch(function () {
+                                resolve(null)
+                            });
+                    })
+
+                }
+                var getTrucPage = function () {
+                    return new Promise(function (resolve, reject) {
+                        var res = [];
+                        firebase.database().ref().child('settings').child("truc_page")
+                            .once('value', function (snapshot) {
+                                angular.forEach(snapshot.val(), function (status) {
+                                    res.push(status);
                                 })
                             })
                             .then(function () {
@@ -3367,6 +3397,7 @@
                     onCancelOrder: onCancelOrder,
                     getAllShippingsByDateRange: getAllShippingsByDateRange,
                     getShippingItemByDateRange: getShippingItemByDateRange,
+                    getTrucPage: getTrucPage,
                 }
 
             }

@@ -1,7 +1,14 @@
 m_admin.controller('MainCtrl',
     function($rootScope, $window, $scope, $http, $filter, $timeout, firebaseService,  
         cfpLoadingBar, Facebook, MFirebaseService, MFacebookService, MUtilitiesService, 
-        fanpages, telesales, statuses, access_token, spinnerService) {
+        fanpages, telesales, statuses, truc_page, access_token, spinnerService) {
+        $rootScope.truc_page = truc_page;
+        $rootScope.getTrucPageById = function(id) {
+            var tp = $filter("filter")(truc_page, {id: id});
+            if(tp[0]){
+                return tp[0].name;
+            }
+        }
 // checkTwoDatesEqual
         // listen for order change
         // $rootScope.todayReport = [];
@@ -28,6 +35,15 @@ m_admin.controller('MainCtrl',
         $rootScope.changeAssignedTo = function(telesale){
             $rootScope.assigned_to = telesale;
             $scope.orderData.seller_will_call_id = telesale.id;
+        }
+
+        $rootScope.changeTrucPage = function(trucPage){
+            $rootScope.nguoi_tv = trucPage;
+            $scope.orderData.truc_page = trucPage.id;
+        }
+         $rootScope.resetTrucPage = function(argument) {
+             $rootScope.nguoi_tv = null;
+             $scope.orderData.truc_page = null;
         }
         $rootScope.toggle_left = function(){
             $rootScope.position_left = true;
@@ -686,6 +702,7 @@ m_admin.controller('MainCtrl',
             seller_will_call_id: null,
             status_id: 1,
             publish_date: null,
+            truc_page: null,
         };
 
         function resetOrderData() {
@@ -703,6 +720,7 @@ m_admin.controller('MainCtrl',
                 seller_will_call_id: null,
                 status_id: 1,
                 publish_date: null,
+                truc_page: null,
             };
         }
 
@@ -1082,9 +1100,11 @@ m_admin.controller('MainCtrl',
                 status_id: 1,
                 publish_date: null,
                 seller_will_call_id: null,
+                truc_page: null
             }
             $scope.usersCount = 1;
             $rootScope.assigned_to = null;
+            $rootScope.resetTrucPage()
         }
         $scope.resetOrder = function(){
             resetOrderData();
