@@ -96,6 +96,7 @@ mNavigation.controller('ReportCtrl',
     	
     	$scope.isGettingData = false;
     	function getReport(selectedDate){
+            if (!$rootScope.currentMember) return;
     		$scope.isGettingData = true;
     		MFirebaseService.getOrdersByDate(selectedDate).then(function(response){
     			// console.log(response);
@@ -243,6 +244,7 @@ mNavigation.controller('ReportCtrl',
                         product3_count: product3 ? order.data.customerData.products[2].count : null,
                         page_id: order.data.orderData.page_id,
                         page: $filter('filter')(fanpages, {id: order.data.orderData.page_id})[0].name,
+                        truc_page: order.data.orderData.truc_page
                         
                     });
                 }

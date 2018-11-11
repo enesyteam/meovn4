@@ -201,7 +201,7 @@ mSearch.controller('MainCtrl',
         console.log( result );
     }
 
-    getShippingReport( '2018-10-29', '2018-11-04' );
+    // getShippingReport( '2018-10-29', '2018-11-04' );
     
     
 

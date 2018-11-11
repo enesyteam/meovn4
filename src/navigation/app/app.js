@@ -27,7 +27,7 @@ var mNavigation = angular.module('mNavigation', [
         // $locationProvider.html5Mode(true);
 
         // $urlRouterProvider.otherwise("/");
-        $urlRouterProvider.when('/','/search');
+        $urlRouterProvider.when('/','/report');
 
         $stateProvider
             .state('search', {
@@ -92,10 +92,29 @@ mNavigation.filter('reverse', function() {
       };
    });
 
-function themeRun($rootScope, appVersion, releaseDate, access_token) {
+function themeRun($rootScope, appVersion, releaseDate, access_token, MFirebaseService, MUtilitiesService) {
     $rootScope.access_token = access_token;
     $rootScope.appVersion = appVersion;
     $rootScope.releaseDate = releaseDate;
+
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (!user) {
+            // alert('Bạn chưa đăng nhập!');
+            // $window.location = '/login';
+            // return;
+        } else {
+            // console.log(user);
+            MFirebaseService.getMemberByEmail(user.email).then(function(member){
+                MUtilitiesService.AlertSuccessful('You are logged in as "' + member.email + '"');
+
+                $rootScope.currentMember = member;
+                $rootScope.activeFilter = {
+                    filter_status_id: null,
+                    filter_seller_id: $rootScope.currentMember.id,
+                }
+            });
+        }
+    });
 }
 
 mNavigation.directive('searchEnter', function () {
