@@ -1,8 +1,15 @@
 mRealtime.controller('MainCtrl',
   function($rootScope, $scope, $http, $window, $document, $filter, $timeout, cfpLoadingBar,
     cfpLoadingBar, Facebook, firebaseService, firebaseStorageService, 
-    MFirebaseService, MUtilitiesService, fanpages, telesales) {
-
+    MFirebaseService, MUtilitiesService, fanpages, telesales, truc_page) {
+    
+    $rootScope.truc_page = truc_page;
+    $rootScope.getTrucPageById = function(id) {
+        var tp = $filter("filter")(truc_page, {id: id});
+        if(tp[0]){
+            return tp[0].name;
+        }
+    }
 
     // $scope.activeFilter = {
     //     filter_status_id: null,

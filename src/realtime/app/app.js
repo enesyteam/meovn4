@@ -54,7 +54,12 @@ var mRealtime = angular.module('mRealtime', [
                     return MFirebaseService.getAllSellers().then(function(response){
                       return response;
                     })
-                  }
+                  },
+                    truc_page: function(MFirebaseService){
+                      return MFirebaseService.getTrucPage().then(function(response){
+                        return response;
+                      })
+                    }
 
                 },
             });

@@ -64,7 +64,8 @@ m_admin.controller('PushOrderCtrl',
                         is_bad_number: order.data.is_bad_number,
                         active_log: order.data.activeLog,
                         admin_note: order.data.admin_note,
-                        key: order.key
+                        key: order.key,
+                        truc_page: order.data.truc_page
                     }
                     $scope.$apply(function() {
                         $scope.canAsignOrders.push(item);
@@ -97,6 +98,7 @@ m_admin.controller('PushOrderCtrl',
                             is_bad_number: snapshot.val().is_bad_number,
                             active_log: snapshot.val().activeLog,
                             admin_note: snapshot.val().admin_note,
+                            truc_page: order.data.truc_page
                         }
                         var exist = findAvailbleItemByKey(snapshot.key) != null;
                         if( !exist ) {
@@ -172,6 +174,7 @@ m_admin.controller('PushOrderCtrl',
                         is_bad_number: order.data.is_bad_number,
                         active_log: order.data.activeLog,
                         admin_note: order.data.admin_note,
+                        truc_page: order.data.truc_page
                     }
                     $scope.$apply(function() {
                         $scope.canAsignOrders.push(item);
