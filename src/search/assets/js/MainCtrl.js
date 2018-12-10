@@ -117,7 +117,7 @@ mSearch.controller('MainCtrl',
     }
 
     
-    var report = true;
+    var report = false;
     if( report ) {
         ///////////////////////lấy báo cáo tháng
         var totalSuccessMonth = 0;
@@ -135,7 +135,7 @@ mSearch.controller('MainCtrl',
         });
         // console.log( user_month_report );
         
-        MFirebaseService.getMonthReport('11').then(function(response){
+        MFirebaseService.getMonthReport('12').then(function(response){
             angular.forEach(response, (date_report) => {
                 // console.log( response );
               totalSuccessMonth += date_report.successCount;
@@ -201,7 +201,7 @@ mSearch.controller('MainCtrl',
         console.log( result );
     }
 
-    getShippingReport( '2018-11-05', '2018-11-11' );
+    // getShippingReport( '2018-12-02', '2018-12-09' );
     
     
 

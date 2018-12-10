@@ -43,7 +43,7 @@ m_admin.controller('MainCtrl',
         }
          $rootScope.resetTrucPage = function(argument) {
              $rootScope.nguoi_tv = null;
-             $scope.orderData.truc_page = null;
+             $scope.orderData.truc_page = 20;
         }
         $rootScope.toggle_left = function(){
             $rootScope.position_left = true;
@@ -702,7 +702,7 @@ m_admin.controller('MainCtrl',
             seller_will_call_id: null,
             status_id: 1,
             publish_date: null,
-            truc_page: null,
+            truc_page: 20,
         };
 
         function resetOrderData() {
@@ -720,7 +720,7 @@ m_admin.controller('MainCtrl',
                 seller_will_call_id: null,
                 status_id: 1,
                 publish_date: null,
-                truc_page: null,
+                truc_page: 20,
             };
         }
 

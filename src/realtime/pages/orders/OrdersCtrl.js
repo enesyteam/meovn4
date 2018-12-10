@@ -335,6 +335,7 @@ mRealtime.controller('OdersCtrl',
                                 birthDay: '',
                                 addresss: '',
                                 wish: '',
+                                combo: null
                             }
                             // reset products
                             $scope.selectedProducts = [];
@@ -764,6 +765,7 @@ mRealtime.controller('OdersCtrl',
                     MUtilitiesService.AlertError('Vui lòng thêm sản phẩm', 'Lỗi');
                     return false;
                 }
+
                 if(products.length > 0){
 
                     var pass = true;
@@ -790,6 +792,10 @@ mRealtime.controller('OdersCtrl',
                         MUtilitiesService.AlertError('Vui lòng chọn sản phẩm', 'Lỗi');
                         return false;
                     }
+                }
+                if(!customerData.combo){
+                    MUtilitiesService.AlertError('Vui lòng cho biết nếu đơn hàng là COMBO', 'Lỗi');
+                    return false;
                 }
                 return true;
 
