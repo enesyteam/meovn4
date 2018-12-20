@@ -155,7 +155,7 @@ mShip.controller('MainCtrl',
         return $filter("filter")($scope.aProducts, {id: id})[0];
     }
 
-    var pageSize = 30;
+    var pageSize = 150;
     $rootScope.availableShippingItems = [];
     $rootScope.newlyOrderKey = null;
     $rootScope.lastOrderKey = null;

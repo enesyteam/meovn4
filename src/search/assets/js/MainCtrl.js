@@ -117,7 +117,7 @@ mSearch.controller('MainCtrl',
     }
 
     
-    var report = false;
+    var report = true;
     if( report ) {
         ///////////////////////lấy báo cáo tháng
         var totalSuccessMonth = 0;
@@ -201,7 +201,7 @@ mSearch.controller('MainCtrl',
         console.log( result );
     }
 
-    // getShippingReport( '2018-12-02', '2018-12-09' );
+    getShippingReport( '2018-12-10', '2018-12-16' );
     
     
 
