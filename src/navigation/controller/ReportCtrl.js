@@ -246,7 +246,7 @@ mNavigation.controller('ReportCtrl',
                         page: $filter('filter')(fanpages, {id: order.data.orderData.page_id})[0].name,
                         truc_page: order.data.orderData.truc_page,
                         combo: order.data.customerData.combo,
-                        
+                        xa: order.data.customerData.xa,
                     });
                 }
             })
