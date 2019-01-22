@@ -87,6 +87,7 @@ m_admin.controller('DashboardCtrl',
                 status: $scope.getStatusById(order.status_id).name,
                 comment: getComment(order),
                 cancel_reason: order.cancel_reason,
+                note: order.admin_note,
 
               } )
             });
