@@ -34,7 +34,7 @@ var m_admin = angular.module('m_admin', [
   ])
   .constant('appVersion', '4.3.0')
   .constant('releaseDate', 'Nov-20, 2017')
-  .constant('access_token', 'EAAPbgSrDvvwBAG8HCXxLwCa9qT4mwLYExZB3Eu34ZAA1UdO5KRCKTNnIFYEWSo0MVXITJapTvagw0TBO4IwpVcG4ZBuYsQOSFdXVNOiDlovMmZC1nATksYxUZAa5bfbOpvvKsRYU2O74MAiYCZBGXzyyIcPfYVqW9T73IRQ5c8PZASJVKijYfFu')
+  .constant('access_token', 'EAAPbgSrDvvwBAC6JW6KOFrs2YBz9XDOD6L6ZCB5NfATuGquqcUASPlw7VWoh3z5U3uWtjdZBv3p8dDMBmaBgM7GWZCbNDZCiIFt9dDaWLnFmZCssKOdT4YqrsL8BqRjQXzW2hiBxEvOZBqzImd8OdZCSHW9WXHTWGTjfwxoxepz9ZACjikKTmrtq')
   .config(function($stateProvider, $locationProvider, $urlRouterProvider, cfpLoadingBarProvider, FacebookProvider){
     var myAppId = '1085772744867580';
     FacebookProvider.init(myAppId);

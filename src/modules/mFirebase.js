@@ -2662,7 +2662,7 @@
                 * get Pancake Token from page ID: 261147674417633
                 */
                 var getPancakeReport = function(page_id, from_date, to_date){
-                    var pancake_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJlMjBmNzJiNi0yMjc2LTQ0MDUtYjY2MC0xOGJiMzlkYjYzZjQiLCJpYXQiOjE1NDAxNzIzODMsImZiX25hbWUiOiJOZ3V54buFbiBWxINuIEPDtG5nIiwiZmJfaWQiOiIxMjM0NDY3MDg2NjA1MjM4IiwiZXhwIjoxNTQ3OTQ4MzgzfQ.8kQ1SQODeDttE_m1KD9PlhAGNPHe23A_8AgObsVQgUE';
+                    var pancake_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJlMjBmNzJiNi0yMjc2LTQ0MDUtYjY2MC0xOGJiMzlkYjYzZjQiLCJpYXQiOjE1NDk5NTUyNTgsImZiX25hbWUiOiJOZ3V54buFbiBWxINuIEPDtG5nIiwiZmJfaWQiOiIxMjM0NDY3MDg2NjA1MjM4IiwiZXhwIjoxNTU3NzMxMjU4fQ.R3Mpm-fT59kzBCk2raXVMY5jm2ruREdJWhctsalSySE';
                     var url = 'https://pages.fm/api/v1/pages/' + page_id + '/statistics?date_range=' +  from_date + '%20-%20' + to_date + '&is_detail=true&access_token=' + pancake_token;
 
                     return new Promise(function(resolve, reject){
