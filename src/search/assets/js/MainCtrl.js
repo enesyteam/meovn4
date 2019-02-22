@@ -135,7 +135,7 @@ mSearch.controller('MainCtrl',
         });
         // console.log( user_month_report );
         
-        MFirebaseService.getMonthReport('12').then(function(response){
+        MFirebaseService.getMonthReport('01').then(function(response){
             angular.forEach(response, (date_report) => {
                 // console.log( response );
               totalSuccessMonth += date_report.successCount;
@@ -198,10 +198,10 @@ mSearch.controller('MainCtrl',
             console.log( 'finished!' );
         } )
 
-        console.log( result );
+        console.log( 'result', result );
     }
 
-    getShippingReport( '2018-12-10', '2018-12-16' );
+    getShippingReport( '2019-01-01', '2019-01-31' );
     
     
 

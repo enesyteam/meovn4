@@ -1856,7 +1856,8 @@
                         startTime = startTime.getTime();
                         endTime = endTime.getTime();
 
-                        console.log( startTime );
+                        console.log( 'startTime', startTime );
+                        console.log( 'endTime', endTime );
 
                         var result = [];
                         firebase.database().ref().child('shippingItems')
@@ -1867,6 +1868,8 @@
                                 angular.forEach(snapshot.val(), function(item){
                                     result.push(item);
                                 })
+
+                                console.log('resultresult', result);
                                 resolve(result);
                             })
                     })
@@ -2507,13 +2510,14 @@
                 // get report for month
                 // @param: month = 01 to 12
                 var getMonthReport = function(month){
-                    var fromDate = '2018' + month + '02', toDate = '2018' + month + '09';
+                    var fromDate = '2019' + month + '01', toDate = '2019' + month + '31';
                     return new Promise(function (resolve, reject) {
                         firebase.database().ref().child('report')
                         .orderByKey()
                         .startAt(fromDate)
                         .endAt(toDate)
                         .once('value', function(response){
+                            // console.log('response.val()', response.val());
                             resolve(response.val());
                         })
                             

@@ -15,6 +15,7 @@ t_100008409105289/messages
 // get never expires token
 https://graph.facebook.com/oauth/access_token?client_id=1085772744867580&client_secret=ad08cb6d2d1e6cf4d463d398399ee3ee&grant_type=fb_exchange_token&fb_exchange_token=
 
+https://graph.facebook.com/oauth/access_token?client_id=1085772744867580&client_secret=223b5cbba989420c8cc592bed7ebb508&grant_type=fb_exchange_token&fb_exchange_token=EAAPbgSrDvvwBAFg1XnbZB62JF7mKOjcdmguHtHeSKx0aUAPn3rFICZAuhCgNcwb0Mlnor3V3O0gie6nyuz8DzbdKHRdmnZCZCWZC75BZC0HZBk1jZBA8hpQYYY6kkWLyO1fz3RKLIr7wQe9usI50znZBzjocM1JDIm2qBizbZCRi2N5UKS2helU1zQSvwSu3AQEPY1ByLMQdZCCxwZDZD
 
 //
 https://github.com/firebase/firebase-angular-starter-pack/blob/master/angularFire-seed/app/js/module.routeSecurity.js
