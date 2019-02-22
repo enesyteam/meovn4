@@ -34,9 +34,9 @@ var m_admin = angular.module('m_admin', [
   ])
   .constant('appVersion', '4.3.0')
   .constant('releaseDate', 'Nov-20, 2017')
-  .constant('access_token', 'EAAPbgSrDvvwBAL5iwCkwR1fJMEgAceqw7Fya7VeVBxFAlTOlW7tlGZBSBrZBGB8VviOgswqYZANdBzEW3Me6ELHZA7cZCZAiw0IU7cKVKA7qPmZCGPXlrrpcvj4utly5Y8E4lrJvL8zsRjDOGcq0A8UNdS0ZBPlR7rlIKQoP4ZAWwhTZAizqPNxNmd')
+  .constant('access_token', 'EAACAqzA2n5ABAC96oDVYsZCfDJH2ZCGH5N40A57IN6j7cddT9tvYADSnrfdyDENcpfpKBuaElybvT3FaKZAo7jVcoEZAysLImifCTuZAiq3tKZAfmF7zZAbW2at1HwCqWcnQCxI8EqCR02zeUVhA1yxDr1apsd33wi7KODs4oYZCBhaSBskKDmIm')
   .config(function($stateProvider, $locationProvider, $urlRouterProvider, cfpLoadingBarProvider, FacebookProvider){
-    var myAppId = '1085772744867580';
+    var myAppId = '141472736649104';
     FacebookProvider.init(myAppId);
         
       cfpLoadingBarProvider.includeSpinner = false;
