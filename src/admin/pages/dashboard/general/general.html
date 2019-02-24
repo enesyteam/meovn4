@@ -203,472 +203,7 @@
       </div>
       <!-- /Row 2 -->
    </div>
-   <div class="report-pane">
-      <div class="header">
-         Thống kê chi tiết
-         <span style="font-size: 11px;font-weight: 300;background-color: #fa3e3e;border-radius: 2px;    color: #fff;padding: 1px 3px;" class="ng-binding">
-            NEW
 
-         </span>
-         
-         <div class="float-right">
-               <div>
-
-                  <a class="export-data">
-                     Export Data
-                     <svg height="16" class="octicon octicon-cloud-download" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M9 12h2l-3 3-3-3h2V7h2v5zm3-8c0-.44-.91-3-4.5-3C5.08 1 3 2.92 3 5 1.02 5 0 6.52 0 8c0 1.53 1 3 3 3h3V9.7H3C1.38 9.7 1.3 8.28 1.3 8c0-.17.05-1.7 1.7-1.7h1.3V5c0-1.39 1.56-2.7 3.2-2.7 2.55 0 3.13 1.55 3.2 1.8v1.2H12c.81 0 2.7.22 2.7 2.2 0 2.09-2.25 2.2-2.7 2.2h-2V11h2c2.08 0 4-1.16 4-3.5C16 5.06 14.08 4 12 4z"></path>
-                     </svg>
-                  </a>
-               </div>
-            </div>
-      </div>
-      <div class="content">
-         <div data-testid="top_video_table">
-            <div id="BVITable">
-               <div class="_d-b pl-3 pr-3">
-                  <div ng-if="!todayUsersReport" style="text-align: center;">
-                     <chart options="missingChart"></chart>
-                  </div>
-                  <div ng-if="todayUsersReport">
-                     <div offset="87" stickto="WINDOW" class="_k" style="z-index: 100;font-size: 12px">
-                        <div class="d-table" style="width: 100%">
-                           <div class="_200d _d-3" role="presentation" style="height: 50px;width:250px">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500">07 ngày cuối</span></div>
-                                 </div>
-                                 <!-- <div class="_ohf rfloat"></div> -->
-                              </div>
-                           </div>
-                           <div class="_200d _d-3" role="presentation" style="height: 50px;width:15%">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="Published times are displayed in Pacific Time">Tên</span></div>
-                                 </div>
-                                 <!-- <div class="_ohf rfloat"></div> -->
-                              </div>
-                           </div>
-                           <!-- <div class="_200d _d-3" role="presentation" style="height: 50px;width:15%">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="Published times are displayed in Pacific Time">Chốt lần cuối</span></div>
-                                 </div>
-                              </div>
-                           </div> -->
-                           <div class="_200d _d-3 _d-9" role="presentation" style="height: 50px;width:20%">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style=" text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The total number of minutes your video was watched including replays and views less than 3 seconds within the selected date range.">Đã phân
-                                       <span style="font-size: 11px;font-weight: 300;background-color: #fa3e3e;border-radius: 2px;    color: #fff;padding: 1px 3px;" class="ng-binding">
-                                       BETA
-                                    </span>
-                                    </span>
-                                 <div class="tooltip tooltipped tooltipped-n" aria-label="Dữ liệu cột này đang trong quá trình thử nghiệm" style="display: inline-block;">
-                                       <span class="icon">
-                                          <svg height="16" class="octicon octicon-info" viewBox="0 0 14 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.71a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 8.01c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V8v.01zM7 2.32C3.86 2.32 1.3 4.86 1.3 8c0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 1c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
-                                       </span>
-                                    </div>
-                                 </div>
-                                 </div>
-                                 <!-- <div class="_ohf rfloat"></div> -->
-                              </div>
-                           </div>
-                           <!-- <div class="_200d _d-3 _d-9" role="presentation" style="height: 50px;width:15%">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The total number of minutes your video was watched including replays and views less than 3 seconds within the selected date range.">Đã gọi</span></div>
-                                 </div>
-                              </div>
-                           </div> -->
-                           <div class="_200d _d-3 _d-4 _d-9" role="presentation" style="height: 50px;width:20%">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 86px;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The number of times your video was watched for at least 3 seconds, or for nearly its total length, whichever happened first within the selected date range.">Đã chốt</span></div>
-                                 </div>
-                                 <!-- <div class="_ohf rfloat"><i class="_d-a img sp_95MiHHT1ihO_1_5x sx_f9419d" alt=""></i></div> -->
-                              </div>
-                           </div>
-                           <div class="_200d _d-3 _d-4 _d-9" role="presentation" style="height: 50px;">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 86px;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The number of times your video was watched for at least 3 seconds, or for nearly its total length, whichever happened first within the selected date range.">Chưa gọi</span></div>
-                                 </div>
-                                 <!-- <div class="_ohf rfloat"><i class="_d-a img sp_95MiHHT1ihO_1_5x sx_f9419d" alt=""></i></div> -->
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <!-- Row -->
-                     <div class="_3h1i _1mie" style="color: #1d2129;font-size: 12px">
-                        <div class="_3h1j">
-                           <div class="_219p width-full" style="pointer-events: auto;" ng-repeat="sellerData in todayUsersReport">
-                              <div class="d-table" style="width: 100%">
-                           <div class="_200d _d-3 d-table-cell user-chart" role="presentation" style="height: 50px;width:250px">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat loading-area">
-                                    <chart options="userMissingChart" style="{{!isBuildingUsersChartData ? 'opacity: 1' : 'opacity:0';}}"></chart>
-                                    <div class="loading-overlay" ng-if="isBuildingUsersChartData">
-                                       <span class="img _55ym _55yq _55yo" aria-busy="true" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuetext="Loading..."></span>
-                                       <!-- <div class="_2byj">Loading Data...</div> -->
-                                    </div>
-                                 </div>
-                                 <!-- <div class="_ohf rfloat"></div> -->
-                              </div>
-                           </div>
-                           <div class="_200d _d-3" role="presentation" style="height: 50px;width:15%">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="Published times are displayed in Pacific Time">
-                                       {{sellerData.userName || 'N/A'}}
-                                    </span></div>
-                                    <div class="_4bl7 _3-99">
-                                          <div flex-direction="row">
-                                             <div cla>Chốt lần cuối: 
-                                                <span am-time-ago="sellerData.lastSuccessAt"></span>
-                                             </div>
-                                          </div>
-                                       </div>
-                                 </div>
-                                 <!-- <div class="_ohf rfloat"></div> -->
-                              </div>
-                           </div>
-                           <!-- <div class="_200d _d-3  d-table-cell" role="presentation" style="height: 50px;width:15%">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div class="clearfix _ikh" ng-if="sellerData.lastSuccessAt">
-                                       <div class="_4bl7">
-                                          <span data-testid="publishing_state_indicator">
-                                             <span class="_5yje _5yjz"></span>
-                                          </span>
-                                       </div>
-                                       <div class="_4bl7">
-                                          <div flex-direction="row">
-                                             <div>
-                                                <span am-time-ago="sellerData.lastSuccessAt"></span>
-                                             </div>
-                                             <div>{{sellerData.lastSuccessAt | date:'dd/MM'}} {{sellerData.lastSuccessAt | date:'h:mma'}}</div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div ng-if="!sellerData.lastSuccessAt" style="margin-left: 13px">N/A</div>
-                                 </div>
-                              </div>
-                           </div> -->
-                           <div class="_200d _d-3 _d-9  d-table-cell" role="presentation" style="height: 50px;width:20%;vertical-align: top;padding: 15px 0;" ng-init="assignedData=getPageAssignedCountBySellerId(sellerData.id)">
-                              <div class="clearfix" ng-init="assignedDataNew=getPageAssignedNewCountBySellerId(sellerData.id)">
-                                 <div class="_ohe lfloat" ng-if="assignedData!=='N/A'">
-                                    <div style="text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text">
-                                       Tổng: {{ getAssignedCountBySellerId( sellerData.id ) }}
-                                       <span style="color: #43a735;">
-                                          / Số mới: {{ getAssignedNewCountBySellerId( sellerData.id ) }}
-                                       </span>
-                                    </span></div>
-                                    <div ng-repeat="(value, key) in assignedData" class="_3-99">
-                                       <div style="width:80%;text-overflow: ellipsis; white-space: nowrap;max-width:200px;display:inline-block;overflow: hidden;">
-                                          {{ findPageById(value).name }}: 
-                                       </div>
-                                       <div style="float: right;width:20%;font-weight: 700">
-                                          {{ key }}
-                                          <span style="color: #43a735;">
-                                             {{ findNewCountByPageBySeller(assignedDataNew, value) }}
-                                          </span>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <!-- <div class="_ohf rfloat"></div> -->
-                              </div>
-                           </div>
-                           <!-- <div class="_200d _d-3 _d-9  d-table-cell" role="presentation" style="height: 50px;width:15%">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The total number of minutes your video was watched including replays and views less than 3 seconds within the selected date range.">
-                                       {{sellerData.calledCount || 'N/A'}}
-                                    </span></div>
-                                 </div>
-                              </div>
-                           </div> -->
-                           <div class="_200d _d-3 _d-4 _d-9  d-table-cell" role="presentation" style="height: 50px;width:20%;vertical-align: top;padding: 15px 0;" ng-init="successData=getPageSuccessCountBySellerId(sellerData.id)">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat" ng-if="sellerData.successCount">
-                                    <div style="text-overflow: ellipsis; white-space: nowrap; width: 86px;"><span class="_3-99 report-text">
-                                       Tổng: {{sellerData.successCount || 'N/A'}}
-                                    </span>
-                                       <span data-hover="tooltip" data-tooltip-content="Up&nbsp;9% compared to previous 28 days"
-                                           id="js_22g" class="percent" ng-if="sellerData.successCount">
-                                             <div class=" _5cul _2985 _3-99">
-                                                <div class="_5cuo"></div>
-                                                <span class="success-percent">
-                                                {{(sellerData.calledCount > 0 ? sellerData.successCount/sellerData.calledCount : 0)*100 | number : 2}}%
-                                             </span>
-                                             </div>
-
-                                          </span>   
-                                    </div>
-                                 </div>
-                                 <div class="_ohe lfloat" ng-if="sellerData.successCount">
-                                    <div ng-repeat="(value, key) in successData" class="_3-99">
-                                       <div style="width:80%;text-overflow: ellipsis; white-space: nowrap;max-width:200px;display:inline-block;overflow: hidden;">
-                                          {{ findPageById(value).name }}: 
-                                       </div>
-                                       <div style="float: right;width:20%;font-weight: 700">
-                                          {{ key }}
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <!-- <div class="_ohf rfloat"><i class="_d-a img sp_95MiHHT1ihO_1_5x sx_f9419d" alt=""></i></div> -->
-                              </div>
-                           </div>
-                           <div class="_200d _d-3 _d-4 _d-9  d-table-cell" role="presentation" style="height: 50px;">
-                              <div class="clearfix">
-                                 <div class="_ohe lfloat">
-                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 86px;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The number of times your video was watched for at least 3 seconds, or for nearly its total length, whichever happened first within the selected date range.">
-                                    {{sellerData.notCalledCount || 0}}
-                                 </span></div>
-                                 </div>
-                                 <!-- <div class="_ohf rfloat"><i class="_d-a img sp_95MiHHT1ihO_1_5x sx_f9419d" alt=""></i></div> -->
-                              </div>
-                           </div>
-                        </div>
-                           </div>
-                        </div>
-                     </div>
-                     <!-- /Row -->
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-
-   <div class="report-pane">
-      <div class="header">
-         Thống kê trực page
-         <span style="font-size: 11px;font-weight: 300;background-color: #fa3e3e;border-radius: 2px;    color: #fff;padding: 1px 3px;" class="ng-binding">
-            MỚI
-         </span>
-         <div class="float-right">
-               <div>
-
-                  <a class="export-data">
-                     Export Data
-                     <svg height="16" class="octicon octicon-cloud-download" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M9 12h2l-3 3-3-3h2V7h2v5zm3-8c0-.44-.91-3-4.5-3C5.08 1 3 2.92 3 5 1.02 5 0 6.52 0 8c0 1.53 1 3 3 3h3V9.7H3C1.38 9.7 1.3 8.28 1.3 8c0-.17.05-1.7 1.7-1.7h1.3V5c0-1.39 1.56-2.7 3.2-2.7 2.55 0 3.13 1.55 3.2 1.8v1.2H12c.81 0 2.7.22 2.7 2.2 0 2.09-2.25 2.2-2.7 2.2h-2V11h2c2.08 0 4-1.16 4-3.5C16 5.06 14.08 4 12 4z"></path>
-                     </svg>
-                  </a>
-               </div>
-            </div>
-      </div>
-      <div class="content">
-         <div data-testid="top_video_table">
-            <div id="BVITable" style="    padding-top: 30px;">
-               <div class="_d-b pl-3 pr-3">
-                  <!-- Row -->
-                     <div class="_3h1i _1mie" style="color: #1d2129;font-size: 12px">
-                        <div class="_3h1j">
-                           
-                           <!-- Chi tiết doanh thu theo telesale -->
-                           <div class="_219p width-full" style="pointer-events: auto;">
-                              <!-- <strong>Doanh thu theo số đơn chốt của Telesale: </strong> -->
-                              <div class="d-table" style="width: 100%">
-                                 <div class="" role="presentation" style="height: 50px;">
-                                    <div class="clearfix">
-                                       <div class="_ohe lfloat" style="width: 100%">
-                                          <!-- Chi tiết theo từng page -->
-                                          <div style="display: inline-block;padding-left: 25px;width: 100%">
-                                             <div ng-repeat="tp in todayReport.truc_page track by $index" ng-if="tp.value > 0">
-                                                <strong style="width: 80%;text-overflow: ellipsis;white-space: nowrap;display: inline-block;overflow: hidden;"> 
-                                                {{ getTrucPageById(tp.id) }} </strong>
-                                                   <div style="display: inline-block;">
-                                                      <strong>{{ tp.value }} </strong> {{ tp.value/todayReport.today*100 | number: "2" }}%
-                                                   </div>
-                                                <hr />
-                                             </div>
-                                            
-                                          </div>
-                                       </div>
-                                       <!-- <div class="_ohf rfloat"></div> -->
-                                    </div>
-                                 </div>
-                              </div>
-                              
-                           </div>
-                        </div>
-                     </div>
-                     <!-- /Row -->
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-
-   <div class="report-pane" ng-if="currentMember.is_admin==1">
-      <div class="header">
-         Thống kê doanh thu trên đơn hàng đã chốt
-         <span style="font-size: 11px;font-weight: 300;background-color: #fa3e3e;border-radius: 2px;    color: #fff;padding: 1px 3px;" class="ng-binding">
-            DEMO
-
-         </span>
-         
-         <div class="float-right">
-               <div>
-
-                  <a class="export-data">
-                     Export Data
-                     <svg height="16" class="octicon octicon-cloud-download" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M9 12h2l-3 3-3-3h2V7h2v5zm3-8c0-.44-.91-3-4.5-3C5.08 1 3 2.92 3 5 1.02 5 0 6.52 0 8c0 1.53 1 3 3 3h3V9.7H3C1.38 9.7 1.3 8.28 1.3 8c0-.17.05-1.7 1.7-1.7h1.3V5c0-1.39 1.56-2.7 3.2-2.7 2.55 0 3.13 1.55 3.2 1.8v1.2H12c.81 0 2.7.22 2.7 2.2 0 2.09-2.25 2.2-2.7 2.2h-2V11h2c2.08 0 4-1.16 4-3.5C16 5.06 14.08 4 12 4z"></path>
-                     </svg>
-                  </a>
-               </div>
-            </div>
-      </div>
-      <div class="content">
-         <div data-testid="top_video_table">
-            <div id="BVITable">
-               <div class="_d-b pl-3 pr-3">
-                  <!-- Row -->
-                     <div class="_3h1i _1mie" style="color: #1d2129;font-size: 12px">
-                        <div class="_3h1j">
-                           <div class="_219p width-full" style="pointer-events: auto;">
-                              <div class="d-table" style="width: 100%">
-                                 <div class="_200d _d-3 d-table-cell user-chart" role="presentation" style="height: 50px;width:450px">
-                                    <div class="clearfix">
-                                       <div class="_ohe lfloat loading-area">
-                                          <strong style="color:#fa3e3e">Tổng doanh thu trên toàn Pages theo số đơn đã chốt:</strong>
-                                       </div>
-                                       <!-- <div class="_ohf rfloat"></div> -->
-                                    </div>
-                                 </div>
-                                 <div class="_200d _d-3" role="presentation" style="height: 50px;">
-                                    <div class="clearfix" ng-init="currentSuccess=todayReport.successCount">
-                                       <div class="_ohe lfloat">
-                                          <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text" style="color:#fa3e3e">
-                                             {{ assignedData.total_cod | number: '0' }}
-                                             <!-- ( Giá trị trung bình đơn hàng: {{ ( assignedData.total_cod/currentSuccess ) | number: '0' }} ) -->
-                                          </span></div>
-                                       </div>
-                                       <div class="_ohf rfloat">
-                                          <div ng-repeat="( s, v ) in assignedData.cod_by_pages">
-                                             {{ findPageById(s).name }}: {{ v | number: '0' }}
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 
-                              </div>
-                           </div>
-                           <!-- Chi tiết doanh thu theo telesale -->
-                           <div class="_219p width-full" style="pointer-events: auto;" 
-                           ng-repeat="(key, value) in assignedData" ng-if="filterById(telesales_arr, key).last_name">
-                              <!-- <strong>Doanh thu theo số đơn chốt của Telesale: </strong> -->
-                              <div class="d-table" style="width: 100%">
-                                 <div class="_200d _d-3 d-table-cell user-chart" role="presentation" style="height: 50px;width:450px">
-                                    <div class="clearfix">
-                                       <div class="_ohe lfloat loading-area">
-                                          Seller = {{ filterById(telesales_arr, key).last_name }}
-                                       </div>
-                                       <!-- <div class="_ohf rfloat"></div> -->
-                                    </div>
-                                 </div>
-                                 <div class="_200d _d-3" role="presentation" style="height: 50px;">
-                                    <div class="clearfix">
-                                       <div class="_ohe lfloat">
-                                          <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;display: inline-block;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="Published times are displayed in Pacific Time">
-                                             {{ value.cod | number: '0' }}
-                                          </span></div>
-                                          <!-- Chi tiết theo từng page -->
-                                          <div style="display: inline-block;padding-left: 25px">
-                                             <div ng-repeat="( d, k ) in value.cod_by_pages">
-                                                <strong style="width: 80%;text-overflow: ellipsis;white-space: nowrap;max-width: 200px;display: inline-block;overflow: hidden;"> {{ findPageById(d).name }} </strong>
-                                                {{ k | number: '0' }}
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <!-- <div class="_ohf rfloat"></div> -->
-                                    </div>
-                                 </div>
-                              </div>
-                              
-                           </div>
-                        </div>
-                     </div>
-                     <!-- /Row -->
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-
-   <div class="report-pane">
-      <div class="header">
-         Lý do từ chối mua hàng
-         <span style="font-size: 11px;font-weight: 300;background-color: #fa3e3e;border-radius: 2px;    color: #fff;padding: 1px 3px;" class="ng-binding">
-            DEMO
-         </span>
-         <div class="float-right">
-               <div>
-
-                  <a class="export-data">
-                     Export Data
-                     <svg height="16" class="octicon octicon-cloud-download" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M9 12h2l-3 3-3-3h2V7h2v5zm3-8c0-.44-.91-3-4.5-3C5.08 1 3 2.92 3 5 1.02 5 0 6.52 0 8c0 1.53 1 3 3 3h3V9.7H3C1.38 9.7 1.3 8.28 1.3 8c0-.17.05-1.7 1.7-1.7h1.3V5c0-1.39 1.56-2.7 3.2-2.7 2.55 0 3.13 1.55 3.2 1.8v1.2H12c.81 0 2.7.22 2.7 2.2 0 2.09-2.25 2.2-2.7 2.2h-2V11h2c2.08 0 4-1.16 4-3.5C16 5.06 14.08 4 12 4z"></path>
-                     </svg>
-                  </a>
-               </div>
-            </div>
-      </div>
-      <div class="content">
-         <div data-testid="top_video_table">
-            <div id="BVITable">
-               <div class="_d-b pl-3 pr-3">
-                  <!-- Row -->
-                     <div class="_3h1i _1mie" style="color: #1d2129;font-size: 12px">
-                        <div class="_3h1j">
-                           
-                           <!-- Chi tiết doanh thu theo telesale -->
-                           <div class="_219p width-full" style="pointer-events: auto;">
-                              <!-- <strong>Doanh thu theo số đơn chốt của Telesale: </strong> -->
-                              <div class="d-table" style="width: 100%">
-                                 <div class="_200d _d-3 d-table-cell user-chart" role="presentation" style="height: 50px;">
-                                    <div class="clearfix">
-                                       <div class="_ohe lfloat loading-area">
-                                          
-                                          <!-- <div ng-repeat="( s, v ) in assignedData.cancel_by_reason">
-                                             {{ s }}: {{ v }}
-                                          </div> -->
-                                          
-                                       </div>
-                                       <!-- <div class="_ohf rfloat"></div> -->
-                                    </div>
-                                 </div>
-                                 <div class="_200d _d-3" role="presentation" style="height: 50px;">
-                                    <div class="clearfix">
-                                       <div class="_ohe lfloat">
-                                          <!-- Chi tiết theo từng page -->
-                                          <div style="display: inline-block;padding-left: 25px">
-                                             <div ng-repeat="( d, k ) in assignedData.cancel_by_pages">
-                                                <strong style="width: 80%;text-overflow: ellipsis;white-space: nowrap;max-width: 200px;display: inline-block;overflow: hidden;"> {{ findPageById(d).name }} </strong>
-                                                   <div ng-repeat="( dd, kk ) in k">
-                                                      {{ filterById(cancelReasons, dd).reason }} - {{ kk }}
-                                                   </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <!-- <div class="_ohf rfloat"></div> -->
-                                    </div>
-                                 </div>
-                              </div>
-                              
-                           </div>
-                        </div>
-                     </div>
-                     <!-- /Row -->
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-   
    <!-- Page report -->
    <div class="report-pane">
       <div class="header">
@@ -746,7 +281,7 @@
                               </div> -->
                               <div class="">
                                  <div class="_4tg1 _5xdw clearfix" direction="left">
-                                    <div class="_ohe lfloat"><img class="_5y1h img _8o _8t img" ng-src="{{'//graph.facebook.com/' + page.id + '/picture?width=100&amp;height=100'}}" alt=""></div>
+                                    <div class="_ohe lfloat"><img class="_5y1h img _8o _8t img" ng-src="{{'//graph.facebook.com/' + page.id + '/picture?width=100&amp;height=100'}}" alt="" style="    border-radius: 50%;margin-left: 10px;"></div>
                                     <div class="">
                                        <div class="_42ef">
                                           <div class="_5y1i ellipsis">
@@ -855,6 +390,308 @@
       </div>
    </div>
    <!-- /Page report -->
+
+   <div class="report-pane">
+      <div class="header">
+         Thống kê chi tiết    
+         <div class="float-right">
+               <div>
+
+                  <a class="export-data">
+                     Export Data
+                     <svg height="16" class="octicon octicon-cloud-download" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M9 12h2l-3 3-3-3h2V7h2v5zm3-8c0-.44-.91-3-4.5-3C5.08 1 3 2.92 3 5 1.02 5 0 6.52 0 8c0 1.53 1 3 3 3h3V9.7H3C1.38 9.7 1.3 8.28 1.3 8c0-.17.05-1.7 1.7-1.7h1.3V5c0-1.39 1.56-2.7 3.2-2.7 2.55 0 3.13 1.55 3.2 1.8v1.2H12c.81 0 2.7.22 2.7 2.2 0 2.09-2.25 2.2-2.7 2.2h-2V11h2c2.08 0 4-1.16 4-3.5C16 5.06 14.08 4 12 4z"></path>
+                     </svg>
+                  </a>
+               </div>
+            </div>
+      </div>
+      <div class="content">
+         <div data-testid="top_video_table">
+            <div id="BVITable">
+               <div class="_d-b pl-3 pr-3">
+                  <div ng-if="!todayUsersReport" style="text-align: center;">
+                     <chart options="missingChart"></chart>
+                  </div>
+                  <div ng-if="todayUsersReport">
+                     <div offset="87" stickto="WINDOW" class="_k" style="z-index: 100;font-size: 12px">
+                        <div class="d-table" style="width: 100%">
+                           <div class="_200d _d-3" role="presentation" style="height: 50px;width:20%">
+                              <div class="clearfix">
+                                 <div class="_ohe lfloat">
+                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="Published times are displayed in Pacific Time">Tên</span></div>
+                                 </div>
+                                 <!-- <div class="_ohf rfloat"></div> -->
+                              </div>
+                           </div>
+                           <!-- <div class="_200d _d-3" role="presentation" style="height: 50px;width:15%">
+                              <div class="clearfix">
+                                 <div class="_ohe lfloat">
+                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="Published times are displayed in Pacific Time">Chốt lần cuối</span></div>
+                                 </div>
+                              </div>
+                           </div> -->
+                           <div class="_200d _d-3 _d-9" role="presentation" style="height: 50px;width:30%">
+                              <div class="clearfix">
+                                 <div class="_ohe lfloat">
+                                    <div style=" text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The total number of minutes your video was watched including replays and views less than 3 seconds within the selected date range.">Đã phân
+                                    </span>
+                                 <div class="tooltip tooltipped tooltipped-n" aria-label="Dữ liệu cột này đang trong quá trình thử nghiệm" style="display: inline-block;">
+                                       <span class="icon">
+                                          <svg height="16" class="octicon octicon-info" viewBox="0 0 14 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.71a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 8.01c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V8v.01zM7 2.32C3.86 2.32 1.3 4.86 1.3 8c0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 1c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+                                       </span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <!-- <div class="_ohf rfloat"></div> -->
+                              </div>
+                           </div>
+                           <!-- <div class="_200d _d-3 _d-9" role="presentation" style="height: 50px;width:15%">
+                              <div class="clearfix">
+                                 <div class="_ohe lfloat">
+                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The total number of minutes your video was watched including replays and views less than 3 seconds within the selected date range.">Đã gọi</span></div>
+                                 </div>
+                              </div>
+                           </div> -->
+                           <div class="_200d _d-3 _d-4 _d-9" role="presentation" style="height: 50px;width:30%">
+                              <div class="clearfix">
+                                 <div class="_ohe lfloat">
+                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 86px;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The number of times your video was watched for at least 3 seconds, or for nearly its total length, whichever happened first within the selected date range.">Đã chốt</span></div>
+                                 </div>
+                                 <!-- <div class="_ohf rfloat"><i class="_d-a img sp_95MiHHT1ihO_1_5x sx_f9419d" alt=""></i></div> -->
+                              </div>
+                           </div>
+                           <div class="_200d _d-3 _d-4 _d-9" role="presentation" style="height: 50px;">
+                              <div class="clearfix">
+                                 <div class="_ohe lfloat">
+                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 86px;"><span class="_3-99" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The number of times your video was watched for at least 3 seconds, or for nearly its total length, whichever happened first within the selected date range.">Chưa gọi</span></div>
+                                 </div>
+                                 <!-- <div class="_ohf rfloat"><i class="_d-a img sp_95MiHHT1ihO_1_5x sx_f9419d" alt=""></i></div> -->
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- Row -->
+                     <div class="_3h1i _1mie" style="color: #1d2129;font-size: 12px">
+                        <div class="_3h1j">
+                           <div class="_219p width-full" style="pointer-events: auto;" ng-repeat="sellerData in todayUsersReport">
+                              <div class="d-table" style="width: 100%">
+                           <div class="_200d _d-3" role="presentation" style="height: 50px;width:20%">
+                              <div class="clearfix">
+                                 <div class="_ohe lfloat">
+                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="Published times are displayed in Pacific Time">
+                                       {{sellerData.userName || 'N/A'}}
+                                    </span></div>
+                                    <div class="_4bl7 _3-99">
+                                          <div flex-direction="row">
+                                             <div cla>Chốt lần cuối: 
+                                                <span am-time-ago="sellerData.lastSuccessAt"></span>
+                                             </div>
+                                          </div>
+                                       </div>
+                                 </div>
+                                 <!-- <div class="_ohf rfloat"></div> -->
+                              </div>
+                           </div>
+                           <!-- <div class="_200d _d-3  d-table-cell" role="presentation" style="height: 50px;width:15%">
+                              <div class="clearfix">
+                                 <div class="_ohe lfloat">
+                                    <div class="clearfix _ikh" ng-if="sellerData.lastSuccessAt">
+                                       <div class="_4bl7">
+                                          <span data-testid="publishing_state_indicator">
+                                             <span class="_5yje _5yjz"></span>
+                                          </span>
+                                       </div>
+                                       <div class="_4bl7">
+                                          <div flex-direction="row">
+                                             <div>
+                                                <span am-time-ago="sellerData.lastSuccessAt"></span>
+                                             </div>
+                                             <div>{{sellerData.lastSuccessAt | date:'dd/MM'}} {{sellerData.lastSuccessAt | date:'h:mma'}}</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div ng-if="!sellerData.lastSuccessAt" style="margin-left: 13px">N/A</div>
+                                 </div>
+                              </div>
+                           </div> -->
+                           <div class="_200d _d-3 _d-9  d-table-cell" role="presentation" style="height: 50px;width:30%;vertical-align: top;padding: 15px 0;" ng-init="assignedData=getPageAssignedCountBySellerId(sellerData.id)">
+                              <div class="clearfix" ng-init="assignedDataNew=getPageAssignedNewCountBySellerId(sellerData.id)">
+                                 <div class="_ohe lfloat" ng-if="assignedData!=='N/A'">
+                                    <div style="text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text">
+                                       Tổng: {{ getAssignedCountBySellerId( sellerData.id ) }}
+                                       <span style="color: #43a735;">
+                                          / Số mới: {{ getAssignedNewCountBySellerId( sellerData.id ) }}
+                                       </span>
+                                    </span></div>
+                                    <div ng-repeat="(value, key) in assignedData" class="_3-99">
+                                       <div style="width:80%;text-overflow: ellipsis; white-space: nowrap;max-width:200px;display:inline-block;overflow: hidden;">
+                                          {{ findPageById(value).name }}: 
+                                       </div>
+                                       <div style="float: right;width:20%;font-weight: 700">
+                                          {{ key }}
+                                          <span style="color: #43a735;">
+                                             {{ findNewCountByPageBySeller(assignedDataNew, value) }}
+                                          </span>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- <div class="_ohf rfloat"></div> -->
+                              </div>
+                           </div>
+                           <!-- <div class="_200d _d-3 _d-9  d-table-cell" role="presentation" style="height: 50px;width:15%">
+                              <div class="clearfix">
+                                 <div class="_ohe lfloat">
+                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The total number of minutes your video was watched including replays and views less than 3 seconds within the selected date range.">
+                                       {{sellerData.calledCount || 'N/A'}}
+                                    </span></div>
+                                 </div>
+                              </div>
+                           </div> -->
+                           <div class="_200d _d-3 _d-4 _d-9  d-table-cell" role="presentation" style="height: 50px;width:30%;vertical-align: top;padding: 15px 0;" ng-init="successData=getPageSuccessCountBySellerId(sellerData.id)">
+                              <div class="clearfix">
+                                 <div class="_ohe lfloat" ng-if="sellerData.successCount">
+                                    <div style="text-overflow: ellipsis; white-space: nowrap; width: 86px;"><span class="_3-99 report-text">
+                                       Tổng: {{sellerData.successCount || 'N/A'}}
+                                    </span>
+                                       <span data-hover="tooltip" data-tooltip-content="Up&nbsp;9% compared to previous 28 days"
+                                           id="js_22g" class="percent" ng-if="sellerData.successCount">
+                                             <div class=" _5cul _2985 _3-99">
+                                                <div class="_5cuo"></div>
+                                                <span class="success-percent">
+                                                {{(sellerData.calledCount > 0 ? sellerData.successCount/sellerData.calledCount : 0)*100 | number : 2}}%
+                                             </span>
+                                             </div>
+
+                                          </span>   
+                                    </div>
+                                 </div>
+                                 <div class="_ohe lfloat" ng-if="sellerData.successCount">
+                                    <div ng-repeat="(value, key) in successData" class="_3-99">
+                                       <div style="width:80%;text-overflow: ellipsis; white-space: nowrap;max-width:200px;display:inline-block;overflow: hidden;">
+                                          {{ findPageById(value).name }}: 
+                                       </div>
+                                       <div style="float: right;width:20%;font-weight: 700">
+                                          {{ key }}
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- <div class="_ohf rfloat"><i class="_d-a img sp_95MiHHT1ihO_1_5x sx_f9419d" alt=""></i></div> -->
+                              </div>
+                           </div>
+                           <div class="_200d _d-3 _d-4 _d-9  d-table-cell" role="presentation" style="height: 50px;">
+                              <div class="clearfix">
+                                 <div class="_ohe lfloat">
+                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 86px;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="The number of times your video was watched for at least 3 seconds, or for nearly its total length, whichever happened first within the selected date range.">
+                                    {{sellerData.notCalledCount || 0}}
+                                 </span></div>
+                                 </div>
+                                 <!-- <div class="_ohf rfloat"><i class="_d-a img sp_95MiHHT1ihO_1_5x sx_f9419d" alt=""></i></div> -->
+                              </div>
+                           </div>
+                        </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- /Row -->
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="report-pane" ng-if="currentMember.is_admin==1">
+      <div class="header">
+         Thống kê doanh thu trên đơn hàng đã chốt
+         <div class="float-right">
+               <div>
+
+                  <a class="export-data">
+                     Export Data
+                     <svg height="16" class="octicon octicon-cloud-download" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M9 12h2l-3 3-3-3h2V7h2v5zm3-8c0-.44-.91-3-4.5-3C5.08 1 3 2.92 3 5 1.02 5 0 6.52 0 8c0 1.53 1 3 3 3h3V9.7H3C1.38 9.7 1.3 8.28 1.3 8c0-.17.05-1.7 1.7-1.7h1.3V5c0-1.39 1.56-2.7 3.2-2.7 2.55 0 3.13 1.55 3.2 1.8v1.2H12c.81 0 2.7.22 2.7 2.2 0 2.09-2.25 2.2-2.7 2.2h-2V11h2c2.08 0 4-1.16 4-3.5C16 5.06 14.08 4 12 4z"></path>
+                     </svg>
+                  </a>
+               </div>
+            </div>
+      </div>
+      <div class="content">
+         <div data-testid="top_video_table">
+            <div id="BVITable">
+               <div class="_d-b pl-3 pr-3">
+                  <!-- Row -->
+                     <div class="_3h1i _1mie" style="color: #1d2129;font-size: 12px">
+                        <div class="_3h1j">
+                           <div class="_219p width-full" style="pointer-events: auto;">
+                              <div class="d-table" style="width: 100%">
+                                 <div class="_200d _d-3 d-table-cell user-chart" role="presentation" style="height: 50px;width:450px">
+                                    <div class="clearfix">
+                                       <div class="_ohe lfloat loading-area">
+                                          <strong style="color:#fa3e3e">Tổng doanh thu trên toàn Pages theo số đơn đã chốt:</strong>
+                                       </div>
+                                       <!-- <div class="_ohf rfloat"></div> -->
+                                    </div>
+                                 </div>
+                                 <div class="_200d _d-3" role="presentation" style="height: 50px;">
+                                    <div class="clearfix" ng-init="currentSuccess=todayReport.successCount">
+                                       <div class="_ohe lfloat" style="display: flex;    align-items: center;">
+                                          <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="_3-99 report-text" style="color:#fa3e3e">
+                                             {{ assignedData.total_cod | number: '0' }}
+                                             <!-- ( Giá trị trung bình đơn hàng: {{ ( assignedData.total_cod/currentSuccess ) | number: '0' }} ) -->
+                                          </span></div>
+                                       </div>
+                                       <div class="_ohf rfloat">
+                                          <div ng-repeat="( s, v ) in assignedData.cod_by_pages">
+                                             {{ findPageById(s).name }}: {{ v | number: '0' }}
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                              </div>
+                           </div>
+                           <!-- Chi tiết doanh thu theo telesale -->
+                           <div class="_219p width-full" style="pointer-events: auto;" 
+                           ng-repeat="(key, value) in assignedData" ng-if="filterById(telesales_arr, key).last_name">
+                              <!-- <strong>Doanh thu theo số đơn chốt của Telesale: </strong> -->
+                              <div class="d-table" style="width: 100%">
+                                 <div class="_200d _d-3 d-table-cell user-chart" role="presentation" style="height: 50px;width:450px">
+                                    <div class="clearfix">
+                                       <div class="_ohe lfloat loading-area" style="color: #4267b2;font-size: 15px;font-weight: bold;">
+                                          {{ filterById(telesales_arr, key).last_name }}
+                                       </div>
+                                       <!-- <div class="_ohf rfloat"></div> -->
+                                    </div>
+                                 </div>
+                                 <div class="_200d _d-3" role="presentation" style="height: 50px;">
+                                    <div class="clearfix">
+                                       <div class="_ohe lfloat" style="display: flex;    align-items: center;">
+                                          <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;display: inline-block;"><span class="_3-99 report-text" data-tooltip-delay="500" data-hover="tooltip" data-tooltip-content="Published times are displayed in Pacific Time">
+                                             {{ value.cod | number: '0' }}
+                                          </span></div>
+                                          <!-- Chi tiết theo từng page -->
+                                          <div style="display: inline-block;padding-left: 25px">
+                                             <div ng-repeat="( d, k ) in value.cod_by_pages">
+                                                <strong style="width: 80%;text-overflow: ellipsis;white-space: nowrap;max-width: 200px;display: inline-block;overflow: hidden;"> {{ findPageById(d).name }} </strong>
+                                                {{ k | number: '0' }}
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <!-- <div class="_ohf rfloat"></div> -->
+                                    </div>
+                                 </div>
+                              </div>
+                              
+                           </div>
+                        </div>
+                     </div>
+                     <!-- /Row -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
    <!-- /Restyle -->
    <div>
       <!-- Tạo đơn -->

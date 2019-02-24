@@ -79,11 +79,6 @@ var m_admin = angular.module('m_admin', [
                       return MFirebaseService.getReportForChart().then(function(response){
                           return response;
                       })
-                    },
-                    truc_page: function(MFirebaseService){
-                      return MFirebaseService.getTrucPage().then(function(response){
-                        return response;
-                      })
                     }
                 }
               });   
