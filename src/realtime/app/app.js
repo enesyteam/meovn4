@@ -54,6 +54,12 @@ var mRealtime = angular.module('mRealtime', [
                     return MFirebaseService.getAllSellers().then(function(response){
                       return response;
                     })
+                  },
+		products: function(MFirebaseService) {
+                    return MFirebaseService.getAllProducts().then(function(response){
+                      console.log('response', response);
+                      return response;
+                    })
                   }
 
                 },
