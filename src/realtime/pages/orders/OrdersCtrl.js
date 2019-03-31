@@ -1,9 +1,10 @@
 mRealtime.controller('OdersCtrl',
     function($rootScope, $scope, $state, $stateParams, $filter, $timeout, cfpLoadingBar, ngDialog, 
         cfpLoadingBar, Facebook, firebaseService, ProductPackService,
-         activeItem, fanpages, MFacebookService, MFirebaseService, MUtilitiesService, sweetAlert) {
+         activeItem, fanpages, MFacebookService, MFirebaseService, MUtilitiesService, sweetAlert, products) {
 
         console.log(activeItem);
+        $scope.aProducts = products;
 
         var isTestMode = false;
 
@@ -657,6 +658,15 @@ mRealtime.controller('OdersCtrl',
         }
 
         // get all products
+        // $scope.aProducts = [];
+        // var getAllAvailableProducts = function(){
+        //   var ref = firebase.database().ref();
+        //   let productsRef = ref.child('products');
+        //   productsRef.on('child_added', snapshot => {
+        //     $scope.aProducts.push(snapshot.val());
+        //   });
+        // }
+        // getAllAvailableProducts();
      
         $scope.selectedProducts = [];
         

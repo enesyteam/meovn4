@@ -7,8 +7,6 @@ mRealtime.controller('MainCtrl',
     //     filter_status_id: null,
     //     filter_seller_id: null,
     // }
-  
-    //$rootScope.aProducts = products;
 
     $scope.search_mod = false;
 

@@ -15,7 +15,9 @@
                 var getAllProducts = function () {
                     return new Promise(function (resolve, reject) {
                         var res = [];
-                        firebase.database().ref().child('products').limitToLast(500).once('value', function (snapshot) {
+                        firebase.database().ref().child('products')
+                        .limitToLast(500)
+                        .once('value', function (snapshot) {
                                 angular.forEach(snapshot.val(), function (member) {
                                     res.push(member);
                                 })
@@ -3419,7 +3421,7 @@
                     getAllShippingsByDateRange: getAllShippingsByDateRange,
                     getShippingItemByDateRange: getShippingItemByDateRange,
                     getTrucPage: getTrucPage,
-                    getAllProducts: getAllProducts,
+                    getAllProducts: getAllProducts
                 }
 
             }
