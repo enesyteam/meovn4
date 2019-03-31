@@ -657,6 +657,15 @@ mRealtime.controller('OdersCtrl',
         }
 
         // get all products
+        // $scope.aProducts = [];
+        // var getAllAvailableProducts = function(){
+        //   var ref = firebase.database().ref();
+        //   let productsRef = ref.child('settings').child('products');
+        //   productsRef.on('child_added', snapshot => {
+        //     $scope.aProducts.push(snapshot.val());
+        //   });
+        // }
+        // getAllAvailableProducts();
      
         $scope.selectedProducts = [];
         
