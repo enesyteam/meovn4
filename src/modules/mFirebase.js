@@ -3295,6 +3295,23 @@
                             })
                     } )
                 }
+                
+                var getAllProducts = function () {
+                    return new Promise(function (resolve, reject) {
+                        var res = [];
+                        firebase.database().ref().child('products').once('value', function (snapshot) {
+                                angular.forEach(snapshot.val(), function (member) {
+                                    res.push(member);
+                                })
+                            })
+                            .then(function () {
+                                resolve(res);
+                            })
+                            .catch(function () {
+                                resolve(null)
+                            });
+                    })
+                }
 
                 return {
                     getCanReleaseStatusIds: getCanReleaseStatusIds,
@@ -3402,6 +3419,7 @@
                     getAllShippingsByDateRange: getAllShippingsByDateRange,
                     getShippingItemByDateRange: getShippingItemByDateRange,
                     getTrucPage: getTrucPage,
+                    getAllProducts: getAllProducts,
                 }
 
             }
