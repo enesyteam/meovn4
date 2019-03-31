@@ -12,6 +12,23 @@
                     return firebase.database().ref().child('members').orderByChild('status').equalTo(1).once('value', function (snapshot) {});
                 }
 
+                var getAllProducts = function () {
+                    return new Promise(function (resolve, reject) {
+                        var res = [];
+                        firebase.database().ref().child('products').once('value', function (snapshot) {
+                                angular.forEach(snapshot.val(), function (member) {
+                                    res.push(member);
+                                })
+                            })
+                            .then(function () {
+                                resolve(res);
+                            })
+                            .catch(function () {
+                                resolve(null)
+                            });
+                    })
+                }
+
                 var getShippingItem = function (id) {
                     return firebase.database().ref().child('shippingItems').orderByChild('id').equalTo(id).once('value', function (snapshot) {
                         // console.log(snapshot.val());
@@ -3294,23 +3311,6 @@
                                 reject('Không thể cập nhật, lỗi: ' + err)
                             })
                     } )
-                }
-                
-                var getAllProducts = function () {
-                    return new Promise(function (resolve, reject) {
-                        var res = [];
-                        firebase.database().ref().child('products').once('value', function (snapshot) {
-                                angular.forEach(snapshot.val(), function (member) {
-                                    res.push(member);
-                                })
-                            })
-                            .then(function () {
-                                resolve(res);
-                            })
-                            .catch(function () {
-                                resolve(null)
-                            });
-                    })
                 }
 
                 return {
