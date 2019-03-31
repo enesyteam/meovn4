@@ -55,12 +55,13 @@ var mRealtime = angular.module('mRealtime', [
                       return response;
                     })
                   },
-		              products: function(MFirebaseService) {
+		            products: function(MFirebaseService) {
                     return MFirebaseService.getAllProducts().then(function(response){
                       console.log('response', response);
                       return response;
                     })
                   }
+
                 },
             });
             
