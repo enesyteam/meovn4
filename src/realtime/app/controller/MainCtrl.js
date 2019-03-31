@@ -1,12 +1,14 @@
 mRealtime.controller('MainCtrl',
   function($rootScope, $scope, $http, $window, $document, $filter, $timeout, cfpLoadingBar,
     cfpLoadingBar, Facebook, firebaseService, firebaseStorageService, 
-    MFirebaseService, MUtilitiesService, fanpages, telesales) {
+    MFirebaseService, MUtilitiesService, fanpages, telesales, products) {
 
     // $scope.activeFilter = {
     //     filter_status_id: null,
     //     filter_seller_id: null,
     // }
+  
+  $rootScope.aProducts = products;
 
     $scope.search_mod = false;
 
