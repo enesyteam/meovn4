@@ -80,10 +80,11 @@ m_admin.controller('DashboardCtrl',
             
             var res = [];
             angular.forEach($scope.result, function(order){
+                const seller = $filter('filter')(telesales, {id: order.seller_will_call_id})[0];
               res.push( {
                 name: order.customer_name,
                 mobile: order.customer_mobile,
-                seller: order.seller_will_call_id ? $filter('filter')(telesales, {id: order.seller_will_call_id})[0].name : null,
+                seller: seller ? seller.name : null,
                 page: $filter('filter')(fanpages, {id: order.page_id})[0].name,
                 status: $scope.getStatusById(order.status_id).name,
                 comment: getComment(order),
