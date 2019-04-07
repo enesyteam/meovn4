@@ -223,7 +223,7 @@ mNavigation.controller('ReportCtrl',
                     res.push({
                         name: order.data.customerData.realName,
                         mobile: '0' + order.data.customerData.recievedPhone,
-                        created_date: ("0" + date.getDate()).slice(-2) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear(),
+                        created_date: date.toLocaleString(),
                         address:  order.data.customerData.addresss,
                         birthday: order.data.customerData.birthDay,
                         cod: order.data.customerData.cod,
