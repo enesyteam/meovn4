@@ -80,7 +80,8 @@ m_admin.controller('DashboardCtrl',
             
             var res = [];
             angular.forEach($scope.result, function(order){
-                const seller = $filter('filter')(telesales, {id: order.seller_will_call_id})[0];
+                console.log("order", order);
+                const seller = $filter('filter')($rootScope.telesales, {id: order.seller_will_call_id})[0];
               res.push( {
                 name: order.customer_name,
                 mobile: order.customer_mobile,
