@@ -85,7 +85,7 @@ m_admin.controller('DashboardCtrl',
               res.push( {
                 name: order.customer_name,
                 mobile: order.customer_mobile,
-                seller: seller ? seller.name : null,
+                seller: order.seller_will_call_id,
                 page: $filter('filter')(fanpages, {id: order.page_id})[0].name,
                 status: $scope.getStatusById(order.status_id).name,
                 comment: getComment(order),
