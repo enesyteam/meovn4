@@ -115,6 +115,7 @@ m_admin.controller('DashboardCtrl',
               var thetoday = time.getDate();
               res.push( {
                 date: thetoday + '/' + themonth,
+                success: new Date(shipping.created_time).getTime(),
                 cod: shipping.data.customerData.cod,
                 name: shipping.data.customerData.realName,
                 mobile: shipping.data.customerData.recievedPhone,
