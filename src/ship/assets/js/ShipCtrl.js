@@ -34,11 +34,11 @@ mShip.controller('ShipCtrl', ['$q',  '$timeout', '$scope', '$filter', 'activeOrd
     })
 
     angular.forEach(viettel_data.fanpages, (item) => {
-      console.log(item);
+      //console.log(item);
       if(item.id == activeOrder.data.data.orderData.page_id){
         $scope.activeOrder.page = item;
         angular.forEach(viettel_data.hubs, (hub) => {
-		console.log(hub);
+		//console.log(hub);
             if ( item.id === 1 && hub.GROUPADDRESS_ID == item.GROUPADDRESS_ID ) {
                  $scope.current_hub = hub;   
             }
