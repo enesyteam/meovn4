@@ -39,7 +39,7 @@ mShip.controller('ShipCtrl', ['$q',  '$timeout', '$scope', '$filter', 'activeOrd
         $scope.activeOrder.page = item;
         angular.forEach(viettel_data.hubs, (hub) => {
           // Todo...
-          if(hub.GROUPADDRESS_ID == item.GROUPADDRESS_ID || hub.GROUPADDRESS_ID == item.VIETTEL_STATION_ID){
+          if(hub.GROUPADDRESS_ID == item.GROUPADDRESS_ID || hub.GROUPADDRESS_ID == item.VIETTEL_STATION_ID || hub.GROUPADDRESS_ID == item.VIETTEL_HUB){
             // console.log(hub);
             $scope.current_hub = hub;
           }
