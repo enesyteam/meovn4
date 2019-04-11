@@ -13,28 +13,9 @@
    <div class="fpage_mes_content">
       <div class="wrap_content">
          <div class="col_left sidebar_list_chat open_sidebar_chat">
-         	<div class="filterbar">
-               <!-- <div class="context-header">
-                  <a title="tasks" href="/gitlab-org/release/tasks"><div class="avatar-container s40 project-avatar">
-                  <div class="avatar s40 avatar-tile identicon" style="background-color: #F3E5F5; color: #555">T</div>
-                  </div>
-                  <div class="sidebar-context-title">
-                  tasks
-                  </div>
-                  </a></div> -->
-               <ul class="filterbar-nav">
-                  <li class="home tooltipped tooltipped-e tooltipped-no-delay" ng-repeat="(key, value) in availableShippingItems | countBy: 'push_to_ghn_at'" aria-label="Số đơn đã load">
-                     <!-- <a class="shortcuts-project">
-                        <div class="nav-icon-container" style="margin:0 auto;">
-                           <span class="Counter" style="background-color: {{getSourceColor(key)}};color:#fff">{{value}}</span>
-                        </div>
-                     </a> -->
-                  </li>
-                  
-               </ul>
-            </div>
             <div class="col_left_conversation">
                <div class="list_content_col_left">
+
                   <!-- <div class="p6n-ls-wrapper" aria-hidden="true" style="text-align: center;" ng-if="!finishLoadingOrders">
                      <pan-loader offline="offline" pan-buttertip-message="" pan-show-tip-if="offline" style="
                         display: block;
@@ -44,6 +25,7 @@
                   </div> -->
                   <div class="people scrollable">
                      <div style="height: 100%">
+                        {{sdfds}}
                         <li ng-repeat="order in availableShippingItems" class="person order-{{order.id}}" ui-sref="home.detail({ctype: order.data.data.orderData.type, id : order.data.id, cm: order.data.data.customerData.recievedPhone, page_id: order.data.data.orderData.page_id, post_id: order.data.data.orderData.post_id, customer_id: order.data.data.orderData.customer_id, oid: order.data.data.orderData.id, cv_id: order.data.data.orderData.conversation_id})" ui-sref-active="active"
                         ng-if="order.data.id">
                         <div class="wrap_chat">

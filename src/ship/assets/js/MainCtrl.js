@@ -155,7 +155,7 @@ mShip.controller('MainCtrl',
         return $filter("filter")($scope.aProducts, {id: id})[0];
     }
 
-    var pageSize = 150;
+    var pageSize = 50;
     $rootScope.availableShippingItems = [];
     $rootScope.newlyOrderKey = null;
     $rootScope.lastOrderKey = null;
@@ -248,65 +248,116 @@ mShip.controller('MainCtrl',
         getShippingItems();
     }
 
-    function getShippingItems() {
-            $rootScope.display_mode = null;
-            $rootScope.display_id = null;
-            $rootScope.is_getting_orders = true;
 
-            $rootScope.availableShippingItems = [];
-            MFirebaseService.getShippingItems(pageSize).then(function(response) {
-                response.reverse().map(function(order) {
-                    // console.log(order.key && order.key !== 'undefined' && typeof order.key !== undefined);
-                    if(order.key && order.key !== 'undefined' && typeof order.key !== undefined){
-                        $scope.$apply(function() {
-                            $rootScope.availableShippingItems.push(order);
-                        })
-                    }
+    function getShippingItems() {
+        $http.get('https://meo4-f0335.firebaseio.com/shippingItems.json?orderBy=%22$key%22&limitToLast=' + pageSize).
+              then(function(response) {
+                 
+                 if (!response || !response.data) return;
+                 // response.data.map( function(ship) {
+                 //        console.log('ship', ship);
+                 // } )
+
+                 Object.keys(response.data).reverse().map(function(key, index) {
+                  var order = response.data[key];
+
+                  $rootScope.availableShippingItems.push({
+                    id: order.id,
+                    key: key,
+                    data: response.data[key],
+                  });
+                });
+
+                $timeout(function() {
+                     $scope.$apply(function() {
                     
-                })
-                $scope.$apply(function() {
-                    // console.log($rootScope.availableShippingItems[0]);
-                    $rootScope.newlyOrderKey = $rootScope.availableShippingItems[0].key;
-                    $rootScope.lastOrderKey = response[response.length - 1].key;
-                    $rootScope.isLoaddingOrder = false;
-                    $rootScope.is_getting_orders = false;
-                })
-            })
-        }
-        getShippingItems();
+                        // console.log($rootScope.availableShippingItems);
+                        // console.log($rootScope.availableShippingItems[0]);
+                        $rootScope.newlyOrderKey = $rootScope.availableShippingItems[0].key;
+                        $rootScope.lastOrderKey = $rootScope.availableShippingItems[$rootScope.availableShippingItems.length -1].key;
+                        $rootScope.isLoaddingOrder = false;
+                        $rootScope.is_getting_orders = false;
+                    })
+                }, 0);
+
+              }).
+              catch(function onError(response) {
+               // console.log(response);
+              });
+    }
+
+    getShippingItems();
+
 
         // get next items
         $rootScope.getNextShippingItems = function() {
             $rootScope.isLoaddingOrder = true;
-            MFirebaseService.getNextShippingItems($rootScope.lastOrderKey, pageSize).then(function(response) {
-                response.reverse().slice(1).map(function(order) {
-                    $scope.$apply(function() {
-                        $rootScope.availableShippingItems.push(order);
+            $http.get('https://meo4-f0335.firebaseio.com/shippingItems.json?orderBy=%22$key%22&endAt=%22' + $rootScope.lastOrderKey  + '%22&limitToLast=' + pageSize).
+              then(function(response) {
+                 
+                 if (!response || !response.data) return;
+                 // response.data.map( function(ship) {
+                 //        console.log('ship', ship);
+                 // } )
+
+                 Object.keys(response.data).reverse().slice(1).map(function(key, index) {
+                  var order = response.data[key];
+
+                  $rootScope.availableShippingItems.push({
+                    id: order.id,
+                    key: key,
+                    data: response.data[key],
+                  });
+                });
+
+                $timeout(function() {
+                     $scope.$apply(function() {
+                    
+                        // console.log($rootScope.availableShippingItems);
+                        // console.log($rootScope.availableShippingItems[0]);
+                        $rootScope.newlyOrderKey = $rootScope.availableShippingItems[0].key;
+                        $rootScope.lastOrderKey = $rootScope.availableShippingItems[$rootScope.availableShippingItems.length -1].key;
+                        $rootScope.isLoaddingOrder = false;
+                        $rootScope.is_getting_orders = false;
                     })
-                    // listen for this order changing
-                    // firebase.database().ref().child('shippingItems/' + order.key + '/notes')
-                    // .on('child_added', snapshot => {
-                    //     $timeout(function() {
-                    //         $scope.$apply(function() {
-                    //             order.notes.push(snapshot.val());
-                    //         })
-                    //     }, 100);
-                    // })
-                    // listenShippingItemChange(order);
-                })
-                $scope.$apply(function() {
-                    $rootScope.lastOrderKey = response[response.length - 1].key;
-                    $rootScope.newlyOrderKey = response[response.length - 1].key;
-                    $rootScope.isLoaddingOrder = false;
-                    // console.log(response);
-                    if (response.length == 1) { // item bị trùng
-                        $rootScope.canLoadMore = false;
-                    }
-                })
-            })
-            .catch(function(err){
-                MUtilitiesService.AlertError(err, 'Thông báo');
-            })
+                }, 0);
+
+              }).
+              catch(function onError(response) {
+               // console.log(response);
+              });
+
+            // console.log("$rootScope.availableShippingItems", $rootScope.availableShippingItems);
+            
+            // MFirebaseService.getNextShippingItems($rootScope.lastOrderKey, pageSize).then(function(response) {
+            //     response.reverse().slice(1).map(function(order) {
+            //         $scope.$apply(function() {
+            //             $rootScope.availableShippingItems.push(order);
+            //         })
+            //         // listen for this order changing
+            //         // firebase.database().ref().child('shippingItems/' + order.key + '/notes')
+            //         // .on('child_added', snapshot => {
+            //         //     $timeout(function() {
+            //         //         $scope.$apply(function() {
+            //         //             order.notes.push(snapshot.val());
+            //         //         })
+            //         //     }, 100);
+            //         // })
+            //         // listenShippingItemChange(order);
+            //     })
+            //     $scope.$apply(function() {
+            //         $rootScope.lastOrderKey = response[response.length - 1].key;
+            //         $rootScope.newlyOrderKey = response[response.length - 1].key;
+            //         $rootScope.isLoaddingOrder = false;
+            //         // console.log(response);
+            //         if (response.length == 1) { // item bị trùng
+            //             $rootScope.canLoadMore = false;
+            //         }
+            //     })
+            // })
+            // .catch(function(err){
+            //     MUtilitiesService.AlertError(err, 'Thông báo');
+            // })
         }
 
         /*
@@ -369,66 +420,108 @@ mShip.controller('MainCtrl',
                     MUtilitiesService.AlertError('Chuỗi tìm kiếm quá ngắn', 'Lỗi');
                     return;
                 }
-                MFirebaseService.searchShippingItemsByCustomerPhone($rootScope.searchQuery.text).then(function(response) {
-                    if (response.length == 0) {
-                        MUtilitiesService.AlertError('Không tìm thấy kết quả nào', 'Lỗi');
-                        return;
-                    }
-                    $scope.$apply(function() {
-                        $rootScope.availableShippingItems = response;
-                        if(response.length == 1){
-                            $scope.activeOrder = response[0]
-                        }
-                        else{
-                            $scope.activeOrder = null
-                        }
+
+                $http.get('https://meo4-f0335.firebaseio.com/shippingItems.json?orderBy=%22customer_mobile%22&startAt=%22'+$rootScope.searchQuery.text+'%22&endAt=%22'+$rootScope.searchQuery.text+'\\uf8ff%22&limitToLast=1').
+                  then(function(response) {
+                     
+                     if (!response || !response.data) return;
+                     // response.data.map( function(ship) {
+                     //        console.log('ship', ship);
+                     // } )
+
+                     $rootScope.availableShippingItems = [];
+
+                     Object.keys(response.data).reverse().map(function(key, index) {
+                      var order = response.data[key];
+
+                      $rootScope.availableShippingItems.push({
+                        id: order.id,
+                        key: key,
+                        data: response.data[key],
+                      });
                     });
-                    // angular.forEach(response, function(order){
-                    //     // listen for this order changing
-                    //     firebase.database().ref().child('shippingItems/' + order.key + '/notes')
-                    //     .on('child_added', snapshot => {
-                    //         $timeout(function() {
-                    //             $scope.$apply(function() {
-                    //                 order.notes.push(snapshot.val());
-                    //             })
-                    //         }, 100);
-                    //     })
-                    // })
-                });
-            } else {
-                MFirebaseService.searchShippingItemsByCustomerName($rootScope.searchQuery.text).then(function(response) {
-                    if (response.length == 0) {
-                        MUtilitiesService.AlertError('Không tìm thấy kết quả nào', 'Lỗi');
-                        return;
-                    }
-                    $scope.$apply(function() {
-                        $rootScope.availableShippingItems = response;
-                        if(response.length == 1){
-                            $scope.activeOrder = response[0]
-                        }
-                        else{
-                            $scope.activeOrder = null
-                        }
-                    })
-                    // angular.forEach(response, function(order){
-                    //     // listen for this order changing
-                    //     firebase.database().ref().child('shippingItems/' + order.key + '/notes')
-                    //     .on('child_added', snapshot => {
-                    //         $timeout(function() {
-                    //             $scope.$apply(function() {
-                    //                 order.notes.push(snapshot.val());
-                    //             })
-                    //         }, 100);
-                    //     })
-                    // })
-                });
+
+                    $timeout(function() {
+                         $scope.$apply(function() {
+                        
+                            // console.log($rootScope.availableShippingItems);
+                            // console.log($rootScope.availableShippingItems[0]);
+                            $rootScope.newlyOrderKey = $rootScope.availableShippingItems[0].key;
+                            $rootScope.lastOrderKey = $rootScope.availableShippingItems[$rootScope.availableShippingItems.length -1].key;
+                            $rootScope.isLoaddingOrder = false;
+                            $rootScope.is_getting_orders = false;
+                        })
+                    }, 0);
+
+                  }).
+                  catch(function onError(response) {
+                   // console.log(response);
+                  });
+
+
+    
+                // MFirebaseService.searchShippingItemsByCustomerPhone($rootScope.searchQuery.text).then(function(response) {
+                //     if (response.length == 0) {
+                //         MUtilitiesService.AlertError('Không tìm thấy kết quả nào', 'Lỗi');
+                //         return;
+                //     }
+                //     $scope.$apply(function() {
+                //         $rootScope.availableShippingItems = response;
+                //         if(response.length == 1){
+                //             $scope.activeOrder = response[0]
+                //         }
+                //         else{
+                //             $scope.activeOrder = null
+                //         }
+                //     });
+                //     // angular.forEach(response, function(order){
+                //     //     // listen for this order changing
+                //     //     firebase.database().ref().child('shippingItems/' + order.key + '/notes')
+                //     //     .on('child_added', snapshot => {
+                //     //         $timeout(function() {
+                //     //             $scope.$apply(function() {
+                //     //                 order.notes.push(snapshot.val());
+                //     //             })
+                //     //         }, 100);
+                //     //     })
+                //     // })
+                // });
             }
+            //  else {
+            //     MFirebaseService.searchShippingItemsByCustomerName($rootScope.searchQuery.text).then(function(response) {
+            //         if (response.length == 0) {
+            //             MUtilitiesService.AlertError('Không tìm thấy kết quả nào', 'Lỗi');
+            //             return;
+            //         }
+            //         $scope.$apply(function() {
+            //             $rootScope.availableShippingItems = response;
+            //             if(response.length == 1){
+            //                 $scope.activeOrder = response[0]
+            //             }
+            //             else{
+            //                 $scope.activeOrder = null
+            //             }
+            //         })
+            //         // angular.forEach(response, function(order){
+            //         //     // listen for this order changing
+            //         //     firebase.database().ref().child('shippingItems/' + order.key + '/notes')
+            //         //     .on('child_added', snapshot => {
+            //         //         $timeout(function() {
+            //         //             $scope.$apply(function() {
+            //         //                 order.notes.push(snapshot.val());
+            //         //             })
+            //         //         }, 100);
+            //         //     })
+            //         // })
+            //     });
+            // }
 
         }
 
         
 
         firebase.database().ref().child('shippingItems').on('child_changed', snapshot => {
+
             // console.log(snapshot.key + ' đã thay đổi');
             // console.log(snapshot.val());
             angular.forEach($rootScope.availableShippingItems, function(item){
@@ -669,6 +762,10 @@ mShip.controller('MainCtrl',
         // .catch(function(err){
         //     MUtilitiesService.AlertError(err);
         // })
+
+        $scope.deleteData = function() {
+            MFirebaseService.deleteShippings();
+        }
 
         $scope.createViettelPost = function(){
             sweetAlert.open({

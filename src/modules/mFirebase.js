@@ -2332,6 +2332,31 @@
                     })
                 }
 
+
+                var deleteShippings = function () {
+                    firebase.database().ref().child('shippingItems')
+                    .orderByChild('created_time')
+                    // .endAt((new Date('2018-12-31')).getTime())
+                    .limitToFirst(1)
+                    .on('child_added', snapshot => {
+                        console.log(snapshot.val());
+                    })
+
+                    // firebase.database().ref().child('shippingItems').once('value', function(snapshot) {
+                    //   if (snapshot.numChildren() > 3000) {
+                    //     var childCount = 0;
+                    //     var updates = {};
+                    //     snapshot.forEach(function (child) {
+                    //       if (++childCount < snapshot.numChildren() - 3000) {
+                    //         updates[child.key()] = null;
+                    //         console.log('delete: ', child.key() );
+                    //       }
+                    //     });
+                    //     firebase.database().ref().child('shippingItems').update(updates);
+                    //   }
+                    // });
+                }
+
                 // TÌM KIẾM SHIPPING ITEMS
                 var searchShippingItemsByCustomerName = function (query) {
                     return new Promise(function (resolve, reject) {
@@ -3422,7 +3447,8 @@
                     getAllShippingsByDateRange: getAllShippingsByDateRange,
                     getShippingItemByDateRange: getShippingItemByDateRange,
                     getTrucPage: getTrucPage,
-                    getAllProducts: getAllProducts
+                    getAllProducts: getAllProducts,
+                    deleteShippings: deleteShippings,
                 }
 
             }
