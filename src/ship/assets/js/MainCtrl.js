@@ -443,6 +443,13 @@ mShip.controller('MainCtrl',
 
                     $timeout(function() {
                          $scope.$apply(function() {
+
+                            if($rootScope.availableShippingItems.length == 1){
+                                $scope.activeOrder = $rootScope.availableShippingItems[0]
+                            }
+                            else{
+                                $scope.activeOrder = null
+                            }
                         
                             // console.log($rootScope.availableShippingItems);
                             // console.log($rootScope.availableShippingItems[0]);
