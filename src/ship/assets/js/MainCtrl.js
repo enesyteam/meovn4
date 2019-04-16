@@ -421,7 +421,7 @@ mShip.controller('MainCtrl',
                     return;
                 }
 
-                $http.get('https://meo4-f0335.firebaseio.com/shippingItems.json?orderBy=%22customer_mobile%22&startAt=%22'+$rootScope.searchQuery.text+'%22&endAt=%22'+$rootScope.searchQuery.text+'\\uf8ff%22&limitToLast=1').
+                $http.get('https://meo4-f0335.firebaseio.com/shippingItems.json?orderBy=%22customer_mobile%22&startAt=%22'+$rootScope.searchQuery.text+'%22&endAt=%22'+$rootScope.searchQuery.text+'\\uf8ff%22&limitToLast=10').
                   then(function(response) {
                      
                      if (!response || !response.data) return;
