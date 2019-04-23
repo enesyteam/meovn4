@@ -41,7 +41,8 @@ mShip.controller('ShipCtrl', ['$q',  '$timeout', '$scope', '$filter', 'activeOrd
         
             if ( hub.GROUPADDRESS_ID == item.GROUPADDRESS_ID || 
                 hub.GROUPADDRESS_ID == item.VIETTEL_STATION_ID || 
-                hub.GROUPADDRESS_ID == item.VIETTEL_HUB ) {
+                hub.GROUPADDRESS_ID == item.VIETTEL_HUB ||
+                hub.GROUPADDRESS_ID == item.VIETTEL_ID ) {
                  $scope.current_hub = hub; 
             }
         })
